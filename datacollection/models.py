@@ -28,7 +28,7 @@ class GameSession(Session):
 class Event(models.Model):
     time = models.DateTimeField(default=timezone.now)
     # user = models.ForeignKey(User, on_delete=models.CASCADE) # index on user
-    session = models.ForeignKey(GameSession, on_delete=models.CASCADE)
+    session = models.ForeignKey(GameSession, default="", null=True, on_delete=models.CASCADE)
     type = models.CharField(max_length=32)
     context = models.CharField(max_length=32)
     params = models.TextField()

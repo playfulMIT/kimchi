@@ -1,15 +1,16 @@
 from rest_framework import viewsets, status
 from datacollection.utils import get_client_ip
-from .models import Session
-from .serializers import GameSessionSerializer
+from .models import GameSession, Event
+from .serializers import GameSessionSerializer, EventSerializer
+from django.views.decorators.csrf import csrf_exempt
 
-
+# @csrf_exempt
 class GameSessionViewSet(viewsets.ModelViewSet):
 
     """
     API endpoint that allows fingerprints to be viewed or edited.
     """
-    queryset = Session.objects.all().order_by('-creation_time')
+    queryset = GameSession.objects.all()
     serializer_class = GameSessionSerializer
 
     def perform_create(self, serializer):
@@ -20,3 +21,11 @@ class GameSessionViewSet(viewsets.ModelViewSet):
             other_ip = str(ip_list[0])
         serializer.save(client_ip=public_ip,
                         client_ip_other=other_ip)
+# @csrf_exempt
+class EventViewSet(viewsets.ModelViewSet):
+
+    """
+    API endpoint that allows fingerprints to be viewed or edited.
+    """
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
