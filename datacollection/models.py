@@ -1,15 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
 from django.utils import timezone
+from django.contrib.sessions.base_session import AbstractBaseSession
 
 
-class Session(models.Model):
-    session_id = models.CharField(max_length=36) # primary key/uuid?
-    creation_time = models.DateTimeField(default=timezone.now)
+class Session(AbstractBaseSession):
+    # session_id = models.ForeignKey(Session,null=True)
+    server_creation_time = models.DateTimeField(default=timezone.now)
     local_creation_time = models.DateTimeField()
     user = models.ForeignKey(User,null=True)
 
-    user_agent = models.CharField(max_length=200) # not sure what a good length is yet
+    user_agent = models.CharField(max_length=200, null=True) # not sure what a good length is yet
     screen_size = models.CharField(max_length=12, null=True)
     browser_url = models.CharField(max_length=200, null=True) # not sure about this
     languages = models.CharField(max_length=50, null=True) # or this one, for that matter

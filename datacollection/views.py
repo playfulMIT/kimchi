@@ -1,17 +1,15 @@
-
-
-
+from rest_framework import viewsets, status
 from datacollection.utils import get_client_ip
+from .models import Session
 
 
-
-class FingerprintViewSet(viewsets.ModelViewSet):
+class SessionViewSet(viewsets.ModelViewSet):
 
     """
     API endpoint that allows fingerprints to be viewed or edited.
     """
-    queryset = Fingerprint.objects.all().order_by('-creation_time')
-    serializer_class = FingerprintSerializer
+    queryset = Session.objects.all().order_by('-creation_time')
+    serializer_class = SessionSerializer
 
     def perform_create(self, serializer):
         ip_list = get_client_ip(self.request).split(',')
