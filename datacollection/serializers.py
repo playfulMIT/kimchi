@@ -3,7 +3,7 @@ from .models import Session
 from .fields import GetOrCreateSlugRelatedField #?
 
 
-class SessionSerializer(serializers.ModelSerializer):
+class GameSessionSerializer(serializers.ModelSerializer):
     # session_id = GetOrCreateSlugRelatedField(queryset=Session.objects.all(), slug_field='session')
     class Meta:
         model = Session

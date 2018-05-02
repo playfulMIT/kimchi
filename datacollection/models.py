@@ -2,17 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-from django.contrib.sessions.base_session import AbstractBaseSession
 
 
-class Session(AbstractBaseSession):
+class GameSession(Session):
     # session_id = models.ForeignKey(Session,null=True)
     server_creation_time = models.DateTimeField(default=timezone.now)
     local_creation_time = models.DateTimeField()
     user = models.ForeignKey(User,
                              null=True,
                              blank=True,
-                             on_delete=models.CASCADE,)
+                             on_delete=models.CASCADE)
 
     user_agent = models.CharField(max_length=200, null=True) # not sure what a good length is yet
     screen_size = models.CharField(max_length=12, null=True)
@@ -28,8 +27,8 @@ class Session(AbstractBaseSession):
 
 class Event(models.Model):
     time = models.DateTimeField(default=timezone.now)
-    user = models.ForeignKey(User) # index on user
-    session = models.ForeignKey(Session)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE) # index on user
+    session = models.ForeignKey(GameSession, on_delete=models.CASCADE)
     type = models.CharField(max_length=32)
     context = models.CharField(max_length=32)
     params = models.TextField()

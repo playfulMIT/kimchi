@@ -1,15 +1,16 @@
 from rest_framework import viewsets, status
 from datacollection.utils import get_client_ip
 from .models import Session
+from .serializers import GameSessionSerializer
 
 
-class SessionViewSet(viewsets.ModelViewSet):
+class GameSessionViewSet(viewsets.ModelViewSet):
 
     """
     API endpoint that allows fingerprints to be viewed or edited.
     """
     queryset = Session.objects.all().order_by('-creation_time')
-    serializer_class = SessionSerializer
+    serializer_class = GameSessionSerializer
 
     def perform_create(self, serializer):
         ip_list = get_client_ip(self.request).split(',')
