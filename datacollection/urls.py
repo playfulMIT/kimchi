@@ -10,9 +10,9 @@ router.register(r'gamesession', views.GameSessionViewSet)
 router.register(r'events', views.EventViewSet)
 
 
-
-urlpatterns = [
-    url(r'^api/gamesession/?$', views.GameSessionViewSet),
-    url(r'^api/events/?$', views.EventViewSet),
-    url(r'^api/', include(router.urls)),
-    ]
+#
+# urlpatterns = [
+#     url(r'^api/gamesession/?$', views.GameSessionViewSet),
+#     url(r'^api/events/?$', views.EventViewSet),
+#     url(r'^api/', include(router.urls)),
+#     ]
