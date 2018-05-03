@@ -7,7 +7,7 @@ from django.utils import timezone
 class GameSession(Session):
     # session_id = models.ForeignKey(Session,null=True)
     server_creation_time = models.DateTimeField(default=timezone.now)
-    local_creation_time = models.DateTimeField()
+    local_creation_time = models.DateTimeField(null=True)
     user = models.ForeignKey(User,
                              null=True,
                              blank=True,

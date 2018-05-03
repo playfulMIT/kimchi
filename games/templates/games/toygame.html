@@ -8,27 +8,49 @@
 <iframe width=100% height=1000px src="http://web.mit.edu/bhanks/www/gba/"></iframe>
 </body>
 <script>
-    class EventReport {
+    class Report {
       constructor() {
-        this.game_id = "toygame";
-        this.url = "api/events"
+        this.url = "api/gamesession";
       }
-
       submitData(data) {
+          var d = new Date();
+          var local_creation_time =
+                d.getDate() + "/"
+                + (d.getMonth()+1)  + "/"
+                + d.getFullYear() + " "
+                + d.getHours() + ":"
+                + d.getMinutes() + ":"
+                + d.getSeconds();
         var xhr = new XMLHttpRequest();
-
-        var data_string = {}
+        var data_string = {};
+        data_string["local_creation_time"] = local_creation_time;
         for (var key in data) {data_string[key] = data[key];};
         data_string = JSON.stringify(data_string);
-        //console.log(data_string)
-
-        xhr.open('POST', this.url, false);
+        xhr.open('POST', this.url, true);
         xhr.setRequestHeader("Content-Type","application/json");
         xhr.send(data_string);
-        //console.log(xhr.response)
         return xhr.response
       }
     }
+    var report = new Report()
+
+    function getLanguages() {
+        var languages = [];
+        if (navigator.languages == null ) {
+          return navigator.language
+        };
+        for (x in navigator.languages) { languages.push(navigator.languages[x]) }
+        return languages.join(',')
+      }
+      var fingerprint = {
+        user_agent : navigator.userAgent,
+            screen_size : (screen.width + 'x' + screen.height),
+            browser_url : window.location.href,
+        languages : getLanguages()
+      };
+      report.submitData(fingerprint)
+
+
 
 
 
