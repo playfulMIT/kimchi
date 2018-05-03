@@ -7,4 +7,30 @@
 <body>
 <iframe width=100% height=1000px src="http://web.mit.edu/bhanks/www/gba/"></iframe>
 </body>
+<script>
+    class EventReport {
+      constructor() {
+        this.game_id = "toygame";
+        this.url = "api/events"
+      }
+
+      submitData(data) {
+        var xhr = new XMLHttpRequest();
+
+        var data_string = {}
+        for (var key in data) {data_string[key] = data[key];};
+        data_string = JSON.stringify(data_string);
+        //console.log(data_string)
+
+        xhr.open('POST', this.url, false);
+        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.send(data_string);
+        //console.log(xhr.response)
+        return xhr.response
+      }
+    }
+
+
+
+</script>
 </html>
