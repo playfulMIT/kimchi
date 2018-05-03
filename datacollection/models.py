@@ -4,7 +4,7 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 
 
-class GameSession(Session):
+class GameSession(models.Model):
     # session_id = models.ForeignKey(Session,null=True)
     server_creation_time = models.DateTimeField(default=timezone.now)
     local_creation_time = models.DateTimeField(null=True)
