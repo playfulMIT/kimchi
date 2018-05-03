@@ -79,16 +79,7 @@ django_heroku.settings(locals())
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT=True
-REDIS = os.environ['REDIS_URL']
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [REDIS],
-        },
-    },
-}
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
