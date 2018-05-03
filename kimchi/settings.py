@@ -97,6 +97,12 @@ DATABASES = {
     }
 }
 
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
+dbconfig = dj_database_url.config()
+if dbconfig:
+    DATABASES['default'] = dbconfig
+
 # # Database
 # # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 #
