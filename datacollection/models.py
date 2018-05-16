@@ -2,15 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 
-from importlib import import_module
-from django.conf import settings
-SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
+# from importlib import import_module
+# from django.conf import settings
+# SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 from django.utils import timezone
 
 
 class GameSession(models.Model):
-    session_id = models.ForeignKey(SessionStore,null=True,on_delete=models.SET_NULL)
+    session = models.ForeignKey(Session,null=True,on_delete=models.SET_NULL)
     server_creation_time = models.DateTimeField(default=timezone.now)
     local_creation_time = models.CharField(max_length=50, null=True) #models.DateTimeField(null=True)
     user = models.ForeignKey(User,

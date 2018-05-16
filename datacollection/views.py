@@ -5,6 +5,7 @@ from .serializers import GameSessionSerializer, EventSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 import json
+from django.contrib.sessions.models import Session
 
 
 # @csrf_exempt
@@ -30,7 +31,7 @@ class GameSessionViewSet(viewsets.ModelViewSet):
             other_ip = str(ip_list[0])
         serializer.save(client_ip=public_ip,
                         client_ip_other=other_ip,
-                        session_id=request.session)
+                        session=Session.objects.get(session_key=request.session.session_key))
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
