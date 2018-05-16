@@ -18,20 +18,19 @@ class GameSessionViewSet(viewsets.ModelViewSet):
     serializer_class = GameSessionSerializer
 
     def create(self, request, *args, **kwargs):
-        print('type')
-        print(type(request.session))
-        print('request session')
-        print(request.session)
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
         ip_list = get_client_ip(self.request).split(',')
         public_ip = str(ip_list[len(ip_list) - 1])
         other_ip = None
         if len(ip_list) > 1:
             other_ip = str(ip_list[0])
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         serializer.save(client_ip=public_ip,
                         client_ip_other=other_ip,
-                        session=Session.objects.get(session_key=request.session.session_key))
+                        session=Session.objects.get(session_key=request.session.session_key),
+                        user=request.user)
+        
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
