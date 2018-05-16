@@ -23,7 +23,8 @@ class GameSessionViewSet(viewsets.ModelViewSet):
         other_ip = None
         if len(ip_list) > 1:
             other_ip = str(ip_list[0])
-        session = Session.objects.get(session_key=request.session.session_key)
+        if request.session:
+            session = Session.objects.get(session_key=request.session.session_key)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(client_ip=public_ip,
