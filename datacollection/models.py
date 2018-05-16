@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
-from django.contrib.sessions.backends.cached_db import SessionStore
-# from django.contrib.sessions.backends.db import SessionStore
+# from django.contrib.sessions.backends.cached_db import SessionStore
+from django.contrib.sessions.backends.db import SessionStore
 
 from django.utils import timezone
 
