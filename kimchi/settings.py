@@ -52,6 +52,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Ensures sessions persist
+# https://docs.djangoproject.com/en/2.0/topics/http/sessions/#configuring-sessions
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
 ROOT_URLCONF = 'kimchi.urls'
 
 TEMPLATES = [
@@ -72,49 +76,52 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kimchi.wsgi.application'
 
+# This checks to see if its on heroku & if it isn't, use sqlite
+try:
+    # PAAS settings -------------------------------------------------
+    TEST = os.environ['DATABASE_URL'] # Env var on heroku
+    import django_heroku
 
+    django_heroku.settings(locals())
+    # Disable the following while HTTPS CDN not available:
+    ## Honor the 'X-Forwarded-Proto' header for request.is_secure()
+    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # SECURE_SSL_REDIRECT=True
 
-
-# # Database
-# # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-
-# PAAS settings -------------------------------------------------
-import django_heroku
-django_heroku.settings(locals())
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT=True
-
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'kimchi',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+    # Database
+    # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'kimchi',  # Or path to database file if using sqlite3.
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',  # Set to empty string for default.
+        }
     }
-}
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    dbconfig = dj_database_url.config()
+    if dbconfig:
+        DATABASES['default'] = dbconfig
+except KeyError:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-dbconfig = dj_database_url.config()
-if dbconfig:
-    DATABASES['default'] = dbconfig
+
+
+
+
+
+
+
+
+
 
 
 

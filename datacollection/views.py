@@ -4,11 +4,14 @@ from .models import GameSession, Event
 from .serializers import GameSessionSerializer, EventSerializer
 from django.views.decorators.csrf import csrf_exempt
 
+import json
+
+
 # @csrf_exempt
 class GameSessionViewSet(viewsets.ModelViewSet):
 
     """
-    API endpoint that allows fingerprints to be viewed or edited.
+    API endpoint that allows sessions to be viewed or edited.
     """
     queryset = GameSession.objects.all()
     serializer_class = GameSessionSerializer
@@ -29,3 +32,32 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        data = json.loads(request.data)
+        data['session_id'] = request.session
+        request.data = json.dumps(data)
+        super.create(self, request, *args, **kwargs)
+
+
+
+# class CreateModelMixin(object):
+#     """
+#     Create a model instance.
+#     """
+#     def create(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_create(serializer)
+#         headers = self.get_success_headers(serializer.data)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+#
+#     def perform_create(self, serializer):
+#         serializer.save()
+#
+#     def get_success_headers(self, data):
+#         try:
+#             return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+#         except (TypeError, KeyError):
+# return {}

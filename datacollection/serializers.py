@@ -4,7 +4,7 @@ from .fields import GetOrCreateSlugRelatedField #?
 
 
 class GameSessionSerializer(serializers.ModelSerializer):
-    # session_id = GetOrCreateSlugRelatedField(queryset=Session.objects.all(), slug_field='session')
+    # session_id = GetOrCreateSlugRelatedField(queryset=GameSession.objects.all(), slug_field='session')
     class Meta:
         model = GameSession
         fields = ('__all__')
