@@ -38,6 +38,7 @@ class EventViewSet(viewsets.ModelViewSet):
         data = json.loads(request.data)
         data['session_id'] = request.session
         request.data = json.dumps(data)
+        print("request data: \n")
         print(request.data)
         super.create(self, request, *args, **kwargs)
 
