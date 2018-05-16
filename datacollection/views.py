@@ -4,7 +4,6 @@ from .models import GameSession, Event
 from .serializers import GameSessionSerializer, EventSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
-
 import json
 
 
