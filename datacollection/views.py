@@ -18,6 +18,10 @@ class GameSessionViewSet(viewsets.ModelViewSet):
     serializer_class = GameSessionSerializer
 
     def create(self, request, *args, **kwargs):
+        print('type')
+        print(type(request.session))
+        print('request session')
+        print(request.session)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         ip_list = get_client_ip(self.request).split(',')
