@@ -23,6 +23,9 @@ class GameSessionViewSet(viewsets.ModelViewSet):
         other_ip = None
         if len(ip_list) > 1:
             other_ip = str(ip_list[0])
+        #experimental
+        if not request.session.get('has_session'):
+            request.session['has_session'] = True
         if request.session.session_key:
             # print('session key:')
             # print(request.session.session_key)
