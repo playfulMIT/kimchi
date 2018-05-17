@@ -37,7 +37,8 @@ class GameSessionViewSet(viewsets.ModelViewSet):
         serializer.save(client_ip=public_ip,
                         client_ip_other=other_ip,
                         # session=session,
-                        user=request.user)
+                        # user=request.user
+                        )
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
