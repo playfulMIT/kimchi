@@ -26,6 +26,8 @@ class GameSessionViewSet(viewsets.ModelViewSet):
         #experimental
         if not request.session.get('has_session'):
             request.session['has_session'] = True
+        print('session key:')
+        print(request.session.session_key)
         if request.session.session_key:
             # print('session key:')
             # print(request.session.session_key)
