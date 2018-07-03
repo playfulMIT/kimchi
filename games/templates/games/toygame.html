@@ -33,6 +33,7 @@
         var xhr = new XMLHttpRequest();
         var data_string = {};
         data_string["local_creation_time"] = local_creation_time;
+        data_string["session"] = getCookie("sessionid");
         for (var key in data) {data_string[key] = data[key];};
         data_string = JSON.stringify(data_string);
         xhr.open('POST', this.url, true);
