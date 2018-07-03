@@ -57,6 +57,7 @@ MIDDLEWARE = [
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_HTTPONLY = False
 
 ROOT_URLCONF = 'kimchi.urls'
 
