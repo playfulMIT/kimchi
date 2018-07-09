@@ -36,5 +36,5 @@ class Event(models.Model):
     session = models.ForeignKey(GameSession, default="", null=True, on_delete=models.CASCADE)
     type = models.CharField(max_length=32)
     context = models.CharField(max_length=32)
-    params = models.TextField()
+    data = models.TextField()
 
