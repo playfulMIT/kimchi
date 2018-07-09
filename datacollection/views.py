@@ -58,7 +58,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         logger.info(request)
-        super.create(self, request, *args, **kwargs)
+        super().create(self, request, *args, **kwargs)
 
 
 
