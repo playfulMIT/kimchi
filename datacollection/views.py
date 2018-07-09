@@ -56,9 +56,9 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all().order_by('-id')
     serializer_class = EventSerializer
 
-    def create(self, request, *args, **kwargs):
-        # logger.info(request.data)
-        super().create(self, request, *args, **kwargs)
+    # def create(self, request, *args, **kwargs):
+    #     # logger.info(request.data)
+    #     super().create(self, request, *args, **kwargs)
 
 
 
