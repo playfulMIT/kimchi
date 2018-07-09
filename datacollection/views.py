@@ -53,7 +53,7 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows fingerprints to be viewed or edited.
     """
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().order_by('-created_date')
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
