@@ -6,6 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 import json
 from django.contrib.sessions.models import Session
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 
 # @csrf_exempt
@@ -51,6 +55,10 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+    def create(self, request, *args, **kwargs):
+        logger.info(request)
+        super.create(self, request, *args, **kwargs)
 
 
 
