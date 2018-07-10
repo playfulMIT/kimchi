@@ -11,6 +11,7 @@ class GameSessionSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
+    # session = GetOrCreateSlugRelatedField(queryset=GameSession.objects.all(), slug_field='session')
     class Meta:
         model = Event
         fields = ('__all__')
