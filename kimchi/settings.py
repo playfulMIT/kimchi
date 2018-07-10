@@ -49,8 +49,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+X_FRAME_OPTIONS = 'ALLOW-FROM http://web.mit.edu https://web.mit.edu'
 
 
 # Ensures sessions persist
