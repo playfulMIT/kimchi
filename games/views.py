@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-def toygame(request):
+def test(request):
     print(request.session.session_key)
     request.session.save()
     print(request.session.session_key)
