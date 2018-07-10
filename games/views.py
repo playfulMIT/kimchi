@@ -10,3 +10,7 @@ def toygame(request):
     return render(request, 'games/toygame.html')
 
     # return HttpResponse(request.session.session_key)
+
+def shapes(request):
+    request.session.save()
+    return render(request, 'games/shapes.html')
