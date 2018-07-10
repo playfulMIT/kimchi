@@ -50,10 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-X_FRAME_OPTIONS = 'ALLOW-FROM http://web.mit.edu https://web.mit.edu'
-
+# These are for overcoming cross origin read blocking
+# X_FRAME_OPTIONS = 'ALLOW-FROM http://web.mit.edu https://web.mit.edu'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Ensures sessions persist
 # https://docs.djangoproject.com/en/2.0/topics/http/sessions/#configuring-sessions
