@@ -13,7 +13,7 @@ class GameSessionSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    session = Session.objects.get(pk=session)
+    # session = Session.objects.get(pk=session)
     class Meta:
         model = Event
         fields = ('__all__')
