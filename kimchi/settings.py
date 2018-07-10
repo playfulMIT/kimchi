@@ -49,8 +49,9 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 
 # Ensures sessions persist
 # https://docs.djangoproject.com/en/2.0/topics/http/sessions/#configuring-sessions
