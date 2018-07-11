@@ -63,7 +63,7 @@ class EventViewSet(viewsets.ModelViewSet):
         # print(request.POST)
         print(request.session.session_key)
         # request.POST = request.POST.copy()
-        request.data = request.data.copy()
+        request.data._mutable = True
         # request.data.update({'session': request.session.session_key})
         # mutable_data = request.data.copy()
         request.data.update({'session': request.session.session_key})
