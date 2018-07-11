@@ -61,14 +61,15 @@ class EventViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         print('key: ' + request.session.session_key)
 
-        # try:
-        sessionObject = Session.objects.get(pk=request.session.session_key)
-        # except ObjectDoesNotExist:
-        #     request.session.save()
-        #     jsondata = json.loads(request.data)
-        #     jsondata['session'] = request.session.session_key
-        #     request.data = json.dump(jsondata)
-        #     sessionObject = Session.objects.get(pk=request.session.session_key)
+        try:
+            sessionObject = Session.objects.get(pk=request.session.session_key)
+        except ObjectDoesNotExist:
+            print('didnt exist')
+            request.session.save()
+            jsondata = json.loads(request.data)
+            jsondata['session'] = request.session.session_key
+            request.data = json.dump(jsondata)
+            sessionObject = Session.objects.get(pk=request.session.session_key)
 
         print('key: ' + request.session.session_key)
         serializer = self.get_serializer(data=request.data)
