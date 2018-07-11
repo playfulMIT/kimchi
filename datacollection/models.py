@@ -35,6 +35,5 @@ class Event(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE) # index on user
     session = models.ForeignKey(Session,null=True,on_delete=models.SET_NULL)
     type = models.CharField(max_length=32)
-    context = models.CharField(max_length=32)
     data = models.TextField()
 
