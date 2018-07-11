@@ -59,11 +59,11 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print('key: ' + request.session.session_key)
-
+        request.session.save()
         try:
             sessionObject = Session.objects.get(pk=request.session.session_key)
         except Session.DoesNotExist:
-            logger.info('creating session entry')
+            print('creating session entry')
             request.session.save()
             sessionObject = Session.objects.get(pk=request.session.session_key)
 
