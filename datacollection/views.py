@@ -60,14 +60,16 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         request.session.save()
-        print(request.POST)
+        # print(request.POST)
         print(request.session.session_key)
+        # request.POST = request.POST.copy()
+        request.data = request.data.copy()
         # request.data.update({'session': request.session.session_key})
-        mutable_data = request.data.copy()
-        mutable_data.data.update({'session': request.session.session_key})
-        serializer = self.get_serializer(data=mutable_data.data)
+        # mutable_data = request.data.copy()
+        request.data.update({'session': request.session.session_key})
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(session=Session.objects.get(pk=mutable_data.session_key))
+        serializer.save(session=Session.objects.get(pk=request.session_key))
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
