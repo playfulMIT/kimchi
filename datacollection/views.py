@@ -68,7 +68,7 @@ class EventViewSet(viewsets.ModelViewSet):
         request.session.save()
         jsondata = json.loads(request.data)
         jsondata['session'] = request.session.session_key
-        request.data = json.dumps(jsondata)
+        request.data = json.dump(jsondata)
         sessionObject = Session.objects.get(pk=request.session.session_key)
 
         print('key: ' + request.session.session_key)
