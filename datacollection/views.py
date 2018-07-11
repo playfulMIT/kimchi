@@ -59,26 +59,11 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
-        print('key: ' + request.session.session_key)
-
-
-        # sessionObject = Session.objects.get(pk=request.session.session_key)
-        # except ObjectDoesNotExist:
-        #     print('didnt exist')
         request.session.save()
-        print(type(request.data))
-        print(request.data)
         request.data.update({'session': request.session.session_key})
-        # jsondata = json.load(request.data)
-        # jsondata['session'] = request.session.session_key
-        # request.data = json.dump(jsondata)
         sessionObject = Session.objects.get(pk=request.session.session_key)
-
-        print('key: ' + request.session.session_key)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        logger.info('saving...')
-
         serializer.save(session=sessionObject)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
