@@ -5,6 +5,7 @@ from .serializers import GameSessionSerializer, EventSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 import json
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.models import Session
 import logging
 
@@ -59,15 +60,20 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         print('key: ' + request.session.session_key)
-        request.session.save()
-        sessionObject = Session.objects.get(pk=request.session.session_key)
-        print(request.data)
-        request.data.session = request.session.session_key
+
+        try:
+            sessionObject = Session.objects.get(pk=request.session.session_key)
+        except ObjectDoesNotExist:
+            request.session.save()
+            jsondata = json.loads(request.data)
+            jsondata['session'] = request.session.session_key
+            request.data = json.dump(jsondata)
+            sessionObject = Session.objects.get(pk=request.session.session_key)
 
         print('key: ' + request.session.session_key)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print('saving...')
+        logger.info('saving...')
 
         serializer.save(session=sessionObject)
         headers = self.get_success_headers(serializer.data)
