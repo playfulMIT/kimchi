@@ -54,8 +54,8 @@ MIDDLEWARE = [
 ]
 
 # These are for overcoming cross origin read blocking
-X_FRAME_OPTIONS = 'SAMEORIGIN'
-# X_FRAME_OPTIONS = 'ALLOW-FROM http://web.mit.edu https://web.mit.edu'
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = 'ALLOW-FROM web.mit.edu gbakimchi.herokuapp.com'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Ensures sessions persist
