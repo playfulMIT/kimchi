@@ -62,15 +62,10 @@ class EventViewSet(viewsets.ModelViewSet):
         if not request.session.session_key:
             request.session.save()
         # print(request.POST)
-        key = str(request.session.session_key)
-        # request.POST = request.POST.copy()
+        key = request.data.get('session') if request.data.get('session') else str(request.session.session_key)
         print(key)
-        print(request.data.get('type'))
-        # data = json.loads(request.POST)
-        print(data['session'])
+        print(request.data.get('session'))
         request.data._mutable = True
-        # request.data.update({'session': request.session.session_key})
-        # mutable_data = request.data.copy()
         request.data.update({'session': key})
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
