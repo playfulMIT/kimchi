@@ -66,7 +66,7 @@ class EventViewSet(viewsets.ModelViewSet):
         # request.POST = request.POST.copy()
         print(key)
         # print(request.data.getlist('session'))
-        data = json.loads(request.data)
+        data = json.loads(request.POST)
         print(data['session'])
         request.data._mutable = True
         # request.data.update({'session': request.session.session_key})
