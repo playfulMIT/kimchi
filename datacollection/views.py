@@ -61,7 +61,8 @@ class EventViewSet(viewsets.ModelViewSet):
         print('key: ' + request.session.session_key)
         request.session.save()
         sessionObject = Session.objects.get(pk=request.session.session_key)
-        print(sessionObject)
+        print(request.data)
+        request.data.session = request.session.session_key
 
         print('key: ' + request.session.session_key)
         serializer = self.get_serializer(data=request.data)
