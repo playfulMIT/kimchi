@@ -59,7 +59,8 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
-        # request.session.save()
+        request.session.save()
+        print(request.session.session_key)
         # request.data.update({'session': request.session.session_key})
         mutable_data = request.data.copy()
         mutable_data.update({'session': request.session.session_key})
