@@ -5,8 +5,8 @@ from django.http import HttpResponse
 
 def toygame(request):
     print(request.session.session_key)
-    request.session.save()
-    print(request.session.session_key)
+    # request.session.save()
+    # print(request.session.session_key)
     return render(request, 'games/toygame.html')
 
     # return HttpResponse(request.session.session_key)
