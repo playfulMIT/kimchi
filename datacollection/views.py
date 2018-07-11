@@ -61,7 +61,7 @@ class EventViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         # request.session.save()
         # request.data.update({'session': request.session.session_key})
-        
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(session=Session.objects.get(pk=request.session.session_key))
