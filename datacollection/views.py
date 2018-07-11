@@ -58,11 +58,11 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
+        logger.info('key: ' + request.session.session_key)
+        print('test')
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        logger.info('key: ' + request.session.session_key)
         logger.info('saving...')
-        print("testing")
         try:
             sessionObject = Session.objects.get(pk=request.session.session_key)
         except Session.DoesNotExist:
