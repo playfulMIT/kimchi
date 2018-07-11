@@ -61,12 +61,13 @@ class EventViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         request.session.save()
         # print(request.POST)
-        print(request.session.session_key)
+        key = str(request.session.session_key)
         # request.POST = request.POST.copy()
+        print(key)
         request.data._mutable = True
         # request.data.update({'session': request.session.session_key})
         # mutable_data = request.data.copy()
-        request.data.update({'session': request.session.session_key})
+        request.data.update({'session': key})
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(session=Session.objects.get(pk=request.session_key))
