@@ -66,7 +66,9 @@ class EventViewSet(viewsets.ModelViewSet):
         # except ObjectDoesNotExist:
         #     print('didnt exist')
         request.session.save()
-        jsondata = json.loads(request.data)
+        print(type(request.data))
+        print(request.data)
+        jsondata = json.load(request.data)
         jsondata['session'] = request.session.session_key
         request.data = json.dump(jsondata)
         sessionObject = Session.objects.get(pk=request.session.session_key)
