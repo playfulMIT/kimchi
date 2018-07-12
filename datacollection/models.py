@@ -42,5 +42,5 @@ class Event(models.Model):
         type = str(self.type) if self.type else 'no_type'
         data = str(self.data) if self.data else 'no_data'
         id = str(self.id) if self.id else 'no_id'
-        return session + ',' + time + ',' + type + ',' + data + ',' + id
+        return session + ';' + time + ';' + type + ';' + data + ';' + id
 
