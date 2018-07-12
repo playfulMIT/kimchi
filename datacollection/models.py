@@ -36,4 +36,11 @@ class Event(models.Model):
     session = models.ForeignKey(Session,null=True,on_delete=models.SET_NULL)
     type = models.CharField(max_length=32)
     data = models.TextField()
+    def __str__(self):
+        session = str(self.session) if self.session else 'no_session'
+        time = str(self.time) if self.time else 'no_time'
+        type = str(self.type) if self.type else 'no_type'
+        data = str(self.data) if self.data else 'no_data'
+        id = str(self.id) if self.id else 'no_id'
+        return session + ',' + time + ',' + type + ',' + data + ',' + id
 
