@@ -8,6 +8,9 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.models import Session
 import logging
+from datetime import timedelta
+from django.http import StreamingHttpResponse, HttpResponse
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -77,22 +80,39 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 
-# class CreateModelMixin(object):
-#     """
-#     Create a model instance.
-#     """
-#     def create(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_create(serializer)
-#         headers = self.get_success_headers(serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-#
-#     def perform_create(self, serializer):
-#         serializer.save()
-#
-#     def get_success_headers(self, data):
-#         try:
-#             return {'Location': str(data[api_settings.URL_FIELD_NAME])}
-#         except (TypeError, KeyError):
-# return {}
+
+
+class Echo:
+    """An object that implements just the write method of the file-like
+    interface.
+    """
+    def __init__(self, column_headers):
+        self.header = column_headers
+        self.header_written = False
+    def write(self, value):
+        if not self.header_written:
+            value = self.header + '\n' + str(value)
+            self.header_written = True
+        """Write the value by returning it, instead of storing in a buffer."""
+        value_string = str(value) + '\n'
+        return value_string.encode('utf-8')
+
+def filtered_data_as_http_response(rows, headers, filename):
+    if rows:
+        pseudo_buffer = Echo(headers)
+        response = StreamingHttpResponse((pseudo_buffer.write(row) for row in rows),
+                                         content_type="text/csv")
+        response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
+    else:
+        response = HttpResponse("No data found with current filters")
+    return response
+
+def streaming_event_csv(request):
+    """A view that streams a large CSV file."""
+    # yesterday = timezone.now() - timedelta(days=1)
+    # rows = Message.objects.filter(creation_time__gt=yesterday).order_by("transcript", "creation_time")
+    rows = Event.objects.all().order_by("session", "time")
+    return filtered_data_as_http_response(rows,
+                         "id,time,type,data,session",
+                         "eventlogs.csv")
+
