@@ -112,7 +112,7 @@ def streaming_event_csv(request):
     # yesterday = timezone.now() - timedelta(days=1)
     # rows = Message.objects.filter(creation_time__gt=yesterday).order_by("transcript", "creation_time")
     rows = Event.objects.all().order_by("session", "time")
-    print(rows.count)
+    print(rows.count())
     return filtered_data_as_http_response(rows,
                          "session;time;type;data;id",
                          "eventlogs.csv")
