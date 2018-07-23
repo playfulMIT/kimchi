@@ -3,11 +3,11 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-def toygame(request):
+def mitfp(request):
     print(request.session.session_key)
     request.session.save()
     # print(request.session.session_key)
-    return render(request, 'games/toygame.html', {'title':"shapes 0.2.0 playtest 2",'sessionID':request.session.session_key})
+    return render(request, 'games/mitftp.html', {'title':"shapes 0.2.0 playtest 2",'sessionID':request.session.session_key})
 
     # return HttpResponse(request.session.session_key)
 

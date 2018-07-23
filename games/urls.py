@@ -6,6 +6,7 @@ from django.urls import path
 
 
 urlpatterns = [
-    # path('', views.toygame),
+    path('test/', views.mitfp),
     path('', views.shapes),
 ]
+
