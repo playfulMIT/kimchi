@@ -61,21 +61,21 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all().order_by('-id')
     serializer_class = EventSerializer
 
-    def create(self, request, *args, **kwargs):
-        if not request.session.session_key:
-            request.session.save()
-        # print(request.POST)
-        key = request.data.get('session') if request.data.get('session') else str(request.session.session_key)
-        print(key)
-        print(request.data.get('session'))
-        request.data._mutable = True
-        request.data.update({'session': key})
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        sessionObj = Session.objects.get(pk=key)
-        serializer.save(session=sessionObj)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    # def create(self, request, *args, **kwargs):
+    #     if not request.session.session_key:
+    #         request.session.save()
+    #     # print(request.POST)
+    #     key = request.data.get('session') if request.data.get('session') else str(request.session.session_key)
+    #     print(key)
+    #     print(request.data.get('session'))
+    #     request.data._mutable = True
+    #     request.data.update({'session': key})
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     sessionObj = Session.objects.get(pk=key)
+    #     serializer.save(session=sessionObj)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 
