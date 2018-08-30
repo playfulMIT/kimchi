@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'datacollection',
     'games',
     'rest_framework',
+    'channels',
 ]
 
 MIDDLEWARE = [
