@@ -1,6 +1,8 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from .models import Event
+from django.contrib.sessions.models import Session
+
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
@@ -9,13 +11,14 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.scope["session"].save()
         print(self.scope["session"])
         print(self.scope["session"].session_key)
+        self.session = Session.objects.get(session_key=self.scope["session"].session_key)
         await self.accept()
 
     async def receive(self, text_data):
         # print(text_data)
         print("got data")
         text_data_json = json.loads(text_data)
-        Event.objects.create(session=self.scope["session"], type=text_data_json["type"], data = text_data_json["data"])
+        Event.objects.create(session=self.session, type=text_data_json["type"], data = text_data_json["data"])
         # print(text_data_json)
 
     async def disconnect(self):
