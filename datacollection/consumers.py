@@ -7,6 +7,7 @@ import re
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def websocket_connect(self, event):
+        print("connect")
         await self.send({
             "type": "websocket.accept",
         })
