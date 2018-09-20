@@ -18,3 +18,8 @@ def shapes(request):
 def playtest(request):
     request.session.save()
     return render(request, 'games/playtest.html', {'title':"shapes 0.3.0 playtest 3",'sessionID':request.session.session_key})
+
+
+def gamews(request):
+    request.session.save()
+    return render(request, 'games/gamews.html', {'title':"shapes 0.4.0 playtest 3",'sessionID':request.session.session_key})

@@ -8,6 +8,7 @@ from django.urls import path
 urlpatterns = [
     path('test/', views.mitfp),
     path('playtest/', views.playtest),
+    path('sept18/', views.gamews),
     path('', views.shapes),
 ]
 
