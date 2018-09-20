@@ -8,20 +8,16 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         print("connect")
-        # await self.send({
-        #     "type": "websocket.accept",
-        # })
         await self.accept()
 
-        async def receive(self, text_data):
-            print(text_data)
-            print("got data")
-            # await self.send({
-            #     "type": "websocket.send",
-            #     "text": event["text"],
-            # })
-        async def disconnect(self):
-            print("disconnect")
+    async def receive(self, text_data):
+        print(text_data)
+        print("got data")
+        text_data_json = json.loads(text_data)
+        print(text_data_json)
+
+    async def disconnect(self):
+        print("disconnect")
 #
 #
 # from channels.generic.websocket import AsyncWebsocketConsumer
