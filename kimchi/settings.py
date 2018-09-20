@@ -85,6 +85,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'kimchi.wsgi.application'
+ASGI_APPLICATION = "kimchi.routing.application"
 
 # This checks to see if its on heroku & if it isn't, use sqlite
 try:
