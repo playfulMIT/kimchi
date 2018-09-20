@@ -15,7 +15,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         # print(text_data)
         print("got data")
         text_data_json = json.loads(text_data)
-        Event.objects.create(session=self.scope["session"], type=text_data_json.type, data = text_data_json.data)
+        Event.objects.create(session=self.scope["session"], type=text_data_json["type"], data = text_data_json["data"])
         # print(text_data_json)
 
     async def disconnect(self):
