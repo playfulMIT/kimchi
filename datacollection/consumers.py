@@ -14,12 +14,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         async def receive(self, text_data):
-        print(text_data)
-        print("got data")
-        # await self.send({
-        #     "type": "websocket.send",
-        #     "text": event["text"],
-        # })
+            print(text_data)
+            print("got data")
+            # await self.send({
+            #     "type": "websocket.send",
+            #     "text": event["text"],
+            # })
         async def disconnect(self):
             print("disconnect")
 #
