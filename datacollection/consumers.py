@@ -25,7 +25,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print("got byte data")
             print(bytes_data.decode("utf-8"))
             data_json = json.loads(bytes_data.decode("utf-8"))
-
+        print("data json")
         print(data_json)
         # Event.objects.create(session=self.session, type=data_json["type"], data=data_json["data"])
 
