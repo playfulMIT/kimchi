@@ -28,7 +28,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print("connect")
 
-        await self.close()
+        await self.accept()
 
     async def receive(self, text_data=None, bytes_data=None):
         print("recieve")
