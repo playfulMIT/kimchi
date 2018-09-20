@@ -116,6 +116,7 @@ try:
     dbconfig = dj_database_url.config()
     if dbconfig:
         DATABASES['default'] = dbconfig
+    REDIS = os.environ['REDIS_URL']
 except KeyError:
     DATABASES = {
         'default': {
@@ -123,9 +124,18 @@ except KeyError:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    REDIS = "redis://localhost:6379"
 
 
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [REDIS],
+            "group_expiry": 7200,
+        },
+    },
+}
 
 
 
