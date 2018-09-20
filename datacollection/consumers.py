@@ -14,12 +14,15 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.session = Session.objects.get(session_key=self.scope["session"].session_key)
         await self.accept()
 
-    async def receive(self, text_data):
-        # print(text_data)
-        print("got data")
-        text_data_json = json.loads(text_data)
-        Event.objects.create(session=self.session, type=text_data_json["type"], data = text_data_json["data"])
-        # print(text_data_json)
+    async def receive(self, text_data=None, bytes_data=None):
+        if (text_data):
+            # print(text_data)
+            print("got data")
+            text_data_json = json.loads(text_data)
+            Event.objects.create(session=self.session, type=text_data_json["type"], data = text_data_json["data"])
+            # print(text_data_json)
+        if (bytes_data):
+            print(bytes_data)
 
     async def disconnect(self):
         print("disconnect")
