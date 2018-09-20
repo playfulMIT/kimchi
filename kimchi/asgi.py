@@ -7,6 +7,6 @@ import os
 import django
 from channels.routing import get_default_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "elk.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kimchi.settings")
 django.setup()
 application = get_default_application()
