@@ -1,8 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-import re
-
-
+from .models import Event
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
@@ -14,9 +12,10 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def receive(self, text_data):
-        print(text_data)
+        # print(text_data)
         print("got data")
-        # text_data_json = json.loads(text_data)
+        text_data_json = json.loads(text_data)
+        Event.objects.create(session=self.scope["session"], type=text_data_json.type, data = text_data_json.data)
         # print(text_data_json)
 
     async def disconnect(self):
