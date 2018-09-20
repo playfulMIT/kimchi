@@ -17,12 +17,17 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         if (text_data):
             # print(text_data)
-            print("got data")
-            text_data_json = json.loads(text_data)
-            Event.objects.create(session=self.session, type=text_data_json["type"], data = text_data_json["data"])
+            print("got text data")
+            data_json = json.loads(text_data)
+
             # print(text_data_json)
         if (bytes_data):
-            print(bytes_data)
+            print("got byte data")
+            print(bytes_data.decode("utf-8"))
+            data_json = json.loads(bytes_data.decode("utf-8"))
+
+        print(data_json)
+        # Event.objects.create(session=self.session, type=data_json["type"], data=data_json["data"])
 
     async def disconnect(self):
         print("disconnect")
