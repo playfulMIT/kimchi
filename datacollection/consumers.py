@@ -12,6 +12,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         })
 
     async def websocket_receive(self, event):
+        print(event)
         await self.send({
             "type": "websocket.send",
             "text": event["text"],
