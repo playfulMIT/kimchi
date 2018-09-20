@@ -29,6 +29,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         # Event.objects.create(session=self.session, type=data_json["type"], data=data_json["data"])
 
     async def disconnect(self, code=None):
+        if (code):
+            print(code)
         print("disconnect")
 #
 #
