@@ -16,7 +16,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print(text_data)
         print("got data")
         # text_data_json = json.loads(text_data)
-        print(text_data_json)
+        # print(text_data_json)
 
     async def disconnect(self):
         print("disconnect")
