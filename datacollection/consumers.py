@@ -6,15 +6,35 @@ import re
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
-    async def websocket_connect(self, event):
+    async def connect(self):
         print("connect")
         await self.send({
             "type": "websocket.accept",
         })
 
-    async def websocket_receive(self, event):
+        async def receive(self, text_data):
         print(event)
         await self.send({
             "type": "websocket.send",
             "text": event["text"],
         })
+
+
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+class MyConsumer(AsyncWebsocketConsumer):
+    groups = ["broadcast"]
+
+    async def connect(self):
+        print("connect")
+
+        await self.close()
+
+    async def receive(self, text_data=None, bytes_data=None):
+        print("recieve")
+        await self.close()
+
+
+    async def disconnect(self, close_code):
+        print("disconnect")
+
