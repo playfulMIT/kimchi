@@ -10,8 +10,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print("connect")
         self.scope["session"].save()
         print(self.scope["session"])
-        for key in self.scope["session"]:
-            print(key)
+        print(self.scope["session"].session_key)
         await self.accept()
 
     async def receive(self, text_data):
