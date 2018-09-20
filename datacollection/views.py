@@ -11,6 +11,7 @@ import logging
 from datetime import timedelta
 from django.http import StreamingHttpResponse, HttpResponse
 from django.utils import timezone
+from django.db import close_old_connections
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,7 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
+        close_old_connections()
         if not request.session.session_key:
             request.session.save()
         # print(request.POST)
