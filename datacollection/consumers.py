@@ -7,10 +7,8 @@ from django.contrib.sessions.models import Session
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
-        print("connect")
+
         self.scope["session"].save()
-        print(self.scope["session"])
-        print(self.scope["session"].session_key)
         self.session = Session.objects.get(session_key=self.scope["session"].session_key)
         await self.accept()
 
