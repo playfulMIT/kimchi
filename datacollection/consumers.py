@@ -15,6 +15,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def receive(self, text_data=None, bytes_data=None):
+        print("received data")
         if (text_data):
             # print(text_data)
             print("got text data")
