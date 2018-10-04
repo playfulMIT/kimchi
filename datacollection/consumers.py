@@ -2,6 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from .models import Event
 from django.contrib.sessions.models import Session
+from django.db import close_old_connections
 
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
@@ -27,6 +28,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         # print("data json")
         # print(data_json)
         Event.objects.create(session=self.session, type=data_json["type"], data=data_json["data"])
+        close_old_connections()
 
     # async def disconnect(self, code=None):
     #     if (code):
