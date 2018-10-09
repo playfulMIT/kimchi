@@ -12,16 +12,19 @@ def mitfp(request):
     # return HttpResponse(request.session.session_key)
 
 def shapes(request):
-    request.session.save()
+    if not request.session.session_key:
+        request.session.save()
     return render(request, 'games/shapes.html', {'title':"shapes 0.2.0 playtest 2",'sessionID':request.session.session_key})
 
 def playtest(request):
-    request.session.save()
+    if not request.session.session_key:
+        request.session.save()
     return render(request, 'games/playtest.html', {'title':"shapes 0.3.0 playtest 3",'sessionID':request.session.session_key})
 
 
 def gamews(request):
-    request.session.save()
+    if not request.session.session_key:
+        request.session.save()
     return render(request, 'games/gamews.html', {'title':"shapes 0.4.0 playtest 3",'sessionID':request.session.session_key})
 
 def stg0910(request):
