@@ -26,5 +26,4 @@ def gamews(request):
 
 def stg0910(request):
     request.session.save()
-    return render(request, 'games/stg0910.html',
-                  {'title': "shadow tangrams 0.1.0", 'sessionID': request.session.session_key})
+    return render(request, 'games/stg0910.html', {'title': "shadow tangrams 0.1.0", 'sessionID': request.session.session_key})
