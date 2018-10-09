@@ -23,3 +23,8 @@ def playtest(request):
 def gamews(request):
     request.session.save()
     return render(request, 'games/gamews.html', {'title':"shapes 0.4.0 playtest 3",'sessionID':request.session.session_key})
+
+def stg0910(request):
+    request.session.save()
+    return render(request, 'games/stg0910.html',
+                  {'title': "shadow tangrams 0.1.0", 'sessionID': request.session.session_key})
