@@ -91,7 +91,7 @@ ASGI_APPLICATION = "kimchi.routing.application"
 # This checks to see if its on heroku & if it isn't, use sqlite
 try:
     # PAAS settings -------------------------------------------------
-    TEST = os.environ['DATABASE_URL'] # Env var on heroku
+    TEST = os.environ['MIT_URL'] # Env var on heroku
     import django_heroku
 
     django_heroku.settings(locals())
@@ -118,7 +118,7 @@ try:
     # if dbconfig:
     #     DATABASES['default'] = dbconfig
     env = environ.Env()
-    DATABASES['default'] = env.db('DATABASE_URL')
+    DATABASES['default'] = env.db('MIT_URL')
     REDIS = os.environ['REDIS_URL']
 except KeyError:
     DATABASES = {
