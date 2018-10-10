@@ -8,14 +8,14 @@ from django.db import close_old_connections
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
-        # close_old_connections()
+        close_old_connections()
         self.scope["session"].save()
         self.session = Session.objects.get(session_key=self.scope["session"].session_key)
-        # close_old_connections()
+        close_old_connections()
         await self.accept()
 
     async def receive(self, text_data=None, bytes_data=None):
-        # close_old_connections()
+        close_old_connections()
         print("received data")
         if (text_data):
             # print(text_data)
@@ -30,7 +30,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         # print("data json")
         # print(data_json)
         Event.objects.create(session=self.session, type=data_json["type"], data=data_json["data"])
-        # close_old_connections()
+        close_old_connections()
 
     # async def disconnect(self, code=None):
     #     if (code):
