@@ -11,6 +11,10 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         close_old_connections()
         self.scope["session"].save()
         self.session = Session.objects.get(session_key=self.scope["session"].session_key)
+        await self.send({
+            "type": "websocket.send",
+            "text": self.scope["session"].session_key,
+        })
         close_old_connections()
         await self.accept()
 
@@ -29,7 +33,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             data_json = json.loads(bytes_data.decode("utf-8"))
         # print("data json")
         # print(data_json)
-        Event.objects.create(session=self.session, type=data_json["type"], data=data_json["data"])
+        type = "ws-" + data_json["type"]
+        Event.objects.create(session=self.session, type=type, data=data_json["data"])
         close_old_connections()
 
     # async def disconnect(self, code=None):
