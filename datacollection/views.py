@@ -66,8 +66,8 @@ class EventViewSet(viewsets.ModelViewSet):
             request.session.save()
         # print(request.POST)
         key = request.data.get('session') if request.data.get('session') else str(request.session.session_key)
-        print(key)
-        print(request.data.get('session'))
+        # print(key)
+        # print(request.data.get('session'))
         request.data._mutable = True
         request.data.update({'session': key})
         serializer = self.get_serializer(data=request.data)
@@ -112,7 +112,7 @@ def streaming_event_csv(request):
     # yesterday = timezone.now() - timedelta(days=1)
     # rows = Message.objects.filter(creation_time__gt=yesterday).order_by("transcript", "creation_time")
     rows = Event.objects.all().order_by("session", "time")
-    print(rows.count())
+    # print(rows.count())
     return filtered_data_as_http_response(rows,
                          "session;time;type;data;id",
                          "eventlogs.csv")
