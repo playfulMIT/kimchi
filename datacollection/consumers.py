@@ -14,13 +14,13 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.session = Session.objects.get(session_key=key)
         print('socket open')
         print(key)
+        print('sent key')
+        await self.accept()
         await self.send({
             "type": "websocket.send",
             "text": key,
         })
-        print('sent key')
         close_old_connections()
-        await self.accept()
 
     async def receive(self, text_data=None, bytes_data=None):
         close_old_connections()
