@@ -12,10 +12,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.scope["session"].save()
         key = self.scope["session"].session_key
         self.session = Session.objects.get(session_key=key)
+        print(key)
         await self.send({
             "type": "websocket.send",
             "text": key,
         })
+        print('sent key')
         close_old_connections()
         await self.accept()
 
