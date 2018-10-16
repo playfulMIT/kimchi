@@ -16,10 +16,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print(key)
         print('sent key')
         await self.accept()
-        await self.send({
-            "type": "websocket.send",
-            "text": key,
-        })
+        await self.send(text_data=key)
         close_old_connections()
 
     async def receive(self, text_data=None, bytes_data=None):
