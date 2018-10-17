@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Account Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <h1 class="mt-5">Eliciting Learner Knowledge</h1>
+            <p class="lead">Teaching Systems Lab</p>
+
+            <div id="toc" class="toc">
+                <div class=""><h2>Contents</h2></div>
+                <ul>
+                    <li><a href="#survey">1. Complete Survey</a></li>
+                    <li><a href="#results">2. Results</a></li>
+                    <li><a href="#transcripts">3. Transcripts</a></li>
+                    {% for t in transcripts %}
+                    <li><a href="#t{{ forloop.counter }}">{{ t.room_name }} at {{ t.creation_time }}</a></li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+
+        </div>
+
+
+        <div class="col-sm-6">
+            </br></br>
+
+            <div>
+                <br>
+                <h5>Hello, {{ user.username }}!</h5>
+
+                <strong id="survey">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScmnq80xcPL0Fthmz2QgAD8mqeId8Xxmq44qbj0lb6jy6S0qA/viewform?entry.1379461190={{ user.username }}"
+                       target="_blank">
+                        Just finish a quiz? Please complete a post-survey. Thank you!
+                    </a></strong>
+                <p id="results">Your quiz results:</p>
+                <table id="resultsTable">
+                </table>
+                <p id="transcripts">Your transcripts:</p>
+                {% for t in transcripts %}
+                    <strong id="t{{ forloop.counter }}">{{ t.room_name }} at {{ t.creation_time }}</strong>
+                    <br>
+                    {% for m in t.messages %}
+                    {{ m.creation_time|date:"g:i:s" }}: {{ m.text }}<br>
+                    {% endfor %}
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // window.onload=function() {
+    var results = {{ quiz_results|safe }};
+    if (Object.keys(results).length <= {{ participant_count }})
+    {
+        console.log('awaiting results, reloading in 10s')
+        setTimeout(function () {
+            location.reload(true)
+        }, 10000);
+    }
+    else
+    {
+        var resultsTable = document.getElementById("resultsTable")
+        var players = Object.keys(results)
+        qpks = Object.keys(results.question_details);
+
+        //Header row
+        var tr = document.createElement("tr");
+        var th = document.createElement("th");
+        var txt = document.createTextNode("Player");
+        th.appendChild(txt);
+        tr.appendChild(th)
+        for (q in qpks) {
+            var th = document.createElement("th");
+            var txt = document.createTextNode(
+                Object.keys(results.question_details[qpks[q]])[0]
+            )
+            th.appendChild(txt);
+            tr.appendChild(th)
+        }
+        resultsTable.appendChild(tr);
+
+        //Answers row
+        var tr = document.createElement("tr");
+        var td = document.createElement("td");
+        var txt = document.createTextNode("Correct Answer");
+        td.appendChild(txt);
+        tr.appendChild(td)
+        for (q in qpks) {
+            var td = document.createElement("td");
+            var txt = document.createTextNode(
+                Object.values(results.question_details[qpks[q]])[0]
+            )
+            td.appendChild(txt);
+            tr.appendChild(td)
+        }
+        resultsTable.appendChild(tr);
+
+        //Player results
+        for (p in players) {
+            var player = players[p]
+            if (players[p] != "question_details") {
+                var details = results[player]
+                var tr = document.createElement("tr");
+                var td = document.createElement("td");
+                var txt = document.createTextNode(players[p]);
+                td.appendChild(txt)
+                tr.appendChild(td)
+                for (q in qpks) {
+                    var td = document.createElement("td")
+                    // console.log(q)
+                    // console.log(qpks)
+                    // console.log(qpks[q])
+                    // console.log(details)
+                    // console.log(details[qpks[q]])
+                    var txt = document.createTextNode(details[qpks[q]]);
+                    td.appendChild(txt)
+                    tr.appendChild(td)
+                }
+                resultsTable.appendChild(tr);
+            }
+        }
+    }
+
+</script>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<main>
+<div class="container cover-container align-middle">
+
+            <h1 class="mt-5">Eliciting Learner Knowledge</h1>
+            <p class="lead"> A conversational role-playing game for pre-service teachers to practice understanding student preconceptions and questioning strategies. </p>
+
+            {% if user.is_authenticated %}
+            <input id="chat_select" type="button" class="btn btn-primary btn-lg" value="Play ELK" onclick=location.href="{% url 'select_role' %}";>
+            {% else %}
+            <input id="login" type="button" class="btn btn-primary btn-lg" value="Login" onclick=location.href="{% url 'account_login' %}";>
+
+            {% endif %}
+
+</div>
+</main>
+
+{% endblock %}
