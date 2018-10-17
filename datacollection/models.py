@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import CustomUser as User
 from django.contrib.sessions.models import Session
 
 # from importlib import import_module

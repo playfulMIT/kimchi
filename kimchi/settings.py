@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 
 # Application definition
 
@@ -38,10 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'datacollection',
     'games',
     'rest_framework',
     'channels',
+    'accounts',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -67,12 +80,14 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_HTTPONLY = False
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 ROOT_URLCONF = 'kimchi.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'accounts/templates/allauth/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
