@@ -1,11 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser as User
 from django.contrib.sessions.models import Session
-
-# from importlib import import_module
-# from django.conf import settings
-# SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
-
 from django.utils import timezone
 
 
@@ -44,3 +39,16 @@ class Event(models.Model):
         id = str(self.id) if self.id else 'no_id'
         return session + ';' + time + ';' + type + ';' + data + ';' + id
 
+class URL(models.Model):
+    name = models.CharField(primary_key=True,max_length=50)
+    owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
+
+class Player(models.Model):
+    name = models.CharField(max_length=50)
+    # sessions = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL, many=True)
+    url = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
+
+class PlayerSession(models.Model):
+    player = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
+    session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
