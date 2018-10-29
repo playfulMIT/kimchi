@@ -24,13 +24,13 @@ class CustomUser(AbstractUser):
 
 class URL(models.Model):
     name = models.CharField(primary_key=True,max_length=50)
-    owner = models.ForeignKey(CustomUser)
+    owner = models.ForeignKey(CustomUser, null=True, on_delete=models.SET_NULL)
 
 
 class Player(models.Model):
     name = models.CharField(max_length=50)
     # sessions = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL, many=True)
-    url = models.ForeignKey(URL)
+    url = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
 
 class PlayerSession(models.Model):
-    player = models.ForeignKey(URL)
+    player = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
