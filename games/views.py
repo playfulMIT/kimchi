@@ -36,10 +36,10 @@ def stg0910(request):
 def stg0924(request):
     if not request.session.session_key:
         request.session.save()
-    return render(request, 'games/stg0924.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
+    return render(request, 'games/stg24.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
 
 def wildcard_url(slug, request):
     if not request.session.session_key:
         request.session.save()
     print(slug)
-    return render(request, 'games/stg0924.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
+    return render(request, 'games/test.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
