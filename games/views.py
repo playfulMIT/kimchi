@@ -38,7 +38,7 @@ def stg0924(request):
         request.session.save()
     return render(request, 'games/stg24.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
 
-def wildcard_url(slug, request):
+def wildcard_url(request, slug):
     if not request.session.session_key:
         request.session.save()
     print(slug)
