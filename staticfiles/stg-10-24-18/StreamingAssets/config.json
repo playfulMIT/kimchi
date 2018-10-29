@@ -1,0 +1,8 @@
+{
+  "canEdit": true,
+  "useGuests": true,
+  "groupID": "Development-Group",
+  "puzzleFiles": [
+    "Intro"
+  ]
+}

@@ -31,3 +31,9 @@ def stg0910(request):
     if not request.session.session_key:
         request.session.save()
     return render(request, 'games/stg0910.html', {'title': "shadow tangrams 0.1.0", 'sessionID': request.session.session_key})
+
+def stg0924(request):
+    if not request.session.session_key:
+        request.session.save()
+    return render(request, 'games/stg0924.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
+

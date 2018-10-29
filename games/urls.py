@@ -10,6 +10,7 @@ urlpatterns = [
     path('playtest/', views.playtest),
     path('sept18/', views.gamews),
     path('stg0910/', views.stg0910),
+    path('stg0924/', views.stg0924),
     path('', views.shapes),
 ]
 
