@@ -40,8 +40,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             urlpk = self.request.session['urlpk']
             url = URL.objects.get(pk=urlpk)
             players = Player.objects.filter(url=url)
-            serializers.serialize("json", players)
-            await self.send(text_data=key)
+            playerjson = serializers.serialize("json", players)
+            await self.send(text_data=playerjson)
         close_old_connections()
 
     # async def disconnect(self, code=None):
