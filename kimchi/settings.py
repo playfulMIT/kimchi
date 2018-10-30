@@ -81,7 +81,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_HTTPONLY = False
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
+SITE_ID = 1 # This is for allauth
 ROOT_URLCONF = 'kimchi.urls'
 
 TEMPLATES = [
