@@ -83,12 +83,15 @@ class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
 
     def get_queryset(self):
-        url = self.request.session['url']
+        urlpk = self.request.session['urlpk']
+        url = URL.objects.get(pk=urlpk)
         players = Player.objects.filter(url=url)
         return players
 
     def perform_create(self, serializer):
-        serializer.save(url=self.request.session['url'])
+        urlpk = self.request.session['urlpk']
+        url = URL.objects.get(pk=urlpk)
+        serializer.save(url=url)
 
 
 class Echo:
