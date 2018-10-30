@@ -1,9 +1,9 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from .models import Event
+from .models import Event, Player, URL
 from django.contrib.sessions.models import Session
 from django.db import close_old_connections
-
+from django.core import serializers
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
@@ -36,6 +36,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         # print(data_json)
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
+        if 'start_game' in type:
+            urlpk = self.request.session['urlpk']
+            url = URL.objects.get(pk=urlpk)
+            players = Player.objects.filter(url=url)
+            serializers.serialize("json", players)
+            await self.send(text_data=key)
         close_old_connections()
 
     # async def disconnect(self, code=None):
