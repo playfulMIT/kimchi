@@ -5,6 +5,7 @@ from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 from django.core import serializers
 
+
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
@@ -40,9 +41,13 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             urlpk = self.scope["session"]['urlpk']
             url = URL.objects.get(pk=urlpk)
             players = Player.objects.filter(url=url)
-            playerjson = serializers.serialize("json", players)
-            print(playerjson)
-            await self.send(text_data=playerjson)
+            playerlist = []
+            for p in players:
+                playerlist.append(p.name)
+
+            # playerjson = serializers.serialize("python", players)
+            # print(playerjson)
+            await self.send(text_data=''.join(playerlist))
         close_old_connections()
 
     # async def disconnect(self, code=None):
