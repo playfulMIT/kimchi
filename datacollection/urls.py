@@ -6,6 +6,7 @@ from . import views
 router = routers.DefaultRouter()
 # router.register(r'gamesession', views.GameSessionViewSet)
 router.register(r'event', views.EventViewSet)
+router.register(r'players', views.PlayerViewSet)
 
 
 
