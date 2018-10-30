@@ -47,7 +47,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
             # playerjson = serializers.serialize("python", players)
             # print(playerjson)
-            await self.send(text_data=''.join(playerlist))
+            data = ','.join(playerlist)
+            print(data)
+            await self.send(text_data=data)
         close_old_connections()
 
     # async def disconnect(self, code=None):
