@@ -44,4 +44,5 @@ def wildcard_url(request, slug):
     print(slug)
     url = get_object_or_404(URL, pk=slug)
     print(url)
+    request.session['url'] = url
     return render(request, 'games/test.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})

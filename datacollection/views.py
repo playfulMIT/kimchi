@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from datacollection.utils import get_client_ip
-from .models import Event #, GameSession
-from .serializers import  EventSerializer #, GameSessionSerializer
+from .models import Event, Player, URL #, GameSession
+from .serializers import  EventSerializer, PlayerSerializer #, GameSessionSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 import json
@@ -79,7 +79,16 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 
+class PlayerViewSet(viewsets.ModelViewSet):
+    serializer_class = PlayerSerializer
 
+    def get_queryset(self):
+        url = self.request.session['url']
+        players = Player.objects.filter(url=url)
+        return players
+
+    def perform_create(self, serializer):
+        serializer.save(url=self.request.session['url'])
 
 
 class Echo:
