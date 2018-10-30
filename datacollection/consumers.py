@@ -37,7 +37,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
         if 'start_game' in type:
-            urlpk = self.request.session['urlpk']
+            urlpk = self.scope["session"]['urlpk']
             url = URL.objects.get(pk=urlpk)
             players = Player.objects.filter(url=url)
             playerjson = serializers.serialize("json", players)
@@ -50,22 +50,4 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     #         print(code)
     #     print("disconnect")
 #
-#
-# from channels.generic.websocket import AsyncWebsocketConsumer
-#
-# class DataCollectionConsumer(AsyncWebsocketConsumer):
-#     groups = ["broadcast"]
-#
-#     async def connect(self):
-#         print("connect")
-#
-#         await self.accept()
-#
-#     async def receive(self, text_data=None, bytes_data=None):
-#         print("recieve")
-#         await self.close()
-#
-#
-#     async def disconnect(self, close_code):
-#         print("disconnect")
 #
