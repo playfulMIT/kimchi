@@ -41,6 +41,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             url = URL.objects.get(pk=urlpk)
             players = Player.objects.filter(url=url)
             playerjson = serializers.serialize("json", players)
+            print(playerjson)
             await self.send(text_data=playerjson)
         close_old_connections()
 
