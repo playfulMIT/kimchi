@@ -55,7 +55,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             url = URL.objects.get(pk=urlpk)
             namedata = data_json["data"]
             # print(name)
-            namejson = json.dumps(namedata)
+            namejson = json.loads(namedata)
             # print(namejson)
             name=namejson["user"]
             print(name)
