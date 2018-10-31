@@ -37,10 +37,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         namejson = json.loads(namedata)
         if "group" in namejson:
             urlpk = namejson["group"]
+            self.scope["session"]['urlpk'] = urlpk
         elif 'urlpk' in self.scope["session"]:
             urlpk = self.scope["session"]['urlpk']
         else:
             urlpk = "no-url-or-group-specified"
+            self.scope["session"]['urlpk'] = urlpk
         print(urlpk)
         url, nourl = URL.objects.get_or_create(pk=urlpk)
         print(url.name)
