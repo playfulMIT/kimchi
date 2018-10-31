@@ -35,20 +35,14 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
         namedata = data_json["data"]
         namejson = json.loads(namedata)
-
-        if 'urlpk' in self.scope["session"]:
-            if "group" in namejson:
-                urlpk = namejson["group"]
-            else:
-                urlpk = self.scope["session"]['urlpk']
-            url = URL.objects.get(pk=urlpk)
+        if "group" in namejson:
+            urlpk = namejson["group"]
+        elif 'urlpk' in self.scope["session"]:
+            urlpk = self.scope["session"]['urlpk']
         else:
-            if "group" in namejson:
-                urlpk = namejson["group"]
-            else:
-                urlpk = "no-url-or-group-specified"
-            print(urlpk)
-            url, nourl = URL.objects.get_or_create(name=urlpk)
+            urlpk = "no-url-or-group-specified"
+        print(urlpk)
+        url, nourl = URL.objects.get_or_create(name=urlpk)
 
         if 'start_game' in type:
             players = Player.objects.filter(url=url)
