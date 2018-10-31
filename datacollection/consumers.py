@@ -53,6 +53,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             #     playerlist.append(p.name)
             #
             # playerstring = ','.join(playerlist)
+            print("player json: " + players_json)
             await self.send(text_data=players_json)
         elif any(x in type for x in ['login_user', 'create_user']):
             name = namejson["user"]
