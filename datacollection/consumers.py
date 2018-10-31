@@ -55,7 +55,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             playersession = PlayerSession.objects.create(player=player,session=self.session)
             if created:
                 response = json.dumps({
-                    "status":  201,yer
+                    "status":  201,
                     "message": "created"
                 })
             else:
@@ -63,6 +63,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                     "status": 200,
                     "message": "found"
                 })
+            print(response)
             await self.send(text_data=response)
 
 
