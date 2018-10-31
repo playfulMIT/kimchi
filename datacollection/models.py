@@ -50,5 +50,5 @@ class Player(models.Model):
     url = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
 
 class PlayerSession(models.Model):
-    player = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
+    player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
     session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)

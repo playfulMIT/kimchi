@@ -41,8 +41,6 @@ def stg0924(request):
 def wildcard_url(request, slug):
     if not request.session.session_key:
         request.session.save()
-    print(slug)
     url = get_object_or_404(URL, pk=slug)
-    print(url)
     request.session['urlpk'] = url.pk
     return render(request, 'games/test.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})

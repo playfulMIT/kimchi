@@ -47,9 +47,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
             # playerjson = serializers.serialize("python", players)
             # print(playerjson)
-            data = ','.join(playerlist)
-            print(data)
-            await self.send(text_data=data)
+            playerstring = ','.join(playerlist)
+            print(playerstring)
+            await self.send(text_data=playerstring)
         if 'create_user' in type:
             urlpk = self.scope["session"]['urlpk']
             url = URL.objects.get(pk=urlpk)
@@ -61,6 +61,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print(name)
             player = Player.objects.create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
+            await self.send(text_data="201")
+
 
         close_old_connections()
 
