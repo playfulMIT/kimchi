@@ -37,7 +37,10 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         namejson = json.loads(namedata)
 
         if 'urlpk' in self.scope["session"]:
-            urlpk = self.scope["session"]['urlpk']
+            if "group" in namejson:
+                urlpk = namejson["group"]
+            else:
+                urlpk = self.scope["session"]['urlpk']
             url = URL.objects.get(pk=urlpk)
         else:
             if "group" in namejson:
