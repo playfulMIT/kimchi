@@ -43,6 +43,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             urlpk = "no-url-or-group-specified"
         print(urlpk)
         url, nourl = URL.objects.get_or_create(pk=urlpk)
+        print(url.name)
 
         if 'start_game' in type:
             players = Player.objects.filter(url=url)
@@ -54,9 +55,6 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=playerstring)
         elif any(x in type for x in ['login_user', 'create_user']):
             name = namejson["user"]
-            if 'group' in namedata:
-                url=URL.objects.get_or_create(url=namejson["group"])
-
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
             if created:
