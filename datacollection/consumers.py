@@ -42,7 +42,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         else:
             urlpk = "no-url-or-group-specified"
         print(urlpk)
-        url, nourl = URL.objects.get_or_create(name=urlpk)
+        url, nourl = URL.objects.get_or_create(pk=urlpk)
 
         if 'start_game' in type:
             players = Player.objects.filter(url=url)
