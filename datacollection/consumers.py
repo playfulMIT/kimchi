@@ -66,7 +66,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 name = namejson["user"]
                 player = Player.objects.get(url=url, name=name)
                 playersession = PlayerSession.objects.create(player=player, session=self.session)
-            except self.model.DoesNotExist:
+            except Player.DoesNotExist:
                 await self.send(text_data="201")
 
 
