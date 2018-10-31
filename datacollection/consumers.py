@@ -47,24 +47,24 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
             playerstring = ','.join(playerlist)
             await self.send(text_data=playerstring)
-        if 'create_user' in type:
+        elif any(x in type for x in ['login_user', 'create_user']):
             namedata = data_json["data"]
             namejson = json.loads(namedata)
             name=namejson["user"]
-            print(name)
-            player = Player.objects.create(url=url, name=name)
+            player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
-            await self.send(text_data="201")
+            if created:
+                response = json.dumps({
+                    "status":  201,yer
+                    "message": "created"
+                })
+            else:
+                response = json.dumps({
+                    "status": 200,
+                    "message": "found"
+                })
+            await self.send(text_data=response)
 
-        if 'login_user' in type:
-            try:
-                namedata = data_json["data"]
-                namejson = json.loads(namedata)
-                name = namejson["user"]
-                player = Player.objects.get(url=url, name=name)
-                playersession = PlayerSession.objects.create(player=player, session=self.session)
-            except Player.DoesNotExist:
-                await self.send(text_data="201")
 
 
         close_old_connections()
