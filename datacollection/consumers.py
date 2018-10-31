@@ -45,7 +45,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print("player json: " + players_json)
             await self.send(text_data=players_json)
         elif any(x in type for x in ['login_user', 'create_user']):
-            url, nourl = get_group(data_json)
+            url, nourl, namejson = get_group(self, data_json)
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)

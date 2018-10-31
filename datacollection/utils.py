@@ -1,3 +1,6 @@
+from .models import URL
+import json
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -5,7 +8,7 @@ def get_client_ip(request):
     else:
         return request.META.get('REMOTE_ADDR')
 
-def get_group(data_json):
+def get_group(self, data_json):
     namedata = data_json["data"]
     namejson = json.loads(namedata)
     if "group" in namejson:
@@ -19,4 +22,4 @@ def get_group(data_json):
     print(urlpk)
     url, nourl = URL.objects.get_or_create(pk=urlpk)
     print(url.name)
-    return url, nourl
+    return url, nourl, namejson
