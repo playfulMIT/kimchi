@@ -5,3 +5,4 @@ from datacollection.models import Player
 class Level(models.Model):
     data = models.TextField()
     owner = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
+

@@ -82,11 +82,11 @@ class EventViewSet(viewsets.ModelViewSet):
 class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.all().order_by('-id')
-    def get_queryset(self):
-        urlpk = self.request.session['urlpk']
-        url = URL.objects.get(pk=urlpk)
-        players = Player.objects.filter(url=url)
-        return players
+    # def get_queryset(self):
+    #     urlpk = self.request.session['urlpk']
+    #     url = URL.objects.get(pk=urlpk)
+    #     players = Player.objects.filter(url=url)
+    #     return players
 
     def perform_create(self, serializer):
         urlpk = self.request.session['urlpk']
