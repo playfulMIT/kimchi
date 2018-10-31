@@ -4,7 +4,7 @@ from .models import Event, Player, URL, PlayerSession
 from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 from django.core import serializers
-
+from .utils import get_group
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
@@ -33,21 +33,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
 
-        namedata = data_json["data"]
-        namejson = json.loads(namedata)
-        if "group" in namejson:
-            urlpk = namejson["group"]
-            self.scope["session"]['urlpk'] = urlpk
-        elif 'urlpk' in self.scope["session"]:
-            urlpk = self.scope["session"]['urlpk']
-        else:
-            urlpk = "no-url-or-group-specified"
-            self.scope["session"]['urlpk'] = urlpk
-        print(urlpk)
-        url, nourl = URL.objects.get_or_create(pk=urlpk)
-        print(url.name)
-
         if 'start_game' in type:
+            url, nourl = get_group(data_json)
             players = Player.objects.filter(url=url).values('name')
             players_json = json.dumps(list(players))
             # playerlist = []
@@ -58,6 +45,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print("player json: " + players_json)
             await self.send(text_data=players_json)
         elif any(x in type for x in ['login_user', 'create_user']):
+            url, nourl = get_group(data_json)
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
