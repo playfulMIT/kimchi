@@ -24,21 +24,28 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         close_old_connections()
         print("received data")
         if (text_data):
-            # print(text_data)
             print("got text data")
             data_json = json.loads(text_data)
-
-            # print(text_data_json)
         if (bytes_data):
             print("got byte data")
             # print(bytes_data.decode("utf-8"))
             data_json = json.loads(bytes_data.decode("utf-8"))
-        # print("data json")
-        # print(data_json)
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
-        urlpk = self.scope["session"]['urlpk']
-        url = URL.objects.get(pk=urlpk)
+
+        namedata = data_json["data"]
+        namejson = json.loads(namedata)
+
+        if 'urlpk' in self.scope["session"]:
+            urlpk = self.scope["session"]['urlpk']
+            url = URL.objects.get(pk=urlpk)
+        else:
+            if "group" in namejson:
+                urlpk = namejson["group"]
+            else:
+                urlpk = "no-url-or-group-specified"
+            url, nourl = URL.objects.get_or_create(urlpk)
+
         if 'start_game' in type:
             players = Player.objects.filter(url=url)
             playerlist = []
@@ -48,17 +55,23 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             playerstring = ','.join(playerlist)
             await self.send(text_data=playerstring)
         elif any(x in type for x in ['login_user', 'create_user']):
-            namedata = data_json["data"]
-            namejson = json.loads(namedata)
-            name=namejson["user"]
+            name = namejson["user"]
+            if 'group' in namedata:
+                url=URL.objects.get_or_create(url=namejson["group"])
+
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
             if created:
+                print('created player')
                 response = json.dumps({
                     "status":  201,
                     "message": "created"
                 })
             else:
+                print('found player')
+                # get a player's progress here
+
+                ######
                 response = json.dumps({
                     "status": 200,
                     "message": "found"
