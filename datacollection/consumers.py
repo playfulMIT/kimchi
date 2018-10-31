@@ -53,11 +53,11 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         if 'create_user' in type:
             urlpk = self.scope["session"]['urlpk']
             url = URL.objects.get(pk=urlpk)
-            name = data_json["data"]["user"]
+            namedata = data_json["data"]
             # print(name)
-            # namejson = json.dumps(name)
+            namejson = json.dumps(namedata)
             # print(namejson)
-            # name=namejson["name"]
+            name=namejson["user"]
             print(name)
             player = Player.objects.create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
