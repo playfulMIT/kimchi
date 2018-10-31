@@ -1,6 +1,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from .models import Event, Player, URL
+from .models import Event, Player, URL, PlayerSession
 from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 from django.core import serializers
@@ -50,6 +50,13 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             data = ','.join(playerlist)
             print(data)
             await self.send(text_data=data)
+        if 'create_user' in type:
+            urlpk = self.scope["session"]['urlpk']
+            url = URL.objects.get(pk=urlpk)
+            name = json.loads(data_json["data"])["name"]
+            player = Player.objects.create(url=url, name=name)
+            playersession = PlayerSession.objects.create(player=player,session=self.session)
+
         close_old_connections()
 
     # async def disconnect(self, code=None):
