@@ -45,10 +45,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             for p in players:
                 playerlist.append(p.name)
 
-            # playerjson = serializers.serialize("python", players)
-            # print(playerjson)
             playerstring = ','.join(playerlist)
-            print(playerstring)
             await self.send(text_data=playerstring)
         if 'create_user' in type:
             namedata = data_json["data"]
