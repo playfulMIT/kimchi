@@ -37,9 +37,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         # print(data_json)
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
+        urlpk = self.scope["session"]['urlpk']
+        url = URL.objects.get(pk=urlpk)
         if 'start_game' in type:
-            urlpk = self.scope["session"]['urlpk']
-            url = URL.objects.get(pk=urlpk)
             players = Player.objects.filter(url=url)
             playerlist = []
             for p in players:
@@ -51,17 +51,23 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print(playerstring)
             await self.send(text_data=playerstring)
         if 'create_user' in type:
-            urlpk = self.scope["session"]['urlpk']
-            url = URL.objects.get(pk=urlpk)
             namedata = data_json["data"]
-            # print(name)
             namejson = json.loads(namedata)
-            # print(namejson)
             name=namejson["user"]
             print(name)
             player = Player.objects.create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
             await self.send(text_data="201")
+
+        if 'login_user' in type:
+            try:
+                namedata = data_json["data"]
+                namejson = json.loads(namedata)
+                name = namejson["user"]
+                player = Player.objects.get(url=url, name=name)
+                playersession = PlayerSession.objects.create(player=player, session=self.session)
+            except self.model.DoesNotExist:
+                await self.send(text_data="201")
 
 
         close_old_connections()
