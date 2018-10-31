@@ -46,32 +46,33 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print(url.name)
 
         if 'start_game' in type:
-            players = Player.objects.filter(url=url)
-            playerlist = []
-            for p in players:
-                playerlist.append(p.name)
-
-            playerstring = ','.join(playerlist)
-            await self.send(text_data=playerstring)
+            players = Player.objects.filter(url=url).values('name')
+            players_json = json.dumps(list(players))
+            # playerlist = []
+            # for p in players:
+            #     playerlist.append(p.name)
+            #
+            # playerstring = ','.join(playerlist)
+            await self.send(text_data=players_json)
         elif any(x in type for x in ['login_user', 'create_user']):
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
             if created:
                 print('created player')
-                response = json.dumps({
+                response = json.dumps([{
                     "status":  201,
                     "message": "created"
-                })
+                }])
             else:
                 print('found player')
                 # get a player's progress here
 
                 ######
-                response = json.dumps({
+                response = json.dumps([{
                     "status": 200,
                     "message": "found"
-                })
+                }])
             print(response)
             await self.send(text_data=response)
 
