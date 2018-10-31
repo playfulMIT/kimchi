@@ -34,7 +34,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
 
         if 'start_game' in type:
-            url, nourl = get_group(data_json)
+            url, nourl, namejson = get_group(data_json)
             players = Player.objects.filter(url=url).values('name')
             players_json = json.dumps(list(players))
             # playerlist = []
