@@ -20,6 +20,6 @@ def get_group(self, data_json):
         urlpk = "no-url-or-group-specified"
         self.scope["session"]['urlpk'] = urlpk
     print(urlpk)
-    url, nourl = URL.objects.get_or_create(pk=urlpk)
+    url, created = URL.objects.get_or_create(pk=urlpk)
     print(url.name)
-    return url, nourl, namejson
+    return url, namejson

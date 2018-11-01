@@ -34,7 +34,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
 
         if 'start_game' in type:
-            url, nourl, namejson = get_group(self, data_json)
+            url, namejson = get_group(self, data_json)
             players = Player.objects.filter(url=url).values('name')
             players_json = json.dumps(list(players))
             # playerlist = []
@@ -45,7 +45,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print("player json: " + players_json)
             await self.send(text_data=players_json)
         elif any(x in type for x in ['login_user', 'create_user']):
-            url, nourl, namejson = get_group(self, data_json)
+            url, namejson = get_group(self, data_json)
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
@@ -75,5 +75,3 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     #     if (code):
     #         print(code)
     #     print("disconnect")
-#
-#
