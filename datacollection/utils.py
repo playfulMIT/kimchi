@@ -11,14 +11,17 @@ def get_client_ip(request):
 def get_group(self, data_json):
     namedata = data_json["data"]
     namejson = json.loads(namedata)
-    if "group" in namejson:
-        urlpk = namejson["group"]
-        self.scope["session"]['urlpk'] = urlpk
-    elif 'urlpk' in self.scope["session"]:
+    if 'urlpk' in self.scope["session"]:
         urlpk = self.scope["session"]['urlpk']
     else:
         urlpk = "no-url-or-group-specified"
         self.scope["session"]['urlpk'] = urlpk
+
+    # overeride if group is specified
+    if "group" in namejson:
+        urlpk = namejson["group"]
+        self.scope["session"]['urlpk'] = urlpk
+
     print(urlpk)
     url, created = URL.objects.get_or_create(pk=urlpk)
     print(url.name)
