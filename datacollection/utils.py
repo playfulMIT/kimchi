@@ -12,15 +12,24 @@ def get_group(self, data_json):
     namedata = data_json["data"]
     namejson = json.loads(namedata)
     if 'urlpk' in self.scope["session"]:
-        urlpk = self.scope["session"]['urlpk']
+        print('urlpk found: ')
+        print(self.scope["session"]["urlpk"])
+        urlpk = self.scope["session"]["urlpk"]
+        print(self.scope["session"]["urlpk"])
     else:
         urlpk = "no-url-or-group-specified"
+        print('urlpk not found:')
+        print(self.scope["session"]["urlpk"])
         self.scope["session"]['urlpk'] = urlpk
+        print(self.scope["session"]["urlpk"])
 
     # overeride if group is specified
     if "group" in namejson:
         urlpk = namejson["group"]
-        self.scope["session"]['urlpk'] = urlpk
+        print("group override: ")
+        print(self.scope["session"]["urlpk"])
+        self.scope["session"]["urlpk"] = urlpk
+        print(self.scope["session"]["urlpk"])
 
     print(urlpk)
     url, created = URL.objects.get_or_create(pk=urlpk)
