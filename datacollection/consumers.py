@@ -43,7 +43,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             #
             # playerstring = ','.join(playerlist)
             print("player json: " + players_json)
-            await self.send(text_data=players_json)
+            r = {"status": 200, "players":[]}
+            for p in players:
+                r["players"].append(p.name)
+            r = json.dumps(r)
+            print("players response: " + r)
+            await self.send(text_data=r)
         elif any(x in type for x in ['login_user', 'create_user']):
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
