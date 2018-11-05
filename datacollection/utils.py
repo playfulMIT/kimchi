@@ -19,7 +19,6 @@ def get_group(self, data_json):
     else:
         urlpk = "no-url-or-group-specified"
         print('urlpk not found:')
-        print(self.scope["session"]["urlpk"])
         self.scope["session"]['urlpk'] = urlpk
         print(self.scope["session"]["urlpk"])
 
