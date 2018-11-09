@@ -1,8 +1,22 @@
 {
-  "canEdit": true,
-  "puzzleFiles": [
-    "Puzzle1",
-    "Puzzle2",
-    "Puzzle3"
+  "canEdit": false,
+  "useGuests": true,
+  "groupID": "Usability-Group",
+  "puzzleSets": [
+  	{
+  		"name": "Usability Test",
+  		"canPlay": true,
+  		"puzzles": [
+			  "usability1",
+			  "usability2",
+			  "usability3",
+			  "usability4",
+			  "usability5",
+			  "usability6",
+			  "usability7",
+			  "usability8",
+			  "usability9"
+  		]
+  	}
   ]
 }
