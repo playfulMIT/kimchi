@@ -1,7 +1,5 @@
 {
   "canEdit": true,
-  "useGuests": true,
-  "groupID": "Development-Group",
   "replayFiles": [
   	"replay1.json"
   ],
