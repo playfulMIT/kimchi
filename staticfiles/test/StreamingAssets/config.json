@@ -3,32 +3,32 @@
   "useGuests": true,
   "groupID": "Development-Group",
   "replayFiles": [
-  	"Replay1.json"
+  	"replay1.json"
   ],
   "puzzleSets": [
   	{
   		"name": "Secret Unreleased Set",
   		"canPlay": false,
   		"puzzles": [
-  			"Intro3",
-  			"Intro2",
-  			"Intro"
+  			"intro3",
+  			"intro2",
+  			"intro"
   		]
   	},
   	{
   		"name": "Tutorial",
   		"canPlay": true,
   		"puzzles": [
-  			"Intro"
+  			"intro"
   		]
   	},
   	{
   		"name": "Base Set",
   		"canPlay": true,
   		"puzzles": [
-  			"Intro",
-  			"Intro2",
-  			"Intro3"
+  			"intro",
+  			"intro2",
+  			"intro3"
   		]
   	}
   ]
