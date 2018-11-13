@@ -1,21 +1,34 @@
 {
-  "canEdit": false,
+  "canEdit": true,
   "useGuests": true,
-  "groupID": "Usability-Group",
+  "groupID": "Development-Group",
+  "replayFiles": [
+  	"Replay1.json"
+  ],
   "puzzleSets": [
   	{
-  		"name": "Usability Test",
+  		"name": "Secret Unreleased Set",
+  		"canPlay": false,
+  		"puzzles": [
+  			"Intro3",
+  			"Intro2",
+  			"Intro"
+  		]
+  	},
+  	{
+  		"name": "Tutorial",
   		"canPlay": true,
   		"puzzles": [
-			  "usability1",
-			  "usability2",
-			  "usability3",
-			  "usability4",
-			  "usability5",
-			  "usability6",
-			  "usability7",
-			  "usability8",
-			  "usability9"
+  			"Intro"
+  		]
+  	},
+  	{
+  		"name": "Base Set",
+  		"canPlay": true,
+  		"puzzles": [
+  			"Intro",
+  			"Intro2",
+  			"Intro3"
   		]
   	}
   ]
