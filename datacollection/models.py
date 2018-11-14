@@ -43,6 +43,7 @@ class Event(models.Model):
 class URL(models.Model):
     name = models.CharField(primary_key=True,max_length=50)
     # owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    levelsets = models.ManyToManyField(LevelSet)
 
 
 class Player(models.Model):
