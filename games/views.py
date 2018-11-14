@@ -44,3 +44,10 @@ def wildcard_url(request, slug):
     url = get_object_or_404(URL, pk=slug)
     request.session['urlpk'] = url.pk
     return render(request, 'games/test.html', {'title': "shadow tangrams 0.2.0", 'sessionID': request.session.session_key})
+
+def get_config_json(request):
+    print("success")
+    URL.objects.get(pk=request.session['urlpk'])
+
+    return HttpResponse("Here's the text of the Web page.")
+
