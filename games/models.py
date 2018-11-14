@@ -1,7 +1,8 @@
 from django.db import models
 
 class Level(models.Model):
-    name = models.CharField(max_length=50)
+    id = models.CharField(max_length=50, primary_key=True)
+    levelname = models.CharField(max_length=50)
     description = models.TextField()
     gridDim = models.IntegerField(null=True,blank=True)
     shapeData = models.TextField()

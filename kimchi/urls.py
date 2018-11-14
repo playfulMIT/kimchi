@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('datacollection.urls')),
     path('', include('games.urls')),
     path('static/test/StreamingAssets/config.json', get_config_json),
-    # re_path('static/test/StreamingAssets/r'^(?P<slug>[a-zA-Z0-9-]+)/$'', get_level_json)
+    re_path(r'^static/test/StreamingAssets/(?P<slug>[a-zA-Z0-9-]+).json', get_level_json),
 ]
