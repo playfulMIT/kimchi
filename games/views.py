@@ -67,80 +67,13 @@ def get_config_json(request):
         data['puzzleSets'].append(pj)
     return HttpResponse(json.dumps(data))
 
-def get_level_json(request):
+def get_level_json(request, slug):
     data = {}
-    url = URL.objects.get(pk=request.session['urlpk'])
-
-    # level = Level.objects.filter()
-    # data['puzzleName']
-    # {
-    #     "puzzleName": "Intro Puzzle",
-    #     "description": "Puzzles can have descriptions!",
-    #     "gridDim": 5,
-    #     "shapeData": [
-    #         {
-    #             "shapeType": 1,
-    #             "gridPosition": {
-    #                 "x": 3,
-    #                 "y": 2,
-    #                 "z": 1
-    #             },
-    #             "rotation": {
-    #                 "x": 0.0,
-    #                 "y": 0.0,
-    #                 "z": 0.0,
-    #                 "w": 1.0
-    #             },
-    #             "scale": {
-    #                 "x": 1,
-    #                 "y": 1,
-    #                 "z": 1
-    #             }
-    #         },
-    #         {
-    #             "shapeType": 1,
-    #             "gridPosition": {
-    #                 "x": 3,
-    #                 "y": 2,
-    #                 "z": 3
-    #             },
-    #             "rotation": {
-    #                 "x": 0.0,
-    #                 "y": 0.0,
-    #                 "z": 0.0,
-    #                 "w": 1.0
-    #             },
-    #             "scale": {
-    #                 "x": 1,
-    #                 "y": 1,
-    #                 "z": 1
-    #             }
-    #         },
-    #         {
-    #             "shapeType": 1,
-    #             "gridPosition": {
-    #                 "x": 3,
-    #                 "y": 4,
-    #                 "z": 3
-    #             },
-    #             "rotation": {
-    #                 "x": 0.0,
-    #                 "y": 0.0,
-    #                 "z": 0.0,
-    #                 "w": 1.0
-    #             },
-    #             "scale": {
-    #                 "x": 1,
-    #                 "y": 1,
-    #                 "z": 1
-    #             }
-    #         }
-    #     ],
-    #     "solutionCameraAngles": [
-    #         1,
-    #         3,
-    #         19
-    #     ]
-    # }
-    return HttpResponse("hello")
+    level = Level.objects.get(filename=slug)
+    data['puzzleName'] = level.ingamename
+    data['description'] = level.description
+    data['gridDim'] = 5
+    data['shapeData'] = level.shapeData
+    data['solutionCameraAngles'] = level.solutionCameraAngles
+    return HttpResponse(json.dumps(data))
 
