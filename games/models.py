@@ -9,5 +9,6 @@ class Level(models.Model):
     solutionCameraAngles = models.CharField(max_length=50)
 
 class LevelSet(models.Model):
+    name = models.CharField(max_length=50)
     levels = models.ManyToManyField(Level)
     canPlay = models.BooleanField(default=True)
