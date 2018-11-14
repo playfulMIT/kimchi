@@ -54,13 +54,13 @@ def get_config_json(request):
     data['groupID'] = url.name
     data['useGuests'] = False
     data['puzzleSets'] = []
-    puzzleset = LevelSet.objects.filter(url__id=request.session['urlpk'])
+    puzzleset = LevelSet.objects.filter(url__pk=request.session['urlpk'])
     for p in puzzleset:
         pj = {}
         pj['name'] = p.name
         pj['canPlay'] = p.canPlay
         pj['puzzles'] = []
-        levels = Level.objects.filter(levelset__id=p.id)
+        levels = Level.objects.filter(levelset__pk=p.id)
         for l in levels:
             pj['puzzles'].append(l.name)
         data['puzzleSets'].append(p)
