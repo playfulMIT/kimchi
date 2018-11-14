@@ -1,8 +1,8 @@
 from django.db import models
 
 class Level(models.Model):
-    id = models.CharField(max_length=50, primary_key=True)
-    levelname = models.CharField(max_length=50)
+    filename = models.CharField(max_length=50, unique=True)
+    ingamename = models.CharField(max_length=50)
     description = models.TextField()
     gridDim = models.IntegerField(null=True,blank=True)
     shapeData = models.TextField()
