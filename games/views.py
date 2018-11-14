@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from datacollection.models import URL
+from games.models import LevelSet,Level
 from django.shortcuts import get_object_or_404
 import json
 # Create your views here.
@@ -53,12 +54,14 @@ def get_config_json(request):
     data['groupID'] = url.name
     data['useGuests'] = False
     data['puzzleSets'] = []
-    for p in url.levelsets:
+    puzzleset = LevelSet.objects.filter(url__id=request.session['urlpk'])
+    for p in puzzleset:
         pj = {}
         pj['name'] = p.name
         pj['canPlay'] = p.canPlay
         pj['puzzles'] = []
-        for l in p.levels:
+        levels = Level.objects.filter(levelset__id=p.id)
+        for l in levels:
             pj['puzzles'].append(l.name)
         data['puzzleSets'].append(p)
     return HttpResponse(json.dumps(data))
