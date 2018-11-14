@@ -63,7 +63,7 @@ def get_config_json(request):
         pj['puzzles'] = []
         levels = Level.objects.filter(levelset__pk=p.id)
         for l in levels:
-            pj['puzzles'].append(l.shortname)
+            pj['puzzles'].append(l.filename)
         data['puzzleSets'].append(pj)
     return HttpResponse(json.dumps(data))
 
