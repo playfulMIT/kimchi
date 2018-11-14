@@ -74,6 +74,6 @@ def get_level_json(request, slug):
     data['description'] = level.description
     data['gridDim'] = 5
     data['shapeData'] = json.loads(level.shapeData.replace("\r","").replace("\n",""))
-    data['solutionCameraAngles'] = map(int, level.solutionCameraAngles.split(','))
+    data['solutionCameraAngles'] = [int(x) for x in level.solutionCameraAngles.split(',')]
     return HttpResponse(json.dumps(data))
 
