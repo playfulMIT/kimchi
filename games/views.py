@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datacollection.models import URL
 from django.shortcuts import get_object_or_404
+import json
 # Create your views here.
 
 def mitfp(request):
@@ -47,7 +48,21 @@ def wildcard_url(request, slug):
 
 def get_config_json(request):
     print("success")
-    URL.objects.get(pk=request.session['urlpk'])
+    url = URL.objects.get(pk=request.session['urlpk'])
+    data = {}
+    data['groupID'] = url.name
+    data['useGuests'] = False
+    data['puzzleSets'] = []
+    for p in url.levelsets:
+        pj = {}
+        pj['name'] = p.name
+        pj['canPlay'] = p.canPlay
+        pj['puzzles'] = []
+        for l in p.levels:
+            pj['puzzles'].append(l.name)
+        data['puzzleSets'].append(p)
+    return HttpResponse(json.dumps(data))
 
-    return HttpResponse("Here's the text of the Web page.")
+def get_level_json(request):
+    return HttpResponse("hello")
 

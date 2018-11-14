@@ -14,12 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from games.views import get_config_json
+from django.urls import path, include, re_path
+from games.views import get_config_json, get_level_json
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('datacollection.urls')),
     path('', include('games.urls')),
-    path('static/test/StreamingAssets/config.json', get_config_json)
+    path('static/test/StreamingAssets/config.json', get_config_json),
+    # re_path('static/test/StreamingAssets/r'^(?P<slug>[a-zA-Z0-9-]+)/$'', get_level_json)
 ]
