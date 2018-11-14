@@ -5,11 +5,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('games', '0001_initial'),
-        ('datacollection', '0002_remove_url_owner'),
-    ]
-
     operations = [
         migrations.AddField(
             model_name='url',
