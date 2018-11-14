@@ -1,7 +1,4 @@
 from django.db import models
-# from datacollection.models import Player
-from datacollection.models import URL
-# Create your models here.
 
 class Level(models.Model):
     puzzleName = models.CharField(max_length=50)
@@ -13,5 +10,4 @@ class Level(models.Model):
 
 class LevelSet(models.Model):
     levels = models.ManyToManyField(Level)
-    urls = models.ManyToManyField(URL)
     canPlay = models.BooleanField(default=True)

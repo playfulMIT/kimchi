@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import CustomUser as User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-# from games.models import LevelSet
+from games.models import LevelSet
 
 
 # class GameSession(models.Model):
