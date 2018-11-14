@@ -73,7 +73,7 @@ def get_level_json(request, slug):
     data['puzzleName'] = level.ingamename
     data['description'] = level.description
     data['gridDim'] = 5
-    data['shapeData'] = level.shapeData.replace("\r","").replace("\n","")
-    data['solutionCameraAngles'] = [ 1, 3, 19 ]
+    data['shapeData'] = json.loads(level.shapeData.replace("\r","").replace("\n",""))
+    data['solutionCameraAngles'] = level.solutionCameraAngles
     return HttpResponse(json.dumps(data))
 
