@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import CustomUser as User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-from games.models import LevelSet
+# from games.models import LevelSet
 
 
 # class GameSession(models.Model):
@@ -42,8 +42,7 @@ class Event(models.Model):
 
 class URL(models.Model):
     name = models.CharField(primary_key=True,max_length=50)
-    levelsets = models.ManyToManyField(LevelSet)
-    owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    # owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
 
 
 class Player(models.Model):
