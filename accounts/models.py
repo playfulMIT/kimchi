@@ -9,6 +9,8 @@ from django.contrib.sessions.models import Session
 
 class CustomUserManager(UserManager):
     def get_by_natural_key(self, username):
+        print('logging in user')
+        print(username)
         case_insensitive_username_field = '{}__iexact'.format(self.model.USERNAME_FIELD)
         return self.get(**{case_insensitive_username_field: username})
 
