@@ -1,0 +1,50 @@
+{
+    "allowRotate": true,
+    "allowScale": false,
+    "description": "Some objects may need to be rotated to solve a puzzle.\n\nClick the pyramid at the bottom of the screen, then click on the grid to add a pyramid.\n\nUse the Rotate button on the lower-left of the screen, then click the arrows around the pyramid to rotate it around its axes.\n\nHover over the Rotate button if you prefer to use keyboard controls.",
+    "gridDim": 3,
+    "puzzleName": "Rotating Objects",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": -1,
+                "y": 1,
+                "z": 0
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 1,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 2
+        }
+    ],
+    "shapeLimits": [
+        -1,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0
+    ],
+    "solutionCameraAngles": [
+        4,
+        5
+    ]
+}

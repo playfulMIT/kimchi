@@ -1,0 +1,78 @@
+{
+    "allowRotate": true,
+    "allowScale": false,
+    "description": "Some puzzles limit what KIND of objects you can use in a solution.\n\nAt the bottom of the screen, you will see some objects have a number under them. You are only allowed to use up to that number of objects in your solution.\n\nYou cannot click the Submit button if you exceed the number for that specific shape.",
+    "gridDim": 3,
+    "puzzleName": "Limited Objects",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 3
+        },
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": -1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 3
+        }
+    ],
+    "shapeLimits": [
+        -1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0
+    ],
+    "solutionCameraAngles": [
+        1,
+        19
+    ]
+}

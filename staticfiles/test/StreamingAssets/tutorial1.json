@@ -1,0 +1,50 @@
+{
+    "allowRotate": true,
+    "allowScale": true,
+    "description": "In Shadowspect, you assemble 3D objects to match silhouettes.\n\nClick the cube at the bottom of the screen, then click the grid to place a cube.\n\nThen click \"Submit\" to solve the puzzle.",
+    "gridDim": 3,
+    "puzzleName": "Welcome!",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 1
+        }
+    ],
+    "shapeLimits": [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "solutionCameraAngles": [
+        20,
+        1
+    ]
+}

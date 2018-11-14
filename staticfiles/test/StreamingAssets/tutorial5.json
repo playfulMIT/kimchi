@@ -1,0 +1,78 @@
+{
+    "allowRotate": true,
+    "allowScale": false,
+    "description": "If you wish to delete an object you have placed, first click the trash can at the bottom of the screen, then click the object you wish to delete.\n\nIf you accidentally delete an object, you can use the Undo button next to the Submit button.",
+    "gridDim": 4,
+    "puzzleName": "Deleting Objects",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 2
+        },
+        {
+            "gridPosition": {
+                "x": 3,
+                "y": 0,
+                "z": 3
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": -1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 5
+        }
+    ],
+    "shapeLimits": [
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        -1,
+        -1
+    ],
+    "solutionCameraAngles": [
+        5,
+        19
+    ]
+}

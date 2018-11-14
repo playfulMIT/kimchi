@@ -1,0 +1,108 @@
+{
+    "allowRotate": false,
+    "allowScale": false,
+    "description": "The cube on the top-left of the screen lets you move the camera to different angles.\n\nClick the camera icon on the left to see how your 3D assembly looks as a 2D silhouette from the current camera angle.\n\nYou can rotate the camera and take snapshots as many times as you like.",
+    "gridDim": 3,
+    "puzzleName": "Moving the Camera",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 1
+        },
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 6
+        },
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 4,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 2
+        }
+    ],
+    "shapeLimits": [
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        -1
+    ],
+    "solutionCameraAngles": [
+        20,
+        1,
+        5,
+        9
+    ]
+}

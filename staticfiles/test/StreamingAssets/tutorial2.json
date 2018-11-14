@@ -1,0 +1,78 @@
+{
+    "allowRotate": false,
+    "allowScale": false,
+    "description": "Some objects may need to be moved after you place them on the grid.\n\nPlace 2 cubes ion the grid, then click the green arrows to move a cube up, down, or sideways until the cubes are touching by a single corner.\n\nHover over the Move button if you prefer to use the keyboard to move objects.",
+    "gridDim": 4,
+    "puzzleName": "Moving Objects",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 1
+        },
+        {
+            "gridPosition": {
+                "x": 4,
+                "y": 2,
+                "z": 4
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 1
+        }
+    ],
+    "shapeLimits": [
+        -1,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "solutionCameraAngles": [
+        1,
+        20
+    ]
+}

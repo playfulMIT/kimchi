@@ -1,0 +1,107 @@
+{
+    "allowRotate": true,
+    "allowScale": true,
+    "description": "Some objects scale uniformly in multiple dimensions at once. For instance, changing the width of a cone, sphere, or cylinder will increase their circular radius.\n\nCan you solve this puzzle?",
+    "gridDim": 3,
+    "puzzleName": "Good Luck!",
+    "shapeData": [
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": -1,
+                "y": 1,
+                "z": 0
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 1,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 6
+        },
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotFwd": {
+                "x": -1,
+                "y": 0,
+                "z": -1
+            },
+            "rotRight": {
+                "x": -1,
+                "y": 0,
+                "z": 1
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
+                "y": 1,
+                "z": 2
+            },
+            "shapeType": 4
+        },
+        {
+            "gridPosition": {
+                "x": 2,
+                "y": 2,
+                "z": 0
+            },
+            "rotFwd": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            },
+            "rotRight": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "rotUp": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "shapeType": 2
+        }
+    ],
+    "shapeLimits": [
+        3,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+    ],
+    "solutionCameraAngles": [
+        2,
+        5,
+        1
+    ]
+}
