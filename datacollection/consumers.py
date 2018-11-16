@@ -49,21 +49,27 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
-            if created:
-                print('created player')
-                response = json.dumps([{
-                    "status":  201,
-                    "message": "created"
-                }])
-            else:
+            if not created:
                 print('found player')
                 # get a player's progress here
-
-                ######
+                if 'login_user' in type:
+                    ######
+                    response = json.dumps([{
+                        "status": 200,
+                        "message": "found"
+                    }])
+                else:
+                    response = json.dumps([{
+                        "status": 409,
+                        "message": "exists"
+                    }])
+            else:
+                print('created player')
                 response = json.dumps([{
-                    "status": 200,
-                    "message": "found"
+                    "status": 201,
+                    "message": "created"
                 }])
+
             print(response)
             await self.send(text_data=response)
 
