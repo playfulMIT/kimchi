@@ -89,13 +89,13 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             levelsetname = json.loads(data_json['data'])['set_id']
             levelset, levelsetcreated = LevelSet.objects.get_or_create(name=levelsetname)
             levelname = json.loads(data_json['data'])['task_id']
-            level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(name=levelname)
+            level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(ingamename=levelname)
             playersession = PlayerSession.objects.get(session=self.session)
             if 'puzzle_started' in type:
-                if not playersession.completed.filter(level=level).exists():
-                    playersession.player.attempted.add(level)
+                # if not playersession.completed.filter(level=level).exists():
+                playersession.player.attempted.add(level)
             elif 'puzzle_complete' in type:
-                playersession.player.attempted.remove(level)
+                # playersession.player.attempted.remove(level)
                 playersession.player.completed.add(level)
 
 
