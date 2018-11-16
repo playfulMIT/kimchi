@@ -5,6 +5,7 @@ from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 from django.core import serializers
 from .utils import get_group
+from games.models import Level, LevelSet
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
@@ -52,16 +53,26 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             if not created:
                 print('found player')
                 # get a player's progress here
+                attempted = []
+                completed = []
+                for l in player.attempted.all():
+                    attempted.append(l.name)
+                for l in player.completed.all():
+                    completed.append(l.name)
                 if 'login_user' in type:
                     ######
                     response = json.dumps([{
                         "status": 200,
-                        "message": "found"
+                        "message": "found",
+                        "attempted": attempted,
+                        "completed": completed
                     }])
                 else:
                     response = json.dumps([{
                         "status": 409,
-                        "message": "exists"
+                        "message": "exists",
+                        "attempted": attempted,
+                        "completed": completed
                     }])
             else:
                 print('created player')
@@ -72,7 +83,18 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
             print(response)
             await self.send(text_data=response)
-
+        elif any(x in type for x in ['puzzle_started', 'puzzle_complete']):
+            levelsetname = data_json['set_id']
+            levelset, levelsetcreated = LevelSet.objects.get_or_create(name=levelsetname)
+            levelname = data_json['task_id']
+            level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(name=levelname)
+            playersession = PlayerSession.objects.get(session=self.session)
+            if 'puzzle_started' in type:
+                if not playersession.completed.filter(level=level).exists():
+                    playersession.player.attempted.add(level)
+            elif 'puzzle_complete' in type:
+                playersession.player.attempted.remove(level)
+                playersession.player.completed.add(level)
 
 
         close_old_connections()
