@@ -84,6 +84,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print(response)
             await self.send(text_data=response)
         elif any(x in type for x in ['puzzle_started', 'puzzle_complete']):
+            print('level started/complete event')
+            print(data_json)
             levelsetname = data_json['set_id']
             levelset, levelsetcreated = LevelSet.objects.get_or_create(name=levelsetname)
             levelname = data_json['task_id']
