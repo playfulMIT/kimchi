@@ -101,7 +101,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
         close_old_connections()
 
-    # async def disconnect(self, code=None):
-    #     if (code):
-    #         print(code)
-    #     print("disconnect")
+    async def disconnect(self, code=None):
+        self.session.flush()
+        if (code):
+            print(code)
+        print("disconnect")
