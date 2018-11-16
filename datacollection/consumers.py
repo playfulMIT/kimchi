@@ -85,10 +85,10 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=response)
         elif any(x in type for x in ['puzzle_started', 'puzzle_complete']):
             print('level started/complete event')
-            print(data_json)
-            levelsetname = data_json['set_id']
+            # print(data_json)
+            levelsetname = json.loads(data_json['data'])['set_id']
             levelset, levelsetcreated = LevelSet.objects.get_or_create(name=levelsetname)
-            levelname = data_json['task_id']
+            levelname = json.loads(data_json['data'])['task_id']
             level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(name=levelname)
             playersession = PlayerSession.objects.get(session=self.session)
             if 'puzzle_started' in type:
