@@ -50,7 +50,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             name = namejson["user"]
             print(name)
             player, created = Player.objects.get_or_create(url=url, name=name)
-            playersession = PlayerSession.objects.create(player=player,session=self.session)
+            playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,session=self.session)
             if not created:
                 print('found player')
                 # get a player's progress here

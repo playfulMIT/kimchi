@@ -46,6 +46,8 @@ class URL(models.Model):
     levelsets = models.ManyToManyField(LevelSet,blank=True)
     useGuests = models.BooleanField(default=False)
     canEdit = models.BooleanField(default=False)
+    def __str__(self):
+        return self.name
 
 
 class Player(models.Model):
@@ -54,7 +56,11 @@ class Player(models.Model):
     url = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
     attempted = models.ManyToManyField(Level, blank=True, related_name='levels_attempted')
     completed = models.ManyToManyField(Level, blank=True, related_name='levels_completed')
+    def __str__(self):
+        return self.name
 
 class PlayerSession(models.Model):
     player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
     session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
+    def __str__(self):
+        return self.session
