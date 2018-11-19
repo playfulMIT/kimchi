@@ -63,4 +63,4 @@ class PlayerSession(models.Model):
     player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
     session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
     def __str__(self):
-        return self.session
+        return self.session.session_key
