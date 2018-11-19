@@ -8,6 +8,8 @@ class Level(models.Model):
     shapeData = models.TextField()
     # owner = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
     solutionCameraAngles = models.CharField(max_length=50)
+    def __str__(self):
+        return self.filename
 
 class LevelSet(models.Model):
     name = models.CharField(max_length=50)
