@@ -94,9 +94,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             levelname = json.loads(data_json['data'])['task_id']
             print(levelsetname)
             print(levelset)
-
-            level = Level.objects.get(filename=levelname)
-            if not level:
+            try:
+                level = Level.objects.get(filename=levelname)
+            except Level.DoesNotExist:
                 level = Level.objects.create(filename=levelname,levelset=levelset)
             #
             # if not Level.objects.get(filename=levelname).exists():
