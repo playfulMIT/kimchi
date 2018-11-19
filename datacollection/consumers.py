@@ -48,6 +48,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         elif any(x in type for x in ['login_user', 'create_user']):
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
+            print(name)
             player, created = Player.objects.get_or_create(url=url, name=name)
             playersession = PlayerSession.objects.create(player=player,session=self.session)
             if not created:
@@ -101,7 +102,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             # if not Level.objects.get(filename=levelname).exists():
             #     level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(filename=levelname)
             print(self.session)
-            playersession = PlayerSession.objects.get(session=self.session)
+            playersession, created = PlayerSession.objects.get_or_create(session=self.session)
             if 'puzzle_started' in type:
                 # if not playersession.completed.filter(level=level).exists():
                 playersession.player.attempted.add(level)
