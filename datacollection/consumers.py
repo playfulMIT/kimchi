@@ -50,7 +50,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             name = namejson["user"]
             print(name)
             player, created = Player.objects.get_or_create(url=url, name=name)
-            playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,session=self.session)
+            self.playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,session=self.session)
             if not created:
                 print('found player')
                 # get a player's progress here
@@ -102,13 +102,13 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             # if not Level.objects.get(filename=levelname).exists():
             #     level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(filename=levelname)
             print(self.session)
-            playersession, created = PlayerSession.objects.get_or_create(session=self.session)
+            # playersession, created = PlayerSession.objects.get_or_create(session=self.session)
             if 'puzzle_started' in type:
                 # if not playersession.completed.filter(level=level).exists():
-                playersession.player.attempted.add(level)
+                self.playersession.player.attempted.add(level)
             elif 'puzzle_complete' in type:
                 # playersession.player.attempted.remove(level)
-                playersession.player.completed.add(level)
+                self.playersession.player.completed.add(level)
 
 
         close_old_connections()
