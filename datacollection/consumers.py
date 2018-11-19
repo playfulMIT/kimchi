@@ -56,9 +56,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 attempted = []
                 completed = []
                 for l in player.attempted.all():
-                    attempted.append(l.name)
+                    attempted.append(l.filename)
                 for l in player.completed.all():
-                    completed.append(l.name)
+                    completed.append(l.filename)
                 if 'login_user' in type:
                     ######
                     response = json.dumps([{
