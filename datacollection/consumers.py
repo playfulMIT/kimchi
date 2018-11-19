@@ -55,10 +55,11 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 # get a player's progress here
                 attempted = []
                 completed = []
-                for l in player.attempted.all():
-                    attempted.append(l.filename)
-                for l in player.completed.all():
-                    completed.append(l.filename)
+                if not name=="guest":
+                    for l in player.attempted.all():
+                        attempted.append(l.filename)
+                    for l in player.completed.all():
+                        completed.append(l.filename)
                 if 'login_user' in type:
                     ######
                     response = json.dumps([{
