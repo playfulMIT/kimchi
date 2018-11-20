@@ -134,4 +134,4 @@ def streaming_event_csv(request):
 def generate_replay(request, slug):
     query = Event.objects.filter(session=slug)
     serializer = EventSerializer(query, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'events' : serializer.data}, safe=False)
