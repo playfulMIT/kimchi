@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.models import Session
 import logging
 from datetime import timedelta
-from django.http import StreamingHttpResponse, HttpResponse, JsonResponse
+from django.http import StreamingHttpResponse, HttpResponse
 from django.utils import timezone
 from django.core.serializers import serialize
 
@@ -131,5 +131,5 @@ def streaming_event_csv(request):
                          "eventlogs.csv")
 
 def generate_replay(request, slug):
-    data = Event.objects.filter(session=slug)
-    return JsonResponse(data)
+    data_json = serialize('json', Event.objects.filter(session=slug))
+    return HttpResponse(data_json, content_type='application/json')
