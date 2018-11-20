@@ -11,6 +11,7 @@ import logging
 from datetime import timedelta
 from django.http import StreamingHttpResponse, HttpResponse
 from django.utils import timezone
+from django.core.serializers import serialize
 
 logger = logging.getLogger(__name__)
 
@@ -128,3 +129,7 @@ def streaming_event_csv(request):
     return filtered_data_as_http_response(rows,
                          "session;time;type;data;id",
                          "eventlogs.csv")
+
+def generate_replay(request, slug):
+    data_json = serialize('json', Event.objects.filter(session=slug))
+    response = HttpResponse(data_json)
