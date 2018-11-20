@@ -132,4 +132,4 @@ def streaming_event_csv(request):
 
 def generate_replay(request, slug):
     data_json = serialize('json', Event.objects.filter(session=slug))
-    response = HttpResponse(data_json)
+    return HttpResponse(data_json)
