@@ -1,8 +1,8 @@
 {
   "canEdit": false,
-  "useGuests": false,
+  "useGuests": true,
   "groupID": "Tutorial-Test",
-  "replayFiles": [],
+  "replayFiles": ["jxb3ljsccjnhwt5n6bjdqzrhcylrziks.json"],
   "puzzleSets": [
   	{
   		"name": "Tutorial",
