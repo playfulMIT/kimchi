@@ -1,0 +1,91 @@
+{
+  "puzzleName": "Square Cross-Sections",
+  "description": "Many of the objects have a square cross-section, which can make some silhouettes more confusing than helpful.",
+  "gridDim": 5,
+  "shapeLimits": [3, 1, 1, 1, 1, 1, 1],
+  "allowScale": true,
+  "allowRotate": true,
+  "shapeData": [{
+    "shapeType": 3,
+    "gridPosition": {
+      "x": 2,
+      "y": 0,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": -1,
+      "y": 0,
+      "z": 0
+    },
+    "rotRight": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    }
+  }, {
+    "shapeType": 4,
+    "gridPosition": {
+      "x": 4,
+      "y": 0,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 0,
+      "z": -1
+    },
+    "rotFwd": {
+      "x": -1,
+      "y": 0,
+      "z": 0
+    },
+    "rotRight": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    }
+  }, {
+    "shapeType": 2,
+    "gridPosition": {
+      "x": 6,
+      "y": 0,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 0,
+      "z": -1
+    },
+    "rotRight": {
+      "x": -1,
+      "y": 0,
+      "z": 0
+    }
+  }],
+  "solutionCameraAngles": [4, 5, 2]
+}

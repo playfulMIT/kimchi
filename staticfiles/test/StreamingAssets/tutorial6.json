@@ -1,9 +1,9 @@
 {
     "allowRotate": false,
     "allowScale": true,
-    "description": "You can stretch certain objects. \n\nPlace a ramp on the grid, then click the Scale button in the lower left.\n\nClick the arrows on the screen to stratch the ramp so that it is three grid spaces long.",
+    "description": "You can stretch some objects. \n\nPlace a ramp on the grid, then click the Scale button in the lower left.\n\nClick the arrows around the ramp to stretch it as long as the grid.",
     "gridDim": 3,
-    "puzzleName": "Scaling Objects",
+    "puzzleName": "Stretch a Ramp",
     "shapeData": [
         {
             "gridPosition": {

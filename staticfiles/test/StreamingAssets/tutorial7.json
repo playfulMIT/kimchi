@@ -1,9 +1,9 @@
 {
-    "allowRotate": true,
+    "allowRotate": false,
     "allowScale": true,
     "description": "Some puzzles limit how many objects you can use in a solution.\n\nYou may place many objects but you will only be able to submit solutions that do not exceed the total number of objects.\n\nSome puzzles may have many acceptable solutions!",
     "gridDim": 3,
-    "puzzleName": "Total Objects",
+    "puzzleName": "Max 2 Cubes",
     "shapeData": [
         {
             "gridPosition": {
@@ -66,7 +66,7 @@
         2,
         -1,
         0,
-        -1,
+        0,
         0,
         0,
         0

@@ -1,108 +1,45 @@
 {
-    "allowRotate": false,
-    "allowScale": false,
-    "description": "The cube on the top-left of the screen lets you move the camera to different angles.\n\nClick the camera icon on the left to see how your 3D assembly looks as a 2D silhouette from the current camera angle.\n\nYou can rotate the camera and take snapshots as many times as you like.",
+    "puzzleName": "Rotate a Pyramid",
+    "description": "You may have to rotate some objects to solve a puzzle.\n\nPlace a pyramid by selecting it from the bottom of the screen, then clicking on the grid.\n\nSelect the ROTATE button on the lower-left of the screen, then click the arrows rotate it.\n\nHover over the Rotate button if you prefer to use keyboard controls.",
     "gridDim": 3,
-    "puzzleName": "Moving the Camera",
-    "shapeData": [
-        {
-            "gridPosition": {
-                "x": 2,
-                "y": 0,
-                "z": 2
-            },
-            "rotFwd": {
-                "x": 0,
-                "y": 0,
-                "z": 1
-            },
-            "rotRight": {
-                "x": 1,
-                "y": 0,
-                "z": 0
-            },
-            "rotUp": {
-                "x": 0,
-                "y": 1,
-                "z": 0
-            },
-            "scale": {
-                "x": 1,
-                "y": 1,
-                "z": 1
-            },
-            "shapeType": 1
+    "allowScale": false,
+    "allowRotate": true,
+    "shapeData": [{
+        "shapeType": 2,
+        "gridPosition": {
+            "x": 2,
+            "y": 0,
+            "z": 2
         },
-        {
-            "gridPosition": {
-                "x": 2,
-                "y": 2,
-                "z": 2
-            },
-            "rotFwd": {
-                "x": 0,
-                "y": 0,
-                "z": 1
-            },
-            "rotRight": {
-                "x": 1,
-                "y": 0,
-                "z": 0
-            },
-            "rotUp": {
-                "x": 0,
-                "y": 1,
-                "z": 0
-            },
-            "scale": {
-                "x": 1,
-                "y": 1,
-                "z": 1
-            },
-            "shapeType": 6
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
         },
-        {
-            "gridPosition": {
-                "x": 2,
-                "y": 4,
-                "z": 2
-            },
-            "rotFwd": {
-                "x": 0,
-                "y": 0,
-                "z": 1
-            },
-            "rotRight": {
-                "x": 1,
-                "y": 0,
-                "z": 0
-            },
-            "rotUp": {
-                "x": 0,
-                "y": 1,
-                "z": 0
-            },
-            "scale": {
-                "x": 1,
-                "y": 1,
-                "z": 1
-            },
-            "shapeType": 2
+        "rotUp": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+        },
+        "rotFwd": {
+            "x": -1,
+            "y": 0,
+            "z": 1
+        },
+        "rotRight": {
+            "x": 1,
+            "y": 0,
+            "z": 1
         }
-    ],
+    }],
     "shapeLimits": [
         -1,
+        0,
         -1,
-        -1,
         0,
         0,
         0,
-        -1
+        0
     ],
-    "solutionCameraAngles": [
-        20,
-        1,
-        5,
-        9
-    ]
+    "solutionCameraAngles": [4, 5]
 }

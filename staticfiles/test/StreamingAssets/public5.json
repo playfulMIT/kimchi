@@ -1,0 +1,118 @@
+{
+  "puzzleName": "Pyramids are Strange",
+  "description": "Just one silhouete, just one object, but lots of different cross-sections! \n\nOnly four pyramids are used in this puzzle. You'll have to rotate some and scale others.",
+  "gridDim": 5,
+  "shapeLimits": [4, 0, -1, 0, 0, 0, 0],
+  "allowScale": true,
+  "allowRotate": true,
+  "shapeData": [{
+    "shapeType": 2,
+    "gridPosition": {
+      "x": 2,
+      "y": 0,
+      "z": 6
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    }
+  }, {
+    "shapeType": 2,
+    "gridPosition": {
+      "x": 6,
+      "y": 0,
+      "z": 6
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 1,
+      "y": 0,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 1,
+      "y": 0,
+      "z": -1
+    }
+  }, {
+    "shapeType": 2,
+    "gridPosition": {
+      "x": 6,
+      "y": 0,
+      "z": 2
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": -1
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 1,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    }
+  }, {
+    "shapeType": 2,
+    "gridPosition": {
+      "x": 2,
+      "y": 0,
+      "z": 2
+    },
+    "scale": {
+      "x": 2,
+      "y": 1,
+      "z": 2
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotRight": {
+      "x": -1,
+      "y": 0,
+      "z": 0
+    }
+  }],
+  "solutionCameraAngles": [5]
+}

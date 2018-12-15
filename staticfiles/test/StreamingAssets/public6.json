@@ -1,0 +1,118 @@
+{
+  "puzzleName": "Cubes Obscure Spheres",
+  "description": "If there's a cube sharing a row with any other objects, it tends to obscure smaller cross-sections.\n\nOther objects, like cylinders, have square cross-sections that behave the same way.",
+  "gridDim": 5,
+  "shapeLimits": [4, -1, 0, 0, 2, 0, -1],
+  "allowScale": true,
+  "allowRotate": true,
+  "shapeData": [{
+    "shapeType": 6,
+    "gridPosition": {
+      "x": 4,
+      "y": 2,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    }
+  }, {
+    "shapeType": 4,
+    "gridPosition": {
+      "x": 2,
+      "y": 2,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": -1,
+      "y": 0,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    }
+  }, {
+    "shapeType": 4,
+    "gridPosition": {
+      "x": 6,
+      "y": 2,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 0,
+      "y": -1,
+      "z": 0
+    }
+  }, {
+    "shapeType": 1,
+    "gridPosition": {
+      "x": 4,
+      "y": 0,
+      "z": 4
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rotUp": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "rotFwd": {
+      "x": 0,
+      "y": 0,
+      "z": 1
+    },
+    "rotRight": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    }
+  }],
+  "solutionCameraAngles": [4, 5, 2]
+}

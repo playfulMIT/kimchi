@@ -1,9 +1,9 @@
 {
-    "allowRotate": false,
-    "allowScale": false,
-    "description": "Some objects may need to be moved after you place them on the grid.\n\nPlace 2 cubes ion the grid, then click the green arrows to move a cube up, down, or sideways until the cubes are touching by a single corner.\n\nHover over the Move button if you prefer to use the keyboard to move objects.",
-    "gridDim": 4,
-    "puzzleName": "Moving Objects",
+    "allowRotate": true,
+    "allowScale": true,
+    "description": "You may need to MOVE objects after placing them on the grid.\n\nPlace 2 cubes on top of each other, then click the green arrows to move a cube up until they are apart by half a grid space.\n\nHover over the Move button if you prefer to use the keyboard to move objects.",
+    "gridDim": 3,
+    "puzzleName": "Separated Cubes",
     "shapeData": [
         {
             "gridPosition": {
@@ -35,9 +35,9 @@
         },
         {
             "gridPosition": {
-                "x": 4,
-                "y": 2,
-                "z": 4
+                "x": 2,
+                "y": 3,
+                "z": 2
             },
             "rotFwd": {
                 "x": 0,
@@ -73,6 +73,6 @@
     ],
     "solutionCameraAngles": [
         1,
-        20
+        5
     ]
 }
