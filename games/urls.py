@@ -3,7 +3,7 @@ from rest_framework import routers
 # from django.conf import settings
 from . import views
 from django.urls import path, re_path
-
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('test/', views.mitfp),
@@ -11,7 +11,7 @@ urlpatterns = [
     path('sept18/', views.gamews),
     path('stg0910/', views.stg0910),
     path('stg0924/', views.stg0924),
-    path('', views.shapes),
+    path('', redirect('https://shadowspect.org')),
     re_path(r'^(?P<slug>[a-zA-Z0-9-]+)/$', views.wildcard_url),
 ]
 
