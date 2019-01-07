@@ -35,8 +35,9 @@
   		]
   	},
 	{
-  		"name": "Blank",
+  		"name": "Design a Puzzle",
   		"canPlay": true,
+		"canEdit": true,
   		"puzzles": [
   			"blank"
   		]

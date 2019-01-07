@@ -6,5 +6,6 @@
   "allowScale": true,
   "allowRotate": true,
   "shapeData": [],
-  "solutionCameraAngles": []
+  "solutionCameraAngles": [],
+  "canEdit": true
 }
