@@ -2,10 +2,8 @@
   "puzzleName": "Design a Puzzle",
   "description": "",
   "gridDim": 5,
-  "shapeLimits": [3, 1, 1, 1, 1, 1, 1],
   "allowScale": true,
   "allowRotate": true,
   "shapeData": [],
-  "solutionCameraAngles": [],
-  "canEdit": true
+  "solutionCameraAngles": []
 }
