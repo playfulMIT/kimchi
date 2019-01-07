@@ -25,13 +25,20 @@
   			"public1",
   			"public2",
   			"public3",
-                        "public4",
-                        "public5",
-                        "public6",
-                        "public7",
-                        "public8",
-                        "public9"
+			"public4",
+			"public5",
+			"public6",
+			"public7",
+			"public8",
+			"public9"
 
+  		]
+  	},
+	{
+  		"name": "Blank",
+  		"canPlay": true,
+  		"puzzles": [
+  			"blank"
   		]
   	}
   ]
