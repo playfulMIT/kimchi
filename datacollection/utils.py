@@ -10,6 +10,7 @@ def get_client_ip(request):
     else:
         return request.META.get('REMOTE_ADDR')
 
+
 def get_group(self, data_json):
     namedata = data_json["data"]
     namejson = json.loads(namedata)

@@ -12,7 +12,6 @@ from .serializers import PlayerSerializer  # , GameSessionSerializer
 logger = logging.getLogger(__name__)
 
 
-
 # @csrf_exempt
 # class GameSessionViewSet(viewsets.ModelViewSet):
 #
@@ -50,7 +49,6 @@ logger = logging.getLogger(__name__)
 
 
 class EventViewSet(viewsets.ModelViewSet):
-
     """
     API endpoint that allows fingerprints to be viewed or edited.
     """
@@ -75,10 +73,10 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-
 class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.all().order_by('-id')
+
     # def get_queryset(self):
     #     urlpk = self.request.session['urlpk']
     #     url = URL.objects.get(pk=urlpk)
@@ -95,9 +93,11 @@ class Echo:
     """An object that implements just the write method of the file-like
     interface.
     """
+
     def __init__(self, column_headers):
         self.header = column_headers
         self.header_written = False
+
     def write(self, value):
         if not self.header_written:
             value = self.header + '\n' + str(value)
@@ -105,6 +105,7 @@ class Echo:
         """Write the value by returning it, instead of storing in a buffer."""
         value_string = str(value) + '\n'
         return value_string.encode('utf-8')
+
 
 def filtered_data_as_http_response(rows, headers, filename):
     if rows:
@@ -116,6 +117,7 @@ def filtered_data_as_http_response(rows, headers, filename):
         response = HttpResponse("No data found with current filters")
     return response
 
+
 def streaming_event_csv(request):
     """A view that streams a large CSV file."""
     # yesterday = timezone.now() - timedelta(days=1)
@@ -123,10 +125,11 @@ def streaming_event_csv(request):
     rows = Event.objects.all().order_by("session", "time")
     # print(rows.count())
     return filtered_data_as_http_response(rows,
-                         "session;time;type;data;id",
-                         "eventlogs.csv")
+                                          "session;time;type;data;id",
+                                          "eventlogs.csv")
+
 
 def generate_replay(request, slug):
     query = Event.objects.filter(session=slug)
     serializer = EventSerializer(query, many=True)
-    return JsonResponse({'events' : serializer.data}, safe=False)
+    return JsonResponse({'events': serializer.data}, safe=False)

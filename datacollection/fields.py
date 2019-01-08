@@ -1,6 +1,7 @@
-from django.utils.encoding import smart_text
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.encoding import smart_text
 from rest_framework import serializers
+
 
 class GetOrCreateSlugRelatedField(serializers.SlugRelatedField):
     def to_internal_value(self, data):
