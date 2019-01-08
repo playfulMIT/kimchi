@@ -1,11 +1,13 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from .models import Event, Player, URL, PlayerSession
+
+from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.sessions.models import Session
 from django.db import close_old_connections
-from django.core import serializers
-from .utils import get_group
+
 from games.models import Level, LevelSet
+from .models import Event, Player, PlayerSession
+from .utils import get_group
+
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
@@ -39,7 +41,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             players = Player.objects.filter(url=url).values('name')
             players_json = json.dumps(list(players))
             print("player json: " + players_json)
-            r = {"status": 200, "players":[]}
+            r = {"status": 200, "players": []}
             for p in players:
                 r["players"].append(p["name"])
             r = json.dumps(r)
@@ -50,13 +52,14 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             name = namejson["user"]
             print(name)
             player, created = Player.objects.get_or_create(url=url, name=name)
-            self.playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,session=self.session)
+            self.playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,
+                                                                                           session=self.session)
             if not created:
                 print('found player')
                 # get a player's progress here
                 attempted = []
                 completed = []
-                if not name=="guest":
+                if not name == "guest":
                     for l in player.attempted.all():
                         attempted.append(l.filename)
                     for l in player.completed.all():
@@ -97,7 +100,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             try:
                 level = Level.objects.get(filename=levelname)
             except Level.DoesNotExist:
-                level = Level.objects.create(filename=levelname,levelset=levelset)
+                level = Level.objects.create(filename=levelname, levelset=levelset)
             #
             # if not Level.objects.get(filename=levelname).exists():
             #     level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(filename=levelname)
@@ -109,7 +112,6 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             elif 'puzzle_complete' in type:
                 # playersession.player.attempted.remove(level)
                 self.playersession.player.completed.add(level)
-
 
         close_old_connections()
 

@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from games.views import get_config_json, get_level_json
+
 from datacollection.views import generate_replay
+from games.views import get_config_json, get_level_json
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,15 +1,6 @@
 from rest_framework import serializers
-from .models import Event, Player #, GameSession
-from .fields import GetOrCreateSlugRelatedField #?
-from django.contrib.sessions.models import Session
 
-
-
-# class GameSessionSerializer(serializers.ModelSerializer):
-#     # session_id = GetOrCreateSlugRelatedField(queryset=GameSession.objects.all(), slug_field='session')
-#     class Meta:
-#         model = GameSession
-#         fields = ('__all__')
+from .models import Event, Player  # , GameSession
 
 
 class EventSerializer(serializers.ModelSerializer):

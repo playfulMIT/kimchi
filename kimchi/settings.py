@@ -11,17 +11,19 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+
 import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k!ay7^$w2b-nb8$wp^l-nw6--*354!c5)9544)99mdq6#__4^0'
+env = environ.Env()
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,7 +36,6 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-
 
 # Application definition
 
@@ -81,7 +82,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_HTTPONLY = False
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
-SITE_ID = 1 # This is for allauth
+SITE_ID = 1  # This is for allauth
 ROOT_URLCONF = 'kimchi.urls'
 
 TEMPLATES = [
@@ -106,7 +107,7 @@ ASGI_APPLICATION = "kimchi.routing.application"
 # This checks to see if its on heroku & if it isn't, use sqlite
 try:
     # PAAS settings -------------------------------------------------
-    TEST = os.environ['MIT_URL'] # Env var on heroku
+    TEST = os.environ['MIT_URL']  # Env var on heroku
     import django_heroku
 
     django_heroku.settings(locals())
@@ -132,7 +133,6 @@ try:
     # dbconfig = dj_database_url.config()
     # if dbconfig:
     #     DATABASES['default'] = dbconfig
-    env = environ.Env()
     DATABASES['default'] = env.db('MIT_URL')
     REDIS = os.environ['REDIS_URL']
 except KeyError:
@@ -144,7 +144,6 @@ except KeyError:
     }
     REDIS = "redis://localhost:6379"
 
-
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -154,15 +153,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-
-
-
-
-
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -182,7 +172,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -195,7 +184,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

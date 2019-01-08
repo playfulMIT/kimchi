@@ -1,18 +1,13 @@
-from rest_framework import viewsets, status
-from datacollection.utils import get_client_ip
-from .models import Event, Player, URL #, GameSession
-from .serializers import  EventSerializer, PlayerSerializer #, GameSessionSerializer
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.response import Response
-import json
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.sessions.models import Session
 import logging
-from datetime import timedelta
+
+from django.contrib.sessions.models import Session
 from django.http import StreamingHttpResponse, HttpResponse, JsonResponse
-from django.utils import timezone
-from django.core.serializers import serialize
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+
 from datacollection.serializers import EventSerializer
+from .models import Event, Player, URL  # , GameSession
+from .serializers import PlayerSerializer  # , GameSessionSerializer
 
 logger = logging.getLogger(__name__)
 
