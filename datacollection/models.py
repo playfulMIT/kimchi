@@ -49,5 +49,4 @@ class PlayerSession(models.Model):
 
     def __str__(self):
         key = "session_missing" if self.session.session_key is None else self.session.session_key
-
         return key
