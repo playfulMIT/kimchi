@@ -48,6 +48,6 @@ class PlayerSession(models.Model):
     session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-key = "session_missing" if self.session.session_key is None else self.session.session_key
+        key = "session_missing" if self.session.session_key is None else self.session.session_key
 
-return key
+        return key
