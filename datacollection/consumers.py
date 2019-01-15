@@ -16,22 +16,15 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.scope["session"].save()
         key = self.scope["session"].session_key
         self.session = Session.objects.get(session_key=key)
-        print('socket open')
-        print(key)
-        print('sent key')
         await self.accept()
         await self.send(text_data=key)
         close_old_connections()
 
     async def receive(self, text_data=None, bytes_data=None):
         close_old_connections()
-        print("received data")
         if (text_data):
-            print("got text data")
             data_json = json.loads(text_data)
         if (bytes_data):
-            print("got byte data")
-            # print(bytes_data.decode("utf-8"))
             data_json = json.loads(bytes_data.decode("utf-8"))
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.session, type=type, data=data_json["data"])
@@ -40,22 +33,18 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             url, namejson = get_group(self, data_json)
             players = Player.objects.filter(url=url).values('name')
             players_json = json.dumps(list(players))
-            print("player json: " + players_json)
             r = {"status": 200, "players": []}
             for p in players:
                 r["players"].append(p["name"])
             r = json.dumps(r)
-            print("players response: " + r)
             await self.send(text_data=r)
         elif any(x in type for x in ['login_user', 'create_user']):
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
-            print(name)
             player, created = Player.objects.get_or_create(url=url, name=name)
             self.playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,
                                                                                            session=self.session)
             if not created:
-                print('found player')
                 # get a player's progress here
                 attempted = []
                 completed = []
@@ -86,31 +75,18 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                     "message": "created"
                 }])
 
-            print(response)
             await self.send(text_data=response)
         elif any(x in type for x in ['puzzle_started', 'puzzle_complete']):
-            print('level started/complete event')
-            print(self.session)
-            # print(data_json)
             levelsetname = json.loads(data_json['data'])['set_id']
             levelset, levelsetcreated = LevelSet.objects.get_or_create(name=levelsetname)
             levelname = json.loads(data_json['data'])['task_id']
-            print(levelsetname)
-            print(levelset)
             try:
                 level = Level.objects.get(filename=levelname)
             except Level.DoesNotExist:
                 level = Level.objects.create(filename=levelname, levelset=levelset)
-            #
-            # if not Level.objects.get(filename=levelname).exists():
-            #     level, levelcreated = Level.objects.filter(levelset=levelset).get_or_create(filename=levelname)
-            print(self.session)
-            # playersession, created = PlayerSession.objects.get_or_create(session=self.session)
             if 'puzzle_started' in type:
-                # if not playersession.completed.filter(level=level).exists():
                 self.playersession.player.attempted.add(level)
             elif 'puzzle_complete' in type:
-                # playersession.player.attempted.remove(level)
                 self.playersession.player.completed.add(level)
 
         close_old_connections()
