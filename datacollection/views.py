@@ -12,42 +12,6 @@ from .serializers import PlayerSerializer  # , GameSessionSerializer
 logger = logging.getLogger(__name__)
 
 
-# @csrf_exempt
-# class GameSessionViewSet(viewsets.ModelViewSet):
-#
-#     """
-#     API endpoint that allows sessions to be viewed or edited.
-#     """
-#     queryset = GameSession.objects.all()
-#     serializer_class = GameSessionSerializer
-#
-#     def create(self, request, *args, **kwargs):
-#         ip_list = get_client_ip(self.request).split(',')
-#         public_ip = str(ip_list[len(ip_list) - 1])
-#         other_ip = None
-#         if len(ip_list) > 1:
-#             other_ip = str(ip_list[0])
-#         #experimental
-#         # if not request.session.get('has_session'):
-#         #     request.session['has_session'] = True
-#         # print('session key:')
-#         # print(request.session.session_key)
-#         # if request.session.session_key:
-#         #     # print('session key:')
-#         #     # print(request.session.session_key)
-#         #     session = Session.objects.get(session_key=request.session.session_key)
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save(client_ip=public_ip,
-#                         client_ip_other=other_ip,
-#                         # session=session,
-#                         # user=request.user
-#                         )
-#
-#         headers = self.get_success_headers(serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-
 class EventViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows fingerprints to be viewed or edited.
@@ -59,10 +23,7 @@ class EventViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         if not request.session.session_key:
             request.session.save()
-        # print(request.POST)
         key = request.data.get('session') if request.data.get('session') else str(request.session.session_key)
-        # print(key)
-        # print(request.data.get('session'))
         request.data._mutable = True
         request.data.update({'session': key})
         serializer = self.get_serializer(data=request.data)
@@ -76,12 +37,6 @@ class EventViewSet(viewsets.ModelViewSet):
 class PlayerViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.all().order_by('-id')
-
-    # def get_queryset(self):
-    #     urlpk = self.request.session['urlpk']
-    #     url = URL.objects.get(pk=urlpk)
-    #     players = Player.objects.filter(url=url)
-    #     return players
 
     def perform_create(self, serializer):
         urlpk = self.request.session['urlpk']
