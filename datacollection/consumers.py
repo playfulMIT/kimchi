@@ -12,6 +12,7 @@ from .utils import get_group
 class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
+        print('connection opening')
         close_old_connections()
         self.scope["session"].save()
         key = self.scope["session"].session_key
