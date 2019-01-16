@@ -5,6 +5,7 @@ from datacollection.models import URL
 
 
 def wildcard_url(request, slug):
+    print('getting wildcard')
     if not request.session.session_key:
         request.session.save()
     url = get_object_or_404(URL, pk=slug)
