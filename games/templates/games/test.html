@@ -13,6 +13,7 @@
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+    window.onload = function(){
         swal({
           title: "Consent to use your data",
           text: "This game is part of an MIT project to design new ways to learn and assess math skills. In order to improve these educational tools, the game will record your actions in the game, but there will be no way for us to identify you. Part of the project includes a research study on how student learning can be assessed with games. Your decision to participate in the study is voluntary, and if you agree, the data collected and results of the research may be presented at conferences and published in journals. If you choose not to participate, you will have the same gameplay experience but your data will not be included in the research study.",
@@ -37,6 +38,7 @@
             swal("whatever");
           }
         });
+        };
     </script>
     <style>
         .swal-footer {
