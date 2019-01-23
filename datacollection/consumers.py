@@ -94,6 +94,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, code=None):
         # self.session.clear()
+        Event.objects.create(session=self.session, type="ws-disconnect", data="{}")
         if (code):
             print(code)
         print("disconnect")
