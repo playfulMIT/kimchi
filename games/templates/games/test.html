@@ -14,36 +14,36 @@
 
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-    window.onload = function(){
-        swal({
-          title: "Anonymous Data Consent",
-          text: "This game is part of an MIT project to design new ways to learn and assess math skills. In order to improve these educational tools, the game will record your actions in the game, but there will be no way for us to identify you. Part of the project includes a research study on how student learning can be assessed with games. Your decision to participate in the study is voluntary, and if you agree, the data collected and results of the research may be presented at conferences and published in journals. If you choose not to participate, you will have the same gameplay experience but your data will not be included in the research study.",
-          icon: "warning",
-          closeOnClickOutside: false,
-          buttons: {
-            consent: {
-                text: "Yes, MIT can use my data in the research study.",
-                value: true,
-                },
-            nonconsent: {
-                text: "No, I don’t want my data used for research.",
-                value: false
-                },
-          }
-        })
-        .then((consenting) => {
-          if (consenting) {
-            <!--swal("thanks!", {-->
-              <!--icon: "success",-->
-            <!--});-->
-          } else {
-            <!--swal("whatever");-->
-          }
-        });
-        };
+    <!--<script>-->
+    <!--window.onload = function(){-->
+        <!--swal({-->
+          <!--title: "Anonymous Data Consent",-->
+          <!--text: "This game is part of an MIT project to design new ways to learn and assess math skills. In order to improve these educational tools, the game will record your actions in the game, but there will be no way for us to identify you. Part of the project includes a research study on how student learning can be assessed with games. Your decision to participate in the study is voluntary, and if you agree, the data collected and results of the research may be presented at conferences and published in journals. If you choose not to participate, you will have the same gameplay experience but your data will not be included in the research study.",-->
+          <!--icon: "warning",-->
+          <!--closeOnClickOutside: false,-->
+          <!--buttons: {-->
+            <!--consent: {-->
+                <!--text: "Yes, MIT can use my data in the research study.",-->
+                <!--value: true,-->
+                <!--},-->
+            <!--nonconsent: {-->
+                <!--text: "No, I don’t want my data used for research.",-->
+                <!--value: false-->
+                <!--},-->
+          <!--}-->
+        <!--})-->
+        <!--.then((consenting) => {-->
+          <!--if (consenting) {-->
+            <!--&lt;!&ndash;swal("thanks!", {&ndash;&gt;-->
+              <!--&lt;!&ndash;icon: "success",&ndash;&gt;-->
+            <!--&lt;!&ndash;});&ndash;&gt;-->
+          <!--} else {-->
+            <!--&lt;!&ndash;swal("whatever");&ndash;&gt;-->
+          <!--}-->
+        <!--});-->
+        <!--};-->
 
-    </script>
+    <!--</script>-->
     <style>
         .swal-modal {
             background-color: #00384c
