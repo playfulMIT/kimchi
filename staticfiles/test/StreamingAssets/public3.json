@@ -1,6 +1,6 @@
 {
   "puzzleName": "Pi Henge",
-  "description": "Are those pillars cubes or cylinders? Does it matter?",
+  "description": "Are those pillars boxes or cylinders? Does it matter?",
   "gridDim": 5,
   "shapeLimits": [-1, -1, -1, -1, -1, -1, -1],
   "allowScale": true,

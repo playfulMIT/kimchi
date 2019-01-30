@@ -1,0 +1,1866 @@
+{
+  "events": [
+    {
+      "id": 16930,
+      "time": "2018-11-20T16:21:32.846494Z",
+      "type": "ws-start_level",
+      "data": "{\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"task_id\":\"Intro Puzzle 3\",\"set_id\":\"Some Puzzles\",\"fullscreen\":true,\"resolution\":{\"x\":1920,\"y\":1080},\"conditions\":\"{\\\"shapeLimits\\\":[],\\\"allowScale\\\":true,\\\"allowRotate\\\":true,\\\"gridDim\\\":4}\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16931,
+      "time": "2018-11-20T16:21:32.993504Z",
+      "type": "ws-puzzle_started",
+      "data": "{\"timeStamp\":0.0,\"screenPos\":{\"x\":0.6567708253860474,\"y\":0.48148149251937868},\"actionIndex\":1,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"task_id\":\"Intro Puzzle 3\",\"set_id\":\"Some Puzzles\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16932,
+      "time": "2018-11-20T16:21:41.601235Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":8.61709976196289,\"screenPos\":{\"x\":0.5765625238418579,\"y\":0.049074072390794757},\"actionIndex\":2,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":6,\"shape\":5,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16933,
+      "time": "2018-11-20T16:21:43.395391Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":10.417099952697754,\"screenPos\":{\"x\":0.49427083134651186,\"y\":0.39814814925193789},\"actionIndex\":3,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":5,\"objSerialization\":1,\"spawnPosition\":{\"x\":2,\"y\":0,\"z\":4},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16934,
+      "time": "2018-11-20T16:21:45.260511Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":12.282899856567383,\"screenPos\":{\"x\":0.15416666865348817,\"y\":0.07685185223817826},\"actionIndex\":4,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":3,\"prevShape\":5,\"shape\":5,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16935,
+      "time": "2018-11-20T16:21:46.262630Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":13.282899856567383,\"screenPos\":{\"x\":0.4635416567325592,\"y\":0.3620370328426361},\"actionIndex\":5,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":1,\"prevScale\":{\"x\":1,\"y\":1,\"z\":1},\"newScale\":{\"x\":2,\"y\":1,\"z\":2},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16936,
+      "time": "2018-11-20T16:21:48.128047Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":15.1496000289917,\"screenPos\":{\"x\":0.04062499850988388,\"y\":0.05277777835726738},\"actionIndex\":6,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":3,\"xfmMode\":1,\"prevShape\":5,\"shape\":5,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16937,
+      "time": "2018-11-20T16:21:48.562789Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":15.583000183105469,\"screenPos\":{\"x\":0.04062499850988388,\"y\":0.05277777835726738},\"actionIndex\":7,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[1],\"prevPositions\":[{\"x\":2,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"Down\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16938,
+      "time": "2018-11-20T16:21:48.728427Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":15.749699592590332,\"screenPos\":{\"x\":0.04062499850988388,\"y\":0.05277777835726738},\"actionIndex\":8,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[1],\"prevPositions\":[{\"x\":2,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"Right\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16939,
+      "time": "2018-11-20T16:21:51.995580Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":19.01650047302246,\"screenPos\":{\"x\":0.47604167461395266,\"y\":0.04722222313284874},\"actionIndex\":9,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":5,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16940,
+      "time": "2018-11-20T16:21:53.527178Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":20.549400329589845,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.45277777314186098},\"actionIndex\":10,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":3,\"objSerialization\":2,\"spawnPosition\":{\"x\":4,\"y\":2,\"z\":2},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16941,
+      "time": "2018-11-20T16:21:53.665382Z",
+      "type": "ws-deselect_shape",
+      "data": "{\"timeStamp\":20.549400329589845,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.45277777314186098},\"actionIndex\":11,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[],\"prevSelection\":[2],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16942,
+      "time": "2018-11-20T16:21:53.806876Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":20.717199325561525,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.45277777314186098},\"actionIndex\":12,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[2],\"prevSelection\":[],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16943,
+      "time": "2018-11-20T16:21:59.960630Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":26.983400344848634,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.07777778059244156},\"actionIndex\":13,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":2,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16944,
+      "time": "2018-11-20T16:22:00.110272Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":27.04949951171875,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.07777778059244156},\"actionIndex\":14,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16945,
+      "time": "2018-11-20T16:22:00.258142Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":27.283100128173829,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.07777778059244156},\"actionIndex\":15,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16946,
+      "time": "2018-11-20T16:22:00.556706Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":27.58300018310547,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.07777778059244156},\"actionIndex\":16,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16947,
+      "time": "2018-11-20T16:22:01.057095Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":28.08300018310547,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.07777778059244156},\"actionIndex\":17,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17179,
+      "time": "2018-11-20T16:27:32.215633Z",
+      "type": "ws-deselect_shape",
+      "data": "{\"timeStamp\":201.7928009033203,\"screenPos\":{\"x\":0.5151041746139526,\"y\":0.364814817905426},\"actionIndex\":161,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[],\"prevSelection\":[17],\"input\":\"ClickNothing\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16948,
+      "time": "2018-11-20T16:22:04.928368Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":31.949600219726564,\"screenPos\":{\"x\":0.3671875,\"y\":0.08055555820465088},\"actionIndex\":18,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":3,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16949,
+      "time": "2018-11-20T16:22:06.666529Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":33.68389892578125,\"screenPos\":{\"x\":0.4723958373069763,\"y\":0.0694444477558136},\"actionIndex\":19,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":3,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16950,
+      "time": "2018-11-20T16:22:10.458818Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":37.483001708984378,\"screenPos\":{\"x\":0.47343748807907107,\"y\":0.46296295523643496},\"actionIndex\":20,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":3,\"objSerialization\":3,\"spawnPosition\":{\"x\":2,\"y\":2,\"z\":4},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16951,
+      "time": "2018-11-20T16:22:12.528822Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":39.549598693847659,\"screenPos\":{\"x\":0.1276041716337204,\"y\":0.05833333358168602},\"actionIndex\":21,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":3,\"rotationOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16952,
+      "time": "2018-11-20T16:22:12.991809Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":40.0172004699707,\"screenPos\":{\"x\":0.1276041716337204,\"y\":0.05833333358168602},\"actionIndex\":22,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":3,\"rotationOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16953,
+      "time": "2018-11-20T16:22:15.274704Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":42.2495002746582,\"screenPos\":{\"x\":0.8661458492279053,\"y\":0.8398148417472839},\"actionIndex\":23,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":19,\"prevCam\":7}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16954,
+      "time": "2018-11-20T16:22:15.925077Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":42.94960021972656,\"screenPos\":{\"x\":0.8869791626930237,\"y\":0.8222222328186035},\"actionIndex\":24,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":2,\"prevCam\":19}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16955,
+      "time": "2018-11-20T16:22:18.662607Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":45.682899475097659,\"screenPos\":{\"x\":0.03750000149011612,\"y\":0.03703703731298447},\"actionIndex\":25,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":1,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16956,
+      "time": "2018-11-20T16:22:21.766137Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":48.782901763916019,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06111111119389534},\"actionIndex\":26,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":2,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16957,
+      "time": "2018-11-20T16:22:23.094566Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":50.1171989440918,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06111111119389534},\"actionIndex\":27,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":3,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16958,
+      "time": "2018-11-20T16:22:23.492629Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":50.51649856567383,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06111111119389534},\"actionIndex\":28,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":3,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16959,
+      "time": "2018-11-20T16:22:23.860381Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":50.883201599121097,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06111111119389534},\"actionIndex\":29,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":3,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16960,
+      "time": "2018-11-20T16:22:24.087936Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":51.1161003112793,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06111111119389534},\"actionIndex\":30,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":3,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16961,
+      "time": "2018-11-20T16:22:27.929648Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":54.950401306152347,\"screenPos\":{\"x\":0.574999988079071,\"y\":0.5027777552604675},\"actionIndex\":31,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[2],\"prevSelection\":[3],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16962,
+      "time": "2018-11-20T16:22:29.031100Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":56.05039978027344,\"screenPos\":{\"x\":0.2604166567325592,\"y\":0.2370370328426361},\"actionIndex\":32,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16963,
+      "time": "2018-11-20T16:22:29.223018Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":56.24959945678711,\"screenPos\":{\"x\":0.2604166567325592,\"y\":0.2370370328426361},\"actionIndex\":33,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16964,
+      "time": "2018-11-20T16:22:29.391046Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":56.41709899902344,\"screenPos\":{\"x\":0.2604166567325592,\"y\":0.2370370328426361},\"actionIndex\":34,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16965,
+      "time": "2018-11-20T16:22:29.546777Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":56.516300201416019,\"screenPos\":{\"x\":0.2604166567325592,\"y\":0.2370370328426361},\"actionIndex\":35,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":2,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16966,
+      "time": "2018-11-20T16:22:31.327524Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":58.349998474121097,\"screenPos\":{\"x\":0.03854166716337204,\"y\":0.06574074178934097},\"actionIndex\":36,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":1,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16967,
+      "time": "2018-11-20T16:22:33.027474Z",
+      "type": "ws-toggle_snapshot_display",
+      "data": "{\"timeStamp\":60.049598693847659,\"screenPos\":{\"x\":0.8473958373069763,\"y\":0.3037036955356598},\"actionIndex\":37,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"isOpen\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16968,
+      "time": "2018-11-20T16:22:34.624152Z",
+      "type": "ws-toggle_snapshot_display",
+      "data": "{\"timeStamp\":61.64950180053711,\"screenPos\":{\"x\":0.9838541746139526,\"y\":0.2787036895751953},\"actionIndex\":38,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"isOpen\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16969,
+      "time": "2018-11-20T16:22:36.625789Z",
+      "type": "ws-snapshot",
+      "data": "{\"timeStamp\":63.61709976196289,\"screenPos\":{\"x\":0.9661458134651184,\"y\":0.2481481432914734},\"actionIndex\":39,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"cameraAngle\":2}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16970,
+      "time": "2018-11-20T16:22:38.959565Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":65.98880004882813,\"screenPos\":{\"x\":0.4802083373069763,\"y\":0.4203703701496124},\"actionIndex\":40,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[3],\"prevSelection\":[2],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16971,
+      "time": "2018-11-20T16:22:39.686382Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":66.71620178222656,\"screenPos\":{\"x\":0.4505208432674408,\"y\":0.38240739703178408},\"actionIndex\":41,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":2,\"z\":4}],\"targetOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17020,
+      "time": "2018-11-20T16:24:12.162816Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":1.8193999528884888,\"screenPos\":{\"x\":0.4260416626930237,\"y\":0.06481481343507767},\"actionIndex\":2,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":6,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16972,
+      "time": "2018-11-20T16:22:40.557919Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":67.58300018310547,\"screenPos\":{\"x\":0.5260416865348816,\"y\":0.45277777314186098},\"actionIndex\":42,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":1,\"y\":2,\"z\":4}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16973,
+      "time": "2018-11-20T16:22:41.525162Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":68.54989624023438,\"screenPos\":{\"x\":0.45104166865348818,\"y\":0.3731481432914734},\"actionIndex\":43,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":2,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16974,
+      "time": "2018-11-20T16:22:42.294787Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":69.32109832763672,\"screenPos\":{\"x\":0.5473958253860474,\"y\":0.4462963044643402},\"actionIndex\":44,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":1,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16975,
+      "time": "2018-11-20T16:22:42.622437Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":69.64969635009766,\"screenPos\":{\"x\":0.5473958253860474,\"y\":0.4462963044643402},\"actionIndex\":45,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":1,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16976,
+      "time": "2018-11-20T16:22:43.389325Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":70.41719818115235,\"screenPos\":{\"x\":0.5473958253860474,\"y\":0.4462963044643402},\"actionIndex\":46,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16977,
+      "time": "2018-11-20T16:22:43.922575Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":70.94969940185547,\"screenPos\":{\"x\":0.5473958253860474,\"y\":0.4462963044643402},\"actionIndex\":47,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16978,
+      "time": "2018-11-20T16:22:44.520893Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":71.54959869384766,\"screenPos\":{\"x\":0.5473958253860474,\"y\":0.4462963044643402},\"actionIndex\":48,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":3,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16979,
+      "time": "2018-11-20T16:22:44.990488Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":72.01629638671875,\"screenPos\":{\"x\":0.5473958253860474,\"y\":0.4462963044643402},\"actionIndex\":49,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16980,
+      "time": "2018-11-20T16:22:45.927263Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":72.94969940185547,\"screenPos\":{\"x\":0.5744791626930237,\"y\":0.48055556416511538},\"actionIndex\":50,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[2],\"prevSelection\":[3],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16981,
+      "time": "2018-11-20T16:22:46.795371Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":73.81729888916016,\"screenPos\":{\"x\":0.5744791626930237,\"y\":0.48055556416511538},\"actionIndex\":51,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[2],\"prevPositions\":[{\"x\":4,\"y\":2,\"z\":2}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16982,
+      "time": "2018-11-20T16:22:48.459530Z",
+      "type": "ws-toggle_snapshot_display",
+      "data": "{\"timeStamp\":75.48300170898438,\"screenPos\":{\"x\":0.8536458611488342,\"y\":0.31296294927597048},\"actionIndex\":52,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"isOpen\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16983,
+      "time": "2018-11-20T16:22:49.693093Z",
+      "type": "ws-toggle_snapshot_display",
+      "data": "{\"timeStamp\":76.71690368652344,\"screenPos\":{\"x\":0.9833333492279053,\"y\":0.3046296238899231},\"actionIndex\":53,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"isOpen\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16984,
+      "time": "2018-11-20T16:22:51.824225Z",
+      "type": "ws-snapshot",
+      "data": "{\"timeStamp\":78.81729888916016,\"screenPos\":{\"x\":0.8552083373069763,\"y\":0.35185185074806216},\"actionIndex\":54,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"cameraAngle\":2}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16985,
+      "time": "2018-11-20T16:22:52.423026Z",
+      "type": "ws-snapshot",
+      "data": "{\"timeStamp\":79.41709899902344,\"screenPos\":{\"x\":0.8072916865348816,\"y\":0.5703703761100769},\"actionIndex\":55,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"cameraAngle\":2}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16986,
+      "time": "2018-11-20T16:23:01.189854Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":88.21630096435547,\"screenPos\":{\"x\":0.4130208194255829,\"y\":0.06203703582286835},\"actionIndex\":56,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":3,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16987,
+      "time": "2018-11-20T16:23:02.722960Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":89.74970245361328,\"screenPos\":{\"x\":0.9156249761581421,\"y\":0.949999988079071},\"actionIndex\":57,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":8,\"prevCam\":2}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16988,
+      "time": "2018-11-20T16:23:03.421608Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":90.45089721679688,\"screenPos\":{\"x\":0.921875,\"y\":0.9027777910232544},\"actionIndex\":58,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":5,\"prevCam\":8}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16989,
+      "time": "2018-11-20T16:23:05.826188Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":92.84970092773438,\"screenPos\":{\"x\":0.5057291388511658,\"y\":0.5074074268341065},\"actionIndex\":59,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":2,\"objSerialization\":4,\"spawnPosition\":{\"x\":4,\"y\":2,\"z\":4},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16990,
+      "time": "2018-11-20T16:23:07.793686Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":94.81610107421875,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06851851940155029},\"actionIndex\":60,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":2,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16991,
+      "time": "2018-11-20T16:23:07.952436Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":94.94979858398438,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06851851940155029},\"actionIndex\":61,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":4,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16992,
+      "time": "2018-11-20T16:23:08.156707Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":95.18309783935547,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06851851940155029},\"actionIndex\":62,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":4,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16993,
+      "time": "2018-11-20T16:23:08.459382Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":95.48300170898438,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06851851940155029},\"actionIndex\":63,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":4,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16994,
+      "time": "2018-11-20T16:23:08.755216Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":95.78289794921875,\"screenPos\":{\"x\":0.09427083283662796,\"y\":0.06851851940155029},\"actionIndex\":64,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":4,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16995,
+      "time": "2018-11-20T16:23:10.530043Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":97.55020141601563,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.05740740895271301},\"actionIndex\":65,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":1,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16996,
+      "time": "2018-11-20T16:23:10.858712Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":97.88300323486328,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.05740740895271301},\"actionIndex\":66,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[4],\"prevPositions\":[{\"x\":4,\"y\":2,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16997,
+      "time": "2018-11-20T16:23:11.293162Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":98.31639862060547,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.05740740895271301},\"actionIndex\":67,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[4],\"prevPositions\":[{\"x\":4,\"y\":2,\"z\":3}],\"targetOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16998,
+      "time": "2018-11-20T16:23:13.167306Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":100.18299865722656,\"screenPos\":{\"x\":0.5432291626930237,\"y\":0.3907407522201538},\"actionIndex\":68,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[2],\"prevSelection\":[4],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 16999,
+      "time": "2018-11-20T16:23:14.659030Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":101.68280029296875,\"screenPos\":{\"x\":0.5432291626930237,\"y\":0.3907407522201538},\"actionIndex\":69,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[2],\"prevPositions\":[{\"x\":4,\"y\":1,\"z\":2}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17000,
+      "time": "2018-11-20T16:23:14.954596Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":101.98310089111328,\"screenPos\":{\"x\":0.5432291626930237,\"y\":0.3907407522201538},\"actionIndex\":70,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[2],\"prevPositions\":[{\"x\":5,\"y\":1,\"z\":2}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17001,
+      "time": "2018-11-20T16:23:16.233485Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":103.25050354003906,\"screenPos\":{\"x\":0.44583332538604739,\"y\":0.5666666626930237},\"actionIndex\":71,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[3],\"prevSelection\":[2],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17002,
+      "time": "2018-11-20T16:23:16.589918Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":103.61609649658203,\"screenPos\":{\"x\":0.44583332538604739,\"y\":0.5666666626930237},\"actionIndex\":72,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":2,\"y\":1,\"z\":4}],\"targetOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17003,
+      "time": "2018-11-20T16:23:16.900393Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":103.91619873046875,\"screenPos\":{\"x\":0.44583332538604739,\"y\":0.5666666626930237},\"actionIndex\":73,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[3],\"prevPositions\":[{\"x\":1,\"y\":1,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17004,
+      "time": "2018-11-20T16:23:20.326322Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":107.34960174560547,\"screenPos\":{\"x\":0.8671875,\"y\":0.8435184955596924},\"actionIndex\":74,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":8,\"prevCam\":5}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17005,
+      "time": "2018-11-20T16:23:21.165897Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":108.18280029296875,\"screenPos\":{\"x\":0.9005208611488342,\"y\":0.7962962985038757},\"actionIndex\":75,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":2,\"prevCam\":8}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17006,
+      "time": "2018-11-20T16:23:23.862846Z",
+      "type": "ws-snapshot",
+      "data": "{\"timeStamp\":110.84960174560547,\"screenPos\":{\"x\":0.942187488079071,\"y\":0.24444444477558137},\"actionIndex\":76,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"cameraAngle\":2}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17007,
+      "time": "2018-11-20T16:23:29.258293Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":116.28389739990235,\"screenPos\":{\"x\":0.5307291746139526,\"y\":0.2527777850627899},\"actionIndex\":77,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[1],\"prevSelection\":[3],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17008,
+      "time": "2018-11-20T16:23:32.021521Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":119.04969787597656,\"screenPos\":{\"x\":0.17395833134651185,\"y\":0.0694444477558136},\"actionIndex\":78,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":3,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17009,
+      "time": "2018-11-20T16:23:34.153367Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":121.18309783935547,\"screenPos\":{\"x\":0.609375,\"y\":0.375},\"actionIndex\":79,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":1,\"prevScale\":{\"x\":2,\"y\":1,\"z\":2},\"newScale\":{\"x\":2,\"y\":2,\"z\":2},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17010,
+      "time": "2018-11-20T16:23:36.224111Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":123.24960327148438,\"screenPos\":{\"x\":0.03958333283662796,\"y\":0.07037036865949631},\"actionIndex\":80,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":3,\"xfmMode\":1,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17011,
+      "time": "2018-11-20T16:23:36.489292Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":123.51619720458985,\"screenPos\":{\"x\":0.03958333283662796,\"y\":0.07037036865949631},\"actionIndex\":81,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[1],\"prevPositions\":[{\"x\":3,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":-1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17012,
+      "time": "2018-11-20T16:23:37.423496Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":124.44940185546875,\"screenPos\":{\"x\":0.03958333283662796,\"y\":0.07037036865949631},\"actionIndex\":82,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[1],\"prevPositions\":[{\"x\":2,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17013,
+      "time": "2018-11-20T16:23:38.626667Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":125.64959716796875,\"screenPos\":{\"x\":0.03958333283662796,\"y\":0.07037036865949631},\"actionIndex\":83,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[1],\"prevPositions\":[{\"x\":3,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17014,
+      "time": "2018-11-20T16:23:42.498794Z",
+      "type": "ws-snapshot",
+      "data": "{\"timeStamp\":129.48309326171876,\"screenPos\":{\"x\":0.9192708134651184,\"y\":0.20462962985038758},\"actionIndex\":84,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"cameraAngle\":2}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17015,
+      "time": "2018-11-20T16:23:48.722559Z",
+      "type": "ws-check_solution",
+      "data": "{\"timeStamp\":135.74969482421876,\"screenPos\":{\"x\":0.9140625,\"y\":0.0694444477558136},\"actionIndex\":85,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"correct\":[true,true]}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17016,
+      "time": "2018-11-20T16:23:48.889327Z",
+      "type": "ws-puzzle_complete",
+      "data": "{\"timeStamp\":135.74969482421876,\"screenPos\":{\"x\":0.9140625,\"y\":0.0694444477558136},\"actionIndex\":86,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"task_id\":\"Intro Puzzle 3\",\"set_id\":\"Some Puzzles\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17017,
+      "time": "2018-11-20T16:23:59.388094Z",
+      "type": "ws-exit_to_menu",
+      "data": "{\"timeStamp\":146.41729736328126,\"screenPos\":{\"x\":0.14947916567325593,\"y\":0.9490740895271301},\"actionIndex\":87,\"user\":\"Philip Tan\",\"group\":\"Development-Group\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17018,
+      "time": "2018-11-20T16:24:10.179407Z",
+      "type": "ws-start_level",
+      "data": "{\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"task_id\":\"Sandbox\",\"set_id\":\"None\",\"fullscreen\":true,\"resolution\":{\"x\":1920,\"y\":1080},\"conditions\":\"{}\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17019,
+      "time": "2018-11-20T16:24:10.347360Z",
+      "type": "ws-puzzle_started",
+      "data": "{\"timeStamp\":0.0,\"screenPos\":{\"x\":0.4020833373069763,\"y\":0.28425925970077517},\"actionIndex\":1,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"task_id\":\"Sandbox\",\"set_id\":\"None\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17021,
+      "time": "2018-11-20T16:24:13.673289Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":3.3194000720977785,\"screenPos\":{\"x\":0.37187498807907107,\"y\":0.02500000037252903},\"actionIndex\":3,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":3,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":2,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17022,
+      "time": "2018-11-20T16:24:14.958870Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":4.61959981918335,\"screenPos\":{\"x\":0.45260417461395266,\"y\":0.3324074149131775},\"actionIndex\":4,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":1,\"spawnPosition\":{\"x\":6,\"y\":0,\"z\":6},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17023,
+      "time": "2018-11-20T16:24:16.656522Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":6.319300174713135,\"screenPos\":{\"x\":0.3604166805744171,\"y\":0.06203703582286835},\"actionIndex\":5,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17024,
+      "time": "2018-11-20T16:24:17.554338Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":7.219299793243408,\"screenPos\":{\"x\":0.4557291567325592,\"y\":0.33981481194496157},\"actionIndex\":6,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":2,\"spawnPosition\":{\"x\":6,\"y\":2,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17025,
+      "time": "2018-11-20T16:24:18.290188Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":7.9527997970581059,\"screenPos\":{\"x\":0.4567708373069763,\"y\":0.3759259283542633},\"actionIndex\":7,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":3,\"spawnPosition\":{\"x\":6,\"y\":4,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17026,
+      "time": "2018-11-20T16:24:18.956495Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":8.619999885559082,\"screenPos\":{\"x\":0.4541666805744171,\"y\":0.41296297311782839},\"actionIndex\":8,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":4,\"spawnPosition\":{\"x\":6,\"y\":6,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17027,
+      "time": "2018-11-20T16:24:20.666545Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":10.319600105285645,\"screenPos\":{\"x\":0.510937511920929,\"y\":0.31203705072402956},\"actionIndex\":9,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":5,\"spawnPosition\":{\"x\":10,\"y\":0,\"z\":6},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17028,
+      "time": "2018-11-20T16:24:21.128309Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":10.786800384521485,\"screenPos\":{\"x\":0.5151041746139526,\"y\":0.35370370745658877},\"actionIndex\":10,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[5],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17029,
+      "time": "2018-11-20T16:24:23.592425Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":13.252900123596192,\"screenPos\":{\"x\":0.526562511920929,\"y\":0.3296296298503876},\"actionIndex\":11,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[5],\"prevPositions\":[{\"x\":10,\"y\":1,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17030,
+      "time": "2018-11-20T16:24:24.688529Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":14.352499961853028,\"screenPos\":{\"x\":0.3682291805744171,\"y\":0.07777778059244156},\"actionIndex\":12,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17031,
+      "time": "2018-11-20T16:24:25.826577Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":15.485799789428711,\"screenPos\":{\"x\":0.5171874761581421,\"y\":0.3490740656852722},\"actionIndex\":13,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":6,\"spawnPosition\":{\"x\":10,\"y\":2,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17032,
+      "time": "2018-11-20T16:24:26.323501Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":15.986700057983399,\"screenPos\":{\"x\":0.5177083611488342,\"y\":0.38055557012557986},\"actionIndex\":14,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":7,\"spawnPosition\":{\"x\":10,\"y\":4,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17033,
+      "time": "2018-11-20T16:24:27.023573Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":16.68589973449707,\"screenPos\":{\"x\":0.5171874761581421,\"y\":0.41203704476356509},\"actionIndex\":15,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":8,\"spawnPosition\":{\"x\":10,\"y\":6,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17034,
+      "time": "2018-11-20T16:24:30.890479Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":20.552600860595704,\"screenPos\":{\"x\":0.30520832538604739,\"y\":0.06481481343507767},\"actionIndex\":16,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":2,\"prevMode\":3,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17035,
+      "time": "2018-11-20T16:24:31.622003Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":21.286100387573243,\"screenPos\":{\"x\":0.510937511920929,\"y\":0.3222222328186035},\"actionIndex\":17,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[5],\"changeMode\":true,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17036,
+      "time": "2018-11-20T16:24:33.124263Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":22.785900115966798,\"screenPos\":{\"x\":0.3239583373069763,\"y\":0.06851851940155029},\"actionIndex\":18,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":2,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17037,
+      "time": "2018-11-20T16:24:33.856264Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":23.51930046081543,\"screenPos\":{\"x\":0.5151041746139526,\"y\":0.3453703820705414},\"actionIndex\":19,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[6],\"changeMode\":false,\"input\":\"Shift+LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17038,
+      "time": "2018-11-20T16:24:34.254482Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":23.91939926147461,\"screenPos\":{\"x\":0.5151041746139526,\"y\":0.3777777850627899},\"actionIndex\":20,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[7],\"changeMode\":false,\"input\":\"Shift+LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17039,
+      "time": "2018-11-20T16:24:34.657474Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":24.31920051574707,\"screenPos\":{\"x\":0.5161458253860474,\"y\":0.42314815521240237},\"actionIndex\":21,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[8],\"changeMode\":false,\"input\":\"Shift+LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17040,
+      "time": "2018-11-20T16:24:37.357855Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":27.020099639892579,\"screenPos\":{\"x\":0.4697916805744171,\"y\":0.06203703582286835},\"actionIndex\":22,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":2,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":1,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17041,
+      "time": "2018-11-20T16:24:38.555172Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":28.219900131225587,\"screenPos\":{\"x\":0.4911458194255829,\"y\":0.3203703761100769},\"actionIndex\":23,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":3,\"objSerialization\":9,\"spawnPosition\":{\"x\":8,\"y\":0,\"z\":6},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17042,
+      "time": "2018-11-20T16:24:40.388608Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":30.052600860595704,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":24,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":2,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17043,
+      "time": "2018-11-20T16:24:40.788608Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":30.453100204467775,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":25,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":1},\"input\":\"Shift+A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17044,
+      "time": "2018-11-20T16:24:41.088197Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":30.752599716186525,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":26,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":1},\"input\":\"Shift+A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17045,
+      "time": "2018-11-20T16:24:42.022409Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":31.686399459838868,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":27,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":1},\"input\":\"Shift+A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17046,
+      "time": "2018-11-20T16:24:42.256552Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":31.92020034790039,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":28,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":1},\"input\":\"Shift+A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17047,
+      "time": "2018-11-20T16:24:42.886794Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":32.55270004272461,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":29,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":1},\"input\":\"Shift+A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17048,
+      "time": "2018-11-20T16:24:43.188382Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":32.858001708984378,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":30,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":0,\"y\":0,\"z\":1},\"input\":\"Shift+A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17049,
+      "time": "2018-11-20T16:24:45.522502Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":35.187198638916019,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":31,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17050,
+      "time": "2018-11-20T16:24:45.895852Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":35.552799224853519,\"screenPos\":{\"x\":0.10208333283662796,\"y\":0.07407407462596894},\"actionIndex\":32,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":9,\"rotationOffset\":{\"x\":1,\"y\":0,\"z\":0},\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17051,
+      "time": "2018-11-20T16:24:48.924902Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":38.58689880371094,\"screenPos\":{\"x\":0.35104167461395266,\"y\":0.06111111119389534},\"actionIndex\":33,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":3,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17052,
+      "time": "2018-11-20T16:24:49.925021Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":39.58580017089844,\"screenPos\":{\"x\":0.3515625,\"y\":0.15925925970077516},\"actionIndex\":34,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":10,\"spawnPosition\":{\"x\":0,\"y\":0,\"z\":0},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17053,
+      "time": "2018-11-20T16:24:51.926251Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":41.58679962158203,\"screenPos\":{\"x\":0.3072916567325592,\"y\":0.06203703582286835},\"actionIndex\":35,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":2,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17054,
+      "time": "2018-11-20T16:25:00.318599Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":49.98619842529297,\"screenPos\":{\"x\":0.3531250059604645,\"y\":0.1527777761220932},\"actionIndex\":36,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[10],\"changeMode\":true,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17055,
+      "time": "2018-11-20T16:25:01.056994Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":50.72050094604492,\"screenPos\":{\"x\":0.3635416626930237,\"y\":0.06759259104728699},\"actionIndex\":37,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17056,
+      "time": "2018-11-20T16:25:03.125314Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":52.78620147705078,\"screenPos\":{\"x\":0.4833333194255829,\"y\":0.049074072390794757},\"actionIndex\":38,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":3,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17057,
+      "time": "2018-11-20T16:25:04.830490Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":54.48699951171875,\"screenPos\":{\"x\":0.5484374761581421,\"y\":0.3046296238899231},\"actionIndex\":39,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":3,\"objSerialization\":11,\"spawnPosition\":{\"x\":12,\"y\":0,\"z\":6},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17058,
+      "time": "2018-11-20T16:25:06.554528Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":56.21969985961914,\"screenPos\":{\"x\":0.5213541388511658,\"y\":0.2759259343147278},\"actionIndex\":40,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":11,\"rotationOffset\":{\"x\":0,\"y\":1,\"z\":0},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17059,
+      "time": "2018-11-20T16:25:06.718764Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":56.38600158691406,\"screenPos\":{\"x\":0.5213541388511658,\"y\":0.2759259343147278},\"actionIndex\":41,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":11,\"rotationOffset\":{\"x\":0,\"y\":1,\"z\":0},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17060,
+      "time": "2018-11-20T16:25:08.289470Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":57.95280075073242,\"screenPos\":{\"x\":0.38593751192092898,\"y\":0.049074072390794757},\"actionIndex\":42,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":3,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17061,
+      "time": "2018-11-20T16:25:09.391226Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":59.0526008605957,\"screenPos\":{\"x\":0.5760416388511658,\"y\":0.31203705072402956},\"actionIndex\":43,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":12,\"spawnPosition\":{\"x\":14,\"y\":0,\"z\":6},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17062,
+      "time": "2018-11-20T16:25:10.724348Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":60.385799407958987,\"screenPos\":{\"x\":0.3828125,\"y\":0.051851850003004077},\"actionIndex\":44,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17063,
+      "time": "2018-11-20T16:25:12.056909Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":61.71929931640625,\"screenPos\":{\"x\":0.574999988079071,\"y\":0.3490740656852722},\"actionIndex\":45,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":13,\"spawnPosition\":{\"x\":14,\"y\":2,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17064,
+      "time": "2018-11-20T16:25:12.622700Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":62.28609848022461,\"screenPos\":{\"x\":0.581250011920929,\"y\":0.3777777850627899},\"actionIndex\":46,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":14,\"spawnPosition\":{\"x\":14,\"y\":4,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17065,
+      "time": "2018-11-20T16:25:13.399110Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":63.052799224853519,\"screenPos\":{\"x\":0.5802083611488342,\"y\":0.41018518805503847},\"actionIndex\":47,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":15,\"spawnPosition\":{\"x\":14,\"y\":6,\"z\":6},\"color\":1,\"input\":\"Shift+LeftMouse\",\"changeMode\":false}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17067,
+      "time": "2018-11-20T16:25:24.587989Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":74.25279998779297,\"screenPos\":{\"x\":0.4677083194255829,\"y\":0.2101851850748062},\"actionIndex\":49,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":16,\"spawnPosition\":{\"x\":8,\"y\":0,\"z\":2},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17068,
+      "time": "2018-11-20T16:25:25.890971Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":75.55280303955078,\"screenPos\":{\"x\":0.3656249940395355,\"y\":0.06111111119389534},\"actionIndex\":50,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17069,
+      "time": "2018-11-20T16:25:26.558621Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":76.21949768066406,\"screenPos\":{\"x\":0.5249999761581421,\"y\":0.20092593133449555},\"actionIndex\":51,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":17,\"spawnPosition\":{\"x\":10,\"y\":0,\"z\":2},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17070,
+      "time": "2018-11-20T16:25:28.154687Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":77.81939697265625,\"screenPos\":{\"x\":0.3734374940395355,\"y\":0.0555555559694767},\"actionIndex\":52,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17071,
+      "time": "2018-11-20T16:25:29.721974Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":79.38600158691406,\"screenPos\":{\"x\":0.567187488079071,\"y\":0.20277777314186097},\"actionIndex\":53,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":1,\"objSerialization\":18,\"spawnPosition\":{\"x\":12,\"y\":0,\"z\":2},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17072,
+      "time": "2018-11-20T16:25:31.026774Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":80.68599700927735,\"screenPos\":{\"x\":0.0364583320915699,\"y\":0.06296296417713165},\"actionIndex\":54,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":1,\"prevShape\":1,\"shape\":1,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17073,
+      "time": "2018-11-20T16:25:31.753875Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":81.41940307617188,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":55,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":2}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17074,
+      "time": "2018-11-20T16:25:32.620963Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":82.28620147705078,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":56,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17075,
+      "time": "2018-11-20T16:25:33.018811Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":82.68609619140625,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":57,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":2}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17076,
+      "time": "2018-11-20T16:25:33.217748Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":82.88619995117188,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":58,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17077,
+      "time": "2018-11-20T16:25:33.390819Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":83.01940155029297,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":59,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17078,
+      "time": "2018-11-20T16:25:33.543645Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":83.18599700927735,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":60,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":5}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17079,
+      "time": "2018-11-20T16:25:33.957333Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":83.61940002441406,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":61,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17080,
+      "time": "2018-11-20T16:25:34.752302Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":84.41929626464844,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":62,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":0,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17081,
+      "time": "2018-11-20T16:25:35.023161Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":84.68609619140625,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":63,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":1,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17082,
+      "time": "2018-11-20T16:25:35.216937Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":84.88690185546875,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":64,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":2,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17083,
+      "time": "2018-11-20T16:25:35.387564Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":85.05349731445313,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":65,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":3,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17084,
+      "time": "2018-11-20T16:25:35.552421Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":85.21939849853516,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":66,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":4,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17085,
+      "time": "2018-11-20T16:25:35.740076Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":85.38610076904297,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":67,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":5,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17086,
+      "time": "2018-11-20T16:25:35.884724Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":85.55370330810547,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":68,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":6,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17087,
+      "time": "2018-11-20T16:25:36.688345Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":86.35359954833985,\"screenPos\":{\"x\":0.4072916805744171,\"y\":0.24074074625968934},\"actionIndex\":69,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":7,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17088,
+      "time": "2018-11-20T16:25:37.853317Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":87.51950073242188,\"screenPos\":{\"x\":0.4052083194255829,\"y\":0.23425926268100739},\"actionIndex\":70,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":6,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17089,
+      "time": "2018-11-20T16:25:38.416545Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":88.08599853515625,\"screenPos\":{\"x\":0.4052083194255829,\"y\":0.23425926268100739},\"actionIndex\":71,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":5,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17090,
+      "time": "2018-11-20T16:25:38.792931Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":88.45359802246094,\"screenPos\":{\"x\":0.4052083194255829,\"y\":0.23425926268100739},\"actionIndex\":72,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[18],\"prevPositions\":[{\"x\":12,\"y\":6,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17091,
+      "time": "2018-11-20T16:25:40.321396Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":89.98650360107422,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":73,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[17],\"prevSelection\":[18],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17092,
+      "time": "2018-11-20T16:25:40.849530Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":90.51940155029297,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":74,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":2}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17093,
+      "time": "2018-11-20T16:25:41.085982Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":90.75350189208985,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":75,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17094,
+      "time": "2018-11-20T16:25:41.256897Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":90.91929626464844,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":76,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17095,
+      "time": "2018-11-20T16:25:41.415362Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":91.08599853515625,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":77,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":5}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17096,
+      "time": "2018-11-20T16:25:41.583148Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":91.25270080566406,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":78,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17097,
+      "time": "2018-11-20T16:25:42.755892Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":92.41919708251953,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":79,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17098,
+      "time": "2018-11-20T16:25:42.949576Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":92.61940002441406,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":80,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":1,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17099,
+      "time": "2018-11-20T16:25:43.115611Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":92.78610229492188,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":81,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":2,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17100,
+      "time": "2018-11-20T16:25:43.283839Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":92.95349884033203,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":82,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":3,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17101,
+      "time": "2018-11-20T16:25:43.453212Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":93.11949920654297,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":83,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":4,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17102,
+      "time": "2018-11-20T16:25:43.599696Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":93.25279998779297,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":84,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":5,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17103,
+      "time": "2018-11-20T16:25:44.020450Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":93.68599700927735,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":85,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":6,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17104,
+      "time": "2018-11-20T16:25:44.391096Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":94.05349731445313,\"screenPos\":{\"x\":0.5296875238418579,\"y\":0.2490740716457367},\"actionIndex\":86,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":7,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17105,
+      "time": "2018-11-20T16:25:45.621684Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":95.28690338134766,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":87,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[16],\"prevSelection\":[17],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17106,
+      "time": "2018-11-20T16:25:45.956409Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":95.61979675292969,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":88,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":0,\"z\":2}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17107,
+      "time": "2018-11-20T16:25:46.420381Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":96.08609771728516,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":89,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":0,\"z\":3}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17108,
+      "time": "2018-11-20T16:25:46.582928Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":96.25270080566406,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":90,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17109,
+      "time": "2018-11-20T16:25:46.750766Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":96.38600158691406,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":91,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":0,\"z\":5}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17110,
+      "time": "2018-11-20T16:25:47.727078Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":97.35359954833985,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":92,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":0,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17111,
+      "time": "2018-11-20T16:25:48.002434Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":97.65360260009766,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":93,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":1,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17112,
+      "time": "2018-11-20T16:25:48.161469Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":97.81919860839844,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":94,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":2,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17113,
+      "time": "2018-11-20T16:25:48.332246Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":97.98600006103516,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":95,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":3,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17114,
+      "time": "2018-11-20T16:25:48.484521Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":98.15290069580078,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":96,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":4,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17115,
+      "time": "2018-11-20T16:25:48.652344Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":98.31939697265625,\"screenPos\":{\"x\":0.4776041805744171,\"y\":0.20555555820465089},\"actionIndex\":97,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[16],\"prevPositions\":[{\"x\":8,\"y\":5,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17116,
+      "time": "2018-11-20T16:25:50.386799Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":100.0553970336914,\"screenPos\":{\"x\":0.9348958134651184,\"y\":0.9379629492759705},\"actionIndex\":98,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":7,\"prevCam\":1}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17117,
+      "time": "2018-11-20T16:25:51.455684Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":101.12000274658203,\"screenPos\":{\"x\":0.5192708373069763,\"y\":0.45370370149612429},\"actionIndex\":99,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[17],\"prevSelection\":[16],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17118,
+      "time": "2018-11-20T16:25:52.758438Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":102.42050170898438,\"screenPos\":{\"x\":0.46822917461395266,\"y\":0.25555557012557986},\"actionIndex\":100,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[17],\"prevPositions\":[{\"x\":10,\"y\":6,\"z\":7}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17119,
+      "time": "2018-11-20T16:25:54.561395Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":104.21929931640625,\"screenPos\":{\"x\":0.4625000059604645,\"y\":0.05092592537403107},\"actionIndex\":101,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":1,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17120,
+      "time": "2018-11-20T16:25:58.322041Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":107.98609924316406,\"screenPos\":{\"x\":0.9281250238418579,\"y\":0.8490740656852722},\"actionIndex\":102,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":7,\"prevCam\":7}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17121,
+      "time": "2018-11-20T16:26:00.268596Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":109.927001953125,\"screenPos\":{\"x\":0.8630208373069763,\"y\":0.8592592477798462},\"actionIndex\":103,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":19,\"prevCam\":7}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17122,
+      "time": "2018-11-20T16:26:14.519894Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":124.1261978149414,\"screenPos\":{\"x\":0.5729166865348816,\"y\":0.3861111104488373},\"actionIndex\":104,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":3,\"objSerialization\":19,\"spawnPosition\":{\"x\":12,\"y\":0,\"z\":4},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17123,
+      "time": "2018-11-20T16:26:16.717011Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":126.32589721679688,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.03981481492519379},\"actionIndex\":105,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":2,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17124,
+      "time": "2018-11-20T16:26:17.086903Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":126.69339752197266,\"screenPos\":{\"x\":0.11406250298023224,\"y\":0.03981481492519379},\"actionIndex\":106,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":19,\"rotationOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17125,
+      "time": "2018-11-20T16:26:17.784326Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":127.39360046386719,\"screenPos\":{\"x\":0.3385416567325592,\"y\":0.21574074029922486},\"actionIndex\":107,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":19,\"rotationOffset\":{\"x\":0,\"y\":1,\"z\":0},\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17126,
+      "time": "2018-11-20T16:26:17.985110Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":127.59290313720703,\"screenPos\":{\"x\":0.3385416567325592,\"y\":0.21574074029922486},\"actionIndex\":108,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":19,\"rotationOffset\":{\"x\":0,\"y\":1,\"z\":0},\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17127,
+      "time": "2018-11-20T16:26:18.149726Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":127.72630310058594,\"screenPos\":{\"x\":0.3385416567325592,\"y\":0.21574074029922486},\"actionIndex\":109,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":19,\"rotationOffset\":{\"x\":0,\"y\":1,\"z\":0},\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17128,
+      "time": "2018-11-20T16:26:20.522955Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":130.1269989013672,\"screenPos\":{\"x\":0.4749999940395355,\"y\":0.05925925821065903},\"actionIndex\":110,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":2,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17129,
+      "time": "2018-11-20T16:26:23.092096Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":132.693603515625,\"screenPos\":{\"x\":0.5328124761581421,\"y\":0.3361110985279083},\"actionIndex\":111,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":3,\"objSerialization\":20,\"spawnPosition\":{\"x\":8,\"y\":0,\"z\":4},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17130,
+      "time": "2018-11-20T16:26:24.191804Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":133.7938995361328,\"screenPos\":{\"x\":0.4229166805744171,\"y\":0.19814814627170564},\"actionIndex\":112,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":20,\"rotationOffset\":{\"x\":0,\"y\":1,\"z\":0},\"input\":\"A\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17131,
+      "time": "2018-11-20T16:26:24.617468Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":134.22610473632813,\"screenPos\":{\"x\":0.4229166805744171,\"y\":0.19814814627170564},\"actionIndex\":113,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":20,\"rotationOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17132,
+      "time": "2018-11-20T16:26:24.820550Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":134.4261016845703,\"screenPos\":{\"x\":0.4229166805744171,\"y\":0.19814814627170564},\"actionIndex\":114,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":20,\"rotationOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17133,
+      "time": "2018-11-20T16:26:25.014809Z",
+      "type": "ws-rotate_shape",
+      "data": "{\"timeStamp\":134.6262969970703,\"screenPos\":{\"x\":0.4229166805744171,\"y\":0.19814814627170564},\"actionIndex\":115,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":20,\"rotationOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17134,
+      "time": "2018-11-20T16:26:26.752691Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":136.35940551757813,\"screenPos\":{\"x\":0.03177083283662796,\"y\":0.07222222536802292},\"actionIndex\":116,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":1,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17135,
+      "time": "2018-11-20T16:26:26.918521Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":136.5261993408203,\"screenPos\":{\"x\":0.03177083283662796,\"y\":0.07222222536802292},\"actionIndex\":117,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[20],\"prevPositions\":[{\"x\":8,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17136,
+      "time": "2018-11-20T16:26:27.285472Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":136.8936004638672,\"screenPos\":{\"x\":0.03177083283662796,\"y\":0.07222222536802292},\"actionIndex\":118,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[20],\"prevPositions\":[{\"x\":9,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17137,
+      "time": "2018-11-20T16:26:28.059846Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":137.65939331054688,\"screenPos\":{\"x\":0.23229166865348817,\"y\":0.1657407432794571},\"actionIndex\":119,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[20],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":4}],\"targetOffset\":{\"x\":1,\"y\":0,\"z\":0},\"validMove\":true,\"input\":\"D\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17138,
+      "time": "2018-11-20T16:26:30.664481Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":140.1934051513672,\"screenPos\":{\"x\":0.31041666865348818,\"y\":0.06574074178934097},\"actionIndex\":120,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":2,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17139,
+      "time": "2018-11-20T16:26:31.554120Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":141.15939331054688,\"screenPos\":{\"x\":0.559374988079071,\"y\":0.3740740716457367},\"actionIndex\":121,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[20],\"changeMode\":true,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17140,
+      "time": "2018-11-20T16:26:33.457613Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":143.0594024658203,\"screenPos\":{\"x\":0.31562501192092898,\"y\":0.05648148059844971},\"actionIndex\":122,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":2,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":3,\"shape\":3,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17141,
+      "time": "2018-11-20T16:26:34.351906Z",
+      "type": "ws-delete_shape",
+      "data": "{\"timeStamp\":143.95950317382813,\"screenPos\":{\"x\":0.5718749761581421,\"y\":0.39351850748062136},\"actionIndex\":123,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"deletedShapes\":[19],\"changeMode\":true,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17142,
+      "time": "2018-11-20T16:26:35.558629Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":145.15960693359376,\"screenPos\":{\"x\":0.4286458194255829,\"y\":0.051851850003004077},\"actionIndex\":124,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":3,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":1,\"prevShape\":3,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17143,
+      "time": "2018-11-20T16:26:39.422180Z",
+      "type": "ws-create_shape",
+      "data": "{\"timeStamp\":149.02630615234376,\"screenPos\":{\"x\":0.5411458611488342,\"y\":0.4000000059604645},\"actionIndex\":125,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"shapeType\":2,\"objSerialization\":21,\"spawnPosition\":{\"x\":10,\"y\":0,\"z\":6},\"color\":1,\"input\":\"LeftMouse\",\"changeMode\":true}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17144,
+      "time": "2018-11-20T16:26:40.385586Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":149.9929962158203,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":126,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":0,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17145,
+      "time": "2018-11-20T16:26:40.542187Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":150.12620544433595,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":127,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":1,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17146,
+      "time": "2018-11-20T16:26:40.713695Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":150.32620239257813,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":128,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":2,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17147,
+      "time": "2018-11-20T16:26:40.885697Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":150.49349975585938,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":129,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":3,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17148,
+      "time": "2018-11-20T16:26:41.083446Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":150.69369506835938,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":130,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":4,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17149,
+      "time": "2018-11-20T16:26:41.239746Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":150.8271942138672,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":131,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":5,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17150,
+      "time": "2018-11-20T16:26:41.403694Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":150.9936981201172,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":132,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":6,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17151,
+      "time": "2018-11-20T16:26:41.916737Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":151.5260009765625,\"screenPos\":{\"x\":0.3473958373069763,\"y\":0.22592592239379884},\"actionIndex\":133,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":7,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17152,
+      "time": "2018-11-20T16:26:44.949829Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":154.55929565429688,\"screenPos\":{\"x\":0.171875,\"y\":0.07222222536802292},\"actionIndex\":134,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":3,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17153,
+      "time": "2018-11-20T16:26:46.450705Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":156.05929565429688,\"screenPos\":{\"x\":0.5536458492279053,\"y\":0.5018518567085266},\"actionIndex\":135,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":21,\"prevScale\":{\"x\":1,\"y\":1,\"z\":1},\"newScale\":{\"x\":2,\"y\":1,\"z\":2},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17154,
+      "time": "2018-11-20T16:26:49.584825Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":159.1929931640625,\"screenPos\":{\"x\":0.5645833611488342,\"y\":0.4749999940395355},\"actionIndex\":136,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":21,\"prevScale\":{\"x\":2,\"y\":1,\"z\":2},\"newScale\":{\"x\":1,\"y\":1,\"z\":1},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17155,
+      "time": "2018-11-20T16:26:51.386438Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":160.9925994873047,\"screenPos\":{\"x\":0.8942708373069763,\"y\":0.8611111044883728},\"actionIndex\":137,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":8,\"prevCam\":19}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17156,
+      "time": "2018-11-20T16:26:52.688882Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":162.2926025390625,\"screenPos\":{\"x\":0.8765624761581421,\"y\":0.9083333611488342},\"actionIndex\":138,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":10,\"prevCam\":8}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17157,
+      "time": "2018-11-20T16:26:54.150478Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":163.75950622558595,\"screenPos\":{\"x\":0.9161458611488342,\"y\":0.8046296238899231},\"actionIndex\":139,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":4,\"prevCam\":10}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17158,
+      "time": "2018-11-20T16:26:55.817676Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":165.42599487304688,\"screenPos\":{\"x\":0.48645833134651186,\"y\":0.4694444537162781},\"actionIndex\":140,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[17],\"prevSelection\":[21],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17159,
+      "time": "2018-11-20T16:27:00.721047Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":170.32620239257813,\"screenPos\":{\"x\":0.46145832538604739,\"y\":0.47777777910232546},\"actionIndex\":141,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":17,\"prevScale\":{\"x\":1,\"y\":1,\"z\":1},\"newScale\":{\"x\":1,\"y\":2,\"z\":1},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17160,
+      "time": "2018-11-20T16:27:02.983290Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":172.593505859375,\"screenPos\":{\"x\":0.4609375,\"y\":0.43518519401550295},\"actionIndex\":142,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":17,\"prevScale\":{\"x\":1,\"y\":2,\"z\":1},\"newScale\":{\"x\":1,\"y\":2,\"z\":2},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17161,
+      "time": "2018-11-20T16:27:05.083957Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":174.6927032470703,\"screenPos\":{\"x\":0.9078124761581421,\"y\":0.9462962746620178},\"actionIndex\":143,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":10,\"prevCam\":4}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17162,
+      "time": "2018-11-20T16:27:07.086788Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":176.69259643554688,\"screenPos\":{\"x\":0.4593749940395355,\"y\":0.5046296119689941},\"actionIndex\":144,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":17,\"prevScale\":{\"x\":1,\"y\":2,\"z\":2},\"newScale\":{\"x\":1,\"y\":2,\"z\":1},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17163,
+      "time": "2018-11-20T16:27:08.086935Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":177.69290161132813,\"screenPos\":{\"x\":0.48489582538604739,\"y\":0.4879629611968994},\"actionIndex\":145,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":17,\"prevScale\":{\"x\":1,\"y\":2,\"z\":1},\"newScale\":{\"x\":2,\"y\":2,\"z\":1},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17164,
+      "time": "2018-11-20T16:27:09.082589Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":178.6927032470703,\"screenPos\":{\"x\":0.4854166805744171,\"y\":0.5916666388511658},\"actionIndex\":146,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[21],\"prevSelection\":[17],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17165,
+      "time": "2018-11-20T16:27:11.083938Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":180.69259643554688,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.06203703582286835},\"actionIndex\":147,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":3,\"xfmMode\":1,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17166,
+      "time": "2018-11-20T16:27:11.854827Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":181.4593048095703,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.06203703582286835},\"actionIndex\":148,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":8,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":-1},\"validMove\":true,\"input\":\"W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17167,
+      "time": "2018-11-20T16:27:12.756632Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":182.3594970703125,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.06203703582286835},\"actionIndex\":149,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":8,\"z\":5}],\"targetOffset\":{\"x\":0,\"y\":0,\"z\":1},\"validMove\":true,\"input\":\"S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17168,
+      "time": "2018-11-20T16:27:13.181561Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":182.79269409179688,\"screenPos\":{\"x\":0.03593749925494194,\"y\":0.06203703582286835},\"actionIndex\":150,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":8,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":1,\"z\":0},\"validMove\":true,\"input\":\"Shift+W\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17169,
+      "time": "2018-11-20T16:27:15.055358Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":184.6605987548828,\"screenPos\":{\"x\":0.8776041865348816,\"y\":0.8231481313705444},\"actionIndex\":151,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":17,\"prevCam\":10}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17170,
+      "time": "2018-11-20T16:27:17.349325Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":186.9604949951172,\"screenPos\":{\"x\":0.8901041746139526,\"y\":0.8379629850387573},\"actionIndex\":152,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":3,\"prevCam\":17}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17171,
+      "time": "2018-11-20T16:27:17.951462Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":187.5594940185547,\"screenPos\":{\"x\":0.8739583492279053,\"y\":0.8416666388511658},\"actionIndex\":153,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":16,\"prevCam\":3}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17172,
+      "time": "2018-11-20T16:27:18.582473Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":188.1925048828125,\"screenPos\":{\"x\":0.8828125,\"y\":0.8388888835906982},\"actionIndex\":154,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":1,\"prevCam\":16}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17173,
+      "time": "2018-11-20T16:27:19.218949Z",
+      "type": "ws-deselect_shape",
+      "data": "{\"timeStamp\":188.79339599609376,\"screenPos\":{\"x\":0.7994791865348816,\"y\":0.5444444417953491},\"actionIndex\":155,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[],\"prevSelection\":[21],\"input\":\"ClickNothing\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17174,
+      "time": "2018-11-20T16:27:20.666394Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":190.26699829101563,\"screenPos\":{\"x\":0.5307291746139526,\"y\":0.47592592239379885},\"actionIndex\":156,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[17],\"prevSelection\":[],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17175,
+      "time": "2018-11-20T16:27:22.581203Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":192.19290161132813,\"screenPos\":{\"x\":0.12083332985639572,\"y\":0.05648148059844971},\"actionIndex\":157,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":2,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17176,
+      "time": "2018-11-20T16:27:24.282690Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":193.8927001953125,\"screenPos\":{\"x\":0.17552083730697633,\"y\":0.040740739554166797},\"actionIndex\":158,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":2,\"xfmMode\":3,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17177,
+      "time": "2018-11-20T16:27:28.082182Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":197.69290161132813,\"screenPos\":{\"x\":0.5713541507720947,\"y\":0.4861111044883728},\"actionIndex\":159,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":17,\"prevScale\":{\"x\":2,\"y\":2,\"z\":1},\"newScale\":{\"x\":2,\"y\":1,\"z\":1},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17180,
+      "time": "2018-11-20T16:27:33.614333Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":203.2259063720703,\"screenPos\":{\"x\":0.5171874761581421,\"y\":0.41203704476356509},\"actionIndex\":162,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[17],\"prevSelection\":[],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17181,
+      "time": "2018-11-20T16:27:34.449109Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":204.0594940185547,\"screenPos\":{\"x\":0.5161458253860474,\"y\":0.3740740716457367},\"actionIndex\":163,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":17,\"prevScale\":{\"x\":2,\"y\":1,\"z\":1},\"newScale\":{\"x\":1,\"y\":1,\"z\":1},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17182,
+      "time": "2018-11-20T16:27:35.918883Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":205.5261993408203,\"screenPos\":{\"x\":0.47604167461395266,\"y\":0.40925925970077517},\"actionIndex\":164,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[16],\"prevSelection\":[17],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17183,
+      "time": "2018-11-20T16:27:37.884055Z",
+      "type": "ws-deselect_shape",
+      "data": "{\"timeStamp\":207.46029663085938,\"screenPos\":{\"x\":0.7119791507720947,\"y\":0.5166666507720947},\"actionIndex\":165,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[],\"prevSelection\":[16],\"input\":\"ClickNothing\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17184,
+      "time": "2018-11-20T16:27:38.886408Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":208.4936065673828,\"screenPos\":{\"x\":0.9244791865348816,\"y\":0.8018518686294556},\"actionIndex\":166,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":1,\"prevCam\":7}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17185,
+      "time": "2018-11-20T16:27:39.985079Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":209.5926971435547,\"screenPos\":{\"x\":0.520312488079071,\"y\":0.5611110925674439},\"actionIndex\":167,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[21],\"prevSelection\":[],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17186,
+      "time": "2018-11-20T16:27:41.671410Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":211.26480102539063,\"screenPos\":{\"x\":0.03854166716337204,\"y\":0.05370370298624039},\"actionIndex\":168,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":3,\"xfmMode\":1,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17187,
+      "time": "2018-11-20T16:27:42.680774Z",
+      "type": "ws-move_shape",
+      "data": "{\"timeStamp\":212.2928009033203,\"screenPos\":{\"x\":0.03854166716337204,\"y\":0.05370370298624039},\"actionIndex\":169,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObjects\":[21],\"prevPositions\":[{\"x\":10,\"y\":9,\"z\":6}],\"targetOffset\":{\"x\":0,\"y\":-1,\"z\":0},\"validMove\":true,\"input\":\"Shift+S\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17188,
+      "time": "2018-11-20T16:27:44.852373Z",
+      "type": "ws-deselect_shape",
+      "data": "{\"timeStamp\":214.4261016845703,\"screenPos\":{\"x\":0.78125,\"y\":0.7879629731178284},\"actionIndex\":170,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[],\"prevSelection\":[21],\"input\":\"ClickNothing\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17189,
+      "time": "2018-11-20T16:27:46.619300Z",
+      "type": "ws-select_shape",
+      "data": "{\"timeStamp\":216.22579956054688,\"screenPos\":{\"x\":0.5197916626930237,\"y\":0.5629629492759705},\"actionIndex\":171,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[21],\"prevSelection\":[],\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17190,
+      "time": "2018-11-20T16:27:49.485967Z",
+      "type": "ws-mode_change",
+      "data": "{\"timeStamp\":219.09339904785157,\"screenPos\":{\"x\":0.16458334028720857,\"y\":0.08518518507480622},\"actionIndex\":172,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"mode\":1,\"prevMode\":1,\"prevXfmMode\":1,\"xfmMode\":3,\"prevShape\":2,\"shape\":2,\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17191,
+      "time": "2018-11-20T16:27:51.848408Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":221.46080017089845,\"screenPos\":{\"x\":0.9213541746139526,\"y\":0.9472222328186035},\"actionIndex\":173,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":7,\"prevCam\":1}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17192,
+      "time": "2018-11-20T16:27:53.481028Z",
+      "type": "ws-scale_shape",
+      "data": "{\"timeStamp\":223.0926971435547,\"screenPos\":{\"x\":0.5255208611488342,\"y\":0.4194444417953491},\"actionIndex\":174,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"selectedObject\":21,\"prevScale\":{\"x\":1,\"y\":1,\"z\":1},\"newScale\":{\"x\":2,\"y\":1,\"z\":2},\"input\":\"LeftMouse\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17193,
+      "time": "2018-11-20T16:27:54.886547Z",
+      "type": "ws-rotate_view",
+      "data": "{\"timeStamp\":224.4936065673828,\"screenPos\":{\"x\":0.9291666746139526,\"y\":0.8222222328186035},\"actionIndex\":175,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"targetCam\":1,\"prevCam\":7}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17194,
+      "time": "2018-11-20T16:27:55.848918Z",
+      "type": "ws-deselect_shape",
+      "data": "{\"timeStamp\":225.4261932373047,\"screenPos\":{\"x\":0.840624988079071,\"y\":0.5351851582527161},\"actionIndex\":176,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"newSelection\":[],\"prevSelection\":[21],\"input\":\"ClickNothing\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17195,
+      "time": "2018-11-20T16:29:14.057806Z",
+      "type": "ws-restart_puzzle",
+      "data": "{\"timeStamp\":303.55938720703127,\"screenPos\":{\"x\":0.12864583730697633,\"y\":0.8768518567085266},\"actionIndex\":177,\"user\":\"Philip Tan\",\"group\":\"Development-Group\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17196,
+      "time": "2018-11-20T16:29:14.235806Z",
+      "type": "ws-puzzle_started",
+      "data": "{\"timeStamp\":303.55938720703127,\"screenPos\":{\"x\":0.12864583730697633,\"y\":0.8768518567085266},\"actionIndex\":178,\"user\":\"Philip Tan\",\"group\":\"Development-Group\",\"task_id\":\"Sandbox\",\"set_id\":\"None\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    },
+    {
+      "id": 17197,
+      "time": "2018-11-20T16:29:14.725483Z",
+      "type": "ws-exit_to_menu",
+      "data": "{\"timeStamp\":304.22491455078127,\"screenPos\":{\"x\":0.13072916865348817,\"y\":0.9490740895271301},\"actionIndex\":179,\"user\":\"Philip Tan\",\"group\":\"Development-Group\"}",
+      "session": "jxb3ljsccjnhwt5n6bjdqzrhcylrziks"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 {
-    "allowRotate": true,
-    "allowScale": true,
-    "description": "In Shadowspect, you assemble 3D objects to match ALL the silhouettes at the top of the screen.\n\nSelect the cube at the bottom of the screen, then click on the grid to place a cube anywhere.\n\nClick \"Submit\" to solve the puzzle.",
+    "allowRotate": false,
+    "allowScale": false,
+    "description": "In Shadowspect, you assemble 3D objects to match ALL the silhouettes at the top of the screen.\n\nSelect the box at the bottom of the screen, then click on the grid to place a box anywhere.\n\nClick \"Submit\" to solve the puzzle.",
     "gridDim": 3,
-    "puzzleName": "One Cube",
+    "puzzleName": "One Box",
     "shapeData": [
         {
             "gridPosition": {

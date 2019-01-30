@@ -3,7 +3,7 @@
     "allowScale": false,
     "description": "Some puzzles limit what KIND of objects you can use in a solution.\n\nAt the bottom of the screen, you will see some objects have a number under them. You are only allowed to use up to that number of objects in your solution.\n\nYou cannot click the Submit button if you use too many objects.",
     "gridDim": 3,
-    "puzzleName": "Stack 2 Ramps",
+    "puzzleName": "Combine 2 Ramps",
     "shapeData": [
         {
             "gridPosition": {

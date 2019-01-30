@@ -1,6 +1,6 @@
 {
-  "puzzleName": "Cubes Obscure Spheres",
-  "description": "If there's a cube sharing a row with any other objects, it tends to obscure smaller cross-sections.\n\nOther objects, like cylinders, have square cross-sections that behave the same way.",
+  "puzzleName": "Boxes Obscure Spheres",
+  "description": "If there's a box sharing a row with any other objects, it tends to obscure smaller cross-sections.\n\nOther objects, like cylinders, have square cross-sections that behave the same way.",
   "gridDim": 5,
   "shapeLimits": [4, -1, 0, 0, 2, 0, -1],
   "allowScale": true,

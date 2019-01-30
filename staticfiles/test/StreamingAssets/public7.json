@@ -1,6 +1,6 @@
 {
-  "puzzleName": "Shape Limits",
-  "description": "Look at the numbers under the shapes to verify how many objects you can use to solve a puzzle.\n\nSometimes, you need to scale or rotate a limited number of objects instead of adding more.",
+  "puzzleName": "Object Limits",
+  "description": "Look at the numbers under the objects to verify how many objects you can use to solve a puzzle.\n\nSometimes, you need to stretch or rotate a limited number of objects instead of adding more.\n\nRatios have to be exact!",
   "gridDim": 4,
   "shapeLimits": [1, 1, 0, 0, 0, 0, 0],
   "allowScale": true,
@@ -33,5 +33,5 @@
       "z": 0
     }
   }],
-  "solutionCameraAngles": [19]
+  "solutionCameraAngles": [19, 4, 3]
 }

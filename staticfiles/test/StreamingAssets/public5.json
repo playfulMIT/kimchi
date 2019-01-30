@@ -1,6 +1,6 @@
 {
   "puzzleName": "Pyramids are Strange",
-  "description": "Just one silhouete, just one object, but lots of different cross-sections! \n\nOnly four pyramids are used in this puzzle. You'll have to rotate some and scale others.",
+  "description": "Just one silhouete, just one object, but lots of different cross-sections! \n\nOnly four pyramids are used in this puzzle. You'll have to rotate some and stretch others.",
   "gridDim": 5,
   "shapeLimits": [4, 0, -1, 0, 0, 0, 0],
   "allowScale": true,

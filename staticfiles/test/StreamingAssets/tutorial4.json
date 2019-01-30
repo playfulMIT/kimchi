@@ -1,9 +1,9 @@
 {
   "puzzleName": "Match Silhouettes",
-  "description": "Click the sides, edges and corners of the CUBE on the top-right to look at your assembly from different angles.\n\nClick the CAMERA icon on the right to flatten your assembly into a silhouette from your perspective.\n\nYou can rotate your assembly and try out as many silhouettes as you like.",
+  "description": "Click the sides, edges and corners of the CUBE on the top-right to look at your assembly from different angles. Try clicking a corner of the CUBE!\n\nClick the CAMERA icon on the right to flatten your assembly into a silhouette from your perspective.\n\nYou can look around your assembly and click the CAMERA as often as you like, but you cannot rotate any objects in this puzzle.",
   "gridDim": 3,
   "shapeLimits": [-1, -1, -1, 0, 0, 0, 0],
-  "allowScale": true,
+  "allowScale": false,
   "allowRotate": false,
   "shapeData": [{
     "shapeType": 1,

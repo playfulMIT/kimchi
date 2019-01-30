@@ -2,8 +2,8 @@
     "puzzleName": "Removing Objects",
     "description": "If you wish to remove an object you have placed, first click the TRASH CAN at the bottom of the screen, then click the object you wish to remove.\n\nIf you accidentally delete an object, you can use the UNDO button next to the Submit button.",
     "gridDim": 4,
-    "allowScale": true,
-    "allowRotate": true,
+    "allowScale": false,
+    "allowRotate": false,
     "shapeLimits": [
         -1,
         1,
