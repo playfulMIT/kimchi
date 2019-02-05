@@ -71,7 +71,7 @@ MIDDLEWARE = [
 
 # These are for overcoming cross origin read blocking
 # X_FRAME_OPTIONS = 'SAMEORIGIN'
-X_FRAME_OPTIONS = 'ALLOW-FROM web.mit.edu gbakimchi.herokuapp.com'
+X_FRAME_OPTIONS = 'ALLOW-FROM web.mit.edu gbakimchi.herokuapp.com localhost shadowspect.org'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Ensures sessions persist
