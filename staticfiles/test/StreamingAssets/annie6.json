@@ -1,0 +1,254 @@
+{
+	"puzzleName": "Bear Market",
+	"description": "A bear? Or a chubby dog? Look, there's only so much you can do with spheres, okay?",
+	"gridDim": 5,
+	"shapeLimits": [-1, 0, 0, 0, 0, 0, -1],
+	"allowScale": true,
+	"allowRotate": true,
+	"shapeData": [{
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 4,
+				"y": 3,
+				"z": 1
+			},
+			"scale": {
+				"x": 2,
+				"y": 2,
+				"z": 2
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 6,
+				"y": 5,
+				"z": 2
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 2,
+				"y": 5,
+				"z": 2
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 4,
+				"y": 3,
+				"z": 8
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 4,
+				"y": 0,
+				"z": 5
+			},
+			"scale": {
+				"x": 3,
+				"y": 3,
+				"z": 3
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 7,
+				"y": 0,
+				"z": 2
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 1,
+				"y": 0,
+				"z": 2
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 7,
+				"y": 0,
+				"z": 8
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 6,
+			"gridPosition": {
+				"x": 1,
+				"y": 0,
+				"z": 8
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}
+	],
+	"solutionCameraAngles": [7, 4, 5]
+}

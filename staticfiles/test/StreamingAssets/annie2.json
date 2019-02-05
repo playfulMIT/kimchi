@@ -1,0 +1,65 @@
+{
+	"puzzleName": "Stranger Shapes",
+	"description": "Squares? Triangles? Nope - just two very stretchy, strange pyramids.",
+	"gridDim": 3,
+	"shapeLimits": [2, 0, 2, 0, 0, 0, 0],
+	"allowScale": true,
+	"allowRotate": true,
+	"shapeData": [{
+			"shapeType": 2,
+			"gridPosition": {
+				"x": 0,
+				"y": 0,
+				"z": 4
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			},
+			"rotUp": {
+				"x": 0,
+				"y": -1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": -1,
+				"y": 0,
+				"z": 0
+			}
+		}, {
+			"shapeType": 2,
+			"gridPosition": {
+				"x": 4,
+				"y": 0,
+				"z": 1
+			},
+			"scale": {
+				"x": 2,
+				"y": 2,
+				"z": 2
+			},
+			"rotUp": {
+				"x": 0,
+				"y": 1,
+				"z": 0
+			},
+			"rotFwd": {
+				"x": 0,
+				"y": 0,
+				"z": 1
+			},
+			"rotRight": {
+				"x": 1,
+				"y": 0,
+				"z": 0
+			}
+		}
+	],
+	"solutionCameraAngles": [5, 1]
+}

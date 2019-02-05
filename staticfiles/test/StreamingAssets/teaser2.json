@@ -1,17 +1,11 @@
 {
-  "puzzleName": "Know Your Limits",
-  "description": "Can you figure this one out?",
+  "puzzleName": "Unnecessary",
+  "description": "You can solve this puzzle with three objects. But can you solve it with FOUR?",
   "gridDim": 4,
   "allowScale": true,
   "allowRotate": true,
-  "shapeLimits":
-  [
-  	-1,
-  	2,
-  	3
-  ],
-  "shapeData": [
-    {
+  "shapeLimits": [-1, -1, -1, -1, -1, -1, -1],
+  "shapeData": [{
       "shapeType": 4,
       "gridPosition": {
         "x": 4,

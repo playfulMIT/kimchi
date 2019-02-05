@@ -1,7 +1,7 @@
 {
 	"canEdit": false,
 	"useGuests": true,
-	"groupID": "Festival-Of-Learning-2019",
+	"groupID": "Annie-New-Puzzles",
 	"replayFiles": [
 		"Replay1.json"
 	],
@@ -41,6 +41,12 @@
 			"puzzles": [
 				"teaser1",
 				"teaser2",
+				"annie1",
+				"annie2",
+				"annie3",
+				"annie4",
+				"annie5",
+				"annie6",
 				"teaser3"
 			]
 		}
