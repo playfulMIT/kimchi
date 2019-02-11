@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Shadowspect</title>
+    <link href="/static/test/TemplateData/favicon.ico" rel="shortcut icon">
+    <link href="/static/test/TemplateData/style.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" type="text/css"/>
+    <script src="/static/test/TemplateData/UnityProgress.js"></script>
+    <script src="/static/test/Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "/static/test/Build/WebGL.json", {onProgress: UnityProgress});
+
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+    window.onload = function(){
+        swal({
+          title: "Anonymous Data Consent",
+          text: "{{ sessionID }} \nThis game is part of an MIT project to design new ways to learn and assess math skills. In order to improve these educational tools, the game will record your actions in the game, but there will be no way for us to identify you. Part of the project includes a research study on how student learning can be assessed with games. Your decision to participate in the study is voluntary, and if you agree, the data collected and results of the research may be presented at conferences and published in journals. If you choose not to participate, you will have the same gameplay experience but your data will not be included in the research study.",
+          icon: "warning",
+          closeOnClickOutside: false,
+          buttons: {
+            consent: {
+                text: "Yes, MIT can use my data in the research study.",
+                value: true,
+                },
+            nonconsent: {
+                text: "No, I don’t want my data used for research.",
+                value: false
+                },
+          }
+        })
+        .then((consenting) => {
+          if (consenting) {
+            <!--swal("thanks!", {-->
+              <!--icon: "success",-->
+            <!--});-->
+          } else {
+            <!--swal("whatever");-->
+          }
+        });
+        };
+
+    </script>
+    <style>
+        .swal-modal {
+            background-color: #00384c
+        }
+        .swal-footer, .swal-text, .swal-title {
+            text-align: center;
+	        font-family: Quicksand;
+        }
+        .swal-button--consent {
+        	background-color: #60cad4;
+        }
+        .swal-button--nonconsent {
+        	background-color: #d54d5c;
+        }
+        .swal-title, .swal-text {
+            color: #e2dbd7
+        }
+        .swal-button {
+            color: #000000
+        }
+
+    </style>
+</head>
+<body>
+<div class="webgl-content">
+    <div id="gameContainer" style="width: 960px; height: 540px"></div>
+    <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">Shadowspect</div>
+    </div>
+</div>
+</body>
+</html>
