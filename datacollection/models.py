@@ -1,4 +1,4 @@
-from django.contrib.sessions.models import Session
+# from django.contrib.sessions.models import Session
 from django.db import models
 from django.utils import timezone
 
@@ -10,7 +10,7 @@ from django.contrib.sessions.base_session import AbstractBaseSession
 
 
 class CustomSession(AbstractBaseSession):
-    account_id = models.IntegerField(null=True, db_index=True)
+    player = models.ForeignKey('Player', null=True, on_delete=models.SET_NULL)
 
     @classmethod
     def get_session_store_class(cls):
@@ -34,7 +34,7 @@ class SessionStore(DBStore):
 class Event(models.Model):
     time = models.DateTimeField(default=timezone.now)
     # user = models.ForeignKey(User, on_delete=models.CASCADE) # index on user
-    session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
+    session = models.ForeignKey(CustomSession, null=True, on_delete=models.SET_NULL)
     type = models.CharField(max_length=32)
     data = models.TextField()
 
@@ -69,10 +69,10 @@ class Player(models.Model):
         return self.name
 
 
-class PlayerSession(models.Model):
-    player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
-    session = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        key = "session_missing" if self.session is None else self.session.session_key
-        return key
+# class PlayerSession(models.Model):
+#     player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
+#     session = models.ForeignKey(CustomSession, null=True, on_delete=models.SET_NULL)
+#
+#     def __str__(self):
+#         key = "session_missing" if self.session is None else self.session.session_key
+#         return key

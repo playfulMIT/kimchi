@@ -5,7 +5,7 @@ from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 
 from shadowspect.models import Level, LevelSet
-from .models import Event, Player, PlayerSession
+from .models import Event, Player, CustomSession
 from .utils import get_group
 
 
@@ -43,8 +43,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
-            self.playersession, playersessioncreated = PlayerSession.objects.get_or_create(player=player,
-                                                                                           session=self.session)
+            self.customsession = CustomSession.objects.get(session=self.session)
+
             if not created:
                 # get a player's progress here
                 attempted = []
@@ -71,6 +71,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                     }])
             else:
                 print('created player')
+                self.customsession.player = player
                 response = json.dumps([{
                     "status": 201,
                     "message": "created"
@@ -86,9 +87,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             except Level.DoesNotExist:
                 level = Level.objects.create(filename=levelname, levelset=levelset)
             if 'puzzle_started' in type:
-                self.playersession.player.attempted.add(level)
+                self.customsession.player.attempted.add(level)
             elif 'puzzle_complete' in type:
-                self.playersession.player.completed.add(level)
+                self.customsession.player.completed.add(level)
 
         close_old_connections()
 
