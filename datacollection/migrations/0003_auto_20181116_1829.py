@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('games', '0004_auto_20181114_1547'),
+        ('shadowspect', '0004_auto_20181114_1547'),
         ('datacollection', '0002_auto_20181114_1355'),
     ]
 
@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='player',
             name='attempted',
-            field=models.ManyToManyField(blank=True, related_name='levels_attempted', to='games.Level'),
+            field=models.ManyToManyField(blank=True, related_name='levels_attempted', to='shadowspect.Level'),
         ),
         migrations.AddField(
             model_name='player',
             name='completed',
-            field=models.ManyToManyField(blank=True, related_name='levels_completed', to='games.Level'),
+            field=models.ManyToManyField(blank=True, related_name='levels_completed', to='shadowspect.Level'),
         ),
     ]

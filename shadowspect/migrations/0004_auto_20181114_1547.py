@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('games', '0003_auto_20181114_1409'),
+        ('shadowspect', '0003_auto_20181114_1409'),
     ]
 
     operations = [

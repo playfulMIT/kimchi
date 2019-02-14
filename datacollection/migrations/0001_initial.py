@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('games', '0001_initial'),
+        ('shadowspect', '0001_initial'),
         ('sessions', '0001_initial'),
     ]
 
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             name='URL',
             fields=[
                 ('name', models.CharField(max_length=50, primary_key=True, serialize=False)),
-                ('levelsets', models.ManyToManyField(blank=True, to='games.LevelSet')),
+                ('levelsets', models.ManyToManyField(blank=True, to='shadowspect.LevelSet')),
             ],
         ),
         migrations.AddField(

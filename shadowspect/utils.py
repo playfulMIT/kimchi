@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse
 
 from datacollection.models import URL
-from games.models import LevelSet, Level
+from shadowspect.models import LevelSet, Level
 
 
 def get_config_json(request):

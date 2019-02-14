@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 
-from games.models import Level, LevelSet
+from shadowspect.models import Level, LevelSet
 from .models import Event, Player, PlayerSession
 from .utils import get_group
 
