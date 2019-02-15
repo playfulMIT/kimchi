@@ -1,15 +1,16 @@
-import logging
+# import logging
 
-from django.contrib.sessions.models import Session
+# from django.contrib.sessions.models import Session
+
 from django.http import StreamingHttpResponse, HttpResponse, JsonResponse
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from datacollection.serializers import EventSerializer
-from .models import Event, Player, URL  # , GameSession
+from .models import Event, Player, URL, CustomSession  # , GameSession
 from .serializers import PlayerSerializer  # , GameSessionSerializer
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -28,7 +29,7 @@ class EventViewSet(viewsets.ModelViewSet):
         request.data.update({'session': key})
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        sessionObj = Session.objects.get(pk=key)
+        sessionObj = CustomSession.objects.get(pk=key)
         serializer.save(session=sessionObj)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
