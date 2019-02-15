@@ -42,7 +42,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
-            self.customsession = CustomSession.objects.get(session=self.session)
+            self.customsession = CustomSession.objects.get(session_key=self.session)
 
             if not created:
                 # get a player's progress here
