@@ -16,7 +16,7 @@ def wildcard_url(request, slug):
 def mturk(request):
     if not request.session.session_key:
         request.session.save()
-    print('metadata:')
+    print("session key: " + request.session.session_key)
     session = CustomSession.objects.get(session_key=request.session.session_key)
     if session.useragent is None:
         session.useragent = request.META.get('HTTP_USER_AGENT')
