@@ -76,7 +76,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Ensures sessions persist
 # https://docs.djangoproject.com/en/2.0/topics/http/sessions/#configuring-sessions
-SESSION_ENGINE = "datacollection.models.SessionStore"
+SESSION_ENGINE = "datacollection.models"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_HTTPONLY = False
