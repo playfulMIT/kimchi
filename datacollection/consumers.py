@@ -1,7 +1,6 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.contrib.sessions.models import Session
 from django.db import close_old_connections
 
 from shadowspect.models import Level, LevelSet
@@ -16,7 +15,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         close_old_connections()
         self.scope["session"].save()
         key = self.scope["session"].session_key
-        self.session = Session.objects.get(session_key=key)
+        self.session = CustomSession.objects.get(session_key=key)
         await self.accept()
         await self.send(text_data=key)
         close_old_connections()
