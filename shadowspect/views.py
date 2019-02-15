@@ -10,7 +10,7 @@ def wildcard_url(request, slug):
         request.session.save()
     url = get_object_or_404(URL, pk=slug)
     request.session['urlpk'] = url.pk
-    return render(request, 'shadowspect/test.html',
+    return render(request, 'shadowspect/play.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
 
 def mturk(request):

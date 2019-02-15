@@ -11,6 +11,8 @@ from django.contrib.sessions.base_session import AbstractBaseSession
 
 class CustomSession(AbstractBaseSession):
     player = models.ForeignKey('Player', null=True, on_delete=models.SET_NULL)
+    ip = models.CharField(max_length=16, null=True)
+    useragent = models.TextField(null=True)
 
     @classmethod
     def get_session_store_class(cls):
