@@ -19,9 +19,11 @@ def mturk(request):
     print("session key: " + request.session.session_key)
     session = CustomSession.objects.get(session_key=request.session.session_key)
     if session.useragent is None:
-        session.useragent = request.META.get('HTTP_USER_AGENT')
+        print("assigning useragent")
+        session.useragent = str(request.META.get('HTTP_USER_AGENT'))
     if session.ip is None:
-        session.ip = request.META.get('REMOTE_ADDR')
+        print("assigning ip")
+        session.ip = str(request.META.get('REMOTE_ADDR'))
     session.save()
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
