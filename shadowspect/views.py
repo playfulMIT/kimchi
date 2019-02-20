@@ -25,6 +25,7 @@ def mturk(request):
         # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
         address = str(request.META.get('REMOTE_ADDR'))
         session.ip = address
+    request.session.modified = True
     session.save()
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
