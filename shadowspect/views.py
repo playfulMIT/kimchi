@@ -23,7 +23,8 @@ def mturk(request):
         session.useragent = str(request.META.get('HTTP_USER_AGENT'))
     if session.ip is None:
         # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
-        session.ip = str(request.META.get('REMOTE_ADDR'))
+        address = str(request.META.get('REMOTE_ADDR'))
+        session.ip = address
     session.save()
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
