@@ -18,17 +18,17 @@ def mturk(request):
         request.session.save()
     print("session key: " + request.session.session_key)
     print("session dict: " + str(request.session.model.__dict__))
-    session = CustomSession.objects.get(session_key=request.session.session_key)
-    if request.session.model.useragent is None:
+    session = CustomSession.objects.defer(None).get(session_key=request.session.session_key)
+    if session.useragent is None:
         print("assigning useragent: " + str(request.META.get('HTTP_USER_AGENT')))
-        request.session.model.useragent = str(request.META.get('HTTP_USER_AGENT'))
-    if request.session.model.ip is None:
+        session.useragent = str(request.META.get('HTTP_USER_AGENT'))
+    if session.ip is None:
         # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
         address = str(request.META.get('REMOTE_ADDR'))
         request.session.model.ip = address
     request.session.modified = True
     session.save()
     request.session.save()
-    request.session.model.save()
+    
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
