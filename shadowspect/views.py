@@ -29,6 +29,6 @@ def mturk(request):
     request.session.modified = True
     session.save()
     request.session.save()
-    
+
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})

@@ -14,8 +14,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print('connection opening')
         close_old_connections()
         self.scope["session"].save()
-        key = self.scope["session"].session_key
-        self.session = CustomSession.objects.get(session_key=key)
+        self.key = self.scope["session"].session_key
+        self.customsession = CustomSession.objects.get(session_key=self.key)
         await self.accept()
         await self.send(text_data=key)
         close_old_connections()
@@ -27,7 +27,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         if (bytes_data):
             data_json = json.loads(bytes_data.decode("utf-8"))
         type = "ws-" + data_json["type"]
-        Event.objects.create(session=self.session, type=type, data=data_json["data"])
+        Event.objects.create(session=self.customsession, type=type, data=data_json["data"])
 
         if 'start_game' in type:
             url, namejson = get_group(self, data_json)
@@ -42,7 +42,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
-            self.customsession = CustomSession.objects.get(session_key=self.session)
+            self.customsession = CustomSession.objects.get(session_key=self.key)
 
             if not created:
                 # get a player's progress here
