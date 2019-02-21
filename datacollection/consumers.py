@@ -17,7 +17,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.key = self.scope["session"].session_key
         self.customsession = CustomSession.objects.get(session_key=self.key)
         await self.accept()
-        await self.send(text_data=key)
+        await self.send(text_data=self.key)
         close_old_connections()
 
     async def receive(self, text_data=None, bytes_data=None):
