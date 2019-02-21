@@ -17,6 +17,7 @@ def mturk(request):
     if not request.session.session_key:
         request.session.save()
     print("session key: " + request.session.session_key)
+    print("session dict: " + request.session.__dict__)
     session = CustomSession.objects.get(session_key=request.session.session_key)
     if request.session.useragent is None:
         print("assigning useragent: " + str(request.META.get('HTTP_USER_AGENT')))
