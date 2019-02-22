@@ -25,7 +25,7 @@ def mturk(request):
     if session.ip is None:
         # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
         address = str(request.META.get('REMOTE_ADDR'))
-        request.session.model.ip = address
+        request.session['ip'] = address
     # request.session.modified = True
     session.save()
     # request.session.save()
