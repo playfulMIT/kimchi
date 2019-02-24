@@ -21,11 +21,11 @@ from shadowspect.utils import get_config_json, get_level_json
 from shadowspect.views import debug
 
 urlpatterns = [
+    path('debug/', debug),
     path('admin/', admin.site.urls),
     path('', include('datacollection.urls')),
     path('', include('shadowspect.urls')),
     path('static/shadowspect_static/StreamingAssets/config.json', get_config_json),
     re_path(r'^static/shadowspect_static/StreamingAssets/(?P<slug>[a-zA-Z0-9-]+).json', get_level_json),
     re_path(r'^replay/(?P<slug>[a-zA-Z0-9-]+).json', generate_replay),
-    path('debug/', debug)
 ]

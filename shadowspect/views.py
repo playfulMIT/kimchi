@@ -51,4 +51,4 @@ def debug(request):
         request.session['ip'] = address
     # request.session.modified = True
     session.save()
-    return HttpResponse("debug")
+    return HttpResponse(str(request.session.session_key))
