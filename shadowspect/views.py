@@ -45,10 +45,11 @@ def debug(request):
     if session.useragent is None:
         print("assigning useragent: " + str(request.META.get('HTTP_USER_AGENT')))
         session.useragent = str(request.META.get('HTTP_USER_AGENT'))
+        session.save()
     if session.ip is None:
         # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
         address = str(request.META.get('REMOTE_ADDR'))
         request.session['ip'] = address
     # request.session.modified = True
-    session.save()
+
     return HttpResponse(str(request.session.session_key))
