@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
@@ -12,6 +13,7 @@ def wildcard_url(request, slug):
     request.session['urlpk'] = url.pk
     return render(request, 'shadowspect/play.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
+
 
 def mturk(request):
     if not request.session.session_key:
@@ -32,3 +34,7 @@ def mturk(request):
 
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
+
+
+def debug(request):
+    return HttpResponse("debug")
