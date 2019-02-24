@@ -51,6 +51,7 @@ def debug(request):
         # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
         address = str(request.META.get('REMOTE_ADDR'))
         request.session['ip'] = address
+        request.session.save()
     # request.session.modified = True
 
     return HttpResponse(str(request.session.session_key))
