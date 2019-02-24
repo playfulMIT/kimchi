@@ -54,4 +54,4 @@ def debug(request):
         request.session.save()
     # request.session.modified = True
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
-    return HttpResponse()
+    return HttpResponse(response)
