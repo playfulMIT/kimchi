@@ -19,10 +19,13 @@ class CustomSession(AbstractBaseSession):
         return SessionStore
 
 class SessionStore(DBStore):
-    # @classmethod
-    # def get_model_class(cls):
-    #     return CustomSession
+    @classmethod
+    def get_model_class(cls):
+        return CustomSession
 
+    def save(self, must_create=False):
+        print('saving session store')
+        super().save(self, must_create)
     # def create_model_instance(self, data):
     #     obj = super().create_model_instance(data)
     #     try:
@@ -31,7 +34,7 @@ class SessionStore(DBStore):
     #         account_id = None
     #     obj.account_id = account_id
     #     return obj
-    
+
 
 class Event(models.Model):
     time = models.DateTimeField(default=timezone.now)
