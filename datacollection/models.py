@@ -19,9 +19,9 @@ class CustomSession(AbstractBaseSession):
         return SessionStore
 
 class SessionStore(DBStore):
-    @classmethod
-    def get_model_class(cls):
-        return CustomSession
+    # @classmethod
+    # def get_model_class(cls):
+    #     return CustomSession
 
     # def create_model_instance(self, data):
     #     obj = super().create_model_instance(data)
