@@ -31,7 +31,7 @@ class SessionStore(DBStore):
     #         account_id = None
     #     obj.account_id = account_id
     #     return obj
-
+    
 
 class Event(models.Model):
     time = models.DateTimeField(default=timezone.now)
