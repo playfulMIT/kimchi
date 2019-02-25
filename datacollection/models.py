@@ -25,7 +25,7 @@ class SessionStore(DBStore):
 
     def save(self, must_create=False):
         print('saving session store')
-        super().save(self, must_create)
+        super().save(must_create)
     # def create_model_instance(self, data):
     #     obj = super().create_model_instance(data)
     #     try:
