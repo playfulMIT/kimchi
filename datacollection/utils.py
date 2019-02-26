@@ -12,6 +12,7 @@ def get_client_ip(request):
 
 
 def get_group(self, data_json):
+    print('get_group session: ' + str(self.scope["session"].session_key))
     namedata = data_json["data"]
     namejson = json.loads(namedata)
     if 'urlpk' in self.scope["session"]:
@@ -36,4 +37,5 @@ def get_group(self, data_json):
     print(urlpk)
     url, created = URL.objects.get_or_create(pk=urlpk)
     print(url.name)
+    print('get_group session: ' + str(self.scope["session"].session_key))
     return url, namejson
