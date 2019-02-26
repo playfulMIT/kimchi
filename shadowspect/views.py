@@ -45,12 +45,12 @@ def debug(request):
     print("session dict: " + str(session.__dict__))
     print("request dict:" + str(request.session.__dict__))
     if session.useragent is None:
-        print("assigning useragent: " + str(request.META.get('HTTP_USER_AGENT')))
+        # print("assigning useragent: " + str(request.META.get('HTTP_USER_AGENT')))
         session.useragent = str(request.META.get('HTTP_USER_AGENT'))
         # session.save()
     if session.ip is None:
         session.ip = str(request.META.get('REMOTE_ADDR'))
-    print("state: " + str(request.session['_state'].__dict__))
+    # print("state: " + str(request.session['_state'].__dict__))
     session.save()
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
     return HttpResponse(response)
