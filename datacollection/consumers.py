@@ -20,6 +20,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
         self.key = self.scope["session"].session_key
         self.customsession = CustomSession.objects.get(session_key=self.key)
+        print(str(self.customsession.__dict__))
         await self.accept()
         await self.send(text_data=self.key)
         close_old_connections()
@@ -74,6 +75,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                     }])
             else:
                 print('created player')
+                self.customsession = CustomSession.objects.get(session_key=self.key)
                 print(str(self.customsession.__dict__))
                 self.customsession.player = player
                 self.customsession.save(update_fields=['player'])
