@@ -13,10 +13,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('connection opening')
         close_old_connections()
+        print('ws session: ' + str(self.scope["session"].session_key))
         if self.scope["session"].session_key is None:
             self.scope["session"].save()
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
+            print('new session: ' + str(self.scope["session"].session_key))
 
         self.key = self.scope["session"].session_key
         self.customsession = CustomSession.objects.get(session_key=self.key)
