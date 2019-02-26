@@ -3,14 +3,6 @@ import json
 from .models import URL
 
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        return x_forwarded_for
-    else:
-        return request.META.get('REMOTE_ADDR')
-
-
 def get_group(self, data_json):
     print('get_group start session: ' + str(self.scope["session"].session_key))
     namedata = data_json["data"]
