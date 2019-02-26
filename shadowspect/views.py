@@ -49,7 +49,9 @@ def debug(request):
         print("session dict: " + str(session.__dict__))
         print("request dict:" + str(request.session.__dict__))
     if session.ip is None:
-        session.ip = str(request.META.get('REMOTE_ADDR'))
+        # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
+        address = str(request.META.get('REMOTE_ADDR'))
+        session.ip = address
         request.session.save()
     # request.session.modified = True
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
