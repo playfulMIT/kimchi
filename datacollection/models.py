@@ -28,7 +28,7 @@ class SessionStore(DBStore):
         curframe = inspect.currentframe()
         calframe = inspect.getouterframes(curframe, 2)
         print('caller name:', calframe[1][3])
-        print('save details:' + str(self))
+        print('save details:' + str(self.__dict__))
         super().save(must_create)
     # def create_model_instance(self, data):
     #     obj = super().create_model_instance(data)
