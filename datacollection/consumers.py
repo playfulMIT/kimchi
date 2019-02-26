@@ -71,6 +71,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             else:
                 print('created player')
                 self.customsession.player = player
+                self.customsession.save()
                 response = json.dumps([{
                     "status": 201,
                     "message": "created"
@@ -89,6 +90,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 self.customsession.player.attempted.add(level)
             elif 'puzzle_complete' in type:
                 self.customsession.player.completed.add(level)
+            self.customsession.save()
 
         close_old_connections()
 
