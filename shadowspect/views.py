@@ -41,7 +41,9 @@ def debug(request):
         request.session.save()
     print("session key: " + request.session.session_key)
 
-    session = CustomSession.objects.get(session_key=request.session.session_key)
+    session, created = CustomSession.objects.get_or_create(session_key=request.session.session_key)
+    if created:
+        print('created')
     print("session dict: " + str(session.__dict__))
     print("request dict:" + str(request.session.__dict__))
     if session.useragent is None:
@@ -50,9 +52,9 @@ def debug(request):
         session.useragent = agent
         # session.save()
     if session.ip is None:
-        print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
+        # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
         session.ip = str(request.META.get('REMOTE_ADDR'))
-    # print("state: " + str(request.session['_state'].__dict__))
+    # print("state: " + str(session['_state'].__dict__))
     session.save()
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
     return HttpResponse(response)
