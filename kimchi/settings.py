@@ -26,7 +26,7 @@ env = environ.Env()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -78,7 +78,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/2.0/topics/http/sessions/#configuring-sessions
 SESSION_ENGINE = "datacollection.models"
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_SAVE_EVERY_REQUEST = False
+# SESSION_SAVE_EVERY_REQUEST = True
 # SESSION_COOKIE_HTTPONLY = False
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -92,7 +92,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # 'django.template.context_processors.debug',
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
