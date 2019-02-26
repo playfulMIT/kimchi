@@ -71,7 +71,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             else:
                 print('created player')
                 self.customsession.player = player
-                self.customsession.save()
+                self.customsession.save(update_fields=['player'])
                 response = json.dumps([{
                     "status": 201,
                     "message": "created"

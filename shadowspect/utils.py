@@ -54,5 +54,5 @@ def generate_session(request):
         session.useragent = str(request.META.get('HTTP_USER_AGENT'))
     if session.ip is None:
         session.ip = str(request.META.get('REMOTE_ADDR'))
-    session.save()
+    session.save(update_fields=['useragent', 'ip'])
     return session
