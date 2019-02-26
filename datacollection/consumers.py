@@ -20,6 +20,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
         self.key = self.scope["session"].session_key
         self.customsession = CustomSession.objects.get(session_key=self.key)
+        print('custom session state:')
         print(str(self.customsession.__dict__))
         await self.accept()
         await self.send(text_data=self.key)
