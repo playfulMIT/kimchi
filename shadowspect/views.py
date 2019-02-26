@@ -48,11 +48,11 @@ def debug(request):
         session.save()
         print("session dict: " + str(session.__dict__))
         print("request dict:" + str(request.session.__dict__))
-    if session.ip is None:
-        # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
-        address = str(request.META.get('REMOTE_ADDR'))
-        request.session['ip'] = address
-        request.session.save()
+    # if session.ip is None:
+    #     # print("assigning ip: " + str(request.META.get('REMOTE_ADDR')))
+    #     address = str(request.META.get('REMOTE_ADDR'))
+    #     request.session['ip'] = address
+    #     request.session.save()
     # request.session.modified = True
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
     return HttpResponse(response)
