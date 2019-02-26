@@ -56,6 +56,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 # get a player's progress here
                 attempted = []
                 completed = []
+                print("name: " + name)
                 if not name == "guest":
                     for l in player.attempted.all():
                         attempted.append(l.filename)
