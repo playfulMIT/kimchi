@@ -11,13 +11,13 @@ def wildcard_url(request, slug):
     print('getting wildcard')
     session = generate_session(request)
     url = get_object_or_404(URL, pk=slug)
-    # request.session['urlpk'] = url.pk
+    request.session['urlpk'] = url.pk
     print('session id: ' + str(request.session.session_key))
     print("customsession dict: " + str(session.__dict__))
-    response = str(request.session.session_key) + "\n" + str(session.__dict__)
-    return HttpResponse(response)
-    # return render(request, 'shadowspect/play.html',
-    #               {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
+    # response = str(request.session.session_key) + "\n" + str(session.__dict__)
+    # return HttpResponse(response)
+    return render(request, 'shadowspect/play.html',
+                  {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
 
 
 def mturk(request):
