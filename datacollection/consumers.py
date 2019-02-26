@@ -14,6 +14,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print('connection opening')
         close_old_connections()
         self.scope["session"].save()
+        self.scope["session"].accessed = False
+        self.scope["session"].modified = False
         self.key = self.scope["session"].session_key
         self.customsession = CustomSession.objects.get(session_key=self.key)
         await self.accept()
@@ -92,7 +94,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 self.customsession.player.attempted.add(level)
             elif 'puzzle_complete' in type:
                 self.customsession.player.completed.add(level)
-            self.customsession.save()
+            # self.customsession.save()
 
         close_old_connections()
 
