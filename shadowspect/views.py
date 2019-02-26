@@ -12,6 +12,7 @@ def wildcard_url(request, slug):
     session = generate_session(request)
     url = get_object_or_404(URL, pk=slug)
     request.session['urlpk'] = url.pk
+    print('session id: ' + str(request.session.session_key))
     return render(request, 'shadowspect/play.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
 
