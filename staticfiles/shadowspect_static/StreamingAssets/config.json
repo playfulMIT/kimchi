@@ -1,6 +1,6 @@
 {
 	"canEdit": false,
-	"useGuests": false,
+	"useGuests": true,
 	"groupID": "Annie-New-Puzzles",
 	"replayFiles": [
 		"Replay1.json"
