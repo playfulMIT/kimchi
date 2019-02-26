@@ -14,8 +14,10 @@ def wildcard_url(request, slug):
     request.session['urlpk'] = url.pk
     print('session id: ' + str(request.session.session_key))
     print("customsession dict: " + str(session.__dict__))
-    return render(request, 'shadowspect/play.html',
-                  {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
+    response = str(request.session.session_key) + "\n" + str(session.__dict__)
+    return HttpResponse(response)
+    # return render(request, 'shadowspect/play.html',
+    #               {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
 
 
 def mturk(request):
