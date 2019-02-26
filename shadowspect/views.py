@@ -9,8 +9,7 @@ from .utils import generate_session
 
 def wildcard_url(request, slug):
     print('getting wildcard')
-    if not request.session.session_key:
-        request.session.save()
+    session = generate_session(request)
     url = get_object_or_404(URL, pk=slug)
     request.session['urlpk'] = url.pk
     return render(request, 'shadowspect/play.html',
