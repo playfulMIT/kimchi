@@ -38,8 +38,10 @@ def mturk(request):
 
 def debug(request):
     if not request.session.session_key:
-        print('creating session key')
         request.session.save()
+        request.session.accessed = False
+        request.session.modified = False
+        print('created session key')
     print("session key: " + request.session.session_key)
 
     session, created = CustomSession.objects.get_or_create(session_key=request.session.session_key)
