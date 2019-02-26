@@ -13,9 +13,11 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('connection opening')
         close_old_connections()
-        self.scope["session"].save()
-        self.scope["session"].accessed = False
-        self.scope["session"].modified = False
+        if self.key = self.scope["session"].session_key is None:
+            self.scope["session"].save()
+            self.scope["session"].accessed = False
+            self.scope["session"].modified = False
+
         self.key = self.scope["session"].session_key
         self.customsession = CustomSession.objects.get(session_key=self.key)
         await self.accept()
@@ -30,7 +32,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             data_json = json.loads(bytes_data.decode("utf-8"))
         type = "ws-" + data_json["type"]
         Event.objects.create(session=self.customsession, type=type, data=data_json["data"])
-
+        print(str(data_json))
         if 'start_game' in type:
             url, namejson = get_group(self, data_json)
             players = Player.objects.filter(url=url).values('name')
