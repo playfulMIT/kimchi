@@ -38,6 +38,7 @@ def mturk(request):
 
 def debug(request):
     if not request.session.session_key:
+        print('creating session key')
         request.session.save()
     print("session key: " + request.session.session_key)
 
