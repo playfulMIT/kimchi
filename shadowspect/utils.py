@@ -57,4 +57,6 @@ def generate_session(request):
     session.save(update_fields=['useragent', 'ip'])
     session.accessed = False
     session.modified = False
+    request.session.accessed = False
+    request.session.modified = False
     return session
