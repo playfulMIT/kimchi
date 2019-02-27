@@ -57,7 +57,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 attempted = []
                 completed = []
                 print("name: " + name)
-                if not name == "guest":
+                name_valid = (not name == "guest" and not name == "")
+                if name_valid:
                     for l in player.attempted.all():
                         attempted.append(l.filename)
                     for l in player.completed.all():
