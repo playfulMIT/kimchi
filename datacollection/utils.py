@@ -15,7 +15,7 @@ def get_group(self, data_json):
     else:
         urlname = "no-url-or-group-specified"
         print('urlpk not found, using default')
-        url = URL.objects.get_or_create(name=urlname)
+        url, created = URL.objects.get_or_create(name=urlname)
         self.customsession.url = url
 
     # overeride if group is specified
