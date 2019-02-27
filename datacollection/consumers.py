@@ -44,7 +44,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 if add_ip and header[0].decode("utf-8")  == 'x-forwarded-for':
                     self.customsession.ip = header[1].decode("utf-8")
                 if add_useragent and header[0].decode("utf-8")  == 'user-agent':
-                    self.customsession.ip = header[1].decode("utf-8") 
+                    self.customsession.useragent = header[1].decode("utf-8")
             self.customsession.save(update_fields=['ip', 'useragent'])
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
