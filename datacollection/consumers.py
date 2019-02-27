@@ -13,9 +13,11 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('connection opening')
         close_old_connections()
+        print(self.scope["headers"])
         print('ws session: ' + str(self.scope["session"].session_key))
         if self.scope["session"].session_key is None:
             self.scope["session"].save()
+            # session.ip = str(request.META.get('REMOTE_ADDR'))
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
             print('new session: ' + str(self.scope["session"].session_key))
