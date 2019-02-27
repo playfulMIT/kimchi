@@ -13,6 +13,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print('connection opening')
         close_old_connections()
+        print('headers:')
         print(str(self.scope["headers"]))
         print('ws session: ' + str(self.scope["session"].session_key))
         if self.scope["session"].session_key is None:
@@ -23,7 +24,18 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             print('new session: ' + str(self.scope["session"].session_key))
 
         self.key = self.scope["session"].session_key
+        session_modified = False
         self.customsession = CustomSession.objects.get(session_key=self.key)
+        if self.customsession.ip is None:
+            self.customsession.ip = self.scope["headers"]['x-forwarded-for']
+            session_modified = True
+        if self.customsession.useragent is None:
+            self.customsession.useragent = self.scope["headers"]['user-agent']
+            session_modified = True
+        if session_modified:
+            self.customsession.save(update_fields=['ip', 'useragent'])
+            self.scope["session"].accessed = False
+            self.scope["session"].modified = False
         print('custom session state:')
         print(str(self.customsession.__dict__))
         await self.accept()
