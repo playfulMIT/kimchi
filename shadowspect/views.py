@@ -22,9 +22,10 @@ def wildcard_url(request, slug):
 
 
 def mturk(request):
-    session = generate_session(request)
+    if not request.session.session_key:
+        request.session.save()
     return render(request, 'shadowspect/mturk.html',
-                  {'title': "Shadow Tangrams", 'sessionID': session.session_key})
+                  {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
 
 
 def debug(request):
