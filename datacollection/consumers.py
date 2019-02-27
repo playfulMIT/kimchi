@@ -33,13 +33,11 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         if self.customsession.ip is None:
             add_ip = True
             print('no ip in session')
-            # self.customsession.ip = self.scope["headers"]['x-forwarded-for']
-            # session_modified = True
+            modify_session = True
         if self.customsession.useragent is None:
             add_useragent = True
             print('no useragent in session')
-            # self.customsession.useragent = self.scope["headers"]['user-agent']
-            # session_modified = True
+            modify_session = True
         if modify_session:
             for header in self.scope["headers"]:
                 print(str(header))
