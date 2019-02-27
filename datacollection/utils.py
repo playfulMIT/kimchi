@@ -28,6 +28,7 @@ def get_group(self, data_json):
 
     # url, created = URL.objects.get_or_create(pk=urlpk)
     print(url.name)
+    self.customsession.save(update_fields=['url'])
     self.scope["session"].accessed = False
     self.scope["session"].modified = False
     print('get_group end session: ' + str(self.customsession.session_key))
