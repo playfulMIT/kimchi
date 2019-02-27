@@ -32,18 +32,22 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         self.customsession = CustomSession.objects.get(session_key=self.key)
         if self.customsession.ip is None:
             add_ip = True
+            print('no ip in session')
             # self.customsession.ip = self.scope["headers"]['x-forwarded-for']
             # session_modified = True
         if self.customsession.useragent is None:
             add_useragent = True
+            print('no useragent in session')
             # self.customsession.useragent = self.scope["headers"]['user-agent']
             # session_modified = True
         if modify_session:
             for header in self.scope["headers"]:
                 if add_ip and header[0] == 'x-forwarded-for':
+                    print(str(header))
                     self.customsession.ip = header[1]
                 if add_useragent and header[0] == 'user-agent':
                     self.customsession.ip = header[1]
+                    print(str(header))
             self.customsession.save(update_fields=['ip', 'useragent'])
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
