@@ -96,14 +96,15 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             levelname = json.loads(data_json['data'])['task_id']
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
+            name_valid = ( not name == "guest" and not name == "" )
             print('name: ' + name)
             try:
                 level = Level.objects.get(filename=levelname)
             except Level.DoesNotExist:
                 level = Level.objects.create(filename=levelname, levelset=levelset)
-            if 'puzzle_started' in type and not name == "guest":
+            if 'puzzle_started' in type and name_valid:
                 self.customsession.player.attempted.add(level)
-            elif 'puzzle_complete' in type and not name == "guest":
+            elif 'puzzle_complete' in type and name_valid:
                 self.customsession.player.completed.add(level)
             # self.customsession.save()
 
