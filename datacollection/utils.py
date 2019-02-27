@@ -22,7 +22,7 @@ def get_group(self, data_json):
     if "group" in namejson:
         urlname = namejson["group"]
         print("group override")
-        url = URL.objects.get_or_create(name=urlname)
+        url, created = URL.objects.get_or_create(name=urlname)
         self.customsession.url = url
 
 
