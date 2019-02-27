@@ -14,7 +14,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         print('connection opening')
         close_old_connections()
         print('headers:')
+        print(type(self.scope["headers"]))
         print(str(self.scope["headers"]))
+
         print('ws session: ' + str(self.scope["session"].session_key))
         if self.scope["session"].session_key is None:
             self.scope["session"].save()
