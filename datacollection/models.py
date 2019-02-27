@@ -1,22 +1,24 @@
 # from django.contrib.sessions.models import Session
-from django.db import models
-from django.utils import timezone
-
-from shadowspect.models import LevelSet, Level
-
+import inspect
 
 from django.contrib.sessions.backends.db import SessionStore as DBStore
 from django.contrib.sessions.base_session import AbstractBaseSession
-import inspect
+from django.db import models
+from django.utils import timezone
+
+from shadowspect.models import LevelSet
+
 
 class CustomSession(AbstractBaseSession):
     player = models.ForeignKey('Player', null=True, on_delete=models.SET_NULL)
+    url = models.ForeignKey('URL', null=True, on_delete=models.SET_NULL)
     ip = models.CharField(max_length=16, null=True)
     useragent = models.TextField(null=True)
 
     @classmethod
     def get_session_store_class(cls):
         return SessionStore
+
 
 class SessionStore(DBStore):
     @classmethod
@@ -43,7 +45,7 @@ class SessionStore(DBStore):
 class Event(models.Model):
     time = models.DateTimeField(default=timezone.now)
     # user = models.ForeignKey(User, on_delete=models.CASCADE) # index on user
-    session = models.ForeignKey(CustomSession, null=True, on_delete=models.SET_NULL)
+    session = models.ForeignKey('datacollection.CustomSession', null=True, on_delete=models.SET_NULL)
     type = models.CharField(max_length=32)
     data = models.TextField()
 
@@ -70,18 +72,9 @@ class URL(models.Model):
 class Player(models.Model):
     name = models.CharField(max_length=50)
     # sessions = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL, many=True)
-    url = models.ForeignKey(URL, null=True, on_delete=models.SET_NULL)
-    attempted = models.ManyToManyField(Level, blank=True, related_name='levels_attempted')
-    completed = models.ManyToManyField(Level, blank=True, related_name='levels_completed')
+    url = models.ForeignKey('URL', null=True, on_delete=models.SET_NULL)
+    attempted = models.ManyToManyField('shadowspect.Level', blank=True, related_name='levels_attempted')
+    completed = models.ManyToManyField('shadowspect.Level', blank=True, related_name='levels_completed')
 
     def __str__(self):
         return self.name
-
-
-# class PlayerSession(models.Model):
-#     player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
-#     session = models.ForeignKey(CustomSession, null=True, on_delete=models.SET_NULL)
-#
-#     def __str__(self):
-#         key = "session_missing" if self.session is None else self.session.session_key
-#         return key

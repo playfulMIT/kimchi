@@ -7,7 +7,6 @@ class Level(models.Model):
     description = models.TextField()
     gridDim = models.IntegerField(null=True, blank=True)
     shapeData = models.TextField()
-    # owner = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
     solutionCameraAngles = models.CharField(max_length=50)
 
     def __str__(self):
