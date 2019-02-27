@@ -96,6 +96,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             levelname = json.loads(data_json['data'])['task_id']
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
+            print('name: ' + name)
             try:
                 level = Level.objects.get(filename=levelname)
             except Level.DoesNotExist:
