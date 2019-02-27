@@ -7,7 +7,6 @@ def get_group(self, data_json):
     print('get_group start session: ' + str(self.customsession.session_key))
     namedata = data_json["data"]
     namejson = json.loads(namedata)
-    # if 'urlpk' in self.scope["session"]:
     if self.customsession.url is not None:
         print('urlpk found: ')
         url = self.customsession.url
@@ -25,8 +24,6 @@ def get_group(self, data_json):
         url, created = URL.objects.get_or_create(name=urlname)
         self.customsession.url = url
 
-
-    # url, created = URL.objects.get_or_create(pk=urlpk)
     print(url.name)
     self.customsession.save(update_fields=['url'])
     self.scope["session"].accessed = False
