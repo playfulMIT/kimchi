@@ -15,11 +15,13 @@
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+    document.instructionPreText = "Your Session ID is: "
+    document.instructionPostText = "Copy this session ID and include it when submitting your results to Mechanical Turk."
 
     window.onload = function(){
         swal({
           title: "Session Information",
-          text: "{{ sessionID }}\n some instructions here",
+          text: "\n{{ sessionID }}\n " + document.instructionText,
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
