@@ -21,7 +21,7 @@
     window.onload = function(){
         swal({
           title: "Session Information",
-          text: "\n{{ sessionID }}\n " + document.instructionText,
+          text: document.instructionPreText + "\n{{ sessionID }}\n " + document.instructionPostText,
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
