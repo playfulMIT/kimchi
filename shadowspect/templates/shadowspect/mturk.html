@@ -15,13 +15,13 @@
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-    document.instructionPreText = "Your Session ID is: "
-    document.instructionPostText = "Copy this session ID and include it when submitting your results to Mechanical Turk."
+    document.instructionA = "Your Session ID is:\n{{ session_id }}\nCopy this session ID "
+    document.instructionB = "and submit it to Mechanical Turk. We will then verify your activity. Thank you!"
 
     window.onload = function(){
         swal({
-          title: "Session Information",
-          text: "Thank you for testing our game. After the timer reaches zero, you will be given a session ID. Please submit that ID to Mechanical Turk. You must be playing the entire time to qualify.",
+          title: "Thank you!",
+          text: "After the timer reaches zero, you will be given a session ID. Please submit that ID to Mechanical Turk. You must be playing the entire time to qualify.",
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
@@ -35,15 +35,29 @@
           document.counter = setInterval(function(){
 
             document.timer.innerText = Math.floor(document.time / 60) + ":" + (document.time % 60).toString().padStart(2, '0')
-            document.time -= 1;
             if (document.time == 0) {
                 clearIntervall(document.counter)
+
+                swal({
+                  title: "Session Information",
+                  text: document.instructionA + document.instructionB,
+                  icon: "warning",
+                  closeOnClickOutside: false,
+                  buttons: {
+                    begin: {
+                        text: "Begin Playing",
+                        },
+                  }
+                })
+
+
             }
+            document.time -= 1;
         }, 1000)
 
         });
         document.timer = document.getElementById('timer')
-        document.time = 200;
+        document.time = 100;
 
         };
 
