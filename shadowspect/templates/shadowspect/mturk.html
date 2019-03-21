@@ -21,7 +21,7 @@
     window.onload = function(){
         swal({
           title: "Session Information",
-          text: "Thank you for testing our game. After five minutes, you will be given a session ID. Please submit that ID to Mechanical Turk. You must be playing the entire time to qualify.",
+          text: "Thank you for testing our game. After the timer reaches zero, you will be given a session ID. Please submit that ID to Mechanical Turk. You must be playing the entire time to qualify.",
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
@@ -39,7 +39,7 @@
         document.time = 200;
         document.counter = setInterval(function(){
 
-            timer.innerText = str(Math.floor(document.time / 60)) + ":" + str(document.time % 60)
+            timer.innerText = toString(Math.floor(document.time / 60)) + ":" + toString(document.time % 60)
             document.time -= 1;
             if (document.time == 0) {
                 clearIntervall(document.counter)
