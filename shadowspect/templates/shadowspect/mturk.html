@@ -21,7 +21,7 @@
     window.onload = function(){
         swal({
           title: "Session Information",
-          text: document.instructionPreText + "\n{{ sessionID }}\n " + document.instructionPostText,
+          text: "Thank you for testing our game. After five minutes, you will be given a session ID. Please submit that ID to Mechanical Turk. You must be playing the entire time to qualify.",
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
@@ -34,6 +34,18 @@
           console.log("begun");
 
         });
+
+        var timer = document.getElementById('timer')
+        document.time = 200;
+        var document.counter = setInterval(function(){
+
+            timer.innerText = str(Math.floor(document.time / 60)) + ":" + str(document.time % 60)
+            document.time -= 1;
+            if (document.time == 0) {
+                clearIntervall(document.counter)
+            }
+        }, 1000)
+
         };
 
     </script>
@@ -61,7 +73,7 @@
     </style>
 </head>
 <body>
-<div>Time remaining: <span id="timer">some time</span></div>
+<div>Time remaining: <span id="timer">Time not found</span></div>
 <div class="webgl-content">
     <div id="gameContainer" style="width: 960px; height: 540px"></div>
     <div class="footer">
