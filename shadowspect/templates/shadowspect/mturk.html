@@ -35,11 +35,11 @@
 
         });
 
-        var timer = document.getElementById('timer')
+        document.timer = document.getElementById('timer')
         document.time = 200;
         document.counter = setInterval(function(){
 
-            timer.innerText = toString(Math.floor(document.time / 60)) + ":" + toString(document.time % 60)
+            document.timer.innerText = toString(Math.floor(document.time / 60)) + ":" + toString(document.time % 60)
             document.time -= 1;
             if (document.time == 0) {
                 clearIntervall(document.counter)
