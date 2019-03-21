@@ -32,19 +32,18 @@
         })
         .then(() => {
           console.log("begun");
+          document.counter = setInterval(function(){
 
-        });
-
-        document.timer = document.getElementById('timer')
-        document.time = 200;
-        document.counter = setInterval(function(){
-
-            document.timer.innerText = Math.floor(document.time / 60) + ":" + (document.time % 60).toString()
+            document.timer.innerText = Math.floor(document.time / 60) + ":" + (document.time % 60).toString().padStart(2, '0')
             document.time -= 1;
             if (document.time == 0) {
                 clearIntervall(document.counter)
             }
         }, 1000)
+
+        });
+        document.timer = document.getElementById('timer')
+        document.time = 200;
 
         };
 
