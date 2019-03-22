@@ -21,7 +21,7 @@
     window.onload = function(){
         swal({
           title: "Thank you!",
-          text: "After five minutes, you will be given a session ID. Please submit that ID to Mechanical Turk. You must be attempting to solve puzzles the entire time to qualify.",
+          text: "Your Session ID is:\n{{ sessionID }}\nPlease submit it to Mechanical Turk. Our data collection methods must show you attempting to solve puzzles the entire time to qualify.",
           icon: "warning",
           closeOnClickOutside: false,
           buttons: {
@@ -35,29 +35,27 @@
           document.counter = setInterval(function(){
 
             document.timer.innerText = Math.floor(document.time / 60) + ":" + (document.time % 60).toString().padStart(2, '0')
-            if (document.time == 0) {
-                clearInterval(document.counter)
+            <!--if (document.time == 0) {-->
+                <!--clearInterval(document.counter)-->
 
-                swal({
-                  title: "Session Information",
-                  text: document.instructionA + document.instructionB,
-                  icon: "warning",
-                  closeOnClickOutside: false,
-                  buttons: {
-                    begin: {
-                        text: "Begin Playing",
-                        },
-                  }
-                })
-
-
-            }
-            document.time -= 1;
+                <!--swal({-->
+                  <!--title: "Session Information",-->
+                  <!--text: document.instructionA + document.instructionB,-->
+                  <!--icon: "warning",-->
+                  <!--closeOnClickOutside: false,-->
+                  <!--buttons: {-->
+                    <!--begin: {-->
+                        <!--text: "Begin Playing",-->
+                        <!--},-->
+                  <!--}-->
+                <!--})-->
+            <!--}-->
+            document.time += 1;
         }, 1000)
 
         });
         document.timer = document.getElementById('timer')
-        document.time = 300;
+        document.time = 0;
 
         };
 
