@@ -40,7 +40,7 @@ def get_level_json(request, slug):
 
 def generate_session(request):
     if not request.session.session_key:
-        request.session.save(useragent=str(request.META.get('HTTP_USER_AGENT'),ip=str(request.META.get('REMOTE_ADDR'))))
+        request.session.save()
         # request.session.accessed = False
         # request.session.modified = False
         print('created session key')
