@@ -61,13 +61,13 @@ def levelloader(request):
             print(puzzles)
             puzzle_index = 0
             while puzzle_index < len(puzzles):
-                puzzle = puzzles[puzzle_index]
+                puzzle = puzzles['puzzles'][puzzle_index]
                 print(puzzle)
                 puzzle_json = zipfile.read(puzzle + ".json")
                 puzzle_data = json.loads(puzzle_json)
                 puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
                 Level.objects.create(filename=puzzle_uuid,data=puzzle_data)
-                puzzles[puzzle_index] = puzzle_uuid
+                puzzles['puzzles'][puzzle_index] = puzzle_uuid
                 puzzle_index += 1
             set_index += 1
 
