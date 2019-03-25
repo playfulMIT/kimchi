@@ -57,7 +57,7 @@ def levelloader(request):
         print(config['puzzleSets'])
         set_index = 0
         while set_index < len(config['puzzleSets']):
-            puzzles = config['puzzleSets']['puzzles']
+            puzzles = config['puzzleSets'][set_index]
             puzzle_index = 0
             while puzzle_index < len(puzzles):
                 puzzle = puzzles[puzzle_index]
