@@ -57,17 +57,17 @@ def levelloader(request):
         print(config['puzzleSets'])
         set_index = 0
         while set_index < len(config['puzzleSets']):
-            puzzles = config['puzzleSets'][set_index]
+            puzzles = config['puzzleSets'][set_index]['puzzles']
             print(puzzles)
             puzzle_index = 0
             while puzzle_index < len(puzzles):
-                puzzle = puzzles['puzzles'][puzzle_index]
+                puzzle = puzzles[puzzle_index]
                 print(puzzle)
                 puzzle_json = zipfile.read(puzzle + ".json")
                 puzzle_data = json.loads(puzzle_json)
                 puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
                 Level.objects.create(filename=puzzle_uuid,data=puzzle_data)
-                puzzles['puzzles'][puzzle_index] = puzzle_uuid
+                config['puzzleSets'][set_index]['puzzles'][puzzle_index] = puzzle_uuid
                 puzzle_index += 1
             set_index += 1
 
