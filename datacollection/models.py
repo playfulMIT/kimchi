@@ -6,7 +6,7 @@ from django.contrib.sessions.base_session import AbstractBaseSession
 from django.db import models
 from django.utils import timezone
 
-from shadowspect.models import LevelSet
+# from shadowspect.models import LevelSet
 
 
 class CustomSession(AbstractBaseSession):
@@ -61,10 +61,10 @@ class Event(models.Model):
 class URL(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
     # owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
-    levelsets = models.ManyToManyField(LevelSet, blank=True)
-    useGuests = models.BooleanField(default=False)
-    canEdit = models.BooleanField(default=False)
-
+    # levelsets = models.ManyToManyField(LevelSet, blank=True)
+    # useGuests = models.BooleanField(default=False)
+    # canEdit = models.BooleanField(default=False)
+    data = models.TextField()
     def __str__(self):
         return self.name
 

@@ -51,6 +51,12 @@ def levelloader(request):
                 config = json.loads(zipfile.read(name))
                 print(config['groupID'])
                 print(config['puzzleSets'])
+                # create url
+                # create config.json
+                # create levels
+                # create replay?
+
+
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True
         })
