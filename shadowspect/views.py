@@ -43,18 +43,26 @@ def debug(request):
 def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         print('levels uploaded')
+        print("group" + request.POST['group'])
+        created_group = False
+        # group, created_group = URL.objects.get_or_create(name=request.POST['group'])
+
+
         levelbundle = request.FILES['levelbundle']
-        print(request.POST['group'])
         zipfile = ZipFile(levelbundle)
-        for name in zipfile.namelist():
+
+        config = json.loads(zipfile.read("config.json"))
+        print(type(config['puzzleSets']))
+        print(config['puzzleSets'])
+        # for name in zipfile.namelist():
             # print(zipfile.read(name))
-            if name=="config.json":
-                print('config found')
-                config = json.loads(zipfile.read(name))
-                print(config['groupID'])
-                print(config['puzzleSets'])
-                filename = uuid.uuid4()
-                print(filename)
+            # if name=="config.json":
+            #     print('config found')
+            #     config = json.loads(zipfile.read(name))
+            #     print(config['groupID'])
+            #     print(config['puzzleSets'])
+            #     filename = uuid.uuid4()
+            #     print(filename)
                 # create url
                 # create config.json
                 # create levels
@@ -62,6 +70,7 @@ def levelloader(request):
 
 
         return render(request, 'shadowspect/levelloader.html', {
-            'file_uploaded': True
+            'file_uploaded': True,
+            'created_group': created_group
         })
     return render(request, 'shadowspect/levelloader.html')
