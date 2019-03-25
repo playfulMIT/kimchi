@@ -70,6 +70,9 @@ def levelloader(request):
                 puzzle_index += 1
             set_index += 1
 
+        group.data = config
+        group.save()
+
         print(config['puzzleSets'])
 
 
