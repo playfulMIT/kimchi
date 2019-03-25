@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from zipfile import ZipFile
 
 from datacollection.models import URL, CustomSession
 
@@ -39,8 +40,8 @@ def debug(request):
 def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         levelbundle = request.FILES['levelbundle']
-
-
+        zipfile = ZipFile(levelbundle)
+        print(zipfile.read(name) for name in zipfile.namelist())
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True
         })
