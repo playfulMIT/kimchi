@@ -1,13 +1,13 @@
-from zipfile import ZipFile
 import json
 import uuid
+from zipfile import ZipFile
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
-from shadowspect.models import Level, Replay
 from datacollection.models import URL
+from shadowspect.models import Level
 from .utils import generate_session
 
 
@@ -64,9 +64,8 @@ def levelloader(request):
                 puzzle = puzzles[puzzle_index]
                 print(puzzle)
                 puzzle_json = zipfile.read(puzzle + ".json")
-                puzzle_data = json.loads(puzzle_json)
                 puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
-                Level.objects.create(filename=puzzle_uuid,data=puzzle_data)
+                Level.objects.create(filename=puzzle_uuid, data=puzzle_json)
                 config['puzzleSets'][set_index]['puzzles'][puzzle_index] = puzzle_uuid
                 puzzle_index += 1
             set_index += 1
@@ -75,7 +74,6 @@ def levelloader(request):
         group.save()
 
         print(config['puzzleSets'])
-
 
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True,
