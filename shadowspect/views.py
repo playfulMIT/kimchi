@@ -59,9 +59,11 @@ def levelloader(request):
         for set in config['puzzleSets']:
             puzzles = set['puzzles']
             for puzzle in puzzles:
+                print(puzzle)
                 puzzle_json = zipfile.read(puzzle + ".json")
+                puzzle_data = json.loads(puzzle_json)
                 puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
-                Level.objects.create(filename=puzzle_uuid,data=puzzle_json)
+                Level.objects.create(filename=puzzle_uuid,data=puzzle_data)
                 puzzle = puzzle_uuid
 
         print(config['puzzleSets'])
