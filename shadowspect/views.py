@@ -1,5 +1,6 @@
 from zipfile import ZipFile
 import json
+import uuid
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -43,6 +44,7 @@ def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         print('levels uploaded')
         levelbundle = request.FILES['levelbundle']
+        print(request.POST['group'])
         zipfile = ZipFile(levelbundle)
         for name in zipfile.namelist():
             # print(zipfile.read(name))
@@ -51,6 +53,8 @@ def levelloader(request):
                 config = json.loads(zipfile.read(name))
                 print(config['groupID'])
                 print(config['puzzleSets'])
+                filename = uuid.uuid4()
+                print(filename)
                 # create url
                 # create config.json
                 # create levels
