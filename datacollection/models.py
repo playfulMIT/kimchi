@@ -59,6 +59,7 @@ class Event(models.Model):
 class URL(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
     data = models.TextField(null=True, blank=True)
+    levels = models.ForeignKey('shadowspect.Level', blank=True, null=True, on_delete=models.SET_NULL)
     def __str__(self):
         return self.name
 
