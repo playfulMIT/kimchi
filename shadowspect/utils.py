@@ -15,7 +15,8 @@ def get_config_json(request):
 
 def get_level_json(request, slug):
     level = Level.objects.get(filename=slug)
-    return JsonResponse(level.data)
+    data = json.loads(level.data)
+    return JsonResponse(data)
 
 
 def generate_session(request):
