@@ -54,6 +54,14 @@ def levelloader(request):
         config = json.loads(zipfile.read("config.json"))
         print(type(config['puzzleSets']))
         print(config['puzzleSets'])
+
+        for set in config['puzzleSets']:
+            puzzles = set['puzzles']
+            for puzzle in puzzles:
+                puzzle_json = zipfile.read(puzzle)
+                print(puzzle)
+                print(puzzle_json)
+
         # for name in zipfile.namelist():
             # print(zipfile.read(name))
             # if name=="config.json":
