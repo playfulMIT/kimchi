@@ -15,6 +15,7 @@ def wildcard_url(request, slug):
     print('getting wildcard')
     session = generate_session(request)
     url = get_object_or_404(URL, pk=slug)
+    request.session['urlpk'] = slug
     session.url = url
     session.save(update_fields=['url'])
     print('session id: ' + str(request.session.session_key))
