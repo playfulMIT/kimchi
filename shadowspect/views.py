@@ -58,7 +58,7 @@ def levelloader(request):
         for set in config['puzzleSets']:
             puzzles = set['puzzles']
             for puzzle in puzzles:
-                puzzle_json = zipfile.read(puzzle)
+                puzzle_json = zipfile.read(puzzle + ".json")
                 print(puzzle)
                 print(puzzle_json)
 
