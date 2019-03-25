@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
+from shadowspect.models import Level, Replay
 from datacollection.models import URL
 from .utils import generate_session
 
@@ -60,21 +61,10 @@ def levelloader(request):
             for puzzle in puzzles:
                 puzzle_json = zipfile.read(puzzle + ".json")
                 puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
-                print(puzzle_uuid)
+                Level.objects.create(filename=puzzle_uuid,data=puzzle_json)
+                puzzle = puzzle_uuid
 
-        # for name in zipfile.namelist():
-            # print(zipfile.read(name))
-            # if name=="config.json":
-            #     print('config found')
-            #     config = json.loads(zipfile.read(name))
-            #     print(config['groupID'])
-            #     print(config['puzzleSets'])
-            #     filename = uuid.uuid4()
-            #     print(filename)
-                # create url
-                # create config.json
-                # create levels
-                # create replay?
+        print(config['puzzleSets'])
 
 
         return render(request, 'shadowspect/levelloader.html', {
