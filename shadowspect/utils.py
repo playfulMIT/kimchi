@@ -1,6 +1,6 @@
 import json
 
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 from datacollection.models import URL, CustomSession
 from shadowspect.models import Level
@@ -10,12 +10,12 @@ def get_config_json(request):
     print("success")
     url = URL.objects.get(pk=request.session['urlpk'])
     data = json.loads(url.data)
-    return HttpResponse(data)
+    return JsonResponse(data)
 
 
 def get_level_json(request, slug):
     level = Level.objects.get(filename=slug)
-    return HttpResponse(level.data)
+    return JsonResponse(level.data)
 
 
 def generate_session(request):
