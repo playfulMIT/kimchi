@@ -1,10 +1,11 @@
+from zipfile import ZipFile
+import json
+
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from zipfile import ZipFile
 
-from datacollection.models import URL, CustomSession
-
+from datacollection.models import URL
 from .utils import generate_session
 
 
@@ -37,13 +38,19 @@ def debug(request):
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
     return HttpResponse(response)
 
+
 def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         print('levels uploaded')
         levelbundle = request.FILES['levelbundle']
         zipfile = ZipFile(levelbundle)
         for name in zipfile.namelist():
-            print(zipfile.read(name))
+            # print(zipfile.read(name))
+            if name=="config.json":
+                print('config found')
+                config = json.loads(zipfile.read(name))
+                print(config['groupID'])
+                print(config['puzzleSets'])
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True
         })
