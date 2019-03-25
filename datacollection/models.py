@@ -1,4 +1,3 @@
-# from django.contrib.sessions.models import Session
 import inspect
 
 from django.contrib.sessions.backends.db import SessionStore as DBStore
@@ -6,7 +5,6 @@ from django.contrib.sessions.base_session import AbstractBaseSession
 from django.db import models
 from django.utils import timezone
 
-# from shadowspect.models import LevelSet
 
 
 class CustomSession(AbstractBaseSession):
@@ -60,18 +58,13 @@ class Event(models.Model):
 
 class URL(models.Model):
     name = models.CharField(primary_key=True, max_length=50)
-    # owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
-    # levelsets = models.ManyToManyField(LevelSet, blank=True)
-    # useGuests = models.BooleanField(default=False)
-    # canEdit = models.BooleanField(default=False)
-    data = models.TextField()
+    data = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.name
 
 
 class Player(models.Model):
     name = models.CharField(max_length=50)
-    # sessions = models.ForeignKey(Session, null=True, on_delete=models.SET_NULL, many=True)
     url = models.ForeignKey('URL', null=True, on_delete=models.SET_NULL)
     attempted = models.ManyToManyField('shadowspect.Level', blank=True, related_name='levels_attempted')
     completed = models.ManyToManyField('shadowspect.Level', blank=True, related_name='levels_completed')
