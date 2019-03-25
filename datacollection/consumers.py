@@ -3,7 +3,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.db import close_old_connections
 
-from shadowspect.models import Level, LevelSet
+from shadowspect.models import Level
 from .models import Event, Player, CustomSession
 from .utils import get_group
 
@@ -118,17 +118,12 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
 
             await self.send(text_data=response)
         elif any(x in type for x in ['puzzle_started', 'puzzle_complete']):
-            levelsetname = json.loads(data_json['data'])['set_id']
-            levelset, levelsetcreated = LevelSet.objects.get_or_create(name=levelsetname)
             levelname = json.loads(data_json['data'])['task_id']
             url, namejson = get_group(self, data_json)
             name = namejson["user"]
             name_valid = ( not name == "guest" and not name == "" )
             print('name: ' + name)
-            try:
-                level = Level.objects.get(filename=levelname)
-            except Level.DoesNotExist:
-                level = Level.objects.create(filename=levelname, levelset=levelset)
+            level, createdlevel = Level.objects.get_or_create(filename=levelname)
             if 'puzzle_started' in type and name_valid:
                 self.customsession.player.attempted.add(level)
             elif 'puzzle_complete' in type and name_valid:
