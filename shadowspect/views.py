@@ -51,30 +51,30 @@ def levelloader(request):
 
         levelbundle = request.FILES['levelbundle']
         zipfile = ZipFile(levelbundle)
+        if created_group:
+            config = json.loads(zipfile.read("config.json"))
+            print(type(config['puzzleSets']))
+            print(config['puzzleSets'])
+            set_index = 0
+            while set_index < len(config['puzzleSets']):
+                puzzles = config['puzzleSets'][set_index]['puzzles']
+                print(puzzles)
+                puzzle_index = 0
+                while puzzle_index < len(puzzles):
+                    puzzle = puzzles[puzzle_index]
+                    print(puzzle)
+                    puzzle_json = zipfile.read(puzzle + ".json")
+                    puzzle_data = json.loads(puzzle_json)
+                    puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
+                    Level.objects.create(filename=puzzle_uuid,data=json.dumps(puzzle_data))
+                    config['puzzleSets'][set_index]['puzzles'][puzzle_index] = puzzle_uuid
+                    puzzle_index += 1
+                set_index += 1
 
-        config = json.loads(zipfile.read("config.json"))
-        print(type(config['puzzleSets']))
-        print(config['puzzleSets'])
-        set_index = 0
-        while set_index < len(config['puzzleSets']):
-            puzzles = config['puzzleSets'][set_index]['puzzles']
-            print(puzzles)
-            puzzle_index = 0
-            while puzzle_index < len(puzzles):
-                puzzle = puzzles[puzzle_index]
-                print(puzzle)
-                puzzle_json = zipfile.read(puzzle + ".json")
-                puzzle_data = json.loads(puzzle_json)
-                puzzle_uuid = puzzle + "_" + str(uuid.uuid4())
-                Level.objects.create(filename=puzzle_uuid,data=json.dumps(puzzle_data))
-                config['puzzleSets'][set_index]['puzzles'][puzzle_index] = puzzle_uuid
-                puzzle_index += 1
-            set_index += 1
+            group.data = json.dumps(config)
+            group.save()
 
-        group.data = json.dumps(config)
-        group.save()
-
-        print(config['puzzleSets'])
+            print(config['puzzleSets'])
 
 
         return render(request, 'shadowspect/levelloader.html', {
