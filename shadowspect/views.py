@@ -35,3 +35,14 @@ def debug(request):
     session = generate_session(request)
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
     return HttpResponse(response)
+
+def levelloader(request):
+    if request.method == 'POST' and request.FILES['levelbundle']:
+        levelbundle = request.FILES['levelbundle']
+
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'levelloader.html', {
+            'file_uploaded': True
+        })
+    return render(request, 'levelloader.html')
