@@ -40,9 +40,8 @@ def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         levelbundle = request.FILES['levelbundle']
 
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'levelloader.html', {
+
+        return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True
         })
-    return render(request, 'levelloader.html')
+    return render(request, 'shadowspect/levelloader.html')
