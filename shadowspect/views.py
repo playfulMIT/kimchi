@@ -39,9 +39,11 @@ def debug(request):
 
 def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
+        print('levels uploaded')
         levelbundle = request.FILES['levelbundle']
         zipfile = ZipFile(levelbundle)
-        print(zipfile.read(name) for name in zipfile.namelist())
+        for name in zipfile.namelist():
+            print(zipfile.read(name))
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True
         })
