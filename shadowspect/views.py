@@ -45,9 +45,8 @@ def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         print('levels uploaded')
         print("group" + request.POST['group'])
-        created_group = False
-        # group, created_group = URL.objects.get_or_create(name=request.POST['group'])
 
+        group, created_group = URL.objects.get_or_create(name=request.POST['group'])
 
         levelbundle = request.FILES['levelbundle']
         zipfile = ZipFile(levelbundle)

@@ -15,10 +15,17 @@
     <button type="submit">Upload</button>
 </form>
 
+
+
+{% if created_group %}
+<p>URL created successfully</p>
+{% else %}
+<p>Error creating URL</p>
+{% end %}
+
 {% if file_uploaded %}
 <p>Levels uploaded successfully</p>
 {% endif %}
-
 
 </body>
 </html>
