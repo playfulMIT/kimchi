@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
 </head>
 <body>
 
-  <form method="post" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="post">
     {% csrf_token %}
-    <input type="file" name="levelbundle">
+    <input name="levelbundle" type="file">
+    <input name="group" type="text">Group</input>
     <button type="submit">Upload</button>
-  </form>
+</form>
 
-  {% if file_uploaded %}
-    <p>Levels uploaded successfully</p>
-  {% endif %}
+{% if file_uploaded %}
+<p>Levels uploaded successfully</p>
+{% endif %}
 
 
 </body>
