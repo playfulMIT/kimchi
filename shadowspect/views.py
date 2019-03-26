@@ -32,6 +32,7 @@ def mturk(request):
     session = generate_session(request)
     session.url = URL.objects.get(pk="mturk")
     session.save(update_fields=['url'])
+    request.session['urlpk'] = "mturk"
     return render(request, 'shadowspect/mturk.html',
                   {'title': "Shadow Tangrams", 'sessionID': request.session.session_key})
 
