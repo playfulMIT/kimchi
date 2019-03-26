@@ -19,6 +19,7 @@
 
 {% if created_group %}
 <p>URL created successfully</p>
+<p><a href="/{% group_url %}">{% group_url %}</a></p>
 {% else %}
 <p>Error creating URL</p>
 {% endif %}
@@ -26,6 +27,8 @@
 {% if file_uploaded %}
 <p>Levels uploaded successfully</p>
 {% endif %}
+
+
 
 </body>
 </html>
