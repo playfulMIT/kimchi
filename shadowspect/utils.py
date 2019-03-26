@@ -31,7 +31,11 @@ def generate_session(request):
     if session.useragent is None:
         session.useragent = str(request.META.get('HTTP_USER_AGENT'))
     if session.ip is None:
-        session.ip = str(request.META.get('REMOTE_ADDR'))
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            session.ip = x_forwarded_for.split(',')[0]
+        else:
+            session.ip = request.META.get('REMOTE_ADDR')
     session.save(update_fields=['useragent', 'ip'])
     session.accessed = False
     session.modified = False
