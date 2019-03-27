@@ -80,7 +80,7 @@ def levelloader(request):
 
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True,
-            'created_group': created_group
+            'created_group': created_group,
             'group_url': request.POST['group']
         })
     return render(request, 'shadowspect/levelloader.html')
