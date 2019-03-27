@@ -1,10 +1,10 @@
 aioredis==1.2.0
-asgiref==2.3.2
+asgiref==3.0.0
 async-timeout==3.0.1
-attrs==18.2.0
-autobahn==19.1.1
+attrs==19.1.0
+autobahn==19.3.3
 Automat==0.7.0
-certifi==2018.11.29
+certifi==2019.3.9
 channels==2.1.7
 channels-redis==2.3.3
 chardet==3.0.4
@@ -14,7 +14,7 @@ defusedxml==0.5.0
 dj-database-url==0.5.0
 Django==2.1.7
 django-allauth==0.39.1
-django-anymail==5.0
+django-anymail==6.0
 django-environ==0.4.5
 django-heroku==0.3.1
 djangorestframework==3.9.2
@@ -23,8 +23,8 @@ hiredis==1.0.0
 hyperlink==18.0.0
 idna==2.8
 incremental==17.5.0
-msgpack==0.6.0
-oauthlib==3.0.0
+msgpack==0.6.1
+oauthlib==3.0.1
 psycopg2==2.7.7
 PyHamcrest==1.9.0
 python3-openid==3.1.0
