@@ -19,7 +19,7 @@
 
 {% if created_group %}
     <p>URL created successfully</p>
-    <p><a href="/{% group_url %}">{% group_url %}</a></p>
+    <p><a href="/{{ group_url }}">{{ group_url }}</a></p>
 {% else %}
     <p>Error creating URL</p>
 {% endif %}
