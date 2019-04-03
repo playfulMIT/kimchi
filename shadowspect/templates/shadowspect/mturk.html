@@ -15,9 +15,6 @@
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-    document.instructionA = "Your Session ID is:\n{{ sessionID }}\nCopy this session ID "
-    document.instructionB = "and submit it to Mechanical Turk. We will then verify your activity. Thank you!"
-
     window.onload = function(){
         swal({
           title: "Thank you!",
@@ -35,21 +32,6 @@
           document.counter = setInterval(function(){
 
             document.timer.innerText = Math.floor(document.time / 60) + ":" + (document.time % 60).toString().padStart(2, '0')
-            <!--if (document.time == 0) {-->
-                <!--clearInterval(document.counter)-->
-
-                <!--swal({-->
-                  <!--title: "Session Information",-->
-                  <!--text: document.instructionA + document.instructionB,-->
-                  <!--icon: "warning",-->
-                  <!--closeOnClickOutside: false,-->
-                  <!--buttons: {-->
-                    <!--begin: {-->
-                        <!--text: "Begin Playing",-->
-                        <!--},-->
-                  <!--}-->
-                <!--})-->
-            <!--}-->
             document.time += 1;
         }, 1000)
 

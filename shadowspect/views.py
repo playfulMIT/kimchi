@@ -46,9 +46,10 @@ def debug(request):
 def levelloader(request):
     if request.method == 'POST' and request.FILES['levelbundle']:
         print('levels uploaded')
-        print("group" + request.POST['group'])
+        groupname = request.POST['group']
+        print("group: " + groupname)
 
-        group, created_group = URL.objects.get_or_create(name=request.POST['group'])
+        group, created_group = URL.objects.get_or_create(name=groupname)
 
         levelbundle = request.FILES['levelbundle']
         zipfile = ZipFile(levelbundle)
@@ -81,6 +82,10 @@ def levelloader(request):
         return render(request, 'shadowspect/levelloader.html', {
             'file_uploaded': True,
             'created_group': created_group,
-            'group_url': request.POST['group']
+            'group_url': groupname
         })
-    return render(request, 'shadowspect/levelloader.html')
+    return render(request, 'shadowspect/levelloader.html', {
+            'file_uploaded': False,
+            'created_group': False,
+            'group_url': ""
+        })
