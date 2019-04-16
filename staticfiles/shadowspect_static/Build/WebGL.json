@@ -1,9 +1,9 @@
 {
 "companyName": "MIT Education Arcade",
 "productName": "Shadowspect",
-"dataUrl": "WebGL.data.unityweb",
-"wasmCodeUrl": "WebGL.wasm.code.unityweb",
-"wasmFrameworkUrl": "WebGL.wasm.framework.unityweb",
+"dataUrl": "Shadowspect_0-6-0.data.unityweb",
+"wasmCodeUrl": "Shadowspect_0-6-0.wasm.code.unityweb",
+"wasmFrameworkUrl": "Shadowspect_0-6-0.wasm.framework.unityweb",
 "TOTAL_MEMORY": 268435456,
 "graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
 "webglContextAttributes": {"preserveDrawingBuffer": false},
