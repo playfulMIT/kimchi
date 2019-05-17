@@ -79,6 +79,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             self.customsession = CustomSession.objects.get(session_key=self.key)
 
             if not created:
+                #attach the player to session
+                self.customsession.player = player
+                self.customsession.save()
                 # get a player's progress here
                 attempted = []
                 completed = []
@@ -109,7 +112,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 self.customsession = CustomSession.objects.get(session_key=self.key)
                 print(str(self.customsession.__dict__))
                 self.customsession.player = player
-                self.customsession.save(update_fields=['player'])
+                self.customsession.save()
                 print(str(self.customsession.__dict__))
                 response = json.dumps([{
                     "status": 201,
