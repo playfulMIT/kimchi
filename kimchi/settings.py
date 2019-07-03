@@ -23,56 +23,56 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 env = environ.Env()
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'shadowspect',
-    'datacollection',
-    'rest_framework',
-    'channels',
-    'accounts',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'anymail',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "shadowspect",
+    "datacollection",
+    "rest_framework",
+    "channels",
+    "accounts",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "anymail",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 # These are for overcoming cross origin read blocking
 # X_FRAME_OPTIONS = 'SAMEORIGIN'
 # X_FRAME_OPTIONS = 'ALLOW-FROM web.mit.edu gbakimchi.herokuapp.com localhost shadowspect.org'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Ensures sessions persist
 # https://docs.djangoproject.com/en/2.0/topics/http/sessions/#configuring-sessions
@@ -81,33 +81,33 @@ SESSION_ENGINE = "datacollection.models"
 SESSION_SAVE_EVERY_REQUEST = False
 SESSION_COOKIE_HTTPONLY = False
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = "accounts.CustomUser"
 SITE_ID = 1  # This is for allauth
-ROOT_URLCONF = 'kimchi.urls'
+ROOT_URLCONF = "kimchi.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'accounts/templates/allauth/templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "accounts/templates/allauth/templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ]
         },
-    },
+    }
 ]
 
-WSGI_APPLICATION = 'kimchi.wsgi.application'
+WSGI_APPLICATION = "kimchi.wsgi.application"
 ASGI_APPLICATION = "kimchi.routing.application"
 
 # This checks to see if its on heroku & if it isn't, use sqlite
 try:
     # PAAS settings -------------------------------------------------
-    TEST = os.environ['MIT_URL']  # Env var on heroku
+    TEST = os.environ["MIT_URL"]  # Env var on heroku
     import django_heroku
 
     django_heroku.settings(locals())
@@ -119,13 +119,13 @@ try:
     # Database
     # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'kimchi',  # Or path to database file if using sqlite3.
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-            'PORT': '',  # Set to empty string for default.
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "kimchi",  # Or path to database file if using sqlite3.
+            "USER": "",
+            "PASSWORD": "",
+            "HOST": "",  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            "PORT": "",  # Set to empty string for default.
         }
     }
     # Parse database configuration from $DATABASE_URL
@@ -133,13 +133,13 @@ try:
     # dbconfig = dj_database_url.config()
     # if dbconfig:
     #     DATABASES['default'] = dbconfig
-    DATABASES['default'] = env.db('MIT_URL')
-    REDIS = os.environ['REDIS_URL']
+    DATABASES["default"] = env.db("MIT_URL")
+    REDIS = os.environ["REDIS_URL"]
 except KeyError:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
     REDIS = "redis://localhost:6379"
@@ -147,11 +147,8 @@ except KeyError:
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [REDIS],
-            "group_expiry": 7200,
-        },
-    },
+        "CONFIG": {"hosts": [REDIS], "group_expiry": 7200},
+    }
 }
 
 # Password validation
@@ -159,25 +156,19 @@ CHANNEL_LAYERS = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -192,19 +183,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
-WHITENOISE_ROOT = os.path.join(BASE_DIR, 'rootfiles')
+WHITENOISE_ROOT = os.path.join(BASE_DIR, "rootfiles")
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Paginate API results
 # http://www.django-rest-framework.org/api-guide/pagination/
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
 }
