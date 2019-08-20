@@ -8,8 +8,12 @@ from shadowspect.models import Level
 
 def get_config_json(request):
     print("success")
-    url = URL.objects.get(pk=request.session["urlpk"])
+    urlpk = request.session["urlpk"]
+    url = URL.objects.get(pk=urlpk)
     data = json.loads(url.data)
+    print(data)
+    if data['groupID'] is None:
+        data['groupID'] = urlpk
     return JsonResponse(data)
 
 
