@@ -12,7 +12,7 @@ def get_config_json(request):
     url = URL.objects.get(pk=urlpk)
     data = json.loads(url.data)
     print(data)
-    if data['groupID'] is None:
+    if 'groupID' not in data:
         data['groupID'] = urlpk
     return JsonResponse(data)
 
