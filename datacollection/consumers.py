@@ -6,20 +6,21 @@ from django.db import close_old_connections
 from shadowspect.models import Level
 from .models import Event, Player, CustomSession
 from .utils import get_group
+from kimchi.settings import DEBUG
 
 
 class DataCollectionConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print("connection opening")
         close_old_connections()
-        print("headers:")
-        print(type(self.scope["headers"]))
-        print(str(self.scope["headers"]))
-
-        print("ws session: " + str(self.scope["session"].session_key))
+        if DEBUG:
+            print("connection opening")
+            print("headers:")
+            print(type(self.scope["headers"]))
+            print(str(self.scope["headers"]))
+            print("ws session: " + str(self.scope["session"].session_key))
+        # If the incoming connection doesn't have a session, create & save it
         if self.scope["session"].session_key is None:
             self.scope["session"].save()
-            # session.ip = str(request.META.get('REMOTE_ADDR'))
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
             print("new session: " + str(self.scope["session"].session_key))
@@ -30,16 +31,15 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         add_useragent = False
         self.customsession = CustomSession.objects.get(session_key=self.key)
         if self.customsession.ip is None:
+            # this ensures the session has an IP attached to it
             add_ip = True
-            print("no ip in session")
             modify_session = True
         if self.customsession.useragent is None:
+            # this ensures the session has a browser useragent attached to it
             add_useragent = True
-            print("no useragent in session")
             modify_session = True
         if modify_session:
             for header in self.scope["headers"]:
-                print(str(header))
                 if add_ip and header[0].decode("utf-8") == "x-forwarded-for":
                     self.customsession.ip = header[1].decode("utf-8")
                 if add_useragent and header[0].decode("utf-8") == "user-agent":
@@ -47,8 +47,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             self.customsession.save(update_fields=["ip", "useragent"])
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
-        print("custom session state:")
-        print(str(self.customsession.__dict__))
+        if DEBUG:
+            print("custom session state:")
+            print(str(self.customsession.__dict__))
         await self.accept()
         await self.send(text_data=self.key)
         close_old_connections()
@@ -63,7 +64,6 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         Event.objects.create(
             session=self.customsession, type=type, data=data_json["data"]
         )
-        print(str(data_json))
         if "start_game" in type:
             url, namejson = get_group(self, data_json)
             players = Player.objects.filter(url=url).values("name")
@@ -78,7 +78,6 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             name = namejson["user"]
             player, created = Player.objects.get_or_create(url=url, name=name)
             self.customsession = CustomSession.objects.get(session_key=self.key)
-
             if not created:
                 # attach the player to session
                 self.customsession.player = player
@@ -94,7 +93,6 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                     for l in player.completed.all():
                         completed.append(l.filename)
                 if "login_user" in type:
-                    ######
                     response = json.dumps(
                         [
                             {
@@ -124,7 +122,6 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 self.customsession.save()
                 print(str(self.customsession.__dict__))
                 response = json.dumps([{"status": 201, "message": "created"}])
-
             await self.send(text_data=response)
         elif any(x in type for x in ["puzzle_started", "puzzle_complete"]):
             levelname = json.loads(data_json["data"])["task_id"]
@@ -137,12 +134,9 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
                 self.customsession.player.attempted.add(level)
             elif "puzzle_complete" in type and name_valid:
                 self.customsession.player.completed.add(level)
-            # self.customsession.save()
-
         close_old_connections()
 
     async def disconnect(self, code=None):
-        # self.session.clear()
         Event.objects.create(
             session=self.customsession, type="ws-disconnect", data="{}"
         )
