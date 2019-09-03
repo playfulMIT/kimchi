@@ -69,9 +69,6 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-# These are for overcoming cross origin read blocking
-# X_FRAME_OPTIONS = 'SAMEORIGIN'
-# X_FRAME_OPTIONS = 'ALLOW-FROM web.mit.edu gbakimchi.herokuapp.com localhost shadowspect.org'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Ensures sessions persist
@@ -128,11 +125,6 @@ try:
             "PORT": "",  # Set to empty string for default.
         }
     }
-    # Parse database configuration from $DATABASE_URL
-    # import dj_database_url
-    # dbconfig = dj_database_url.config()
-    # if dbconfig:
-    #     DATABASES['default'] = dbconfig
     DATABASES["default"] = env.db("MIT_URL")
     REDIS = os.environ["REDIS_URL"]
 except KeyError:
@@ -155,9 +147,7 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -175,11 +165,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-# STATIC_URL = '/static/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
