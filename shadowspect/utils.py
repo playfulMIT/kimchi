@@ -10,7 +10,7 @@ def get_config_json(request):
     print("sessionpk config: " + str(request.session.__dict__))
     session = CustomSession.objects.get(session_key=request.session.session_key)
     print("sessionpk customsession: " + str(session.__dict__))
-    urlpk = session["urlpk"]
+    urlpk = request.session["urlpk"]
     url = URL.objects.get(pk=urlpk)
     data = json.loads(url.data)
     print(data)
