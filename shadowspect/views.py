@@ -20,6 +20,7 @@ def wildcard_url(request, slug):
     session.save(update_fields=["url"])
     print("session id: " + str(request.session.session_key))
     print("customsession dict: " + str(session.__dict__))
+    print("sessionpk wildcard: " + str(request.session.__dict__))
     # response = str(request.session.session_key) + "\n" + str(session.__dict__)
     # return HttpResponse(response)
     return render(

@@ -7,7 +7,7 @@ from shadowspect.models import Level
 
 
 def get_config_json(request):
-    print("success")
+    print("sessionpk config: " + str(request.session.__dict__))
     urlpk = request.session["urlpk"]
     url = URL.objects.get(pk=urlpk)
     data = json.loads(url.data)
