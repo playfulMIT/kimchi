@@ -12,7 +12,7 @@ constantly==15.1.0
 daphne==2.2.5
 defusedxml==0.5.0
 dj-database-url==0.5.0
-Django==2.1.7
+Django==2.1.11
 django-allauth==0.39.1
 django-anymail==6.0
 django-environ==0.4.5
