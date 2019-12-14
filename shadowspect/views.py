@@ -12,7 +12,7 @@ from .utils import generate_session
 
 def dashboard(request, slug):
 
-    return render(request, "shadowspect/dashboard.html")
+    return render(request, "shadowspect/dashboard.html", {"url":slug})
 
 def wildcard_url(request, slug):
     print("getting wildcard")
