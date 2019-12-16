@@ -1,0 +1,48 @@
+html,
+body {
+    height: 100%;
+}
+
+#root,
+#event-stream-container,
+.row,
+.main-col {
+    height: 100%;
+}
+
+.row {
+    width: 100%;
+}
+
+.nav-bar {
+    height: 8%;
+}
+
+#app {
+    height: 92%;
+    padding: 1%;
+}
+
+#metrics-container {
+    height: 92%;
+}
+
+#funnel-container,
+#basic-metrics-container {
+    width: 90%;
+    height: 95%;
+}
+
+.container {
+    max-width: 100%;
+    padding: 0;
+}
+
+.main-col-child {
+    height: 100%;
+    overflow-y: auto;
+}
+
+button {
+    word-wrap: break-word;
+}

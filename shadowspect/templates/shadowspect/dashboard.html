@@ -1,16 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
     <title>Dashboard</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="/static/dashboard/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/dashboard/css/dashboard.css">
 </head>
+
 <body>
+    <div id="root">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-lg sticky-top">
+            <a class="navbar-brand" href="#">Shadowspect Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a id="nav-event-stream" class="nav-item nav-link active" href="#">Event Stream<span class="sr-only">(current)</span></a>
+                    <a id="nav-funnel" class="nav-item nav-link" href="#">Participation Funnel</a>
+                    <a id="nav-basic-metrics" class="nav-item nav-link" href="#">Basic Metrics</a>
+                </div>
+            </div>
+        </nav>
 
-You are on this url:
+        <div id="app">
+            <div class="input-group mb-3">
+                <input id="event-input" type="text" class="form-control" placeholder="# of Events"
+                    aria-label="Number of events" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button id="search-button" class="btn btn-outline-secondary" type="button"
+                        id="button-addon2">Search</button>
+                </div>
+            </div>
 
-<b>
-    {{ url }}
-</b>
+            <div id="metrics-container" class="container">
+                <div id="event-stream-container" class="container">
+                    <div class="row">
+                        <div class="main-col col-3">
+                            <div id="session-filter" class="main-col-child list-group">
+                                <button id="all-sessions-button" type="button" class="list-group-item list-group-item-action">
+                                    All Sessions
+                                    <span id="total-event-number" class="badge badge-primary badge-pill float-right">0</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="main-col col-6">
+                            <div id="event-filter" class="main-col-child list-group"></div>
+                        </div>
+                        <div class="main-col col-3">
+                            <div class="main-col-child card">
+                                <div id="event-details" class="card-body">
+                                    <p class="font-weight-bold">Event ID<br><span id="event-id" class="font-weight-normal">
+                                    </p>
+                                    <p class="font-weight-bold">Time<br><span id="event-time" class="font-weight-normal">
+                                    </p>
+                                    <p class="font-weight-bold">Type<br><span id="event-type" class="font-weight-normal">
+                                    </p>
+                                    <p class="font-weight-bold">Data<br><span id="event-data" class="font-weight-normal">
+                                    </p>
+                                    <p class="font-weight-bold">Session<br><span id="event-session" class="font-weight-normal"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="funnel-container"></div>
+                <div id="basic-metrics-container">
+                    <div id="basic-metric-cards" class="card-deck"></div>
+                    <div id="basic-metrics-options"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script> const group = "{{url}}"; </script>
+    <script src="/static/dashboard/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/dashboard/js/popper.min.js"></script>
+    <script src="/static/dashboard/js/bootstrap.min.js"></script>
+    <script src="/static/dashboard/js/echarts-en.min.js"></script>
+    <script src="/static/dashboard/js/prettyprint.js"></script>
+    <script src="/static/dashboard/js/dashboard.js"></script>
 </body>
+
 </html>
