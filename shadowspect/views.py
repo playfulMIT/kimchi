@@ -10,10 +10,6 @@ from shadowspect.models import Level, Replay
 from datacollection.models import URL
 from .utils import generate_session
 
-def dashboard(request, slug):
-
-    return render(request, "shadowspect/dashboard.html", {"url":slug})
-
 def wildcard_url(request, slug):
     print("getting wildcard")
     session = generate_session(request)

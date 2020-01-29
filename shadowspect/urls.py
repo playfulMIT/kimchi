@@ -8,5 +8,4 @@ urlpatterns = [
     path("levelloader/", views.levelloader),
     path("", RedirectView.as_view(url="http://shadowspect.org")),
     re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/$", views.wildcard_url),
-    re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/dashboard/$", views.dashboard),
 ]
