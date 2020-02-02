@@ -4,23 +4,16 @@ from operator import or_
 from functools import reduce
 
 from django.db.models import Q
-
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-
 from django.http import JsonResponse
-from rest_framework import viewsets, status
-from rest_framework.response import Response
 
 from datacollection.models import Event, CustomSession, Player
-from datacollection.serializers import EventSerializer
-
-# logger = logging.getLogger(__name__)
 
 def dashboard(request, slug):
     return render(request, "shadowspect/dashboard.html", {"url":slug})
 
-# right now, im doing it based on the last url saved to the player but maybe this should be changed 
+# TODO: should this be based on the last url per student (currently implemented) or any url they have been on?
 def create_player_to_session_map(url):
     player_to_session_map = dict()
     sessions = CustomSession.objects.filter(url__name=url)
@@ -83,12 +76,13 @@ def get_time_per_puzzle(request, slug):
     for player in player_to_session_map.keys():
         sessions = player_to_session_map[player]
         events = Event.objects.filter(
-            reduce(or_, [Q(type='ws-puzzle_complete'), Q(type='ws-puzzle_started')]), session__pk__in=sessions
+            reduce(or_, 
+                [Q(type=event_type) for event_type in ['ws-puzzle_started', 'ws-puzzle_complete']]), 
+            session__pk__in=sessions
         ).order_by('time')
         
         puzzle_time_map = dict()
         for event in events:
-            # TODO: should we count elapsed time for second, third, ... tries of a puzzle?
             key = json.loads(event.data)['task_id']
             if not key in puzzle_time_map:
                 puzzle_time_map[key] = []
@@ -115,5 +109,92 @@ def get_time_per_puzzle(request, slug):
 
     return JsonResponse(player_time_map)
 
-    # url -> player -> session -> event list
-    # person__event for all events from that person to do the reverse  
+def get_funnel_per_puzzle(request, slug):
+    player_to_session_map = create_player_to_session_map(slug)
+    puzzle_funnel_map = dict()
+
+    for player in player_to_session_map.keys():
+        sessions = player_to_session_map[player]
+        events = Event.objects.filter(
+            reduce(or_, 
+                [Q(type=event_type) for event_type in ['ws-puzzle_started', 'ws-create_shape', 'ws-check_solution', 'ws-puzzle_complete']]), 
+            session__pk__in=sessions
+        ).order_by('time')
+        
+        current_puzzle = None
+        for event in events:
+            if event.type == "ws-puzzle_started":
+                current_puzzle = json.loads(event.data)['task_id']
+                if not current_puzzle in puzzle_funnel_map:
+                    puzzle_funnel_map[current_puzzle] = dict()
+                if not player in puzzle_funnel_map[current_puzzle]:
+                    puzzle_funnel_map[current_puzzle][player] = {
+                        'started': 0,
+                        'create_shape': 0,
+                        'submitted': 0,
+                        'completed': 0
+                    }
+                puzzle_funnel_map[current_puzzle][player]['started'] += 1
+            elif event.type == "ws-create_shape":
+                puzzle_funnel_map[current_puzzle][player]['create_shape'] += 1
+            elif event.type == "ws-check_solution":
+                puzzle_funnel_map[current_puzzle][player]['submitted'] += 1
+            elif event.type == "ws-puzzle_complete":
+                puzzle_funnel_map[current_puzzle][player]['completed'] += 1
+
+    return JsonResponse(puzzle_funnel_map)
+
+# TODO: should i account for deleted shapes? what about shapes per attempt? 
+def get_shapes_per_puzzle(request, slug):
+    player_to_session_map = create_player_to_session_map(slug)
+    puzzle_shape_map = dict()
+
+    for player in player_to_session_map.keys():
+        sessions = player_to_session_map[player]
+        events = Event.objects.filter(
+            reduce(or_, 
+                [Q(type=event_type) for event_type in ['ws-puzzle_started', 'ws-create_shape']]), 
+            session__pk__in=sessions
+        ).order_by('time')
+        
+        current_puzzle = None
+        for event in events:
+            data = json.loads(event.data)
+            if event.type == "ws-puzzle_started":
+                current_puzzle = data['task_id']
+                if not current_puzzle in puzzle_shape_map:
+                    puzzle_shape_map[current_puzzle] = dict()
+                if not player in puzzle_shape_map[current_puzzle]:
+                    puzzle_shape_map[current_puzzle][player] = [0] * 6
+            elif event.type == "ws-create_shape":
+                shape_type = data['shapeType']
+                puzzle_shape_map[current_puzzle][player][shape_type - 1] += 1
+
+    return JsonResponse(puzzle_shape_map)
+
+def get_modes_per_puzzle(request, slug):
+    player_to_session_map = create_player_to_session_map(slug)
+    puzzle_mode_map = dict()
+
+    for player in player_to_session_map.keys():
+        sessions = player_to_session_map[player]
+        events = Event.objects.filter(
+            reduce(or_, 
+                [Q(type=event_type) for event_type in ['ws-puzzle_started', 'ws-mode_change']]), 
+            session__pk__in=sessions
+        ).order_by('time')
+        
+        current_puzzle = None
+        for event in events:
+            data = json.loads(event.data)
+            if event.type == "ws-puzzle_started":
+                current_puzzle = data['task_id']
+                if not current_puzzle in puzzle_mode_map:
+                    puzzle_mode_map[current_puzzle] = dict()
+                if not player in puzzle_mode_map[current_puzzle]:
+                    puzzle_mode_map[current_puzzle][player] = [False] * 3
+            elif event.type == "ws-mode_change":
+                mode = data['xfmMode']
+                puzzle_mode_map[current_puzzle][player][mode - 1] = True
+
+    return JsonResponse(puzzle_mode_map)
