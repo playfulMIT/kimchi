@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from datacollection.models import Event, CustomSession, Player
 
 def dashboard(request, slug):
-    return render(request, "shadowspect/dashboard.html", {"url":slug})
+    return render(request, "dashboard/dashboard.html", {"url": slug})
 
 # TODO: should this be based on the last url per student (currently implemented) or any url they have been on?
 def create_player_to_session_map(url):
