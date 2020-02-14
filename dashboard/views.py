@@ -20,17 +20,25 @@ def create_player_to_session_map(url):
     
     for session in sessions:
         if session.player:
-            if session.player.name in player_to_session_map:
-                player_to_session_map[session.player.name].append(session.pk)
+            if session.player.pk in player_to_session_map:
+                player_to_session_map[session.player.pk].append(session.pk)
             else:
-                player_to_session_map[session.player.name] = [session.pk]
+                player_to_session_map[session.player.pk] = [session.pk]
     return player_to_session_map
 
-def create_player_list(url):
-    return CustomSession.objects.filter(url__name=url).values_list("player__name", flat=True).distinct()
-    
+def create_player_list(url, includeName = False):
+    if includeName:
+        return CustomSession.objects.filter(url__name=url).values_list("player__name", "player__pk").distinct()
+    return CustomSession.objects.filter(url__name=url).values_list("player__pk", flat = True).distinct()
+
 def get_player_list(request, slug):
-    return JsonResponse({ 'players': list(create_player_list(slug)) })
+    pk_to_player_map = dict()
+    player_list = create_player_list(slug, True)
+    for (player, pk) in player_list:
+        if not player or player == "null":
+            continue
+        pk_to_player_map[pk] = player
+    return JsonResponse(pk_to_player_map)
 
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
@@ -51,7 +59,7 @@ def get_attempted_puzzles(request, slug):
     attempted = dict()
     for player in players:
         try:
-            attempted[player] = list(Player.objects.get(name=player, url__name=slug).attempted.values_list("filename", flat=True))
+            attempted[player] = list(Player.objects.get(pk=player, url__name=slug).attempted.values_list("filename", flat=True))
         except ObjectDoesNotExist:
             attempted[player] = []
 
@@ -63,7 +71,7 @@ def get_completed_puzzles(request, slug):
     completed = dict()
     for player in players:
         try:
-            completed[player] = list(Player.objects.get(name=player, url__name=slug).completed.values_list("filename", flat=True))
+            completed[player] = list(Player.objects.get(pk=player, url__name=slug).completed.values_list("filename", flat=True))
         except ObjectDoesNotExist:
             completed[player] = []
 
