@@ -19,25 +19,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a id="nav-event-stream" class="nav-item nav-link active" href="#">Event Stream<span class="sr-only">(current)</span></a>
-                    <a id="nav-funnel" class="nav-item nav-link" href="#">Participation Funnel</a>
-                    <a id="nav-basic-metrics" class="nav-item nav-link" href="#">Basic Metrics</a>
+                    <a id="nav-metrics" class="nav-item nav-link" href="#">Metrics</a>
                 </div>
             </div>
         </nav>
 
         <div id="app">
-            <div class="input-group mb-3">
-                <input id="event-input" type="text" class="form-control" placeholder="# of Events"
-                    aria-label="Number of events" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                    <button id="search-button" class="btn btn-outline-secondary" type="button"
-                        id="button-addon2">Search</button>
-                </div>
-            </div>
-
-            <div id="metrics-container" class="container">
-                <div id="event-stream-container" class="container">
+            <div id="page-container" class="container">
+                <div id="event-stream-container" class="container page" style="display:none">
                     <div class="row">
                         <div class="main-col col-3">
                             <div id="session-filter" class="main-col-child list-group">
@@ -67,22 +56,35 @@
                         </div>
                     </div>
                 </div>
-                <div id="funnel-container"></div>
-                <div id="basic-metrics-container">
-                    <div id="basic-metric-cards" class="card-deck"></div>
-                    <div id="basic-metrics-options"></div>
+                <div id="metrics-container" class="container page" style="display:none">
+                    <!-- <div id="basic-metric-cards" class="card-deck"></div> -->
+                    <div id="metrics-overview-container" class="container">
+                        <div id="funnel-container" class="container">
+                            <div id="echarts-funnel-container"></div>
+                            <div id="funnel-controls" class="container">
+                                <div id="funnel-difficulty" class="btn-group" role="group" aria-label="Difficulty Level">
+                                    <button id="difficulty-beginner" type="button" class="btn btn-secondary">Beginner</button>
+                                    <button id="difficulty-intermediate" type="button" class="btn btn-secondary">Intermediate</button>
+                                    <button id="difficulty-advanced" type="button" class="btn btn-secondary">Advanced</button>
+                                </div>
+                                <div id="player-list" class="list-group"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script> const group = "{{url}}"; </script>
+    <script> const GROUP = "{{url}}"; </script> 
     <script src="/static/dashboard/js/jquery-3.3.1.min.js"></script>
     <script src="/static/dashboard/js/popper.min.js"></script>
     <script src="/static/dashboard/js/bootstrap.min.js"></script>
     <script src="/static/dashboard/js/echarts-en.min.js"></script>
-    <script src="/static/dashboard/js/prettyprint.js"></script>
-    <script src="/static/dashboard/js/dashboard.js"></script>
+    <script src="/static/dashboard/js/constants.js" type="module"></script>
+    <script src="/static/dashboard/js/helpers.js" type="module"></script>
+    <script src="/static/dashboard/js/metrics-overview.js" type="module"></script>
+    <script src="/static/dashboard/js/dashboard.js" type="module"></script>
 </body>
 
 </html>

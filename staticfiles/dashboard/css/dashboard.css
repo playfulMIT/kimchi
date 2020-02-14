@@ -4,7 +4,6 @@ body {
 }
 
 #root,
-#event-stream-container,
 .row,
 .main-col {
     height: 100%;
@@ -23,12 +22,14 @@ body {
     padding: 1%;
 }
 
-#metrics-container {
+#page-container {
     height: 92%;
 }
 
+#metrics-container,
+#metrics-overview-container,
 #funnel-container,
-#basic-metrics-container {
+#echarts-funnel {
     width: 90%;
     height: 95%;
 }
