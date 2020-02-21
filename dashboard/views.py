@@ -26,8 +26,8 @@ def create_player_to_session_map(url):
                 player_to_session_map[session.player.pk] = [session.pk]
     return player_to_session_map
 
-def create_player_list(url, includeName = False):
-    if includeName:
+def create_player_list(url, include_name = False):
+    if include_name:
         return CustomSession.objects.filter(url__name=url).values_list("player__name", "player__pk").distinct()
     return CustomSession.objects.filter(url__name=url).values_list("player__pk", flat = True).distinct()
 
