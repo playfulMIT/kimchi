@@ -49,7 +49,22 @@ def get_snapshot_metrics(request, slug):
 
     for player in player_to_session_map:
         sessions = player_to_session_map[player]
-        player_to_snapshot_map[player] = Event.objects.filter(session__pk__in=sessions, type='ws-snapshot').count()
+        events = Event.objects.filter(
+            reduce(or_, 
+                [Q(type=event_type) for event_type in ['ws-puzzle_started', 'ws-snapshot']]), 
+            session__pk__in=sessions
+        ).order_by('time')
+
+        for event in events:
+            data = json.loads(event.data)
+            if event.type == "ws-puzzle_started":
+                current_puzzle = data['task_id']
+                if not current_puzzle in player_to_snapshot_map:
+                    player_to_snapshot_map[current_puzzle] = dict()
+                if not player in player_to_snapshot_map[current_puzzle]:
+                    player_to_snapshot_map[current_puzzle][player] = 0
+            else:
+                player_to_snapshot_map[current_puzzle][player] += 1
 
     return JsonResponse(player_to_snapshot_map)
 
