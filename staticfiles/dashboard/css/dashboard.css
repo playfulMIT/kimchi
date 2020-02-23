@@ -23,18 +23,39 @@ body {
 }
 
 #page-container {
-    height: 92%;
+    height: 100%;
 }
 
 #metrics-container,
 #metrics-overview-container,
-#funnel-container,
+#funnel-container {
+    height: 100%;
+}
+
+.funnel-row {
+    height: 33%;
+    width: 100%;
+}
+
+#funnel-controls { 
+    height: 100%;
+    width: 20%;
+}
+
+#echarts-funnel-container {
+    height: 100%;
+    width: 75%;
+    vertical-align: top;
+}
+
 #echarts-funnel {
     width: 90%;
     height: 95%;
 }
 
 .container {
+    margin: 0;
+    width: 100%;
     max-width: 100%;
     padding: 0;
 }
@@ -42,6 +63,13 @@ body {
 .main-col-child {
     height: 100%;
     overflow-y: auto;
+}
+
+.funnel,
+#funnel-controls,
+#echarts-funnel-container {
+    margin: 0 auto;
+    display: inline-block;
 }
 
 button {

@@ -12,6 +12,21 @@ export const DIFFICULTY_LEVEL = {
     ADVANCED: "advanced"
 }
 
+export const INDEX_TO_XFM_MODE = ["MOVE", "ROTATE", "SCALE"]
+export const INDEX_TO_SHAPE = ["CUBE", "PYRAMID", "RAMP", "CYLINDER", "CONE", "SPHERE"]
+export const DEFAULT_FUNNEL = { started: 0, create_shape: 0, submitted: 0, completed: 0 }
+export const DEFAULT_SHAPE_ARRAY = new Array(INDEX_TO_SHAPE.length).fill(0)
+export const DEFAULT_MODE_ARRAY = new Array(INDEX_TO_XFM_MODE.length).fill(0)
+export const SNAPSHOT_BIN_SIZE = 2
+export const TIME_BIN_SIZE = 30
+
+export const FUNNEL_KEY_NAME_MAP = {
+    started: "started puzzle",
+    create_shape: "created a shape",
+    submitted: "submitted an attempt",
+    completed: "completed puzzle"
+}
+
 export const LEVELS = {
     "beginner" : [
         "1. One Box",

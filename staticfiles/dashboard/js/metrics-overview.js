@@ -1,183 +1,296 @@
-import { API, DIFFICULTY_LEVEL, LEVELS } from './constants.js'
-import { callAPI, toEchartsData } from './helpers.js'
+import { 
+    API, DIFFICULTY_LEVEL, LEVELS, INDEX_TO_SHAPE, 
+    INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, 
+    DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
+    DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY 
+} from './constants.js'
+import { callAPI, toEchartsData, formatPlurals, formatTime, createBarChart } from './helpers.js'
 
-const defaultFunnel = { started: 0, create_shape: 0, submitted: 0, completed: 0 }
-const keyNameMap = {
-    started: "started puzzle",
-    create_shape: "created a shape",
-    submitted: "submission attempt",
-    completed: "completed puzzle"
-}
-const funnelReducer = (accumulator, currentValue) => ({
+// TODO: change popup to collapse
+// TODO: make funnels look clickable
+
+// TODO: add sandbox level 
+// TODO: add total student count
+
+const onePerStudentFunnelReducer = (accumulator, currentValue) => ({
     started: accumulator.started + Math.min(1, currentValue.started),
     create_shape: accumulator.create_shape + Math.min(1, currentValue.create_shape),
     submitted: accumulator.submitted + Math.min(1, currentValue.submitted),
     completed: accumulator.completed + Math.min(1, currentValue.completed)
 })
+const manyPerStudentFunnelReducer = (accumulator, currentValue) => ({
+    started: accumulator.started + currentValue.started,
+    create_shape: accumulator.create_shape + currentValue.create_shape,
+    submitted: accumulator.submitted + currentValue.submitted,
+    completed: accumulator.completed + currentValue.completed
+})
+const onePerStudentNumberArrayReducer = (accumulator, currentValue) => {
+    const reducedArray = []
+    for (var i = 0; i < accumulator.length; i++) {
+        reducedArray.push(accumulator[i] + Math.min(1, currentValue[i]))
+    }
+    return reducedArray
+}
+const onePerStudentBooleanArrayReducer = (accumulator, currentValue) => {
+    const reducedArray = []
+    for (var i = 0; i < accumulator.length; i++) {
+        reducedArray.push(accumulator[i] + (currentValue[i] ? 1 : 0))
+    }
+    return reducedArray
+}
+const binSnapshotPerStudentReducer = (accumulator, currentValue) => {
+    const index = Math.floor(currentValue / SNAPSHOT_BIN_SIZE)
+    accumulator[index] = accumulator[index] ? accumulator[index] + 1 : 1
+    return accumulator
+}
+const binTimePerStudentReducer = (accumulator, currentValue) => {
+    const index = Math.floor(currentValue / TIME_BIN_SIZE)
+    accumulator[index] = accumulator[index] ? accumulator[index] + 1 : 1
+    return accumulator
+}
 
 var rawFunnelData = null
+var timePerAttempt = null
+var shapesUsed = null
+var modesUsed = null
+var snapshotsTaken = null
+
+var playerMap = null 
+var activePlayer = null
+var activeDifficulty = null
+var numPlayers = 0
 
 $(document).ready(() => {
     for (let [key, value] of Object.entries(DIFFICULTY_LEVEL)) {
-        $(`#difficulty-${value}`).click(() => showFunnels(value))
+        $(`#difficulty-${value}`).click(() => showFunnels(value, activePlayer))
     }
 })
 
-// createMetricCard = (name, value) => {
-//     const card = document.createElement("div")
-//     card.className = "card text-center bg-light mb-3"
-//     card.innerHTML = ` <div class="card-body"><h5 class="card-title">${value}</h5><h6 class="card-subtitle mb-2 text-muted">${name}</h6></div>`
-//     $("#basic-metric-cards").append(card)
-// }
-
-// showMetricsOverview = () => {
-//     $("#metrics-container > div").hide()
-//     $(".navbar-nav > a").removeClass("active")
-//     $("#basic-metrics-container").show()
-//     $("#nav-basic-metrics").addClass("active")
-//     $("#basic-metric-cards > div").remove()
-
-//     if (scale === REPORT_OPTIONS.SCALE.CLASS) {
-//         var snapshotCount = 0
-//         var timeSpent = 0
-//         var latestLastCompleted = null
-//         var earliestLastCompleted = null
-//         var incompleted = 0
-
-//         if (filter === REPORT_OPTIONS.FILTER.ALL_SKILLS) {
-//             callAPI(dashboardApi + "players")
-//                 .then(response => {
-//                     const playerList = Object.keys(response).join(',')
-//                     callAPI(`${dashboardApi}snapshot?players=${playerList}`)
-//                 })
-
-//             var snapSum = 0
-//             for (const val of snapshotMap.values()) snapSum += val
-//             snapshotCount = snapSum / filteredPlayerSet.size
-
-//             var timeSum = 0
-//             var incompleteSum = 0
-//             var timeCount = 0
-//             for (const val of timePerPuzzleMap.values()) {
-//                 for (const time of Object.values(val)) {
-//                     if (time) {
-//                         if (time != -1) {
-//                             timeSum += time
-//                             timeCount += 1
-//                         }
-//                     } else {
-//                         incompleteSum += 1
-//                     }
-//                 }
-//             }
-
-//             timeSpent = timeSum / timeCount
-//             incompleted = incompleteSum / filteredPlayerSet.size
-
-//             var minLevel = [Infinity, Infinity]
-//             var maxLevel = [-1, -1]
-//             const levelKeys = Object.keys(LEVELS)
-//             lastCompletedLevelMap.forEach((level, user, map) => {
-//                 for (var i = 0; i < levelKeys.length; i++) {
-//                     const j = LEVELS[levelKeys[i]].indexOf(level)
-//                     if (j != -1) {
-//                         if (i >= maxLevel[0] && j > maxLevel[1]) {
-//                             maxLevel = [i, j]
-//                         } else if (i <= minLevel[0] && j < minLevel[1]) {
-//                             minLevel = [i, j]
-//                         }
-//                         break
-//                     }
-//                 }
-//             })
-
-//             if (minLevel[0] != Infinity && minLevel[1] != Infinity) {
-//                 earliestLastCompleted = LEVELS[levelKeys[minLevel[0]]][minLevel[1]]
-//                 latestLastCompleted = LEVELS[levelKeys[maxLevel[0]]][maxLevel[1]]
-//             }
-//         }
-
-//         // incompleted, time spent, snapshot, lastcompleted
-//         // snapshotMap, lastCompletedLevelMap, timePerPuzzleMap
-
-//         const timeStr = timeSpent > 60 ? `${(timeSpent / 60).toFixed()}m` : `${timeSpent.toFixed(1)}s`
-//         createMetricCard("Average time per level", timeStr)
-//         createMetricCard("Average snapshots per student", snapshotCount.toFixed(1))
-//         createMetricCard("Average # of incomplete levels per student", incompleted.toFixed(1))
-//         createMetricCard("Earliest last level completed", earliestLastCompleted)
-//         createMetricCard("Latest last level completed", latestLastCompleted)
-//     }
-// }
-
-function createFunnelDataForDifficulty(difficulty, user = null) {
-    const levels = LEVELS[difficulty]
-    const data = {}
-
-    for (const level of levels) {
-        var reducedData = null
-        if (user) {
-            const toReduce = rawFunnelData[level][user] ? [rawFunnelData[level][user]] : []
-            reducedData = toReduce.reduce(funnelReducer, defaultFunnel)
-        } else {
-            reducedData = Object.values(rawFunnelData[level] || []).reduce(funnelReducer, defaultFunnel)
-        }
-
-        data[level] = toEchartsData(reducedData, keyNameMap)
+function reduceRawFunnelData(puzzle, user = null, toOnePerStudent = true) {
+    const reducer = toOnePerStudent ? onePerStudentFunnelReducer : manyPerStudentFunnelReducer
+    var reducedData = null
+    if (user) {
+        const toReduce = rawFunnelData[puzzle] && rawFunnelData[puzzle][user] ? [rawFunnelData[puzzle][user]] : []
+        reducedData = toReduce.reduce(reducer, DEFAULT_FUNNEL)
+    } else {
+        reducedData = Object.values(rawFunnelData[puzzle] || []).reduce(reducer, DEFAULT_FUNNEL)
     }
-
-    return data
+    return reducedData
 }
 
-function createFunnel(data, divId, showLegend = false) {
+function createFunnel(data, max, divId, title, showLegend = false) {
     const funnelChart = echarts.init(document.getElementById(divId))
     const options = {
+        title: {
+            text: title,
+            left: "center",
+            triggerEvent: true
+        },
         tooltip: {
             trigger: "item",
             formatter: `{b}<br>{c} students`
         },
         calculable: true,
         series: {
-            name: key,
+            name: title,
             type: "funnel",
             min: 0,
-            max: 45, // TODO: change later
-            height: '100%',
-            width: '100%',
+            max: max,
+            height: '80%',
+            width: '80%',
+            top: '15%',
+            left: '10%',
             sort: "descending",
             label: { show: true, position: "inside" },
-            data: data
+            data: toEchartsData(data, FUNNEL_KEY_NAME_MAP)
         }
     }
 
     if (showLegend) {
         options.legend = {
-            data: Object.values(keyNameMap)
+            data: Object.values(FUNNEL_KEY_NAME_MAP)
         }
     }
 
     funnelChart.setOption(options)
+
+    $(`#${divId}`).popover({
+        container: `#${divId}`,
+        content: generatePuzzleMetrics(divId, title, data, activePlayer),
+        html: true,
+        placement: 'bottom',
+        trigger: 'focus click'
+    })
+}
+
+function createMetricCard(name, value) {
+    const card = document.createElement("div")
+    card.className = "card text-center bg-light mb-3"
+    card.innerHTML = ` <div class="card-body"><h5 class="card-title">${value}</h5><h6 class="card-subtitle mb-2 text-muted">${name}</h6></div>`
+    return card
+}
+
+function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, height = "200px", width = "225px") {
+    const barChart = document.createElement("div")
+    barChart.id = id
+    barChart.style.height = height
+    barChart.style.width = width
+    parentDivElement.appendChild(barChart)
+    createBarChart(data, barChart.id, title, xAxisData)
+}
+
+function generatePuzzleMetrics(parentDivId, puzzle, chartFunnelData, user = null) {
+    const div = document.createElement("div")
+    const summedFunnelData = reduceRawFunnelData(puzzle, user, false)
+
+    if (user) {
+        // TODO: total time spent in puzzle
+        var avgTime = 0
+        if (timePerAttempt[puzzle]) {
+            const filteredTimes = (timePerAttempt[puzzle][user] || []).filter(v => v != null)
+            const [sum, count] = (filteredTimes).reduce(function (a, c) { return [a[0] + c, a[1] + 1] }, [0, 0])
+            avgTime = sum / count
+        }
+
+        // TODO: right now shapes are totals, but it might make more sense to be per attempt
+        // also should deletion be accounted for?
+        const shapeEchartsData = []
+        if (shapesUsed[puzzle] && shapesUsed[puzzle][user]) {
+            for (var i = 0; i < shapesUsed[puzzle][user].length; i++) {
+                shapeEchartsData.push({ name: INDEX_TO_SHAPE[i], value: shapesUsed[puzzle][user][i] })
+            }
+        }
+        
+        div.appendChild(createMetricCard(formatPlurals("Attempted submission", summedFunnelData.submitted), summedFunnelData.submitted))
+        div.appendChild(createMetricCard(formatPlurals("Correct submission", summedFunnelData.completed), summedFunnelData.completed))
+        
+        if (snapshotsTaken[puzzle] && snapshotsTaken[puzzle][user]) {
+            div.appendChild(createMetricCard(`${formatPlurals("Snapshot", snapshotsTaken[puzzle][user])} taken`, snapshotsTaken[puzzle][user]))
+        }
+
+        if (avgTime) {
+            div.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
+        }
+
+        if (modesUsed[puzzle] && modesUsed[puzzle][user]) {
+            for (var i = 0; i < modesUsed[puzzle][user].length; i++) {
+                const value = modesUsed[puzzle][user][i] ? "Yes" : "No"
+                div.appendChild(createMetricCard(`Used ${INDEX_TO_XFM_MODE[i]} transform mode`, value))
+            }
+        }
+        
+        $(`#${parentDivId}`).on("shown.bs.popover", function () {
+            if (avgTime && filteredTimes.length > 1) {
+                addBarChartToDiv(div, parentDivId + "-timechart", filteredTimes, "Time per correct submission")
+            }
+
+            if (shapeEchartsData.length > 0) {
+                addBarChartToDiv(div, parentDivId + "-shapechart", shapeEchartsData, "Shapes used", INDEX_TO_SHAPE)
+            }
+        })
+    } else {
+        const avgAttempts = (summedFunnelData.submitted / chartFunnelData.submitted).toFixed()
+        
+        const shapesPerStudent = Object.values(shapesUsed[puzzle] || []).reduce(onePerStudentNumberArrayReducer, DEFAULT_SHAPE_ARRAY)
+        const shapeEchartsData = []
+        for (var i = 0; i < shapesPerStudent.length; i++) {
+            shapeEchartsData.push({ name: INDEX_TO_SHAPE[i], value: shapesPerStudent[i] })
+        }
+
+        const modesPerStudent = Object.values(modesUsed[puzzle] || []).reduce(onePerStudentBooleanArrayReducer, DEFAULT_MODE_ARRAY)
+        const modeEchartsData = []
+        for (var i = 0; i < modesPerStudent.length; i++) {
+            modeEchartsData.push({ name: INDEX_TO_XFM_MODE[i], value: modesPerStudent[i] })
+        }
+
+        const binnedSnapshots = Object.values(snapshotsTaken[puzzle] || []).reduce(binSnapshotPerStudentReducer, [0])
+        const snapshotEchartsData = []
+        const snapshotEchartsXAxisData = []
+        for (var i = 0; i < binnedSnapshots.length; i++) {
+            const bin = `${i * SNAPSHOT_BIN_SIZE}-${(i + 1) * SNAPSHOT_BIN_SIZE - 1}`
+            snapshotEchartsXAxisData.push(bin)
+            snapshotEchartsData.push({ name: bin, value: binnedSnapshots[i]})
+        }
+
+        // TODO: try to bin times, should this be average per student or something else?
+        var totalSum = 0
+        var totalCount = 0
+        for (let times of Object.values(timePerAttempt[puzzle] || [])) {
+            const filteredTimes = (times || []).filter(v => v != null)
+            const [sum, count] = (filteredTimes).reduce(function (a, c) { return [a[0] + c, a[1] + 1] }, [0, 0])
+            totalSum += sum 
+            totalCount += count
+        }
+        const avgTime = totalSum / totalCount
+
+        div.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.started)} started this puzzle`, chartFunnelData.started))
+        
+        if (chartFunnelData.started) {
+            div.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.submitted)} submitted an attempt to solve this puzzle`, chartFunnelData.submitted))
+            div.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.completed)} completed this puzzle`, chartFunnelData.completed))
+
+            if (chartFunnelData.submitted) {
+                div.appendChild(createMetricCard(`${formatPlurals("Attempt", avgAttempts)} on average`, avgAttempts))
+            }
+
+            if (avgTime) {
+                div.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
+            }
+
+            $(`#${parentDivId}`).on("shown.bs.popover", function () {
+                // TODO: fix these titles
+                if (shapeEchartsData.length > 0) {
+                    addBarChartToDiv(div, parentDivId + "-shapechart", shapeEchartsData, "Shapes used per student", INDEX_TO_SHAPE)
+                }
+                if (modeEchartsData.length > 0) {
+                    addBarChartToDiv(div, parentDivId + "-modechart", modeEchartsData, "Modes used per student", INDEX_TO_XFM_MODE)
+                }
+                if (snapshotEchartsData.length > 0) {
+                    addBarChartToDiv(div, parentDivId + "-snapchart", snapshotEchartsData, "Histogram of snapshot values", snapshotEchartsXAxisData)
+                }
+            })
+        }
+
+        // TODO: average total time spent in puzzle
+    }
+
+    return div
+}
+
+function createFunnelDataForDifficulty(difficulty, user = null) {
+    const puzzles = LEVELS[difficulty]
+    const data = {}
+
+    for (const puzzle of puzzles) {
+        const reducedData = reduceRawFunnelData(puzzle, user)
+        data[puzzle] = reducedData
+    }
+
+    return data
 }
 
 function createFunnelDivs(rows, cols) {
-    const height = (100 / rows) + "%"
+    const height = "100%"
     const width = (100 / cols) + "%"
     for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
             const div = document.createElement("div")
-            const divNum = (r * cols) + col + 1 
+            const divNum = (r * cols) + c + 1 
             const idName = `echarts-funnel-${divNum}`
             div.id = idName
-            document.getElementById("echarts-funnel-container").appendChild(div)
-            $(`#${idName}`).height(height)
-            $(`#${idName}`).width(width)
+            div.className = "funnel"
+            div.style.height = height
+            div.style.width = width
+            document.getElementById(`funnel-row-${r+1}`).appendChild(div)
         }
     }
 }
 
-function showFunnels(difficulty) {
+function showFunnels(difficulty, user = null) {
+    activeDifficulty = difficulty
     $("#funnel-difficulty > button").removeClass("active")
     $(`#difficulty-${difficulty}`).addClass("active")
-    $("#echarts-funnel-container > div").remove()
+    $(".funnel-row > div").remove()
 
     const numLevels = LEVELS[difficulty].length
     const numRows = 3
@@ -185,12 +298,39 @@ function showFunnels(difficulty) {
     
     createFunnelDivs(numRows, numColumns)
 
-    const data = createFunnelDataForDifficulty(difficulty)
+    const data = createFunnelDataForDifficulty(difficulty, user)
+    
     var chartNum = 1
     for (let [key, value] of Object.entries(data)) {
-        createFunnel(value, `echarts-funnel-${chartNum}`)
-        // show level name
+        createFunnel(value, user ? 1 : numPlayers, `echarts-funnel-${chartNum}`, key)
         chartNum++
+    }
+}
+
+function togglePlayer(pk) {
+    $(`#${activePlayer}`).toggleClass("active")
+
+    if (activePlayer === pk) {
+        activePlayer = null
+    } else {
+        activePlayer = pk
+        $(`#${activePlayer}`).toggleClass("active")
+    }
+    
+    showFunnels(activeDifficulty, activePlayer)
+}
+
+function showPlayerList() {
+    for (let [pk, player] of Object.entries(playerMap)) {
+        const button = document.createElement("button")
+        button.id = pk
+        button.className = "list-group-item list-group-item-action"
+        button.type = "button"
+        button.textContent = player
+        document.getElementById("player-list").appendChild(button)
+        $(`#${pk}`).click(() => {
+            togglePlayer(pk)
+        })
     }
 }
 
@@ -202,8 +342,16 @@ export async function showMetricsOverview() {
     $("#funnel-difficulty").hide()
 
     // TODO: add loader?
+    playerMap = await callAPI(`${API}/players`)
+    numPlayers = Object.keys(playerMap).length
+
     rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
+    timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
+    shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
+    modesUsed = await callAPI(`${API}/modesperpuzzle`)
+    snapshotsTaken = await callAPI(`${API}/snapshotsperpuzzle`)
+
     $("#funnel-difficulty").show()
-    
+    showPlayerList()
     showFunnels(DIFFICULTY_LEVEL.BEGINNER)
 }
