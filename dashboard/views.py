@@ -46,6 +46,7 @@ def get_player_to_session_map(request, slug):
 def get_snapshot_metrics(request, slug):
     player_to_snapshot_map = dict()
     player_to_session_map = create_player_to_session_map(slug)
+    requested_puzzle = request.GET.get('puzzle', None)
 
     for player in player_to_session_map:
         sessions = player_to_session_map[player]
@@ -55,15 +56,21 @@ def get_snapshot_metrics(request, slug):
             session__pk__in=sessions
         ).order_by('time')
 
+        current_puzzle = None
         for event in events:
             data = json.loads(event.data)
             if event.type == "ws-puzzle_started":
                 current_puzzle = data['task_id']
+                if requested_puzzle and requested_puzzle != current_puzzle:
+                    current_puzzle = None
+                    continue
+
                 if not current_puzzle in player_to_snapshot_map:
                     player_to_snapshot_map[current_puzzle] = dict()
+
                 if not player in player_to_snapshot_map[current_puzzle]:
                     player_to_snapshot_map[current_puzzle][player] = 0
-            else:
+            elif current_puzzle:
                 player_to_snapshot_map[current_puzzle][player] += 1
 
     return JsonResponse(player_to_snapshot_map)
@@ -94,7 +101,8 @@ def get_completed_puzzles(request, slug):
 
 def get_time_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
-    player_time_map = dict()
+    puzzle_player_time_map = dict()
+    requested_puzzle = request.GET.get('puzzle', None)
 
     for player in player_to_session_map.keys():
         sessions = player_to_session_map[player]
@@ -105,8 +113,12 @@ def get_time_per_puzzle(request, slug):
         ).order_by('time')
         
         puzzle_time_map = dict()
+        key = None
         for event in events:
             key = json.loads(event.data)['task_id']
+            if requested_puzzle and requested_puzzle != key:
+                continue
+
             if not key in puzzle_time_map:
                 puzzle_time_map[key] = []
 
@@ -118,19 +130,22 @@ def get_time_per_puzzle(request, slug):
             else:
                 puzzle_time_map[key][-1]['end'] = event.time
 
-        player_time_map[player] = dict()
         for puzzle in puzzle_time_map:
-            player_time_map[player][puzzle] = []
+            if not puzzle in puzzle_player_time_map:
+                puzzle_player_time_map[puzzle] = dict()
+            if not player in puzzle_player_time_map[puzzle]:
+                puzzle_player_time_map[puzzle][player] = []
+
             for attempt in puzzle_time_map[puzzle]:
                 start = attempt['start'] 
                 end = attempt['end']
 
                 if start and end:
-                    player_time_map[player][puzzle].append((end - start).total_seconds())
+                    puzzle_player_time_map[puzzle][player].append((end - start).total_seconds())
                 else:
-                    player_time_map[player][puzzle].append(None)
+                    puzzle_player_time_map[puzzle][player].append(None)
 
-    return JsonResponse(player_time_map)
+    return JsonResponse(puzzle_player_time_map)
 
 def get_funnel_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
@@ -171,6 +186,7 @@ def get_funnel_per_puzzle(request, slug):
 def get_shapes_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
     puzzle_shape_map = dict()
+    requested_puzzle = request.GET.get('puzzle', None)
 
     for player in player_to_session_map.keys():
         sessions = player_to_session_map[player]
@@ -183,13 +199,17 @@ def get_shapes_per_puzzle(request, slug):
         current_puzzle = None
         for event in events:
             data = json.loads(event.data)
-            if event.type == "ws-puzzle_started":
+
+            if event.type == "ws-puzzle_started":    
                 current_puzzle = data['task_id']
+                if requested_puzzle and requested_puzzle != current_puzzle:
+                    current_puzzle = None
+                    continue
                 if not current_puzzle in puzzle_shape_map:
                     puzzle_shape_map[current_puzzle] = dict()
                 if not player in puzzle_shape_map[current_puzzle]:
                     puzzle_shape_map[current_puzzle][player] = [0] * 6
-            elif event.type == "ws-create_shape":
+            elif current_puzzle:
                 shape_type = data['shapeType']
                 puzzle_shape_map[current_puzzle][player][shape_type - 1] += 1
 
@@ -198,6 +218,7 @@ def get_shapes_per_puzzle(request, slug):
 def get_modes_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
     puzzle_mode_map = dict()
+    requested_puzzle = request.GET.get('puzzle', None)
 
     for player in player_to_session_map.keys():
         sessions = player_to_session_map[player]
@@ -210,13 +231,18 @@ def get_modes_per_puzzle(request, slug):
         current_puzzle = None
         for event in events:
             data = json.loads(event.data)
+
             if event.type == "ws-puzzle_started":
                 current_puzzle = data['task_id']
+                if requested_puzzle and requested_puzzle != current_puzzle:
+                    current_puzzle = None
+                    continue
+
                 if not current_puzzle in puzzle_mode_map:
                     puzzle_mode_map[current_puzzle] = dict()
                 if not player in puzzle_mode_map[current_puzzle]:
                     puzzle_mode_map[current_puzzle][player] = [False] * 3
-            elif event.type == "ws-mode_change":
+            elif current_puzzle:
                 mode = data['xfmMode']
                 puzzle_mode_map[current_puzzle][player][mode - 1] = True
 
