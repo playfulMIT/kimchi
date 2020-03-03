@@ -37,6 +37,10 @@ body {
     width: 100%;
 }
 
+.funnel-detail-row { 
+    width: 100%;
+}
+
 #funnel-controls { 
     height: 100%;
     width: 20%;

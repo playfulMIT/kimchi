@@ -6,8 +6,7 @@ import {
 } from './constants.js'
 import { callAPI, toEchartsData, formatPlurals, formatTime, createBarChart } from './helpers.js'
 
-// TODO: change popup to collapse
-// TODO: make funnels look clickable
+// TODO: fix collapse dimensions
 
 // TODO: add sandbox level 
 // TODO: add total student count
@@ -58,6 +57,7 @@ var snapshotsTaken = null
 var playerMap = null 
 var activePlayer = null
 var activeDifficulty = null
+var activeFunnelId = null
 var numPlayers = 0
 
 $(document).ready(() => {
@@ -78,7 +78,7 @@ function reduceRawFunnelData(puzzle, user = null, toOnePerStudent = true) {
     return reducedData
 }
 
-function createFunnel(data, max, divId, title, showLegend = false) {
+function createFunnel(data, max, divId, rowId, title, showLegend = false) {
     const funnelChart = echarts.init(document.getElementById(divId))
     const options = {
         title: {
@@ -113,14 +113,24 @@ function createFunnel(data, max, divId, title, showLegend = false) {
     }
 
     funnelChart.setOption(options)
+    $(`#${divId}`).on("click", function() {
+        $(`#${activeFunnelId}`).removeClass("active")
+        if (activeFunnelId == divId) {
+            activeFunnelId = null
+            return
+        }
 
-    $(`#${divId}`).popover({
-        container: `#${divId}`,
-        content: generatePuzzleMetrics(divId, title, data, activePlayer),
-        html: true,
-        placement: 'bottom',
-        trigger: 'focus click'
+        activeFunnelId = divId
+        $(`#${activeFunnelId}`).addClass("active")
     })
+
+    const puzzleMetricsDiv = document.createElement("div")
+    puzzleMetricsDiv.id = divId + "-collapsible"
+    puzzleMetricsDiv.className = "collapse"
+    puzzleMetricsDiv.dataset.parent = "#echarts-funnel-container"
+    document.getElementById(`${rowId}-detail`).appendChild(puzzleMetricsDiv)
+    generatePuzzleMetrics(puzzleMetricsDiv, divId, title, data, activePlayer)
+    
 }
 
 function createMetricCard(name, value) {
@@ -139,15 +149,15 @@ function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, h
     createBarChart(data, barChart.id, title, xAxisData)
 }
 
-function generatePuzzleMetrics(parentDivId, puzzle, chartFunnelData, user = null) {
-    const div = document.createElement("div")
+function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user = null) {
     const summedFunnelData = reduceRawFunnelData(puzzle, user, false)
 
     if (user) {
         // TODO: total time spent in puzzle
         var avgTime = 0
-        if (timePerAttempt[puzzle]) {
-            const filteredTimes = (timePerAttempt[puzzle][user] || []).filter(v => v != null)
+        var filteredTimes = []
+        if (timePerAttempt[puzzle] && timePerAttempt[puzzle][user]) {
+            filteredTimes = (timePerAttempt[puzzle][user] || []).filter(v => v != null)
             const [sum, count] = (filteredTimes).reduce(function (a, c) { return [a[0] + c, a[1] + 1] }, [0, 0])
             avgTime = sum / count
         }
@@ -179,7 +189,7 @@ function generatePuzzleMetrics(parentDivId, puzzle, chartFunnelData, user = null
             }
         }
         
-        $(`#${parentDivId}`).on("shown.bs.popover", function () {
+        $(`#${div.id}`).on("shown.bs.collapse", function () {
             if (avgTime && filteredTimes.length > 1) {
                 addBarChartToDiv(div, parentDivId + "-timechart", filteredTimes, "Time per correct submission")
             }
@@ -237,8 +247,7 @@ function generatePuzzleMetrics(parentDivId, puzzle, chartFunnelData, user = null
                 div.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
             }
 
-            $(`#${parentDivId}`).on("shown.bs.popover", function () {
-                // TODO: fix these titles
+            $(`#${div.id}`).on("shown.bs.collapse", function () {
                 if (shapeEchartsData.length > 0) {
                     addBarChartToDiv(div, parentDivId + "-shapechart", shapeEchartsData, "Shapes used per student", INDEX_TO_SHAPE)
                 }
@@ -253,8 +262,6 @@ function generatePuzzleMetrics(parentDivId, puzzle, chartFunnelData, user = null
 
         // TODO: average total time spent in puzzle
     }
-
-    return div
 }
 
 function createFunnelDataForDifficulty(difficulty, user = null) {
@@ -274,14 +281,16 @@ function createFunnelDivs(rows, cols) {
     const width = (100 / cols) + "%"
     for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
-            const div = document.createElement("div")
+            const div = document.createElement("button")
             const divNum = (r * cols) + c + 1 
             const idName = `echarts-funnel-${divNum}`
             div.id = idName
-            div.className = "funnel"
+            div.className = "funnel btn btn-outline-secondary"
             div.style.height = height
             div.style.width = width
-            document.getElementById(`funnel-row-${r+1}`).appendChild(div)
+            div.dataset.toggle = "collapse"
+            div.dataset.target = `#${idName}-collapsible`
+            document.getElementById(`funnel-row-${r + 1}`).appendChild(div)
         }
     }
 }
@@ -290,7 +299,8 @@ function showFunnels(difficulty, user = null) {
     activeDifficulty = difficulty
     $("#funnel-difficulty > button").removeClass("active")
     $(`#difficulty-${difficulty}`).addClass("active")
-    $(".funnel-row > div").remove()
+    $(".funnel-row > button").remove()
+    $(".funnel-detail-row > div").remove()
 
     const numLevels = LEVELS[difficulty].length
     const numRows = 3
@@ -302,7 +312,8 @@ function showFunnels(difficulty, user = null) {
     
     var chartNum = 1
     for (let [key, value] of Object.entries(data)) {
-        createFunnel(value, user ? 1 : numPlayers, `echarts-funnel-${chartNum}`, key)
+        const rowNum = Math.ceil(chartNum / numColumns).toFixed()
+        createFunnel(value, user ? 1 : numPlayers, `echarts-funnel-${chartNum}`, `funnel-row-${rowNum}`, key)
         chartNum++
     }
 }
