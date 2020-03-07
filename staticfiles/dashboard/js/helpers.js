@@ -95,3 +95,21 @@ export function formatPlurals(text, value) {
 export function formatTime(timeInSeconds) {
     return timeInSeconds > 60 ? `${Math.floor(timeInSeconds / 60)}m ${(timeInSeconds % 60).toFixed()}s` : `${timeInSeconds.toFixed()}s`
 }
+
+export function createMetricCard(name, value) {
+    const card = document.createElement("div")
+    card.className = "card text-center bg-light mb-3 border-secondary metric-card"
+    card.innerHTML = ` <div class="card-body"><h5 class="card-title">${value}</h5><h6 class="card-subtitle mb-2 text-muted">${name}</h6></div>`
+    return card
+}
+
+export function createGraphCard(graph, id) {
+    const card = document.createElement("div")
+    card.id = id
+    card.className = "card text-center bg-light mb-3 border-secondary"
+    const cardBody = document.createElement("div")
+    cardBody.className = "card-body"
+    cardBody.appendChild(graph)
+    card.appendChild(cardBody)
+    return card
+}

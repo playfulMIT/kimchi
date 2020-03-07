@@ -4,10 +4,15 @@ import {
     DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
     DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY 
 } from './constants.js'
-import { callAPI, toEchartsData, formatPlurals, formatTime, createBarChart } from './helpers.js'
+import { 
+    callAPI, toEchartsData, formatPlurals, formatTime, 
+    createBarChart, createGraphCard, createMetricCard 
+} from './helpers.js'
 
 // TODO: add sandbox level 
 // TODO: attempt funnel rotation and max scaling
+// TODO: closeable filter
+// TODO: student info per metric?
 
 const onePerStudentFunnelReducer = (accumulator, currentValue) => ({
     started: accumulator.started + Math.min(1, currentValue.started),
@@ -60,7 +65,10 @@ var numPlayers = 0
 
 $(document).ready(() => {
     for (let [key, value] of Object.entries(DIFFICULTY_LEVEL)) {
-        $(`#difficulty-${value}`).click(() => showFunnels(value, activePlayer))
+        $(`#difficulty-${value}`).click(() => {
+            activeFunnelId = null
+            showFunnels(value, activePlayer)
+        })
     }
 })
 
@@ -129,25 +137,6 @@ function createFunnel(data, max, divId, rowId, title, showLegend = false) {
     
     document.getElementById(`${rowId}-detail`).appendChild(puzzleMetricsDiv)
     generatePuzzleMetrics(puzzleMetricsDiv, divId, title, data, activePlayer)
-    
-}
-
-function createMetricCard(name, value) {
-    const card = document.createElement("div")
-    card.className = "card text-center bg-light mb-3 border-secondary metric-card"
-    card.innerHTML = ` <div class="card-body"><h5 class="card-title">${value}</h5><h6 class="card-subtitle mb-2 text-muted">${name}</h6></div>`
-    return card
-}
-
-function createGraphCard(graph, id) {
-    const card = document.createElement("div")
-    card.id = id
-    card.className = "card text-center bg-light mb-3 border-secondary"
-    const cardBody = document.createElement("div")
-    cardBody.className = "card-body"
-    cardBody.appendChild(graph)
-    card.appendChild(cardBody)
-    return card
 }
 
 function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, addToCard = true, height = "210px", width = "300px") {
@@ -345,7 +334,7 @@ function showFunnels(difficulty, user = null) {
 
 function togglePlayer(pk) {
     $(`#${activePlayer}`).toggleClass("active")
-
+    
     if (activePlayer === pk) {
         activePlayer = null
     } else {
@@ -354,6 +343,10 @@ function togglePlayer(pk) {
     }
     
     showFunnels(activeDifficulty, activePlayer)
+    if (activeFunnelId) {
+        $(`#${activeFunnelId}`).addClass("active")
+        $(`#${activeFunnelId}-collapsible`).collapse('show')
+    }
 }
 
 function showPlayerList() {
