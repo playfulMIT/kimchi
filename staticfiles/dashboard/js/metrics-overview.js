@@ -6,10 +6,8 @@ import {
 } from './constants.js'
 import { callAPI, toEchartsData, formatPlurals, formatTime, createBarChart } from './helpers.js'
 
-// TODO: fix collapse dimensions
-
 // TODO: add sandbox level 
-// TODO: add total student count
+// TODO: attempt funnel rotation and max scaling
 
 const onePerStudentFunnelReducer = (accumulator, currentValue) => ({
     started: accumulator.started + Math.min(1, currentValue.started),
@@ -126,8 +124,9 @@ function createFunnel(data, max, divId, rowId, title, showLegend = false) {
 
     const puzzleMetricsDiv = document.createElement("div")
     puzzleMetricsDiv.id = divId + "-collapsible"
-    puzzleMetricsDiv.className = "collapse"
+    puzzleMetricsDiv.className = "collapse funnel-detail-item flex-row"
     puzzleMetricsDiv.dataset.parent = "#echarts-funnel-container"
+    
     document.getElementById(`${rowId}-detail`).appendChild(puzzleMetricsDiv)
     generatePuzzleMetrics(puzzleMetricsDiv, divId, title, data, activePlayer)
     
@@ -135,22 +134,46 @@ function createFunnel(data, max, divId, rowId, title, showLegend = false) {
 
 function createMetricCard(name, value) {
     const card = document.createElement("div")
-    card.className = "card text-center bg-light mb-3"
+    card.className = "card text-center bg-light mb-3 border-secondary metric-card"
     card.innerHTML = ` <div class="card-body"><h5 class="card-title">${value}</h5><h6 class="card-subtitle mb-2 text-muted">${name}</h6></div>`
     return card
 }
 
-function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, height = "200px", width = "225px") {
+function createGraphCard(graph, id) {
+    const card = document.createElement("div")
+    card.id = id
+    card.className = "card text-center bg-light mb-3 border-secondary"
+    const cardBody = document.createElement("div")
+    cardBody.className = "card-body"
+    cardBody.appendChild(graph)
+    card.appendChild(cardBody)
+    return card
+}
+
+function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, addToCard = true, height = "210px", width = "300px") {
+    $(`#${id}`).remove()
+    $(`#${id}-card`).remove()
+
     const barChart = document.createElement("div")
     barChart.id = id
     barChart.style.height = height
     barChart.style.width = width
-    parentDivElement.appendChild(barChart)
+
+    const chart = addToCard ? createGraphCard(barChart, id + "-card") : barChart
+    parentDivElement.appendChild(chart)
     createBarChart(data, barChart.id, title, xAxisData)
 }
 
 function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user = null) {
     const summedFunnelData = reduceRawFunnelData(puzzle, user, false)
+
+    const metricCardDeck = document.createElement('div')
+    metricCardDeck.className = 'card-deck'
+    div.appendChild(metricCardDeck)
+
+    const graphDiv = document.createElement('div')
+    graphDiv.className = 'card-deck'
+    div.appendChild(graphDiv)
 
     if (user) {
         // TODO: total time spent in puzzle
@@ -171,31 +194,31 @@ function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user =
             }
         }
         
-        div.appendChild(createMetricCard(formatPlurals("Attempted submission", summedFunnelData.submitted), summedFunnelData.submitted))
-        div.appendChild(createMetricCard(formatPlurals("Correct submission", summedFunnelData.completed), summedFunnelData.completed))
+        metricCardDeck.appendChild(createMetricCard(formatPlurals("Attempted submission", summedFunnelData.submitted), summedFunnelData.submitted))
+        metricCardDeck.appendChild(createMetricCard(formatPlurals("Correct submission", summedFunnelData.completed), summedFunnelData.completed))
         
         if (snapshotsTaken[puzzle] && snapshotsTaken[puzzle][user]) {
-            div.appendChild(createMetricCard(`${formatPlurals("Snapshot", snapshotsTaken[puzzle][user])} taken`, snapshotsTaken[puzzle][user]))
+            metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Snapshot", snapshotsTaken[puzzle][user])} taken`, snapshotsTaken[puzzle][user]))
         }
 
         if (avgTime) {
-            div.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
+            metricCardDeck.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
         }
 
         if (modesUsed[puzzle] && modesUsed[puzzle][user]) {
             for (var i = 0; i < modesUsed[puzzle][user].length; i++) {
                 const value = modesUsed[puzzle][user][i] ? "Yes" : "No"
-                div.appendChild(createMetricCard(`Used ${INDEX_TO_XFM_MODE[i]} transform mode`, value))
+                metricCardDeck.appendChild(createMetricCard(`Used ${INDEX_TO_XFM_MODE[i]} transform mode`, value))
             }
         }
         
         $(`#${div.id}`).on("shown.bs.collapse", function () {
             if (avgTime && filteredTimes.length > 1) {
-                addBarChartToDiv(div, parentDivId + "-timechart", filteredTimes, "Time per correct submission")
+                addBarChartToDiv(graphDiv, parentDivId + "-timechart", filteredTimes, "Time per correct submission")
             }
 
             if (shapeEchartsData.length > 0) {
-                addBarChartToDiv(div, parentDivId + "-shapechart", shapeEchartsData, "Shapes used", INDEX_TO_SHAPE)
+                addBarChartToDiv(graphDiv, parentDivId + "-shapechart", shapeEchartsData, "Shapes used", INDEX_TO_SHAPE)
             }
         })
     } else {
@@ -233,29 +256,29 @@ function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user =
         }
         const avgTime = totalSum / totalCount
 
-        div.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.started)} started this puzzle`, chartFunnelData.started))
+        metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.started)} started this puzzle`, chartFunnelData.started))
         
         if (chartFunnelData.started) {
-            div.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.submitted)} submitted an attempt to solve this puzzle`, chartFunnelData.submitted))
-            div.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.completed)} completed this puzzle`, chartFunnelData.completed))
+            metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.submitted)} submitted an attempt to solve this puzzle`, chartFunnelData.submitted))
+            metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.completed)} completed this puzzle`, chartFunnelData.completed))
 
             if (chartFunnelData.submitted) {
-                div.appendChild(createMetricCard(`${formatPlurals("Attempt", avgAttempts)} on average`, avgAttempts))
+                metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Attempt", avgAttempts)} on average`, avgAttempts))
             }
 
             if (avgTime) {
-                div.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
+                metricCardDeck.appendChild(createMetricCard("Average time until correct submission", formatTime(avgTime)))
             }
 
             $(`#${div.id}`).on("shown.bs.collapse", function () {
                 if (shapeEchartsData.length > 0) {
-                    addBarChartToDiv(div, parentDivId + "-shapechart", shapeEchartsData, "Shapes used per student", INDEX_TO_SHAPE)
+                    addBarChartToDiv(graphDiv, parentDivId + "-shapechart", shapeEchartsData, "Shapes used per student", INDEX_TO_SHAPE)
                 }
                 if (modeEchartsData.length > 0) {
-                    addBarChartToDiv(div, parentDivId + "-modechart", modeEchartsData, "Modes used per student", INDEX_TO_XFM_MODE)
+                    addBarChartToDiv(graphDiv, parentDivId + "-modechart", modeEchartsData, "Modes used per student", INDEX_TO_XFM_MODE)
                 }
                 if (snapshotEchartsData.length > 0) {
-                    addBarChartToDiv(div, parentDivId + "-snapchart", snapshotEchartsData, "Histogram of snapshot values", snapshotEchartsXAxisData)
+                    addBarChartToDiv(graphDiv, parentDivId + "-snapchart", snapshotEchartsData, "Histogram of snapshot values", snapshotEchartsXAxisData)
                 }
             })
         }
@@ -278,7 +301,7 @@ function createFunnelDataForDifficulty(difficulty, user = null) {
 
 function createFunnelDivs(rows, cols) {
     const height = "100%"
-    const width = (100 / cols) + "%"
+    const width = (98 / cols) + "%"
     for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
             const div = document.createElement("button")
@@ -301,6 +324,8 @@ function showFunnels(difficulty, user = null) {
     $(`#difficulty-${difficulty}`).addClass("active")
     $(".funnel-row > button").remove()
     $(".funnel-detail-row > div").remove()
+
+    $("#class-level-filter-text").text(user ? playerMap[user] : "Class")
 
     const numLevels = LEVELS[difficulty].length
     const numRows = 3
@@ -332,7 +357,10 @@ function togglePlayer(pk) {
 }
 
 function showPlayerList() {
-    for (let [pk, player] of Object.entries(playerMap)) {
+    document.getElementById("player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
+    const sortedEntries = Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
+
+    for (let [pk, player] of sortedEntries) {
         const button = document.createElement("button")
         button.id = pk
         button.className = "list-group-item list-group-item-action"
@@ -346,13 +374,6 @@ function showPlayerList() {
 }
 
 export async function showMetricsOverview() {
-    $("#page-container > .page").hide()
-    $(".navbar-nav > a").removeClass("active")
-    $("#metrics-container").show()
-    $("#nav-metrics").addClass("active")
-    $("#funnel-difficulty").hide()
-
-    // TODO: add loader?
     playerMap = await callAPI(`${API}/players`)
     numPlayers = Object.keys(playerMap).length
 
@@ -362,6 +383,10 @@ export async function showMetricsOverview() {
     modesUsed = await callAPI(`${API}/modesperpuzzle`)
     snapshotsTaken = await callAPI(`${API}/snapshotsperpuzzle`)
 
+    $("#page-container > .page").hide()
+    $(".navbar-nav > a").removeClass("active disabled")
+    $("#metrics-container").show()
+    $("#nav-metrics").addClass("active")
     $("#funnel-difficulty").show()
     showPlayerList()
     showFunnels(DIFFICULTY_LEVEL.BEGINNER)

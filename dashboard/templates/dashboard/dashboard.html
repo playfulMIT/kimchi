@@ -19,13 +19,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a id="nav-metrics" class="nav-item nav-link" href="#">Metrics</a>
+                    <a id="nav-metrics" class="nav-item nav-link disabled" href="#">Metrics</a>
                 </div>
             </div>
         </nav>
 
         <div id="app">
-            <div id="page-container" class="container">
+            <div id="page-container" class="page container">
+                <div id="loader-container" class="container page">
+                    <div id="page-spinner" class="text-center">
+                        <div id="spinner" class="spinner-border text-info" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
                 <div id="event-stream-container" class="container page" style="display:none">
                     <div class="row">
                         <div class="main-col col-3">
@@ -58,7 +65,7 @@
                 </div>
                 <div id="metrics-container" class="container page" style="display:none">
                     <!-- <div id="basic-metric-cards" class="card-deck"></div> -->
-                    <div id="metrics-overview-container" class="container">
+                    <div id="metrics-overview-container" class="container page">
                         <div id="funnel-container" class="container">
                             <div id="echarts-funnel-container">
                                 <div id="funnel-row-1" class="funnel-row"></div>
@@ -69,12 +76,19 @@
                                 <div id="funnel-row-3-detail" class="funnel-detail-row"></div>
                             </div>
                             <div id="funnel-controls" class="container">
+                                <span>Viewing data for <h5 id="class-level-filter-text">Class</h5></span>
+                                
                                 <div id="funnel-difficulty" class="btn-group" role="group" aria-label="Difficulty Level">
                                     <button id="difficulty-beginner" type="button" class="btn btn-secondary">Beginner</button>
                                     <button id="difficulty-intermediate" type="button" class="btn btn-secondary">Intermediate</button>
                                     <button id="difficulty-advanced" type="button" class="btn btn-secondary">Advanced</button>
                                 </div>
-                                <div id="player-list" class="list-group"></div>
+                                <div id="player-container">
+                                    <div id="player-card" class="card">
+                                        <div class="card-header"><h6 id="player-count"></h6></div>
+                                        <div id="player-list" class="list-group-flush"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

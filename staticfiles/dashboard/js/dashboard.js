@@ -4,6 +4,8 @@ import { showMetricsOverview } from './metrics-overview.js'
 var activeTab = null
 
 function handleTabSwitch(tab) {
+    if (activeTab === tab) return 
+    
     activeTab = tab
     if (activeTab === TABS.METRICS) {
         showMetricsOverview()

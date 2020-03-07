@@ -5,14 +5,21 @@ body {
 
 #root,
 .row,
-.main-col {
+.main-col,
+.page,
+#funnel-container,
+#player-card {
     height: 100%;
+}
+
+#funnel-container {
+    display: inline-flex;
 }
 
 .row {
     width: 100%;
 }
-
+ 
 .nav-bar {
     height: 8%;
 }
@@ -22,28 +29,38 @@ body {
     padding: 1%;
 }
 
-#page-container {
-    height: 100%;
-}
-
-#metrics-container,
-#metrics-overview-container,
-#funnel-container {
-    height: 100%;
-}
-
 .funnel-row {
-    height: 33%;
+    height: 32%;
     width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
 }
 
 .funnel-detail-row { 
     width: 100%;
+    margin-bottom: 1%;
+}
+
+.funnel-detail-item {
+    padding: 10px;
+    border: 1px solid grey;
+    background: lightgrey;
+    border-top: none;
+    margin-bottom: 5px;
+    border-radius: 0 0 5px 5px;
+}
+
+.flex-row { 
+    display: inline-flex;
+    flex-flow: row wrap;
 }
 
 #funnel-controls { 
     height: 100%;
     width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #echarts-funnel-container {
@@ -69,13 +86,32 @@ body {
     overflow-y: auto;
 }
 
-.funnel,
-#funnel-controls,
-#echarts-funnel-container {
+#player-container {
+    height: 80%;
+}
+
+#player-list {
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.funnel {
     margin: 0 auto;
+    display: inline-block;
+}
+
+#echarts-funnel-container {
+    margin-right: 10px;
     display: inline-block;
 }
 
 button {
     word-wrap: break-word;
+}
+
+#page-spinner {
+    width: 10%;
+    position: relative;
+    top: 45%;
+    margin: 0 auto;
 }
