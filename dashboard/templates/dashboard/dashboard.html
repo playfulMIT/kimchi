@@ -76,12 +76,25 @@
                                 <div id="funnel-row-3-detail" class="funnel-detail-row"></div>
                             </div>
                             <div id="funnel-controls" class="container">
-                                <span>Viewing data for <h5 id="class-level-filter-text">Class</h5></span>
-                                
+                                <div>
+                                    <div>
+                                        Viewing data for
+                                    </div>
+                                    <div style="display:inline-flex; flex-direction: row">
+                                        <h5 id="class-level-filter-text">Class</h5>
+                                        <button id="filter-clear" type="button" class="close text-danger" aria-label="Close" style="display:none; height:1em; margin-left:5px;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div  style="vertical-align: middle">
+                                    <input id="zoom-range" type="range" min="1" max="5" step="1" value="1" style="vertical-align: middle;">
+                                    <label for="zoom-range" style="margin-left:3px;">Zoom</label>
+                                </div>
                                 <div id="funnel-difficulty" class="btn-group" role="group" aria-label="Difficulty Level">
-                                    <button id="difficulty-beginner" type="button" class="btn btn-secondary">Beginner</button>
-                                    <button id="difficulty-intermediate" type="button" class="btn btn-secondary">Intermediate</button>
-                                    <button id="difficulty-advanced" type="button" class="btn btn-secondary">Advanced</button>
+                                    <button id="difficulty-beginner" type="button" class="btn btn-info">Beginner</button>
+                                    <button id="difficulty-intermediate" type="button" class="btn btn-info">Intermediate</button>
+                                    <button id="difficulty-advanced" type="button" class="btn btn-info">Advanced</button>
                                 </div>
                                 <div id="player-container">
                                     <div id="player-card" class="card">

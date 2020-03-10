@@ -10,9 +10,9 @@ import {
 } from './helpers.js'
 
 // TODO: add sandbox level 
-// TODO: attempt funnel rotation and max scaling
-// TODO: closeable filter
-// TODO: student info per metric?
+// TODO: attempt funnel rotation 
+// TODO: student search?
+// TODO: student list/info per metric?
 
 const onePerStudentFunnelReducer = (accumulator, currentValue) => ({
     started: accumulator.started + Math.min(1, currentValue.started),
@@ -63,6 +63,8 @@ var activeDifficulty = null
 var activeFunnelId = null
 var numPlayers = 0
 
+var funnelPlayerMax = 0
+
 $(document).ready(() => {
     for (let [key, value] of Object.entries(DIFFICULTY_LEVEL)) {
         $(`#difficulty-${value}`).click(() => {
@@ -70,6 +72,15 @@ $(document).ready(() => {
             showFunnels(value, activePlayer)
         })
     }
+
+    $('#zoom-range').on('input', function() {
+        funnelPlayerMax = Math.floor(numPlayers/this.value)
+        showFunnels(activeDifficulty, activePlayer)
+    })
+
+    $('#filter-clear').click(function() {
+        togglePlayer(null)
+    })
 })
 
 function reduceRawFunnelData(puzzle, user = null, toOnePerStudent = true) {
@@ -315,6 +326,12 @@ function showFunnels(difficulty, user = null) {
     $(".funnel-detail-row > div").remove()
 
     $("#class-level-filter-text").text(user ? playerMap[user] : "Class")
+    
+    if (user) {
+        $("#filter-clear").show()
+    } else {
+        $("#filter-clear").hide()
+    }
 
     const numLevels = LEVELS[difficulty].length
     const numRows = 3
@@ -327,7 +344,7 @@ function showFunnels(difficulty, user = null) {
     var chartNum = 1
     for (let [key, value] of Object.entries(data)) {
         const rowNum = Math.ceil(chartNum / numColumns).toFixed()
-        createFunnel(value, user ? 1 : numPlayers, `echarts-funnel-${chartNum}`, `funnel-row-${rowNum}`, key)
+        createFunnel(value, user ? 1 : funnelPlayerMax, `echarts-funnel-${chartNum}`, `funnel-row-${rowNum}`, key)
         chartNum++
     }
 }
@@ -339,7 +356,7 @@ function togglePlayer(pk) {
         activePlayer = null
     } else {
         activePlayer = pk
-        $(`#${activePlayer}`).toggleClass("active")
+        if (activePlayer) $(`#${activePlayer}`).toggleClass("active")
     }
     
     showFunnels(activeDifficulty, activePlayer)
@@ -356,7 +373,7 @@ function showPlayerList() {
     for (let [pk, player] of sortedEntries) {
         const button = document.createElement("button")
         button.id = pk
-        button.className = "list-group-item list-group-item-action"
+        button.className = "list-group-item list-group-item-action btn-secondary"
         button.type = "button"
         button.textContent = player
         document.getElementById("player-list").appendChild(button)
@@ -369,6 +386,7 @@ function showPlayerList() {
 export async function showMetricsOverview() {
     playerMap = await callAPI(`${API}/players`)
     numPlayers = Object.keys(playerMap).length
+    funnelPlayerMax = numPlayers
 
     rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
     timePerAttempt = await callAPI(`${API}/timeperpuzzle`)

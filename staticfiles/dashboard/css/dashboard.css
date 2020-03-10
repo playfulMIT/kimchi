@@ -3,6 +3,10 @@ body {
     height: 100%;
 }
 
+#root {
+    overflow-y: scroll;
+}
+
 #root,
 .row,
 .main-col,
@@ -88,7 +92,7 @@ body {
 }
 
 #player-container {
-    height: 80%;
+    height: 75%;
 }
 
 #player-list {
