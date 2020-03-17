@@ -1,8 +1,8 @@
 import { 
     API, DIFFICULTY_LEVEL, LEVELS, INDEX_TO_SHAPE, 
-    INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, 
+    INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, SESSION_BIN_SIZE,
     DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
-    DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY 
+    DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY, SANDBOX, SANDBOX_PUZZLE_NAME
 } from './constants.js'
 import { 
     callAPI, toEchartsData, formatPlurals, formatTime, 
@@ -45,6 +45,11 @@ const binSnapshotPerStudentReducer = (accumulator, currentValue) => {
     accumulator[index] = accumulator[index] ? accumulator[index] + 1 : 1
     return accumulator
 }
+const binSessionPerStudentReducer = (accumulator, currentValue) => {
+    const index = Math.floor(currentValue.length / SESSION_BIN_SIZE)
+    accumulator[index] = accumulator[index] ? accumulator[index] + 1 : 1
+    return accumulator
+}
 const binTimePerStudentReducer = (accumulator, currentValue) => {
     const index = Math.floor(currentValue / TIME_BIN_SIZE)
     accumulator[index] = accumulator[index] ? accumulator[index] + 1 : 1
@@ -73,8 +78,23 @@ $(document).ready(() => {
         })
     }
 
+    $(`#difficulty-${SANDBOX}`).click(() => {
+        activeFunnelId = null
+        showSandboxMetrics(activePlayer)
+    })
+
     $('#zoom-range').on('input', function() {
         funnelPlayerMax = Math.floor(numPlayers/this.value)
+        showFunnels(activeDifficulty, activePlayer)
+    })
+    $('#funnel-zoom-out').click(() => {
+        document.getElementById('zoom-range').stepDown()
+        funnelPlayerMax = Math.floor(numPlayers / $('#zoom-range').val())
+        showFunnels(activeDifficulty, activePlayer)
+    })
+    $('#funnel-zoom-in').click(() => {
+        document.getElementById('zoom-range').stepUp()
+        funnelPlayerMax = Math.floor(numPlayers / $('#zoom-range').val())
         showFunnels(activeDifficulty, activePlayer)
     })
 
@@ -150,9 +170,8 @@ function createFunnel(data, max, divId, rowId, title, showLegend = false) {
     generatePuzzleMetrics(puzzleMetricsDiv, divId, title, data, activePlayer)
 }
 
-function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, addToCard = true, height = "210px", width = "300px") {
-    $(`#${id}`).remove()
-    $(`#${id}-card`).remove()
+function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, width = "300px", height = "210px", addToCard = true) {
+    $(`#${id}, #${id}-card`).remove()
 
     const barChart = document.createElement("div")
     barChart.id = id
@@ -166,6 +185,12 @@ function addBarChartToDiv(parentDivElement, id, data, title, xAxisData = null, a
 
 function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user = null) {
     const summedFunnelData = reduceRawFunnelData(puzzle, user, false)
+
+    const levelUserInfo = document.createElement('div')
+    levelUserInfo.className = "h4"
+    levelUserInfo.style = "padding-top: 5px; width: 100%;"
+    levelUserInfo.innerHTML = `${user ? playerMap[user] : 'Class'}  &middot;  ${puzzle}`
+    div.appendChild(levelUserInfo)
 
     const metricCardDeck = document.createElement('div')
     metricCardDeck.className = 'card-deck'
@@ -322,8 +347,13 @@ function showFunnels(difficulty, user = null) {
     activeDifficulty = difficulty
     $("#funnel-difficulty > button").removeClass("active")
     $(`#difficulty-${difficulty}`).addClass("active")
-    $(".funnel-row > button").remove()
-    $(".funnel-detail-row > div").remove()
+    $(".funnel-row > button, .funnel-detail-row > div").remove()
+    $("#echarts-funnel-container").show()
+    $("#sandbox-metrics-container").hide()
+    $(".zoom-item").prop("disabled", false)
+    $(".zoom-item").css("cursor", "default")
+    $(".zoom-icon").css("cursor", "pointer")
+
 
     $("#class-level-filter-text").text(user ? playerMap[user] : "Class")
     
@@ -349,6 +379,132 @@ function showFunnels(difficulty, user = null) {
     }
 }
 
+function showSandboxMetrics(user = null) {
+    const parentDivId = "sandbox-metrics-container"
+    const puzzle = SANDBOX_PUZZLE_NAME
+    const chartFunnelData = reduceRawFunnelData(puzzle, user)
+    activeDifficulty = SANDBOX
+
+    $("#funnel-difficulty > button").removeClass("active")
+    $(`#difficulty-${activeDifficulty}`).addClass("active")
+    $(`#${parentDivId} > div`).remove()
+    $("#echarts-funnel-container").hide()
+    $(`#${parentDivId}`).show()
+    $(".zoom-item").prop("disabled", true)
+    $(".zoom-item").css("cursor", "not-allowed")
+
+    $("#class-level-filter-text").text(user ? playerMap[user] : "Class")
+
+    if (user) {
+        $("#filter-clear").show()
+    } else {
+        $("#filter-clear").hide()
+    }
+
+    const levelUserInfo = document.createElement('div')
+    levelUserInfo.className = "h4"
+    levelUserInfo.style = "padding-top: 5px; width: 100%;"
+    levelUserInfo.innerHTML = `${user ? playerMap[user] : 'Class'}  &middot;  Sandbox`
+    $(`#${parentDivId}`).append(levelUserInfo)
+    
+    const metricCardDeck = document.createElement('div')
+    metricCardDeck.className = 'card-deck'
+    $(`#${parentDivId}`).append(metricCardDeck)
+
+    const graphDiv = document.createElement('div')
+    if (user) {
+        graphDiv.style = "width: 30%;"
+    } else {
+        graphDiv.className = 'card-deck'
+    }
+    $(`#${parentDivId}`).append(graphDiv)
+
+    if (user) {
+        var attempts = 0
+        if (timePerAttempt[puzzle] && timePerAttempt[puzzle][user]) {
+            attempts = timePerAttempt[puzzle][user].length
+        }
+        metricCardDeck.appendChild(createMetricCard(formatPlurals("Sandbox session", attempts), attempts))
+
+        if (attempts > 0) {
+            const shapeEchartsData = []
+            if (shapesUsed[puzzle] && shapesUsed[puzzle][user]) {
+                for (var i = 0; i < shapesUsed[puzzle][user].length; i++) {
+                    shapeEchartsData.push({ name: INDEX_TO_SHAPE[i], value: shapesUsed[puzzle][user][i] })
+                }
+            }
+
+            if (snapshotsTaken[puzzle] && snapshotsTaken[puzzle][user]) {
+                metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Snapshot", snapshotsTaken[puzzle][user])} taken`, snapshotsTaken[puzzle][user]))
+            }
+
+            if (modesUsed[puzzle] && modesUsed[puzzle][user]) {
+                for (var i = 0; i < modesUsed[puzzle][user].length; i++) {
+                    const value = modesUsed[puzzle][user][i] ? "Yes" : "No"
+                    metricCardDeck.appendChild(createMetricCard(`Used ${INDEX_TO_XFM_MODE[i]} transform mode`, value))
+                }
+            }
+
+            if (shapeEchartsData.length > 0) {
+                addBarChartToDiv(graphDiv, parentDivId + "-shapechart", shapeEchartsData, "Shapes used", INDEX_TO_SHAPE)
+            }
+        }
+    } else {
+        const summedFunnelData = reduceRawFunnelData(puzzle, user, false)
+        const avgSessions = (summedFunnelData.started / chartFunnelData.started).toFixed()
+
+        const binnedSessions = Object.values(timePerAttempt[puzzle] || []).reduce(binSessionPerStudentReducer, [0])
+        const sessionEchartsData = []
+        const sessionEchartsXAxisData = []
+        for (var i = 0; i < binnedSessions.length; i++) {
+            const bin = `${i * SESSION_BIN_SIZE}-${(i + 1) * SESSION_BIN_SIZE - 1}`
+            sessionEchartsXAxisData.push(bin)
+            sessionEchartsData.push({ name: bin, value: binnedSessions[i] })
+        }
+
+        const shapesPerStudent = Object.values(shapesUsed[puzzle] || []).reduce(onePerStudentNumberArrayReducer, DEFAULT_SHAPE_ARRAY)
+        const shapeEchartsData = []
+        for (var i = 0; i < shapesPerStudent.length; i++) {
+            shapeEchartsData.push({ name: INDEX_TO_SHAPE[i], value: shapesPerStudent[i] })
+        }
+
+        const modesPerStudent = Object.values(modesUsed[puzzle] || []).reduce(onePerStudentBooleanArrayReducer, DEFAULT_MODE_ARRAY)
+        const modeEchartsData = []
+        for (var i = 0; i < modesPerStudent.length; i++) {
+            modeEchartsData.push({ name: INDEX_TO_XFM_MODE[i], value: modesPerStudent[i] })
+        }
+
+        const binnedSnapshots = Object.values(snapshotsTaken[puzzle] || []).reduce(binSnapshotPerStudentReducer, [0])
+        const snapshotEchartsData = []
+        const snapshotEchartsXAxisData = []
+        for (var i = 0; i < binnedSnapshots.length; i++) {
+            const bin = `${i * SNAPSHOT_BIN_SIZE}-${(i + 1) * SNAPSHOT_BIN_SIZE - 1}`
+            snapshotEchartsXAxisData.push(bin)
+            snapshotEchartsData.push({ name: bin, value: binnedSnapshots[i] })
+        }
+
+        metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Student", chartFunnelData.started)} opened the Sandbox`, chartFunnelData.started))
+        if (chartFunnelData.started > 0) {
+            metricCardDeck.appendChild(createMetricCard(`${formatPlurals("Sandbox session", avgSessions)} on average`, avgSessions))
+
+            if (sessionEchartsData.length > 0) {
+                addBarChartToDiv(graphDiv, parentDivId + "-sessionchart", sessionEchartsData, "Histogram of sessions", sessionEchartsXAxisData, "250px")
+            }
+            if (shapeEchartsData.length > 0) {
+                addBarChartToDiv(graphDiv, parentDivId + "-shapechart", shapeEchartsData, "Shapes used per student", INDEX_TO_SHAPE, "250px")
+            }
+            if (modeEchartsData.length > 0) {
+                addBarChartToDiv(graphDiv, parentDivId + "-modechart", modeEchartsData, "Modes used per student", INDEX_TO_XFM_MODE, "250px")
+            }
+            if (snapshotEchartsData.length > 0) {
+                addBarChartToDiv(graphDiv, parentDivId + "-snapchart", snapshotEchartsData, "Histogram of snapshot values", snapshotEchartsXAxisData, "250px")
+            }
+        }
+    }
+
+    // TODO: total time spent in sandbox
+}
+
 function togglePlayer(pk) {
     $(`#${activePlayer}`).toggleClass("active")
     
@@ -359,10 +515,14 @@ function togglePlayer(pk) {
         if (activePlayer) $(`#${activePlayer}`).toggleClass("active")
     }
     
-    showFunnels(activeDifficulty, activePlayer)
-    if (activeFunnelId) {
-        $(`#${activeFunnelId}`).addClass("active")
-        $(`#${activeFunnelId}-collapsible`).collapse('show')
+    if (activeDifficulty === SANDBOX) {
+        showSandboxMetrics(activePlayer)
+    } else {
+        showFunnels(activeDifficulty, activePlayer)
+        if (activeFunnelId) {
+            $(`#${activeFunnelId}`).addClass("active")
+            $(`#${activeFunnelId}-collapsible`).collapse('show')
+        }
     }
 }
 

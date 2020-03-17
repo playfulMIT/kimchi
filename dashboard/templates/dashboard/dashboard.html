@@ -33,72 +33,53 @@
                         </div>
                     </div>
                 </div>
-                <div id="event-stream-container" class="container page" style="display:none">
-                    <div class="row">
-                        <div class="main-col col-3">
-                            <div id="session-filter" class="main-col-child list-group">
-                                <button id="all-sessions-button" type="button" class="list-group-item list-group-item-action">
-                                    All Sessions
-                                    <span id="total-event-number" class="badge badge-primary badge-pill float-right">0</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="main-col col-6">
-                            <div id="event-filter" class="main-col-child list-group"></div>
-                        </div>
-                        <div class="main-col col-3">
-                            <div class="main-col-child card">
-                                <div id="event-details" class="card-body">
-                                    <p class="font-weight-bold">Event ID<br><span id="event-id" class="font-weight-normal">
-                                    </p>
-                                    <p class="font-weight-bold">Time<br><span id="event-time" class="font-weight-normal">
-                                    </p>
-                                    <p class="font-weight-bold">Type<br><span id="event-type" class="font-weight-normal">
-                                    </p>
-                                    <p class="font-weight-bold">Data<br><span id="event-data" class="font-weight-normal">
-                                    </p>
-                                    <p class="font-weight-bold">Session<br><span id="event-session" class="font-weight-normal"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div id="metrics-container" class="container page" style="display:none">
-                    <!-- <div id="basic-metric-cards" class="card-deck"></div> -->
                     <div id="metrics-overview-container" class="container page">
                         <div id="funnel-container" class="container">
-                            <div id="echarts-funnel-container">
-                                <div id="funnel-row-1" class="funnel-row"></div>
-                                <div id="funnel-row-1-detail" class="funnel-detail-row"></div>
-                                <div id="funnel-row-2" class="funnel-row"></div>
-                                <div id="funnel-row-2-detail" class="funnel-detail-row"></div>
-                                <div id="funnel-row-3" class="funnel-row"></div>
-                                <div id="funnel-row-3-detail" class="funnel-detail-row"></div>
+                            <div style="display:inline-flex; flex-direction: column; margin-right: 10px; width: 80%">
+                                <div id="funnel-view-controls">
+                                    <div style="vertical-align: middle;">
+                                        <div id="funnel-difficulty" class="btn-group" role="group" aria-label="Difficulty Level">
+                                            <button id="difficulty-beginner" type="button" class="btn btn-info">Beginner</button>
+                                            <button id="difficulty-intermediate" type="button" class="btn btn-info">Intermediate</button>
+                                            <button id="difficulty-advanced" type="button" class="btn btn-info">Advanced</button>
+                                            <button id="difficulty-sandbox" type="button" class="btn btn-info">Sandbox</button>
+                                        </div>
+                                    </div>
+                                    <div id="zoom-slider-container" style="vertical-align: middle">
+                                        <button id="funnel-zoom-out" class="btn zoom-icon zoom-item"><i class="fas fa-search-minus"></i></button>
+                                        <input id="zoom-range" class="zoom-item" type="range" min="1" max="5" step="1" value="1" style="vertical-align: middle;">
+                                        <button id="funnel-zoom-in" class="btn zoom-icon zoom-item"><i class="fas fa-search-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div id="echarts-funnel-container">
+                                    <div id="funnel-row-1" class="funnel-row"></div>
+                                    <div id="funnel-row-1-detail" class="funnel-detail-row"></div>
+                                    <div id="funnel-row-2" class="funnel-row"></div>
+                                    <div id="funnel-row-2-detail" class="funnel-detail-row"></div>
+                                    <div id="funnel-row-3" class="funnel-row"></div>
+                                    <div id="funnel-row-3-detail" class="funnel-detail-row"></div>
+                                </div>
+                                <div id="sandbox-metrics-container"></div>
                             </div>
-                            <div id="funnel-controls" class="container">
+                            <div id="funnel-player-controls" class="container">
                                 <div>
                                     <div>
                                         Viewing data for
                                     </div>
                                     <div style="display:inline-flex; flex-direction: row">
                                         <h5 id="class-level-filter-text">Class</h5>
-                                        <button id="filter-clear" type="button" class="close text-danger" aria-label="Close" style="display:none; height:1em; margin-left:5px;">
+                                        <button id="filter-clear" type="button" class="close text-danger" aria-label="Close"
+                                            style="display:none; height:1em; margin-left:5px;">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                 </div>
-                                <div  style="vertical-align: middle">
-                                    <input id="zoom-range" type="range" min="1" max="5" step="1" value="1" style="vertical-align: middle;">
-                                    <label for="zoom-range" style="margin-left:3px;">Zoom</label>
-                                </div>
-                                <div id="funnel-difficulty" class="btn-group" role="group" aria-label="Difficulty Level">
-                                    <button id="difficulty-beginner" type="button" class="btn btn-info">Beginner</button>
-                                    <button id="difficulty-intermediate" type="button" class="btn btn-info">Intermediate</button>
-                                    <button id="difficulty-advanced" type="button" class="btn btn-info">Advanced</button>
-                                </div>
                                 <div id="player-container">
                                     <div id="player-card" class="card">
-                                        <div class="card-header"><h6 id="player-count"></h6></div>
+                                        <div class="card-header">
+                                            <h6 id="player-count"></h6>
+                                        </div>
                                         <div id="player-list" class="list-group-flush"></div>
                                     </div>
                                 </div>
@@ -114,6 +95,7 @@
     <script src="/static/dashboard/js/jquery-3.3.1.min.js"></script>
     <script src="/static/dashboard/js/popper.min.js"></script>
     <script src="/static/dashboard/js/bootstrap.min.js"></script>
+    <script src="/static/dashboard/js/fontawesome-all.min.js"></script>
     <script src="/static/dashboard/js/echarts-en.min.js"></script>
     <script src="/static/dashboard/js/constants.js" type="module"></script>
     <script src="/static/dashboard/js/helpers.js" type="module"></script>
