@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "anymail",
+    'django_extensions',
     "dashboard"
 ]
 
