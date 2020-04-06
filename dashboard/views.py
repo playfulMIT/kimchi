@@ -8,7 +8,8 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 
-from datacollection.models import Event, CustomSession, Player
+from datacollection.models import Event, CustomSession, Player, URL
+from shadowspect.models import Level
 
 def dashboard(request, slug):
     return render(request, "dashboard/dashboard.html", {"url": slug})
@@ -42,6 +43,25 @@ def get_player_list(request, slug):
 
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
+
+def get_puzzles(request, slug):
+    def get_puzzle_properties(puzzle_filename):
+        level = Level.objects.get(filename=puzzle_filename)
+        return json.loads(level.data)["puzzleName"]
+
+    puzzles = dict()
+    url = URL.objects.get(name=slug)
+    config = url.data
+    config_dict = json.loads(config)
+    
+    puzzles["canUseSandbox"] = config_dict["canUseSandbox"]
+    puzzles["puzzles"] = dict()
+
+    for puzzleSet in config_dict["puzzleSets"]:
+        if puzzleSet["canPlay"]:
+            puzzles["puzzles"][puzzleSet["name"].lower()] = [get_puzzle_properties(p) for p in puzzleSet["puzzles"]]
+    
+    return JsonResponse(puzzles)
 
 def get_snapshot_metrics(request, slug):
     player_to_snapshot_map = dict()
