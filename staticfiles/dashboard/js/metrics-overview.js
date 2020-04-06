@@ -1,5 +1,5 @@
 import { 
-    API, DIFFICULTY_LEVEL, LEVELS, INDEX_TO_SHAPE, 
+    API, DIFFICULTY_LEVEL, INDEX_TO_SHAPE, 
     INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, SESSION_BIN_SIZE,
     DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
     DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY, SANDBOX, SANDBOX_PUZZLE_NAME
@@ -9,7 +9,6 @@ import {
     createBarChart, createGraphCard, createMetricCard 
 } from './helpers.js'
 
-// TODO: add sandbox level 
 // TODO: attempt funnel rotation 
 // TODO: student search?
 // TODO: student list/info per metric?
@@ -56,6 +55,7 @@ const binTimePerStudentReducer = (accumulator, currentValue) => {
     return accumulator
 }
 
+var puzzleData = null
 var rawFunnelData = null
 var timePerAttempt = null
 var shapesUsed = null
@@ -71,18 +71,6 @@ var numPlayers = 0
 var funnelPlayerMax = 0
 
 $(document).ready(() => {
-    for (let [key, value] of Object.entries(DIFFICULTY_LEVEL)) {
-        $(`#difficulty-${value}`).click(() => {
-            activeFunnelId = null
-            showFunnels(value, activePlayer)
-        })
-    }
-
-    $(`#difficulty-${SANDBOX}`).click(() => {
-        activeFunnelId = null
-        showSandboxMetrics(activePlayer)
-    })
-
     $('#zoom-range').on('input', function() {
         funnelPlayerMax = Math.floor(numPlayers/this.value)
         showFunnels(activeDifficulty, activePlayer)
@@ -313,7 +301,7 @@ function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user =
 }
 
 function createFunnelDataForDifficulty(difficulty, user = null) {
-    const puzzles = LEVELS[difficulty]
+    const puzzles = puzzleData['puzzles'][difficulty]
     const data = {}
 
     for (const puzzle of puzzles) {
@@ -363,7 +351,7 @@ function showFunnels(difficulty, user = null) {
         $("#filter-clear").hide()
     }
 
-    const numLevels = LEVELS[difficulty].length
+    const numLevels = puzzleData["puzzles"][difficulty].length
     const numRows = 3
     const numColumns = numLevels / numRows
     
@@ -543,11 +531,42 @@ function showPlayerList() {
     }
 }
 
+function createDifficultyTabs() {
+    for (let [key, value] of Object.entries(puzzleData["puzzles"])) {
+        const button = document.createElement('button')
+        button.id = `difficulty-${key}`
+        button.type = 'button'
+        button.className = 'btn btn-info'
+        button.textContent = key.charAt(0).toUpperCase() + key.slice(1)
+        document.getElementById('funnel-difficulty').appendChild(button)
+
+        $(`#difficulty-${key}`).click(() => {
+            activeFunnelId = null
+            showFunnels(key, activePlayer)
+        })
+    }
+
+    if (puzzleData["canUseSandbox"]) {
+        const button = document.createElement('button')
+        button.id = `difficulty-${SANDBOX}`
+        button.type = 'button'
+        button.className = 'btn btn-info'
+        button.textContent = SANDBOX_PUZZLE_NAME
+        document.getElementById('funnel-difficulty').appendChild(button)
+
+        $(`#difficulty-${SANDBOX}`).click(() => {
+            activeFunnelId = null
+            showSandboxMetrics(activePlayer)
+        })
+    }
+}
+
 export async function showMetricsOverview() {
     playerMap = await callAPI(`${API}/players`)
     numPlayers = Object.keys(playerMap).length
     funnelPlayerMax = numPlayers
 
+    puzzleData = await callAPI(`${API}/puzzles`)
     rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
     timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
     shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
@@ -558,7 +577,10 @@ export async function showMetricsOverview() {
     $(".navbar-nav > a").removeClass("active disabled")
     $("#metrics-container").show()
     $("#nav-metrics").addClass("active")
+
+    createDifficultyTabs()
     $("#funnel-difficulty").show()
+
     showPlayerList()
-    showFunnels(DIFFICULTY_LEVEL.BEGINNER)
+    showFunnels(Object.keys(puzzleData['puzzles'])[0])
 }
