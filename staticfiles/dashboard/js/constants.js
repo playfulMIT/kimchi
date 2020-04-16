@@ -2,14 +2,8 @@ export const APP = document.getElementById('app')
 export const API = `/api/dashboard/${GROUP}` 
 
 export const TABS = {
-    EVENT_STREAM: "EVENT_STREAM",
-    METRICS: "METRICS"
-}
-
-export const DIFFICULTY_LEVEL = {
-    BEGINNER: "beginner",
-    INTERMEDIATE: "intermediate",
-    ADVANCED: "advanced"
+    METRICS: "METRICS",
+    RADAR_CHART: "RADAR_CHART"
 }
 
 export const SANDBOX = "sandbox"
