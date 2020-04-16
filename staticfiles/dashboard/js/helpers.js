@@ -1,3 +1,10 @@
+export function showPage(pageId, navId) {
+    $("#page-container > .page").hide()
+    $(".navbar-nav > a").removeClass("active disabled")
+    $(`#${pageId}`).show()
+    $(`#${navId}`).addClass("active")
+}
+
 export function callAPI(url) {
     return new Promise((resolve, reject) => {
         fetch(url, { credentials: "same-origin" })

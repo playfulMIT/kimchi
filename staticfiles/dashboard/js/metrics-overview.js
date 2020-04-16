@@ -1,11 +1,10 @@
 import { 
-    API, DIFFICULTY_LEVEL, INDEX_TO_SHAPE, 
-    INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, SESSION_BIN_SIZE,
-    DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
+    API, INDEX_TO_SHAPE, INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, 
+    SESSION_BIN_SIZE, DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
     DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY, SANDBOX, SANDBOX_PUZZLE_NAME
 } from './constants.js'
 import { 
-    callAPI, toEchartsData, formatPlurals, formatTime, 
+    callAPI, toEchartsData, formatPlurals, formatTime, showPage,
     createBarChart, createGraphCard, createMetricCard 
 } from './helpers.js'
 
@@ -532,6 +531,8 @@ function showPlayerList() {
 }
 
 function createDifficultyTabs() {
+    $('#funnel-difficulty > button').remove()
+    
     for (let [key, value] of Object.entries(puzzleData["puzzles"])) {
         const button = document.createElement('button')
         button.id = `difficulty-${key}`
@@ -562,21 +563,20 @@ function createDifficultyTabs() {
 }
 
 export async function showMetricsOverview() {
-    playerMap = await callAPI(`${API}/players`)
-    numPlayers = Object.keys(playerMap).length
-    funnelPlayerMax = numPlayers
+    if (!playerMap) {
+        playerMap = await callAPI(`${API}/players`)
+        numPlayers = Object.keys(playerMap).length
+        funnelPlayerMax = numPlayers
 
-    puzzleData = await callAPI(`${API}/puzzles`)
-    rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
-    timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
-    shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
-    modesUsed = await callAPI(`${API}/modesperpuzzle`)
-    snapshotsTaken = await callAPI(`${API}/snapshotsperpuzzle`)
+        puzzleData = await callAPI(`${API}/puzzles`)
+        rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
+        timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
+        shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
+        modesUsed = await callAPI(`${API}/modesperpuzzle`)
+        snapshotsTaken = await callAPI(`${API}/snapshotsperpuzzle`)
+    }
 
-    $("#page-container > .page").hide()
-    $(".navbar-nav > a").removeClass("active disabled")
-    $("#metrics-container").show()
-    $("#nav-metrics").addClass("active")
+    showPage("metrics-container", "nav-metrics")
 
     createDifficultyTabs()
     $("#funnel-difficulty").show()
