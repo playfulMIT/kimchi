@@ -30,8 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# SECURE_SSL_REDIRECT = True
 
 
 AUTHENTICATION_BACKENDS = (
@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "anymail",
     'django_extensions',
-    "dashboard"
+    'dataprocessing',
+    "dashboard",
 ]
 
 MIDDLEWARE = [
@@ -106,7 +107,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "kimchi.wsgi.application"
 ASGI_APPLICATION = "kimchi.routing.application"
-
+print(BASE_DIR)
 # This checks to see if its on heroku & if it isn't, use sqlite
 try:
     # PAAS settings -------------------------------------------------
@@ -133,7 +134,8 @@ try:
     }
     DATABASES["default"] = env.db("MIT_URL")
     REDIS = os.environ["REDIS_URL"]
-except KeyError:
+except KeyError as e:
+    print(e)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -148,6 +150,20 @@ CHANNEL_LAYERS = {
         "CONFIG": {"hosts": [REDIS], "group_expiry": 7200},
     }
 }
+
+CELERY_BROKER_URL = os.environ['REDIS_MIT']
+CELERY_RESULT_BACKEND = os.environ['REDIS_MIT']
+from datetime import timedelta
+
+CELERYBEAT_SCHEDULE = {
+    'post-every-30-seconds': {
+        'task': 'dataprocessing.tasks.test',
+        'schedule': timedelta(seconds=5),
+        'args': ()
+    },
+}
+
+CELERY_TIMEZONE = 'UTC'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
