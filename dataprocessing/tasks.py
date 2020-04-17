@@ -27,13 +27,11 @@ def process_task(task, *args):
         task_db.result = result.get()
         task_db.state = "done"
         task_db.time_ended = timezone.now()
-        task_db.save()
+        task_db.errors = ""
     except Exception as exc:
         tb = traceback.format_exception(etype=type(exc), value=exc, tb=exc.__traceback__)
         task_db.errors = tb
         task_db.state = "error"
-        task_db.save(update_fields=['state'])
-
     task_db.save()
     return task_db
 
