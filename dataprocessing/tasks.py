@@ -25,7 +25,7 @@ def test():
 @app.task
 def process_task(task, *args):
     task_sig = task.s(args)
-    task_db, created = Task.object.get_or_create(name=str(task_sig))
+    task_db, created = Task.objects.get_or_create(name=str(task_sig))
     task_db.state = "starting"
     task_db.save(update_fields=['state'])
     try:
