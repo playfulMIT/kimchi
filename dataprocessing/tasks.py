@@ -6,10 +6,12 @@ import numpy as np
 import json
 import sys, traceback
 from dataprocessing.models import Task
+from django.utils import timezone
 
 
 @app.task
 def process_task(task, *args):
+    # this fixes an extraneous comma in tuples
     if len(args) == 1:
         args = args[0]
     task_sig = task.s(args)
@@ -23,9 +25,8 @@ def process_task(task, *args):
         task_db.state = "processing"
         task_db.save(update_fields=['state'])
         task_db.result = result.get()
-        print('result')
-        print(result.get())
         task_db.state = "done"
+        task_db.time_ended = timezone.now()
         task_db.save()
     except Exception as exc:
         tb = traceback.format_exception(etype=type(exc), value=exc, tb=exc.__traceback__)
