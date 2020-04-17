@@ -153,15 +153,7 @@ CHANNEL_LAYERS = {
 
 CELERY_BROKER_URL = os.environ['REDIS_MIT']
 CELERY_RESULT_BACKEND = os.environ['REDIS_MIT']
-from datetime import timedelta
 
-CELERYBEAT_SCHEDULE = {
-    'post-every-30-seconds': {
-        'task': 'dataprocessing.tasks.test',
-        'schedule': timedelta(seconds=5),
-        'args': ()
-    },
-}
 
 CELERY_TIMEZONE = 'UTC'
 
