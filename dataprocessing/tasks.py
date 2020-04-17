@@ -99,6 +99,7 @@ def computeFunnelByPuzzle(group='all'):
     return userFunnelByPuzzle.to_json()
 
 
+@app.task
 def sequenceBetweenPuzzles(group='all'):
     if group == 'all':
         toFilter = all_data_collection_urls
@@ -176,7 +177,6 @@ def generate_metadata_and_run_tasks():
         task.input_urls.add(url)
         task.save()
 
-
     interesting_task = process_task(computeFunnelByPuzzle, interesting_urls)
     for url in interesting_urls:
         interesting_task.input_urls.add(URL.objects.get(name=url))
@@ -194,10 +194,6 @@ def generate_metadata_and_run_tasks():
     for url in urls:
         all_task.input_urls.add(url)
     all_task.save()
-
-
-
-
 
 # @app.on_after_configure.connect
 # def setup_periodic_tasks(sender, **kwargs):
