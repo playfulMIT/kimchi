@@ -109,9 +109,18 @@ def run_computeFunnelByPuzzle():
                         'juliamorgan']
     for url in urls:
         all_data_collection_urls.append(str(url.name))
-        task = process_task(computeFunnelByPuzzle, url.name)
+        task = process_task(computeFunnelByPuzzle, [url.name])
         task.input_urls.add(url)
         task.save()
+        
+    interesting_task = process_task(computeFunnelByPuzzle, interesting_urls)
+    interesting_task.input_urls.add(url)
+    interesting_task.save()
+
+    all_task = process_task(computeFunnelByPuzzle, [all_data_collection_urls])
+    all_task.input_urls.add(url)
+    all_task.save()
+
 
 # @app.on_after_configure.connect
 # def setup_periodic_tasks(sender, **kwargs):
