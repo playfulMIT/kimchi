@@ -1,4 +1,3 @@
-from celery import shared_task
 from kimchi.celery import app
 from datacollection.models import Event, URL, CustomSession
 from django_pandas.io import read_frame
@@ -6,26 +5,17 @@ import pandas as pd
 import numpy as np
 import json
 import sys, traceback
-import hashlib
-from datetime import datetime
-from datetime import timedelta
-from collections import OrderedDict
 from dataprocessing.models import Task
-
-#
-#
-@app.task
-def test():
-    return "hello"
-
-
-
 
 
 @app.task
 def process_task(task, *args):
+    if len(args) == 1:
+        args = args[0]
     task_sig = task.s(args)
-    task_db, created = Task.objects.get_or_create(signature=str(task_sig))
+    taskname = str(task_sig)
+    print("processing task", taskname)
+    task_db, created = Task.objects.get_or_create(signature=taskname)
     task_db.state = "starting"
     task_db.save(update_fields=['state'])
     try:
@@ -33,6 +23,10 @@ def process_task(task, *args):
         task_db.state = "processing"
         task_db.save(update_fields=['state'])
         Task.result = result.get()
+        print('result')
+        print(result.get())
+        task_db.state = "done"
+        task_db.save()
     except Exception as exc:
         tb = traceback.format_exception(etype=type(exc), value=exc, tb=exc.__traceback__)
         task_db.errors = tb
@@ -103,7 +97,7 @@ def computeFunnelByPuzzle(group='all'):
 
     userFunnelByPuzzle = pd.DataFrame(userFunnelList, columns=['group', 'user', 'task_id', 'funnel'])
 
-    return userFunnelByPuzzle
+    return userFunnelByPuzzle.to_json()
 
 
 @app.task
@@ -116,6 +110,7 @@ def run_computeFunnelByPuzzle():
         all_data_collection_urls.append(str(url.name))
         task = process_task(computeFunnelByPuzzle, url.name)
         task.input_urls.add(url)
+        task.save()
 
 # @app.on_after_configure.connect
 # def setup_periodic_tasks(sender, **kwargs):
