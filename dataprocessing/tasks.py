@@ -22,7 +22,7 @@ def process_task(task, *args):
         result = task_sig.apply_async()
         task_db.state = "processing"
         task_db.save(update_fields=['state'])
-        Task.result = result.get()
+        task_db.result = result.get()
         print('result')
         print(result.get())
         task_db.state = "done"
