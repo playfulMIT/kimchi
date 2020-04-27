@@ -279,7 +279,7 @@ def get_task_metrics(request, slug):
 
 def get_levels_of_activity(request, slug):
     try:
-        task_result = Task.objects.values('result').get(signature__contains="computeLevelsOfActivity(['"+slug+"']")['result']
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['"+slug+"']")
         return JsonResponse(json.loads(task_result))
     except ObjectDoesNotExist:
         return JsonResponse({})
