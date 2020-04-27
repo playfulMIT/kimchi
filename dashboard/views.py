@@ -10,6 +10,9 @@ from django.http import JsonResponse
 
 from datacollection.models import Event, CustomSession, Player, URL
 from shadowspect.models import Level
+from dataprocessing.models import Task
+
+# TODO: convert code to use the task output
 
 def dashboard(request, slug):
     return render(request, "dashboard/dashboard.html", {"url": slug})
@@ -267,3 +270,16 @@ def get_modes_per_puzzle(request, slug):
                 puzzle_mode_map[current_puzzle][player][mode - 1] = True
 
     return JsonResponse(puzzle_mode_map)
+
+
+def get_task_metrics(request, slug):
+    url = URL.objects.get(name=slug)
+    tasks = list(Task.objects.filter(input_urls=url).values_list("result", flat=True))
+    return JsonResponse(tasks, safe=False)
+
+def get_levels_of_activity(request, slug):
+    try:
+        task_result = Task.objects.values('result').get(signature__contains="computeLevelsOfActivity(['"+slug+"']")['result']
+        return JsonResponse(task_result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
