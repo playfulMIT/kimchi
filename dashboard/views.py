@@ -35,14 +35,17 @@ def create_player_list(url, include_name = False):
         return CustomSession.objects.filter(url__name=url).values_list("player__name", "player__pk").distinct()
     return CustomSession.objects.filter(url__name=url).values_list("player__pk", flat = True).distinct()
 
-def get_player_list(request, slug):
+def create_player_map(url):
     pk_to_player_map = dict()
-    player_list = create_player_list(slug, True)
+    player_list = create_player_list(url, True)
     for (player, pk) in player_list:
         if not player or player == "null":
             continue
         pk_to_player_map[pk] = player
-    return JsonResponse(pk_to_player_map)
+    return pk_to_player_map
+
+def get_player_list(request, slug):
+    return JsonResponse(create_player_map(slug))
 
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
@@ -280,6 +283,25 @@ def get_task_metrics(request, slug):
 def get_levels_of_activity(request, slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['"+slug+"']")
-        return JsonResponse(json.loads(task_result))
+        result = json.loads(task_result)
+
+        new_result = {}
+        max_index = len(result)
+        player_map = {v: k for k, v in create_player_list(slug, True).items()}
+
+        for i in range(max_index):
+            user = player_map.get(result.user[i])
+            if user == None: 
+                continue
+            
+            if result.task_id not in new_result:
+                new_result[result.task_id[i]] = {}
+
+            if user not in new_result[result.task_id[i]]:
+                new_result[result.task_id[i]][user] = {}
+
+            new_result[result.task_id[i]][user][result.metric[i]] = float(result.value[i])
+
+        return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
