@@ -282,18 +282,19 @@ def get_task_metrics(request, slug):
 
 def get_levels_of_activity(request, slug):
     try:
-        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['"+slug+"']")
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['leja']")
         result = json.loads(task_result)
 
         new_result = {}
-        max_index = len(result)
-        player_map = {v: k for k, v in create_player_map(slug).items()}
+        max_index = len(result['group'])
+        player_map = {v: k for k, v in create_player_map("leja").items()}
 
-        for i in range(max_index):
+        for i_num in range(max_index):
+            i = str(i_num)
             user = player_map.get(result['user'][i])
-            if user == None: 
+            if user == None:
                 continue
-            
+
             if result['task_id'][i] not in new_result:
                 new_result[result['task_id'][i]] = {}
 
