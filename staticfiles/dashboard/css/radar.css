@@ -1,0 +1,52 @@
+.verticesTooltip {
+  position: absolute;
+  color: red;
+  font-size: 12px;
+  width: 100px;
+  height: auto;
+  padding: 5px;
+  border: 2px solid gray;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  background: #f4f4f4;
+}
+/* .level-lines {
+  stroke-width: 1px;
+}
+.level-labels {
+  font-size: 12px;
+}
+.axis-lines {
+  stroke-width: 2px;
+}
+.axis-labels {
+  font-size: 12px;
+}
+.polygon-vertices {
+  fill-opacity: 0.6;
+}
+.polygon-areas {
+  fill-opacity: 0.6;
+}
+.legend-tiles {
+  fill-opacity: 0.3;
+} */
+.legend-labels {
+  font-size: 15px;
+}
+
+#selection-radar {
+  position: sticky;
+  top: 0;
+}
+
+#add-player-list {
+  height: 50vh;
+  overflow-y: auto;
+}
+
+#puzzle-dropdown-options {
+  max-height: 50vh;
+  overflow-y: auto;
+}

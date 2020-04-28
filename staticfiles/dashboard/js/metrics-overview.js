@@ -5,7 +5,8 @@ import {
 } from './constants.js'
 import { 
     callAPI, toEchartsData, formatPlurals, formatTime, showPage,
-    createBarChart, createGraphCard, createMetricCard 
+    createBarChart, createGraphCard, createMetricCard, showPlayerList,
+    toCamelCase
 } from './helpers.js'
 
 // TODO: attempt funnel rotation 
@@ -61,11 +62,11 @@ var shapesUsed = null
 var modesUsed = null
 var snapshotsTaken = null
 
-var playerMap = null 
+var playerMap = null
+var numPlayers = 0
 var activePlayer = null
 var activeDifficulty = null
 var activeFunnelId = null
-var numPlayers = 0
 
 var funnelPlayerMax = 0
 
@@ -513,23 +514,6 @@ function togglePlayer(pk) {
     }
 }
 
-function showPlayerList() {
-    document.getElementById("player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
-    const sortedEntries = Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
-
-    for (let [pk, player] of sortedEntries) {
-        const button = document.createElement("button")
-        button.id = pk
-        button.className = "list-group-item list-group-item-action btn-secondary"
-        button.type = "button"
-        button.textContent = player
-        document.getElementById("player-list").appendChild(button)
-        $(`#${pk}`).click(() => {
-            togglePlayer(pk)
-        })
-    }
-}
-
 function createDifficultyTabs() {
     $('#funnel-difficulty > button').remove()
     
@@ -538,7 +522,7 @@ function createDifficultyTabs() {
         button.id = `difficulty-${key}`
         button.type = 'button'
         button.className = 'btn btn-info'
-        button.textContent = key.charAt(0).toUpperCase() + key.slice(1)
+        button.textContent = toCamelCase(key)
         document.getElementById('funnel-difficulty').appendChild(button)
 
         $(`#difficulty-${key}`).click(() => {
@@ -562,13 +546,15 @@ function createDifficultyTabs() {
     }
 }
 
-export async function showMetricsOverview() {
-    if (!playerMap) {
-        playerMap = await callAPI(`${API}/players`)
-        numPlayers = Object.keys(playerMap).length
+export async function showMetricsOverview(pMap, numP, puzzData) {
+    playerMap = pMap
+    numPlayers = numP
+    puzzleData = puzzData
+
+    if (playerMap && !rawFunnelData) {
+        showPage("loader-container")
         funnelPlayerMax = numPlayers
 
-        puzzleData = await callAPI(`${API}/puzzles`)
         rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
         timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
         shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
@@ -581,6 +567,7 @@ export async function showMetricsOverview() {
     createDifficultyTabs()
     $("#funnel-difficulty").show()
 
-    showPlayerList()
+    document.getElementById("player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
+    showPlayerList("player-list", playerMap, () => {togglePlayer(pk)})
     showFunnels(Object.keys(puzzleData['puzzles'])[0])
 }

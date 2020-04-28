@@ -1,8 +1,10 @@
-export function showPage(pageId, navId) {
+export function showPage(pageId, navId = null) {
     $("#page-container > .page").hide()
     $(".navbar-nav > a").removeClass("active disabled")
     $(`#${pageId}`).show()
-    $(`#${navId}`).addClass("active")
+    if (navId) {
+        $(`#${navId}`).addClass("active")
+    }
 }
 
 export function callAPI(url) {
@@ -119,4 +121,22 @@ export function createGraphCard(graph, id) {
     cardBody.appendChild(graph)
     card.appendChild(cardBody)
     return card
+}
+
+export function showPlayerList(divId, playerMap, onClick) {
+    const sortedEntries = Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
+
+    for (let [pk, player] of sortedEntries) {
+        const button = document.createElement("button")
+        button.id = pk
+        button.className = "player-button list-group-item list-group-item-action btn-secondary"
+        button.type = "button"
+        button.textContent = player
+        document.getElementById(divId).appendChild(button)
+        $(`#${pk}`).click(onClick)
+    }
+}
+
+export function toCamelCase(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1)
 }
