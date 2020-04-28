@@ -100,6 +100,7 @@ function removeStudentFromChart(id) {
 }
 
 $(document).ready(() => {
+    $("#add-class-average-button").on("click", () => addStudentToChart(new Set(["avg"])))
     $("#add-student-button-radar").on("click", () => addStudentToChart(studentsToAdd))
 
     $("#add-student-modal-radar").on("show.bs.modal", () => {
@@ -730,7 +731,7 @@ function buildLegend() {
         .attr("font-size", 11 * config.labelScale + "px")
         .attr("fill", "gray")
         .text(function(d) {
-            return playerMap[d];
+            return d === "avg" ? "Class Avg." : playerMap[d];
         });
 
     d3.select("#radar-players").selectAll(".player-button-radar")
@@ -739,7 +740,7 @@ function buildLegend() {
         .attr("id", d => d)
         .classed("player-button-radar btn btn-light", true)
         .attr("type", "button")
-        .text(d => playerMap[d])
+        .text(d => d === "avg" ? "Class Avg." : playerMap[d])
         .on("mouseover", (d) => {
             d3.select(`#${d}.player-button-radar`)
                 .classed("btn-light", false)

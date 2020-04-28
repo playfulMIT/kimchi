@@ -303,6 +303,32 @@ def get_levels_of_activity(request, slug):
 
             new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
 
+        for task in new_result:
+            class_avg = {
+                'active_time': 0,
+                'create_shape': 0,
+                'delete_shape': 0,
+                'different_events': 0,
+                'event': 0,
+                'move_shape': 0,
+                'paint': 0,
+                'redo_action': 0,
+                'rotate_view': 0,
+                'scale_shape': 0,
+                'snapshot': 0,
+                'undo_action': 0
+            }
+            
+            users = new_result[task]
+            items = users.values()
+            
+            for value in items:
+                for key in value.keys():
+                    class_avg[key] += value[key]
+            for key in value.keys():
+                class_avg[key] /= len(items)
+            new_result[task]['avg'] = class_avg
+
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
