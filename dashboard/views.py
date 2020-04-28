@@ -287,7 +287,7 @@ def get_levels_of_activity(request, slug):
 
         new_result = {}
         max_index = len(result)
-        player_map = {v: k for k, v in create_player_list(slug, True).items()}
+        player_map = {v: k for k, v in create_player_map(slug, True).items()}
 
         for i in range(max_index):
             user = player_map.get(result.user[i])
