@@ -17,6 +17,8 @@ var studentsToAdd = new Set()
 var firstRender = true
 
 // TODO: stop legend from changing color
+// TODO: fix polygon highlighting
+
 const defaultMetrics = {
     active_time: 0,
     create_shape: 0,
@@ -737,22 +739,22 @@ function buildLegend() {
     d3.select("#radar-players").selectAll(".player-button-radar")
         .data(playerList).enter()
         .append("button")
-        .attr("id", d => d)
+        .attr("id", d => `player-button-radar-${d}`)
         .classed("player-button-radar btn btn-light", true)
         .attr("type", "button")
         .text(d => d === "avg" ? "Class Avg." : playerMap[d])
         .on("mouseover", (d) => {
-            d3.select(`#${d}.player-button-radar`)
+            d3.select(`#player-button-radar-${d}`)
                 .classed("btn-light", false)
                 .classed("btn-danger", true)
         })
         .on("mouseout", (d) => {
-            d3.select(`#${d}.player-button-radar`)
+            d3.select(`#player-button-radar-${d}`)
                 .classed("btn-danger", false)
                 .classed("btn-light", true)
         })
         .on("click", d => {
-            d3.select(`#${d}.player-button-radar`).remove()
+            d3.select(`#player-button-radar-${d}`).remove()
             removeStudentFromChart(d)
         })
         .append("span")
