@@ -290,17 +290,17 @@ def get_levels_of_activity(request, slug):
         player_map = {v: k for k, v in create_player_map(slug).items()}
 
         for i in range(max_index):
-            user = player_map.get(result.user[i])
+            user = player_map.get(result['user'][i])
             if user == None: 
                 continue
             
-            if result.task_id not in new_result:
-                new_result[result.task_id[i]] = {}
+            if result['task_id'][i] not in new_result:
+                new_result[result['task_id'][i]] = {}
 
-            if user not in new_result[result.task_id[i]]:
-                new_result[result.task_id[i]][user] = {}
+            if user not in new_result[result['task_id'][i]]:
+                new_result[result['task_id'][i]][user] = {}
 
-            new_result[result.task_id[i]][user][result.metric[i]] = float(result.value[i])
+            new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
 
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
