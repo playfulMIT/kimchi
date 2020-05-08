@@ -1,5 +1,6 @@
 import { showPage, showPlayerList, toCamelCase } from './helpers.js'
 import { SANDBOX_PUZZLE_NAME } from './constants.js'
+// import { output } from './output.js'
 
 var config = null
 var vis = null
@@ -17,7 +18,8 @@ var studentsToAdd = new Set()
 var firstRender = true
 
 // TODO: stop legend from changing color
-// TODO: fix polygon highlighting
+// TODO: change avg to median
+// TODO: make option things more salient 
 
 const defaultMetrics = {
     active_time: 0,
@@ -112,7 +114,16 @@ $(document).ready(() => {
 
         $("#add-player-list").empty()
         showPlayerList("add-player-list", filteredPlayerMap, (event) => handleAddStudentButtonClick(event.target.id))
-        
+
+        if (currentPuzzle) {
+            for (let key of Object.keys(filteredPlayerMap)) {
+                if (!formattedData[currentPuzzle][key] || formattedData[currentPuzzle][key].event == 0) {
+                    $(`button#${key}`).removeClass("btn-secondary").addClass("btn-danger")
+                    $(`button#${key}`).css("background-color", "red")
+                }
+            }
+        }
+
         handleAddStudentButtonClick(null)
     })
 
@@ -255,8 +266,8 @@ function updateConfig(data) {
         // adjust config parameters
         config.maxValue = Math.max(config.maxValue, d3.max(Object.values(data), function (v) {
             return d3.max(Object.entries(v), function ([metric, value]) {
-                if (axisValues.find((v) => v === metric)) {
-                    return value
+                if (axisValues.find((av) => av === metric)) {
+                    return v.event == 0 ? 1 : (value / v.event) * 100
                 } else {
                     return 1
                 }
@@ -372,7 +383,7 @@ function buildLevelsLabels() {
         vis.levels
             .data([1]).enter()
             .append("svg:text").classed("level-labels", true)
-            .text((config.maxValue * (level + 1) / config.levels).toFixed(2))
+            .text((config.maxValue * (level + 1) / config.levels).toFixed(2) + "%")
             .attr("x", function(d) { return levelFactor * (1 - Math.sin(0)); })
             .attr("y", function(d) { return levelFactor * (1 - Math.cos(0)); })
             .attr("transform", "translate(" + (config.w / 2 - levelFactor + 5) + ", " + (config.h / 2 - levelFactor) + ")")
@@ -634,6 +645,7 @@ function buildAxesLabels() {
 // builds [x, y] coordinates of polygon vertices.
 function buildCoordinates(data) {
     Object.entries(data).forEach(function([player, data]) {
+        console.log("debug", player, data)
         const axisEntries = Object.entries(data)
         function findAxis(axis) {
             var entry = ["", 0]
@@ -641,14 +653,17 @@ function buildCoordinates(data) {
                 entry = axisEntries.find(([metric, value]) => metric === axis) || ["", 0]
             }
 
+            const numEvents = currentDataset[player].event
+
             return {
                 axis: entry[0],
-                value: entry[1]
+                value: numEvents > 0 ? (entry[1] / numEvents) * 100 : 0,
             }
         }
 
         data.visibleAxes = axisValues.map((axisLabel, i) => {
             const axis = findAxis(axisLabel)
+            console.log(axis)
             return {
                 ...axis,
                 coordinates: { // [x, y] coordinates
@@ -731,7 +746,7 @@ function buildLegend() {
         .attr("y", function(d, i) { return i * 2 * config.legendBoxSize; })
         .attr("dy", 0.07 * config.legendBoxSize + "em")
         .attr("font-size", 11 * config.labelScale + "px")
-        .attr("fill", "gray")
+        .attr("fill", d => currentDataset[d].event == 0 ? "red" : "grey")
         .text(function(d) {
             return d === "avg" ? "Class Avg." : playerMap[d];
         });
@@ -800,10 +815,10 @@ function handleAddStudentButtonClick(pk) {
     $("#selected-player-radar").text(formatSelectedPlayers(studentsToAdd))
 }
 
-export function showRadarCharts(pMap, puzzData, loa) {
+export function showRadarCharts(pMap, puzzData, levelsOfActivity) {
     playerMap = pMap
     puzzleData = puzzData
-    formattedData = loa
+    formattedData = levelsOfActivity
     
     showPage("radar-container", "nav-radar")
 
