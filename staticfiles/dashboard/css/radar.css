@@ -11,6 +11,27 @@
   opacity: 0;
   background: #f4f4f4;
 }
+
+.plus-option {
+   color: yellowgreen;
+}
+
+#axes-selection-container {
+  width: 18rem;
+}
+
+#plus-option-button {
+  cursor: pointer;
+}
+
+
+.remove-radar-option {
+  float: right;
+  color: red;
+  cursor: pointer;
+  z-index: 9999;
+}
+
 /* .level-lines {
   stroke-width: 1px;
 }
@@ -41,12 +62,18 @@
   top: 0;
 }
 
-#add-player-list {
+#add-player-list,
+#add-puzzle-list {
   height: 50vh;
   overflow-y: auto;
 }
 
 #puzzle-dropdown-options {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.dropdown-menu{
   max-height: 50vh;
   overflow-y: auto;
 }

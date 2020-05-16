@@ -3,7 +3,8 @@ export const API = `/api/dashboard/${GROUP}`
 
 export const TABS = {
     METRICS: "METRICS",
-    RADAR_CHART: "RADAR_CHART"
+    PUZZLE_RADAR_CHART: "PUZZLE_RADAR_CHART",
+    STUDENT_RADAR_CHART: "STUDENT_RADAR_CHART"
 }
 
 export const SANDBOX = "sandbox"
