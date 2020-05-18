@@ -25,3 +25,57 @@ export const FUNNEL_KEY_NAME_MAP = {
     submitted: "submitted an attempt",
     completed: "completed puzzle"
 }
+
+export const DEFAULT_LEVELS_OF_ACTIVITY = {
+    active_time: 0,
+    create_shape: 0,
+    delete_shape: 0,
+    different_events: 0,
+    event: 0,
+    move_shape: 0,
+    paint: 0,
+    redo_action: 0,
+    rotate_view: 0,
+    scale_shape: 0,
+    snapshot: 0,
+    undo_action: 0
+}
+
+export const LEVELS_OF_ACTIVITY_DROPDOWN = [
+    {
+        axis: "Create Shape",
+        value: "create_shape"
+    },
+    {
+        axis: "Move Shape",
+        value: "move_shape"
+    },
+    {
+        axis: "Scale Shape",
+        value: "scale_shape"
+    },
+    {
+        axis: "Delete Shape",
+        value: "delete_shape"
+    },
+    {
+        axis: "Paint",
+        value: "paint"
+    },
+    {
+        axis: "Undo Action",
+        value: "undo_action"
+    },
+    {
+        axis: "Redo Action",
+        value: "redo_action"
+    },
+    {
+        axis: "Rotate View",
+        value: "rotate_view"
+    },
+    {
+        axis: "Snapshot",
+        value: "snapshot"
+    }
+]
