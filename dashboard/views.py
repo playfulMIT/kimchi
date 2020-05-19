@@ -12,6 +12,8 @@ from datacollection.models import Event, CustomSession, Player, URL
 from shadowspect.models import Level
 from dataprocessing.models import Task
 
+import numpy as np
+
 # TODO: convert code to use the task output
 
 def dashboard(request, slug):
@@ -304,6 +306,8 @@ def get_levels_of_activity(request, slug):
             new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
 
         for task in new_result:
+            statistics = {}
+            values = {}
             class_avg = {
                 'active_time': 0,
                 'create_shape': 0,
@@ -318,6 +322,16 @@ def get_levels_of_activity(request, slug):
                 'snapshot': 0,
                 'undo_action': 0
             }
+
+            for key in class_avg:
+                statistics[key] = {
+                    'min': float("inf"),
+                    'max': float("-inf"),
+                    'median': 0,
+                    'mean': 0,
+                    'stdev': 0
+                }
+                values[key] = []
             
             users = new_result[task]
             items = users.values()
@@ -325,9 +339,19 @@ def get_levels_of_activity(request, slug):
             for value in items:
                 for key in value.keys():
                     class_avg[key] += value[key]
-            for key in value.keys():
-                class_avg[key] /= len(items)
+                    values[key].append(value[key])
+                    if statistics[key]['min'] > value[key]:
+                        statistics[key]['min'] = value[key]
+                    if statistics[key]['max'] < value[key]:
+                        statistics[key]['max'] = value[key]
+                for key in value.keys():
+                    class_avg[key] /= len(items)
+                    statistics[key]['median'] = np.median(values[key])
+                    statistics[key]['mean'] = np.mean(values[key])
+                    statistics[key]['stdev'] = np.std(values[key])
+            
             new_result[task]['avg'] = class_avg
+            new_result[task]['stats'] = statistics
 
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
