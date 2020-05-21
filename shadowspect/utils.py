@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from datacollection.models import URL, CustomSession
 from shadowspect.models import Level
-
+from django.shortcuts import get_object_or_404
 
 def get_config_json(request):
     print("sessionpk config: " + str(request.session.__dict__))
@@ -26,7 +26,7 @@ def get_level_json(request, slug):
     return JsonResponse(data)
 
 
-def generate_session(request):
+def generate_session(request, url):
     if not request.session.session_key:
         request.session.save()
         # request.session.accessed = False
@@ -48,4 +48,8 @@ def generate_session(request):
     session.modified = False
     request.session.accessed = False
     request.session.modified = False
+    url_obj = get_object_or_404(URL, pk=url)
+    request.session["urlpk"] = url
+    session.url = url_obj
+    session.save(update_fields=["url"])
     return session

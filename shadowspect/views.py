@@ -3,7 +3,7 @@ import json
 import uuid
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+
 from django.shortcuts import render
 
 from shadowspect.models import Level, Replay
@@ -12,11 +12,7 @@ from .utils import generate_session
 
 def wildcard_url(request, slug):
     print("getting wildcard")
-    session = generate_session(request)
-    url = get_object_or_404(URL, pk=slug)
-    request.session["urlpk"] = slug
-    session.url = url
-    session.save(update_fields=["url"])
+    session = generate_session(request, slug)
     print("session id: " + str(request.session.session_key))
     print("customsession dict: " + str(session.__dict__))
     print("sessionpk wildcard: " + str(request.session.__dict__))
@@ -32,10 +28,7 @@ def wildcard_url(request, slug):
 def mturk(request):
     if not request.session.session_key:
         request.session.save()
-    session = generate_session(request)
-    session.url = URL.objects.get(pk="mturk")
-    session.save(update_fields=["url"])
-    request.session["urlpk"] = "mturk"
+    session = generate_session(request, "mturk")
     return render(
         request,
         "shadowspect/mturk.html",
@@ -44,7 +37,7 @@ def mturk(request):
 
 
 def debug(request):
-    session = generate_session(request)
+    session = generate_session(request, "brandontest")
     response = str(request.session.session_key) + "\n" + str(session.__dict__)
     return HttpResponse(response)
 
