@@ -345,7 +345,7 @@ def get_levels_of_activity(request, slug):
                     if statistics[key]['max'] < value[key]:
                         statistics[key]['max'] = value[key]
                 for key in value.keys():
-                    class_avg[key] /= len(items)
+                    class_avg[key] /= len(users)
                     statistics[key]['median'] = np.median(values[key])
                     statistics[key]['mean'] = np.mean(values[key])
                     statistics[key]['stdev'] = np.std(values[key])
