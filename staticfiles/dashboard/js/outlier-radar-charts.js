@@ -1,4 +1,4 @@
-import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart, createNormalizationToggle } from './helpers.js'
+import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart } from './helpers.js'
 import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, SANDBOX } from './constants.js'
 
 var playerMap = null
@@ -7,9 +7,6 @@ var puzzleData = null
 var formattedData = null
 
 var currentDataset = {}
-var currentStatistics = {}
-var normalizationOn = false
-
 var currentPuzzles = new Set()
 var currentStudent = null
 var puzzlesToAdd = new Set()
@@ -24,10 +21,8 @@ function addPuzzleToChart(puzzles) {
     if (currentStudent) {
         for (let puzzle of puzzles) {
             currentDataset[puzzle] = formattedData[puzzle][currentStudent] || DEFAULT_LEVELS_OF_ACTIVITY
-            currentStatistics[puzzle] = formattedData[puzzle].stats
         }
     }
-
     currentPuzzles = new Set([...currentPuzzles, ...puzzles])
     
     const puzzleList = Array.from(currentPuzzles)
@@ -61,7 +56,6 @@ function addPuzzleToChart(puzzles) {
 
 function removePuzzleFromChart(puzzle) {
     delete currentDataset[puzzle]
-    delete currentStatistics[puzzle]
     currentPuzzles.delete(puzzle)
     createRadarChart()
 }
@@ -95,6 +89,37 @@ function showPuzzleList(puzzleList) {
     }
 }
 
+$(document).ready(() => {
+    createOptionDropdownItems("radar-student-option-1-dropdown", "radar-student-option-1", "radar-student-", "student-plus-option-button", 1)
+    $("#build-student-radar-button").click(buildChartWithNewAxes)
+
+    $("#add-puzzle-button-radar").on("click", () => addPuzzleToChart(puzzlesToAdd))
+
+    $("#add-puzzle-modal-radar").on("show.bs.modal", () => {
+        const filteredPuzzleList = Object.values(puzzleData["puzzles"]).reduce((prev, curr) => {
+            prev.push(...curr.filter(v => !currentPuzzles.has(v)))
+            return prev
+        }, [])
+            
+        $("#add-puzzle-list").empty()
+        showPuzzleList(filteredPuzzleList)
+
+        if (currentStudent) {
+            for (let puzzle of filteredPuzzleList) {
+                if (!formattedData[puzzle][currentStudent] || formattedData[puzzle][currentStudent].event == 0) {
+                    const id = puzzleNameToClassName(puzzle)
+                    $(`button#${id}`).removeClass("btn-secondary").addClass("btn-danger")
+                    $(`button#${id}`).css("background-color", "red")
+                }
+            }
+        }
+
+        handleAddPuzzleButtonClick(null)
+    })
+
+    $("#add-puzzle-modal-radar").on("hidden.bs.modal", () => handleAddPuzzleButtonClick(null))
+})
+
 function onStudentClick(event, id, name) {
     $("#student-dropdown-button").text(name)
     $(".student-dropdown-option").removeClass("active")
@@ -102,44 +127,40 @@ function onStudentClick(event, id, name) {
 
     currentStudent = id
     currentDataset = {}
-    currentStatistics = {}
 
     for (let puzzle of currentPuzzles) {
         currentDataset[puzzle] = formattedData[puzzle][currentStudent] || DEFAULT_LEVELS_OF_ACTIVITY
-        currentStatistics[puzzle] = formattedData[puzzle].stats
     }
     createRadarChart()
 }
 
 function createStudentDropdown() {
     const dropdown = document.getElementById("student-dropdown-options")
-    const link = document.createElement("a")
-    link.className = "student-dropdown-option dropdown-item"
-    link.textContent = "Class Avg."
-    link.href = "#"
-    link.onclick = (event) => onStudentClick(event, "avg", "Class Avg.")
-    dropdown.appendChild(link)
-
-    const divider = document.createElement("div")
-    divider.className = "dropdown-divider"
-    dropdown.appendChild(divider)
+    var firstIter = true
 
     for (let [id, player] of Object.entries(playerMap)) {
-        const playerLink = document.createElement("a")
-        playerLink.className = "student-dropdown-option dropdown-item"
-        playerLink.textContent = player
-        playerLink.href = "#"
-        playerLink.onclick = (event) => onStudentClick(event, id, player)
-        dropdown.appendChild(playerLink)
+        if (firstIter) {
+            const link = document.createElement("a")
+            link.className = "student-dropdown-option dropdown-item"
+            link.textContent = "Class Avg."
+            link.onclick = (event) => onStudentClick(event, "avg", "Class Avg.")
+            dropdown.appendChild(link)
+
+            const divider = document.createElement("div")
+            divider.className = "dropdown-divider"
+            dropdown.appendChild(divider)
+            firstIter = false
+        } else {
+            const link = document.createElement("a")
+            link.className = "student-dropdown-option dropdown-item"
+            link.textContent = player
+            link.onclick = (event) => onStudentClick(event, id, player)
+            dropdown.appendChild(link)
+        }
     }
 }
-
 function createRadarChart() {
-    if (normalizationOn) {
-        buildRadarChart(currentDataset, axisValues, axisNames, '#student-radar-chart', currentPuzzles, null, true, currentStatistics)
-    } else {
-        buildRadarChart(currentDataset, axisValues, axisNames, '#student-radar-chart', currentPuzzles, null, false, currentStatistics)
-    }
+    buildRadarChart(currentDataset, axisValues, axisNames, '#student-radar-chart', currentPuzzles)
 }
 
 function handleAddPuzzleButtonClick(puzzle) {
@@ -167,52 +188,16 @@ function handleAddPuzzleButtonClick(puzzle) {
     $("#selected-puzzle-radar").text(formatSelectedPuzzles(puzzlesToAdd))
 }
 
-function toggleNormalization(event) {
-    normalizationOn = $(event.target).is(":checked")
-    createRadarChart()
-}
+export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity) {
+    playerMap = pMap
+    puzzleData = puzzData
+    formattedData = levelsOfActivity
 
-export function showStudentRadarCharts(pMap, puzzData, levelsOfActivity) {
-    if (!playerMap) {
-        playerMap = pMap
-        puzzleData = puzzData
-        formattedData = levelsOfActivity
+    if (puzzleData["canUseSandbox"]) {
+        puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
+    }
 
-        if (puzzleData["canUseSandbox"]) {
-            puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
-        }
+    showPage("outlier-radar-container", "nav-outlier-radar")
 
-        createStudentDropdown()
-        createNormalizationToggle("student-radar-container", toggleNormalization)
-        createOptionDropdownItems("radar-student-option-1-dropdown", "radar-student-option-1", "radar-student-", "student-plus-option-button", 1)
-        $("#build-student-radar-button").click(buildChartWithNewAxes)
-
-        $("#add-puzzle-button-radar").on("click", () => addPuzzleToChart(puzzlesToAdd))
-
-        $("#add-puzzle-modal-radar").on("show.bs.modal", () => {
-            const filteredPuzzleList = Object.values(puzzleData["puzzles"]).reduce((prev, curr) => {
-                prev.push(...curr.filter(v => !currentPuzzles.has(v)))
-                return prev
-            }, [])
-
-            $("#add-puzzle-list").empty()
-            showPuzzleList(filteredPuzzleList)
-
-            if (currentStudent) {
-                for (let puzzle of filteredPuzzleList) {
-                    if (!formattedData[puzzle][currentStudent] || formattedData[puzzle][currentStudent].event == 0) {
-                        const id = puzzleNameToClassName(puzzle)
-                        $(`button#${id}`).removeClass("btn-secondary").addClass("btn-danger")
-                        $(`button#${id}`).css("background-color", "red")
-                    }
-                }
-            }
-
-            handleAddPuzzleButtonClick(null)
-        })
-
-        $("#add-puzzle-modal-radar").on("hidden.bs.modal", () => handleAddPuzzleButtonClick(null))
-    } 
-
-    showPage("student-radar-container", "nav-student-radar")
+    // createStudentDropdown()
 }

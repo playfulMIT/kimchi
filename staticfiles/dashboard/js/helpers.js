@@ -147,6 +147,26 @@ export function puzzleNameToClassName(puzzle) {
     return puzzle.toLowerCase().replace(/\.|( )/g, "-")
 }
 
+export function createNormalizationToggle(configParentId, onChangeCallback) {
+    const ccDiv = document.createElement("div")
+    ccDiv.className = "custom-control custom-switch"
+
+    const input = document.createElement("input")
+    input.type = "checkbox"
+    input.className = "custom-control-input"
+    input.id = configParentId + "-norm-toggle"
+    input.onchange = onChangeCallback
+    input.value = false
+
+    const label = document.createElement("label")
+    label.className = "custom-control-label"
+    label.htmlFor = configParentId + "-norm-toggle"
+    label.textContent = "Normalize Radar Chart"
+    ccDiv.appendChild(input)
+    ccDiv.appendChild(label)
+    $(`#${configParentId} > .radar-config`).append(ccDiv)
+}
+
 const numRemoved = {}
 
 export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, linkClass, num) {
@@ -208,7 +228,7 @@ export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, l
     }
 }
 
-export function buildRadarChart(currentDataset, axisValues, axisNames, svgId, legendList, playerMap = null) {
+export function buildRadarChart(currentDataset, axisValues, axisNames, svgId, legendList, playerMap = null, normalize = false, statistics = null) {
     if (axisValues.length === 0) return
 
     var w = 500;
@@ -243,7 +263,9 @@ export function buildRadarChart(currentDataset, axisValues, axisNames, svgId, le
         data: currentDataset,
         legendList: legendList,
         axisNames: axisNames,
-        playerMap: playerMap
+        playerMap: playerMap,
+        normalize: normalize,
+        statistics: statistics
     };
 
     // initiate main vis component
@@ -291,10 +313,10 @@ function updateConfig(config, vis) {
     const dataLength = Object.keys(config.data).length
     if (dataLength > 0) {
         // adjust config parameters
-        config.maxValue = Math.max(config.maxValue, d3.max(Object.values(config.data), function (v) {
+        config.maxValue = config.normalize ? 1 : Math.max(config.maxValue, d3.max(Object.values(config.data), function (v) {
             return d3.max(Object.entries(v), function ([metric, value]) {
                 if (vis.allAxis.find((av) => av === metric)) {
-                    return v.event == 0 ? 1 : (value / v.event) * 100
+                    return v.event == 0 ? 1 : value
                 } else {
                     return 1
                 }
@@ -411,7 +433,7 @@ function buildLevelsLabels(config, vis) {
         vis.levels
             .data([1]).enter()
             .append("svg:text").classed("level-labels", true)
-            .text(((config.maxValue * (level + 1) / config.levels) - 1).toFixed(2) + "%")
+            .text(((config.maxValue * (level + 1) / config.levels) - 1).toFixed(2))
             .attr("x", function (d) { return levelFactor * (1 - Math.sin(0)); })
             .attr("y", function (d) { return levelFactor * (1 - Math.cos(0)); })
             .attr("transform", "translate(" + (config.w / 2 - levelFactor + 5) + ", " + (config.h / 2 - levelFactor) + ")")
@@ -450,7 +472,8 @@ function buildAxesLabels(config, vis) {
 
 // builds [x, y] coordinates of polygon vertices.
 function buildCoordinates(config, vis) {
-    Object.entries(config.data).forEach(function ([player, data]) {
+    console.log(config.data)
+    Object.entries(config.data).forEach(function ([key, data]) {
         const axisEntries = Object.entries(data)
         function findAxis(axis) {
             var entry = ["", 0]
@@ -458,17 +481,34 @@ function buildCoordinates(config, vis) {
                 entry = axisEntries.find(([metric, value]) => metric === axis) || ["", 0]
             }
 
-            const numEvents = config.data[player].event
+            const numEvents = config.data[key].event
 
-            return {
+            const result = {
                 axis: entry[0],
-                value: numEvents > 0 ? (entry[1] / numEvents) * 100 + 1 : 1,
+                value: numEvents > 0 ? entry[1] : 0
             }
+
+            if (config.normalize) {
+                const min = config.statistics[key][result.axis].min
+                const max = config.statistics[key][result.axis].max
+                result.norm_value = ((result.value - min) / (max - min)) + 1 || 1
+            } else {
+                result.value += 1
+            }
+
+            console.log(config.statistics, result)
+            return result
         }
 
         data.visibleAxes = vis.allAxis.map((axisLabel, i) => {
             const axis = findAxis(axisLabel)
-            return {
+            return config.normalize ? {
+                ...axis,
+                coordinates: { // [x, y] coordinates
+                    x: config.w / 2 * (1 - (parseFloat(Math.max(axis.norm_value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
+                    y: config.h / 2 * (1 - (parseFloat(Math.max(axis.norm_value, 0)) / config.maxValue) * Math.cos(i * config.radians / vis.totalAxes))
+                }
+            } : {
                 ...axis,
                 coordinates: { // [x, y] coordinates
                     x: config.w / 2 * (1 - (parseFloat(Math.max(axis.value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
@@ -490,7 +530,7 @@ function buildVertices(config, vis) {
             .attr("cx", function (d, i) { return d.coordinates.x; })
             .attr("cy", function (d, i) { return d.coordinates.y; })
             .attr("fill", config.colors(g))
-            .on('mouseover', (d) => verticesTooltipShow(vis, d))
+            .on('mouseover', (d) => verticesTooltipShow(config, vis, d))
             .on('mouseout', (d) => verticesTooltipHide(vis));
     });
 }
@@ -557,14 +597,23 @@ function buildLegend(config, vis) {
 }
 
 // show tooltip of vertices
-function verticesTooltipShow(vis, d) {
-    vis.verticesTooltip.style("opacity", 0.9)
-        .html("<strong>Value</strong>: " + (d.value - 1) + "<br />")
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY) + "px");
+function verticesTooltipShow(config, vis, d) {
+    if (config.normalize) {
+        vis.verticesTooltip.style("opacity", 0.9)
+            .html("<strong>Value</strong>: " + (d.value) + "<br /><strong>Normalized value</strong>: " + (d.norm_value - 1) + "<br />")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) + "px");
+    } else {
+        vis.verticesTooltip.style("opacity", 0.9)
+            .html("<strong>Value</strong>: " + (d.value - 1) + "<br />")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY) + "px");
+    }
 }
 
 // hide tooltip of vertices
 function verticesTooltipHide(vis) {
     vis.verticesTooltip.style("opacity", 0);
 }
+
+// TODO: fix tooltip value

@@ -24,6 +24,7 @@
                     <a id="nav-metrics" class="nav-item nav-link disabled" href="#">Metrics</a>
                     <a id="nav-puzzle-radar" class="nav-item nav-link disabled" href="#">Puzzle Radar Chart</a>
                     <a id="nav-student-radar" class="nav-item nav-link disabled" href="#">Student Radar Chart</a>
+                    <a id="nav-outlier-radar" class="nav-item nav-link disabled" href="#">Outlier Radar Chart</a>
                 </div>
             </div>
         </nav>
@@ -87,131 +88,145 @@
                     </div>
                 </div>
                 <div id="puzzle-radar-container" class="container page" style="display:none">
-                    <div class="dropdown">
-                        <button id="puzzle-dropdown-button" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Select a Puzzle
-                        </button>
-                        <div id="puzzle-dropdown-options" class="dropdown-menu" aria-labelledby="puzzle-dropdown-button"></div>
-                    </div>
-                    <div id="axes-selection-container" class="card">
-                        <div class="card-header">
-                            Axes
+                    <div class="radar-config">
+                        <div class="dropdown">
+                            <button id="puzzle-dropdown-button" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Select a Puzzle
+                            </button>
+                            <div id="puzzle-dropdown-options" class="dropdown-menu" aria-labelledby="puzzle-dropdown-button"></div>
                         </div>
-                        <div class="card-body">
-                            <div id="radar-puzzle-option-list" class="list-group list-group-flush">
-                                <div id="radar-puzzle-option-1-dropdown-container" class="dropdown">
-                                    <a id="radar-puzzle-option-1" class="puzzle-plus-option-button list-group-item list-group-item-action dropdown-toggle" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">
-                                                                            <i class=" fas fa-plus plus-option"></i> Option
-                                    </a>
-                                    <div id="radar-puzzle-option-1-dropdown" class="dropdown-menu" aria-labelledby="option"></div>
+                        <div id="axes-selection-container" class="card">
+                            <div class="card-header">
+                                Axes
+                            </div>
+                            <div class="card-body">
+                                <div id="radar-puzzle-option-list" class="list-group list-group-flush">
+                                    <div id="radar-puzzle-option-1-dropdown-container" class="dropdown">
+                                        <a id="radar-puzzle-option-1"
+                                            class="puzzle-plus-option-button list-group-item list-group-item-action dropdown-toggle"
+                                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">
+                                                                                                    <i class=" fas fa-plus plus-option"></i>
+                                            Option
+                                        </a>
+                                        <div id="radar-puzzle-option-1-dropdown" class="dropdown-menu" aria-labelledby="option"></div>
+                                    </div>
+                                </div>
+                                <a id="build-puzzle-radar-button" class="btn btn-primary">Build New Axes</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Add or Remove Charts</h5>
+                                <div id="radar-players"></div>
+                                <div class="btn-group dropright">
+                                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Add
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" data-toggle="modal" data-target="#add-student-modal-radar" href="#">Student</a>
+                                        <a id="add-class-average-button" class="dropdown-item" href="#">Class Avg.</a>
+                                    </div>
                                 </div>
                             </div>
-                            <a id="build-puzzle-radar-button" class="btn btn-primary">Build New Axes</a>
+                        </div>
+                        <div class="modal fade" id="add-student-modal-radar" tabindex="-1" role="dialog"
+                            aria-labelledby="add-student-modal-radar-label" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="add-student-modal-radar-label">Select Student(s)</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="selection-radar">
+                                            <h6>Current Selection: <span id="selected-player-radar">None</span></h6>
+                                        </div>
+                                        <div id="add-player-list" class="list-group-flush"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button id="add-student-button-radar" type="button" class="btn btn-primary" data-dismiss="modal">Add to
+                                            Chart</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="puzzle-radar-chart"></div>
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Add or Remove Charts</h5>
-                            <div id="radar-players"></div>
-                            <div class="btn-group dropright">
-                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Add
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#add-student-modal-radar" href="#">Student</a>
-                                    <a id="add-class-average-button" class="dropdown-item" href="#">Class Avg.</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="add-student-modal-radar" tabindex="-1" role="dialog" aria-labelledby="add-student-modal-radar-label"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="add-student-modal-radar-label">Select Student(s)</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="selection-radar"><h6>Current Selection: <span id="selected-player-radar">None</span></h6></div>
-                                    <div id="add-player-list" class="list-group-flush"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button id="add-student-button-radar" type="button" class="btn btn-primary" data-dismiss="modal">Add to Chart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div id="student-radar-container" class="container page" style="display:none">
-                    <div class="dropdown">
-                        <button id="student-dropdown-button" type="button" class="btn btn-secondary dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Select a Student
-                        </button>
-                        <div id="student-dropdown-options" class="dropdown-menu" aria-labelledby="student-dropdown-button"></div>
-                    </div>
-                    <div id="axes-selection-container" class="card">
-                        <div class="card-header">
-                            Axes
+                    <div class="radar-config">
+                        <div class="dropdown">
+                            <button id="student-dropdown-button" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Select a Student
+                            </button>
+                            <div id="student-dropdown-options" class="dropdown-menu" aria-labelledby="student-dropdown-button"></div>
                         </div>
-                        <div class="card-body">
-                            <div id="radar-student-option-list" class="list-group list-group-flush">
-                                <div id="radar-student-option-1-dropdown-container" class="dropdown">
-                                    <a id="radar-student-option-1" class="student-plus-option-button list-group-item list-group-item-action dropdown-toggle"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">
-                                                                                            <i class=" fas fa-plus plus-option"></i>
-                                        Option
-                                    </a>
-                                    <div id="radar-student-option-1-dropdown" class="dropdown-menu" aria-labelledby="option"></div>
+                        <div id="axes-selection-container" class="card">
+                            <div class="card-header">
+                                Axes
+                            </div>
+                            <div class="card-body">
+                                <div id="radar-student-option-list" class="list-group list-group-flush">
+                                    <div id="radar-student-option-1-dropdown-container" class="dropdown">
+                                        <a id="radar-student-option-1"
+                                            class="student-plus-option-button list-group-item list-group-item-action dropdown-toggle"
+                                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"">
+                                                                                                                    <i class=" fas fa-plus
+                                            plus-option"></i>
+                                            Option
+                                        </a>
+                                        <div id="radar-student-option-1-dropdown" class="dropdown-menu" aria-labelledby="option"></div>
+                                    </div>
+                                </div>
+                                <a id="build-student-radar-button" class="btn btn-primary">Build New Axes</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Add or Remove Charts</h5>
+                                <div id="radar-puzzles"></div>
+                                <div class="btn-group">
+                                    <button id="add-puzzle-button" type="button" class="btn btn-success" data-toggle="modal"
+                                        data-target="#add-puzzle-modal-radar">
+                                        Add Puzzle
+                                    </button>
                                 </div>
                             </div>
-                            <a id="build-student-radar-button" class="btn btn-primary">Build New Axes</a>
+                        </div>
+                        <div class="modal fade" id="add-puzzle-modal-radar" tabindex="-1" role="dialog"
+                            aria-labelledby="add-puzzle-modal-radar-label" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="add-puzzle-modal-radar-label">Select Puzzle(s)</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="selection-radar">
+                                            <h6>Current Selection: <span id="selected-puzzle-radar">None</span></h6>
+                                        </div>
+                                        <div id="add-puzzle-list" class="list-group-flush"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button id="add-puzzle-button-radar" type="button" class="btn btn-primary" data-dismiss="modal">Add
+                                            to Chart</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="student-radar-chart"></div>
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Add or Remove Charts</h5>
-                            <div id="radar-puzzles"></div>
-                            <div class="btn-group">
-                                <button id="add-puzzle-button" type="button" class="btn btn-success" data-toggle="modal" data-target="#add-puzzle-modal-radar">
-                                    Add Puzzle
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="add-puzzle-modal-radar" tabindex="-1" role="dialog"
-                        aria-labelledby="add-puzzle-modal-radar-label" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="add-puzzle-modal-radar-label">Select Puzzle(s)</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="selection-radar">
-                                        <h6>Current Selection: <span id="selected-puzzle-radar">None</span></h6>
-                                    </div>
-                                    <div id="add-puzzle-list" class="list-group-flush"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button id="add-puzzle-button-radar" type="button" class="btn btn-primary" data-dismiss="modal">Add
-                                        to Chart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div id="outlier-radar-container" class="container page" style="display:none">
                 </div>
             </div>
         </div>
@@ -229,6 +244,7 @@
     <script src="/static/dashboard/js/metrics-overview.js" type="module"></script>
     <script src="/static/dashboard/js/puzzle-radar-charts.js" type="module"></script>
     <script src="/static/dashboard/js/student-radar-charts.js" type="module"></script>
+    <script src="/static/dashboard/js/outlier-radar-charts.js" type="module"></script>
     <script src="/static/dashboard/js/dashboard.js" type="module"></script>
 </body>
 
