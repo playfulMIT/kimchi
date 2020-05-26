@@ -34,6 +34,7 @@ def wildcard_players(request, slug):
         list.append(player.name.replace(" ", "_"))
     return render(request, "shadowspect/list.html", {"items": list})
 
+
 def wildcard_levels(request, slug, player):
     url_obj = get_object_or_404(URL, pk=slug)
     selected_player = Player.objects.filter(url=url_obj).get(name=player.replace("_", " "))
@@ -45,8 +46,16 @@ def wildcard_levels(request, slug, player):
         levels.append(level.filename.replace(" ", "_"))
     return render(request, "shadowspect/list.html", {"items": levels})
 
+
 def wildcard_replay(request, slug, player, level):
-    request.session["generate_replay"] = True
+    request.session["replay_metadata"] = [slug, player.replace("_", " "), level.replace("_", " ")]
+    session = generate_session(request, slug)
+    return render(
+        request,
+        "shadowspect/play.html",
+        {"title": "Shadow Tangrams", "sessionID": request.session.session_key},
+    )
+
 
 def mturk(request):
     if not request.session.session_key:
