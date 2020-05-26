@@ -40,8 +40,8 @@ def wildcard_levels(request, slug, player):
     selected_player = Player.objects.filter(url=url_obj).get(name=player.replace("_", " "))
     print(selected_player)
     levels = []
-    for level in selected_player.attempted.all():
-        levels.append(level.filename.replace(" ", "_"))
+    # for level in selected_player.attempted.all():
+    #     levels.append(level.filename.replace(" ", "_"))
     for level in selected_player.completed.all():
         levels.append(level.filename.replace(" ", "_"))
     return render(request, "shadowspect/list.html", {"items": levels})
