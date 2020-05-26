@@ -15,6 +15,7 @@ def get_config_json(request):
     url = URL.objects.get(pk=urlpk)
     data = json.loads(url.data)
     print(data)
+    print(request.session)
     # Check to see if a replay should be generated
     if "replay_metadata" in request.session:
         data["replayFiles"] = ["generated_replay.json"]
