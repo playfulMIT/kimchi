@@ -18,5 +18,5 @@ urlpatterns = [
     path("<slug:slug>/", views.wildcard_url),
     path("<slug:slug>/players/", views.wildcard_players),
     path("<slug:slug>/players/<slug:player>/", views.wildcard_levels),
-
+    path("<slug:slug>/players/<slug:player>/<slug:level>/", views.wildcard_replay),
 ]
