@@ -6,7 +6,7 @@
 </head>
 <body>
 <ul>
-{% for key, value in items %}
+{% for key, value in items.items() %}
     <li><a href="{{ value }}">{{ key }} : {{ value }}</a></li>
 {% endfor %}
 </ul>
