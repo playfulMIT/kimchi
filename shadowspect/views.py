@@ -3,12 +3,13 @@ import json
 import uuid
 
 from django.http import HttpResponse
-
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
 from shadowspect.models import Level, Replay
-from datacollection.models import URL
+from datacollection.models import URL, Player
 from .utils import generate_session
+
 
 def wildcard_url(request, slug):
     print("getting wildcard")
@@ -24,6 +25,27 @@ def wildcard_url(request, slug):
         {"title": "Shadow Tangrams", "sessionID": request.session.session_key},
     )
 
+
+def wildcard_players(request, slug):
+    url_obj = get_object_or_404(URL, pk=slug)
+    players = Player.objects.filter(url=url_obj)
+    list = []
+    for player in players:
+        list.append(player.name)
+    return render(request, "shadowspect/list.html", {"items": list})
+
+def wildcard_levels(request, slug, player):
+    url_obj = get_object_or_404(URL, pk=slug)
+    selected_player = Player.objects.filter(url=url_obj).get(name=player)
+    levels = []
+    for level in selected_player.attempted.all():
+        levels.append(level)
+    for level in selected_player.completed.all():
+        levels.append(level)
+    return render(request, "shadowspect/list.html", {"items": list})
+
+def wildcard_replay(request, slug, player, level):
+    request.session["generate_replay"] = True
 
 def mturk(request):
     if not request.session.session_key:

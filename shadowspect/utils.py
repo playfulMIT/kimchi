@@ -14,6 +14,8 @@ def get_config_json(request):
     url = URL.objects.get(pk=urlpk)
     data = json.loads(url.data)
     print(data)
+    if "generate_replay" in request.session:
+        data["replayFiles"] = ["generated_replay.json"]
     if "groupID" not in data and url is not None:
         print("no group id, injecting it from URL")
         data["groupID"] = urlpk

@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 
-from datacollection.views import generate_replay
-from shadowspect.utils import get_config_json, get_level_json
+
+
 from shadowspect.views import debug
 
 urlpatterns = [
@@ -26,10 +26,4 @@ urlpatterns = [
     path("", include("datacollection.urls")),
     path("", include("shadowspect.urls")),
     path("", include("dashboard.urls")),
-    path("static/shadowspect_static/StreamingAssets/config.json", get_config_json),
-    re_path(
-        r"^static/shadowspect_static/StreamingAssets/(?P<slug>[a-zA-Z0-9-_]+).json",
-        get_level_json,
-    ),
-    re_path(r"^replay/(?P<slug>[a-zA-Z0-9-]+).json", generate_replay),
 ]
