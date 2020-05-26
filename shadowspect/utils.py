@@ -42,11 +42,26 @@ def get_replay_json(request):
     for session in player.customsession_set.all():
         session_events = Event.objects.filter(session=session)
         player_events = player_events | session_events
+    
+    generic_replay = {"events": [], }
+    start_found = False
+    start_event = 0
+    end_event = 0
 
-    generic_replay = { "events": [], }
     for event in player_events.values():
-        generic_replay["events"].append(event)
+        if 'ws-start_level' in event['type'] and level_name in event['data']:
+            start_event = event['id']
+            start_found = True
+        if start_found and 'ws-exit_to_menu' in event['type'] and event['id'] > start_event:
+            end_event = event['id']
+            break
+
+    for event in player_events.values():
+        if start_event <= event['id'] <= end_event:
+            generic_replay["events"].append(event)
+
     return JsonResponse(generic_replay)
+
 
 def generate_session(request, url):
     if not request.session.session_key:
