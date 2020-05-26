@@ -14,7 +14,7 @@ urlpatterns = [
     path("mturk/", views.mturk),
     path("levelloader/", views.levelloader),
     path("", RedirectView.as_view(url="http://shadowspect.org")),
-    re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/$", views.wildcard_url),
-    re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/players$", views.wildcard_players),
-    re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/$", views.wildcard_replay),
+    path("<slug:slug>/", views.wildcard_url),
+    path("<slug:slug>/players/", views.wildcard_players),
+    path("<slug:slug>/players/<slug:player>/", views.wildcard_levels),
 ]

@@ -31,18 +31,19 @@ def wildcard_players(request, slug):
     players = Player.objects.filter(url=url_obj)
     list = []
     for player in players:
-        list.append(player.name)
+        list.append(player.name.replace(" ", "_"))
     return render(request, "shadowspect/list.html", {"items": list})
 
 def wildcard_levels(request, slug, player):
     url_obj = get_object_or_404(URL, pk=slug)
-    selected_player = Player.objects.filter(url=url_obj).get(name=player)
+    selected_player = Player.objects.filter(url=url_obj).get(name=player.replace("_", " "))
+    print(selected_player)
     levels = []
     for level in selected_player.attempted.all():
-        levels.append(level)
+        levels.append(level.replace(" ", "_"))
     for level in selected_player.completed.all():
-        levels.append(level)
-    return render(request, "shadowspect/list.html", {"items": list})
+        levels.append(level.replace(" ", "_"))
+    return render(request, "shadowspect/list.html", {"items": levels})
 
 def wildcard_replay(request, slug, player, level):
     request.session["generate_replay"] = True
