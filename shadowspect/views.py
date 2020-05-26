@@ -40,9 +40,9 @@ def wildcard_levels(request, slug, player):
     print(selected_player)
     levels = []
     for level in selected_player.attempted.all():
-        levels.append(level.replace(" ", "_"))
+        levels.append(level.filename.replace(" ", "_"))
     for level in selected_player.completed.all():
-        levels.append(level.replace(" ", "_"))
+        levels.append(level.filename.replace(" ", "_"))
     return render(request, "shadowspect/list.html", {"items": levels})
 
 def wildcard_replay(request, slug, player, level):
