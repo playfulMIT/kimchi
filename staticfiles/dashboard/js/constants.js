@@ -42,6 +42,19 @@ export const DEFAULT_LEVELS_OF_ACTIVITY = {
     undo_action: 0
 }
 
+export const METRIC_TO_METRIC_NAME = {
+    "active_time": "Active Time",
+    "create_shape": "Create Shape",
+    "move_shape": "Move Shape",
+    "scale_shape": "Scale Shape",
+    "delete_shape": "Delete Shape",
+    "paint": "Paint",
+    "undo_action": "Undo Action",
+    "redo_action": "Redo Action",
+    "rotate_view": "Rotate View",
+    "snapshot": "Snapshot"
+}
+
 export const LEVELS_OF_ACTIVITY_DROPDOWN = [
     {
         axis: "Create Shape",

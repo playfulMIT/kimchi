@@ -34,7 +34,7 @@ async function startDashboard() {
     puzzleData = await callAPI(`${API}/puzzles`)
     levelsOfActivity = await callAPI(`${API}/levelsofactivity`)
     // levelsOfActivity = output
-    handleTabSwitch(TABS.STUDENT_RADAR_CHART)
+    handleTabSwitch(TABS.OUTLIER_RADAR_CHART)
 }
 
 $(document).ready(() => {

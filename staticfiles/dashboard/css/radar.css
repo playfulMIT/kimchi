@@ -77,3 +77,30 @@
   max-height: 50vh;
   overflow-y: auto;
 }
+
+.outlier-student-badge {
+  float: right;
+}
+
+#outlier-radar-items-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+#outlier-accordion {
+  width: 70vw;
+}
+
+#outlier-filters {
+  width: 20vw;
+  height: fit-content;
+  position: sticky;
+  top: 10vh;
+}
+
+#outlier-filters-container {
+  padding: 10px;
+}

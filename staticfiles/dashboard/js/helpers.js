@@ -144,7 +144,7 @@ export function toCamelCase(text) {
 }
 
 export function puzzleNameToClassName(puzzle) {
-    return puzzle.toLowerCase().replace(/\.|( )/g, "-")
+    return puzzle.toLowerCase().replace(/[0-9]. /g, "begin-").replace(/\.|( )/g, "-")
 }
 
 export function createNormalizationToggle(configParentId, onChangeCallback) {
