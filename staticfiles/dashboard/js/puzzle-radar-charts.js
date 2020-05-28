@@ -19,7 +19,6 @@ var studentsToAdd = new Set()
 var normalizationOn = false
 
 var axisValues = []
-var axisNames = []
 
 // TODO: optimize render 
 
@@ -70,16 +69,13 @@ function removeStudentFromChart(id) {
 
 function buildChartWithNewAxes() {
     var newAxisValues = []
-    var newAxisNames = []
 
     $(".puzzle-plus-option-button").each(function(i, e) {
         if ($(e).text() === " Option") return
         newAxisValues.push($(e).attr("dropdown-value"))
-        newAxisNames.push($(e).text())
     })
 
     axisValues = newAxisValues
-    axisNames = newAxisNames
     createRadarChart()
 }
 
@@ -144,9 +140,9 @@ function createPuzzleDropdown() {
 
 function createRadarChart() {
     if (normalizationOn) {
-        buildRadarChart(currentDataset, axisValues, axisNames, '#puzzle-radar-chart', currentPlayers, playerMap, true, currentStatistics)
+        buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, playerMap, true, currentStatistics)
     } else {
-        buildRadarChart(currentDataset, axisValues, axisNames, '#puzzle-radar-chart', currentPlayers, playerMap, false, currentStatistics)
+        buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, playerMap, false, currentStatistics)
     }
 }
 

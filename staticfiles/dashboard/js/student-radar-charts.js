@@ -18,7 +18,6 @@ var puzzlesToAdd = new Set()
 // TODO: change avg to median
 
 var axisValues = []
-var axisNames = []
 
 function addPuzzleToChart(puzzles) {
     if (currentStudent) {
@@ -68,16 +67,13 @@ function removePuzzleFromChart(puzzle) {
 
 function buildChartWithNewAxes() {
     var newAxisValues = []
-    var newAxisNames = []
 
     $(".student-plus-option-button").each(function (i, e) {
         if ($(e).text() === " Option") return
         newAxisValues.push($(e).attr("dropdown-value"))
-        newAxisNames.push($(e).text())
     })
 
     axisValues = newAxisValues
-    axisNames = newAxisNames
     createRadarChart()
 }
 
@@ -136,9 +132,9 @@ function createStudentDropdown() {
 
 function createRadarChart() {
     if (normalizationOn) {
-        buildRadarChart(currentDataset, axisValues, axisNames, '#student-radar-chart', currentPuzzles, null, true, currentStatistics)
+        buildRadarChart(currentDataset, axisValues, '#student-radar-chart', currentPuzzles, null, true, currentStatistics)
     } else {
-        buildRadarChart(currentDataset, axisValues, axisNames, '#student-radar-chart', currentPuzzles, null, false, currentStatistics)
+        buildRadarChart(currentDataset, axisValues, '#student-radar-chart', currentPuzzles, null, false, currentStatistics)
     }
 }
 

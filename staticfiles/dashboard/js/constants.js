@@ -45,6 +45,8 @@ export const DEFAULT_LEVELS_OF_ACTIVITY = {
 export const METRIC_TO_METRIC_NAME = {
     "active_time": "Active Time",
     "create_shape": "Create Shape",
+    "event": "Event Count",
+    "different_events": "Unique Event Count",
     "move_shape": "Move Shape",
     "scale_shape": "Scale Shape",
     "delete_shape": "Delete Shape",

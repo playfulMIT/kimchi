@@ -1,4 +1,4 @@
-import { LEVELS_OF_ACTIVITY_DROPDOWN } from './constants.js'
+import { LEVELS_OF_ACTIVITY_DROPDOWN, METRIC_TO_METRIC_NAME } from './constants.js'
 
 export function showPage(pageId, navId = null) {
     $("#page-container > .page").hide()
@@ -228,11 +228,11 @@ export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, l
     }
 }
 
-export function buildRadarChart(currentDataset, axisValues, axisNames, svgId, legendList, playerMap = null, normalize = false, statistics = null) {
+export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap = null, normalize = false, statistics = null) {
     if (axisValues.length === 0) return
 
-    var w = 500;
-    var h = 500;
+    var w = 350;
+    var h = 350;
     var config = {
         w: w,
         h: h,
@@ -262,7 +262,6 @@ export function buildRadarChart(currentDataset, axisValues, axisNames, svgId, le
         svgId: svgId,
         data: currentDataset,
         legendList: legendList,
-        axisNames: axisNames,
         playerMap: playerMap,
         normalize: normalize,
         statistics: statistics
@@ -373,19 +372,6 @@ function buildVisComponents(config, vis) {
     vis.verticesTooltip = d3.select("body")
         .append("div").classed("verticesTooltip", true)
         .attr("opacity", 0)
-        .attr("style", {
-            "position": "absolute",
-            "color": "black",
-            "font-size": "10px",
-            "width": "100px",
-            "height": "auto",
-            "padding": "5px",
-            "border": "2px solid gray",
-            "border-radius": "5px",
-            "pointer-events": "none",
-            "opacity": "0",
-            "background": "#f4f4f4"
-        });
 
     // create levels
     vis.levels = vis.svg.selectAll(".levels")
@@ -461,7 +447,7 @@ function buildAxesLabels(config, vis) {
     vis.axes
         .data(vis.allAxis).enter()
         .append("svg:text").classed("axis-labels", true)
-        .text(function (d, i) { return config.axisNames[i] })
+        .text(function (d, i) { return METRIC_TO_METRIC_NAME[d] })
         .attr("text-anchor", "middle")
         .attr("x", function (d, i) { return config.w / 2 * (1 - 1.3 * Math.sin(i * config.radians / vis.totalAxes)); })
         .attr("y", function (d, i) { return config.h / 2 * (1 - 1.1 * Math.cos(i * config.radians / vis.totalAxes)); })
@@ -600,12 +586,12 @@ function buildLegend(config, vis) {
 function verticesTooltipShow(config, vis, d) {
     if (config.normalize) {
         vis.verticesTooltip.style("opacity", 0.9)
-            .html("<strong>Value</strong>: " + (d.value) + "<br /><strong>Normalized value</strong>: " + (d.norm_value - 1) + "<br />")
+            .html("<strong>Value</strong>: " + (d.value).toFixed(2) + "<br /><strong>Normalized value</strong>: " + (d.norm_value - 1).toFixed(2) + "<br />")
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
     } else {
         vis.verticesTooltip.style("opacity", 0.9)
-            .html("<strong>Value</strong>: " + (d.value - 1) + "<br />")
+            .html("<strong>Value</strong>: " + (d.value - 1).toFixed(2) + "<br />")
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
     }

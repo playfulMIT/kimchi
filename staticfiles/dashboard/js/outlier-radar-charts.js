@@ -6,20 +6,8 @@ var puzzleData = null
 
 var formattedData = null
 
-var currentDataset = {}
-var currentPuzzles = new Set()
-var currentStudent = null
-var puzzlesToAdd = new Set()
-
-var axisValues = []
-var axisNames = []
-
 var outlierMap = {}
 const metricsToIgnore = new Set(["event", "different_events", "paint"])
-
-function createRadarChart() {
-    buildRadarChart(currentDataset, axisValues, axisNames, '#student-radar-chart', currentPuzzles)
-}
 
 function findOutliers() {
     outlierMap = {}
@@ -45,7 +33,29 @@ function findOutliers() {
             }
         }
     }
-    console.log(outlierMap)
+}
+
+function showRadarModal(student, puzzle, metrics) {
+    var axisList = []
+    if (metrics.length === 1) {
+        axisList = [...metrics, ...metrics, ...metrics]
+    } else if (metrics.length === 2) {
+        axisList = [...metrics, ...metrics]
+    } else {
+        axisList = metrics
+    }
+
+    const studentData = {}
+    studentData[student] = formattedData[puzzle][student]
+    studentData["avg"] = formattedData[puzzle]["avg"]
+
+    const puzzleStats = {}
+    puzzleStats[student] = formattedData[puzzle]['stats']
+    puzzleStats["avg"] = formattedData[puzzle]['stats']
+
+    $("#outlier-radar-modal-puzzle").text(puzzle)
+    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), playerMap, true, puzzleStats)
+    $('#outlier-radar-modal').modal('show')
 }
 
 function showOutliersList() {
@@ -84,8 +94,13 @@ function showOutliersList() {
 
         for (let [puzzle, metrics] of Object.entries(outlierMap[student])) {
             const tr = document.createElement("tr")
-            tr.innerHTML = `<th scope="row">${puzzle}</th><td>${metrics.map(v => METRIC_TO_METRIC_NAME[v]).join(", ")}</td><td>link TBD</td>`
+            tr.innerHTML = `<th scope="row">${puzzle}</th><td>${metrics.map(v => METRIC_TO_METRIC_NAME[v]).join(", ")}</td>` +
+                `<td><button id="${student}-${puzzleNameToClassName(puzzle)}-radar-btn" type="button" class="btn btn-secondary btn-sm">Show &#187;</button></td>`
             $("#" + tableBodyId).append(tr)
+
+            $(`#${student}-${puzzleNameToClassName(puzzle)}-radar-btn`).click(function () {
+                showRadarModal(student, puzzle, metrics)
+            })
         }
     }
 }
@@ -99,6 +114,7 @@ function handleFilterCheckboxToggle(filter, event) {
 }
 
 function showFilters() {
+    $("#outlier-filters-container").empty()
     for (let [filter, filterName] of Object.entries(METRIC_TO_METRIC_NAME)) {
         const div = document.createElement("div")
         div.className = "form-check"
