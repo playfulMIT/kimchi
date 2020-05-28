@@ -95,13 +95,21 @@
   width: 70vw;
 }
 
-#outlier-filters {
+#outlier-config {
   width: 20vw;
   height: fit-content;
   position: sticky;
   top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-#outlier-filters-container {
+#outlier-filters-container,
+#outlier-param-container {
   padding: 10px;
+}
+
+#outlier-radar-params {
+  margin-bottom: 10px;
 }

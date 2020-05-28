@@ -229,12 +229,36 @@
                 <div id="outlier-radar-container" class="container page" style="display:none">
                     <div id="outlier-radar-items-container">
                         <div class="accordion" id="outlier-accordion"></div>
-                        <div class="card" id="outlier-filters">
-                            <div class="card-header">
-                                Included Metrics
+                        <div id="outlier-config">
+                            <div id="outlier-radar-params" class="card">
+                                <div class="card-header">
+                                    Outlier Criteria
+                                </div>
+                                <div id="outlier-param-container">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="outlier-radar-stdev-coeff" class="col-sm-8 col-form-label">St. Dev. Coeff.</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" id="outlier-radar-stdev-coeff">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="outlier-radar-min-metrics" class="col-sm-8 col-form-label">Min. # Outlier Metrics</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control" id="outlier-radar-min-metrics">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <button type="button" id="outlier-radar-set-criteria-btn" class="btn btn-primary">Set Criteria</a>
                             </div>
-                            <div id="outlier-filters-container"></div>
-                            <a id="outlier-radar-set-filters-btn" class="btn btn-primary">Set Metrics</a>
+                            <div class="card">
+                                <div class="card-header">
+                                    Included Metrics
+                                </div>
+                                <div id="outlier-filters-container"></div>
+                                <button type="button" id="outlier-radar-set-filters-btn" class="btn btn-primary">Set Metrics</a>
+                            </div>
                         </div>
                     </div>
                     <div class="modal fade" id="outlier-radar-modal" tabindex="-1" role="dialog" aria-labelledby="outlier-radar-modal-label" aria-hidden="true">
