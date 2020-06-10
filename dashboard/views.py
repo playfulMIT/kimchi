@@ -337,6 +337,8 @@ def get_levels_of_activity(request, slug):
             items = users.values()
             
             for value in items:
+                if value['event'] == 0:
+                    continue
                 for key in value.keys():
                     class_avg[key] += value[key]
                     values[key].append(value[key])
