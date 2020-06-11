@@ -115,17 +115,19 @@ def get_attempted_puzzles(request, slug):
 
     return JsonResponse(attempted)
 
-def get_completed_puzzles(request, slug):
-    players = create_player_list(slug)
+def get_completed_puzzles_map(url):
+    players = create_player_list(url)
 
     completed = dict()
     for player in players:
         try:
-            completed[player] = list(Player.objects.get(pk=player, url__name=slug).completed.values_list("filename", flat=True))
+            completed[player] = set(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
         except ObjectDoesNotExist:
             completed[player] = []
+    return completed
 
-    return JsonResponse(completed)
+def get_completed_puzzles(request, slug):
+    return JsonResponse(get_completed_puzzles_map(slug))
 
 def get_time_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
@@ -305,9 +307,12 @@ def get_levels_of_activity(request, slug):
 
             new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
 
+        completed_map = get_completed_puzzles_map(slug)
         for task in new_result:
             statistics = {}
+            completed_statistics = {}
             values = {}
+            completed_values = {}
             class_avg = {
                 'active_time': 0,
                 'create_shape': 0,
@@ -331,31 +336,60 @@ def get_levels_of_activity(request, slug):
                     'mean': 0,
                     'stdev': 0
                 }
+                completed_statistics[key] = {
+                    'min': float("inf"),
+                    'max': float("-inf"),
+                    'median': 0,
+                    'mean': 0,
+                    'stdev': 0
+                }
                 values[key] = []
             
             users = new_result[task]
-            items = users.values()
+            items = users.items()
             
-            for value in items:
+            for student, value in items:
                 if value['create_shape'] == 0:
                     continue
-                for key in value.keys():
-                    class_avg[key] += value[key]
-                    values[key].append(value[key])
-                    if statistics[key]['min'] > value[key]:
-                        statistics[key]['min'] = value[key]
-                    if statistics[key]['max'] < value[key]:
-                        statistics[key]['max'] = value[key]
+                if task in completed_map[student]:
+                    for key in value.keys():
+                        class_avg[key] += value[key]
+                        values[key].append(value[key])
+                        completed_values[key].append(value[key])
+
+                        if statistics[key]['min'] > value[key]:
+                            statistics[key]['min'] = value[key]
+                        if statistics[key]['max'] < value[key]:
+                            statistics[key]['max'] = value[key]
+
+                        if completed_statistics[key]['min'] > value[key]:
+                            completed_statistics[key]['min'] = value[key]
+                        if completed_statistics[key]['max'] < value[key]:
+                            completed_statistics[key]['max'] = value[key]
+                else:
+                    for key in value.keys():
+                        class_avg[key] += value[key]
+                        values[key].append(value[key])
+
+                        if statistics[key]['min'] > value[key]:
+                            statistics[key]['min'] = value[key]
+                        if statistics[key]['max'] < value[key]:
+                            statistics[key]['max'] = value[key]
             
             for key in class_avg:
                 class_avg[key] /= len(users)
+                
                 statistics[key]['median'] = np.median(values[key])
                 statistics[key]['mean'] = np.mean(values[key])
                 statistics[key]['stdev'] = np.std(values[key])
+
+                completed_statistics[key]['median'] = np.median(completed_values[key])
+                completed_statistics[key]['mean'] = np.mean(completed_values[key])
+                completed_statistics[key]['stdev'] = np.std(completed_values[key])
             
             new_result[task]['avg'] = class_avg
             new_result[task]['stats'] = statistics
-
+            new_result[task]['completed_stats'] = completed_statistics
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
