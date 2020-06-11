@@ -344,6 +344,7 @@ def get_levels_of_activity(request, slug):
                     'stdev': 0
                 }
                 values[key] = []
+                completed_values[key] = []
             
             users = new_result[task]
             items = users.items()
