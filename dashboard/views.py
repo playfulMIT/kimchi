@@ -391,6 +391,7 @@ def get_levels_of_activity(request, slug):
             new_result[task]['avg'] = class_avg
             new_result[task]['stats'] = statistics
             new_result[task]['completed_stats'] = completed_statistics
+            
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
