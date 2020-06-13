@@ -8,6 +8,8 @@ var formattedData = null
 
 var stdevCoeff = 2 
 var minOutlierCount = 1
+var minPuzzles = 1
+var useCompletedClassAvg = false
 
 var outlierMap = {}
 const metricsToIgnore = new Set(["event", "different_events", "paint"])
@@ -17,12 +19,14 @@ function findOutliers() {
     for (let puzzle of Object.keys(formattedData)) {
         if (puzzle === SANDBOX_PUZZLE_NAME) continue 
 
-        for (let [metric, stats] of Object.entries(formattedData[puzzle]['stats'])) {
+        var statsMap = useCompletedClassAvg ? formattedData[puzzle]['completed_stats'] : formattedData[puzzle]['stats']
+
+        for (let [metric, stats] of Object.entries(statsMap)) {
             if (metricsToIgnore.has(metric)) continue
 
             const threshold = stats["mean"] + stdevCoeff*stats["stdev"]
             for (let student of Object.keys(formattedData[puzzle])) {
-                if (student === "avg" || student === "stats") continue
+                if (student === "avg" || student === "stats" || student === "completed_stats") continue
 
                 if (formattedData[puzzle][student][metric] > threshold) {
                     if (!(student in outlierMap)) {
@@ -63,7 +67,7 @@ function showRadarModal(student, puzzle, metrics) {
 
     const studentData = {}
     studentData[student] = formattedData[puzzle][student]
-    studentData["avg"] = formattedData[puzzle]["avg"]
+    studentData["avg"] = getClassAverage(formattedData[puzzle].stats)
 
     const puzzleStats = {}
     puzzleStats[student] = formattedData[puzzle]['stats']
@@ -162,30 +166,33 @@ function handleEmptyParam() {
 }
 
 export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity) {
-    playerMap = pMap
-    puzzleData = puzzData
-    formattedData = levelsOfActivity
+    if (!playerMap) {
+        playerMap = pMap
+        puzzleData = puzzData
+        formattedData = levelsOfActivity
 
-    if (puzzleData["canUseSandbox"]) {
-        puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
+        if (puzzleData["canUseSandbox"]) {
+            puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
+        }
+
+        $("#outlier-radar-stdev-coeff").val(stdevCoeff)
+        $("#outlier-radar-stdev-coeff").on("input", handleEmptyParam)
+        $("#outlier-radar-min-metrics").val(minOutlierCount)
+        $("#outlier-radar-min-metrics").on("input", handleEmptyParam)
+
+        $("#outlier-radar-set-criteria-btn").click(() => {
+            stdevCoeff = parseInt($("#outlier-radar-stdev-coeff").val())
+            minOutlierCount = parseInt($("#outlier-radar-min-metrics").val())
+            findOutliers()
+        })
+
+        $("#outlier-radar-set-filters-btn").click(() => {
+            findOutliers()
+        })
+
+        showFilters()
+        findOutliers()
     }
-
-    $("#outlier-radar-stdev-coeff").val(stdevCoeff)
-    $("#outlier-radar-stdev-coeff").on("input", handleEmptyParam)
-    $("#outlier-radar-min-metrics").val(minOutlierCount)
-    $("#outlier-radar-min-metrics").on("input", handleEmptyParam)
-
-    $("#outlier-radar-set-criteria-btn").click(() => {
-        stdevCoeff = parseInt($("#outlier-radar-stdev-coeff").val())
-        minOutlierCount = parseInt($("#outlier-radar-min-metrics").val())
-        findOutliers()
-    })
-
-    $("#outlier-radar-set-filters-btn").click(() => {
-        findOutliers()
-    })
-
-    showFilters()
-    findOutliers()
+    
     showPage("outlier-radar-container", "nav-outlier-radar")
 }

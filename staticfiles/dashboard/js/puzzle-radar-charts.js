@@ -1,4 +1,4 @@
-import { showPage, showPlayerList, toCamelCase, createOptionDropdownItems, buildRadarChart, createNormalizationToggle } from './helpers.js'
+import { showPage, showPlayerList, toCamelCase, createOptionDropdownItems, buildRadarChart, createNormalizationToggle, getClassAverage } from './helpers.js'
 import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY } from './constants.js'
 
 var playerMap = null
@@ -12,19 +12,19 @@ var currentPlayers = new Set()
 var currentPuzzle = null
 var studentsToAdd = new Set()
 
-// TODO: stop legend from changing color
-// TODO: change avg to median
-// TODO: make option things more salient 
-
 var normalizationOn = false
 
 var axisValues = []
 
-// TODO: optimize render 
-
 function addStudentToChart(ids) {
     if (currentPuzzle) {
         for (let id of ids) {
+            if (id === "avg") {
+                currentDataset[id] = getClassAverage(formattedData[currentPuzzle].stats) || DEFAULT_LEVELS_OF_ACTIVITY
+                currentStatistics[id] = formattedData[currentPuzzle].stats
+                continue
+            }
+
             currentDataset[id] = formattedData[currentPuzzle][id] || DEFAULT_LEVELS_OF_ACTIVITY
             currentStatistics[id] = formattedData[currentPuzzle].stats
         }
@@ -89,7 +89,11 @@ function onPuzzleClick(event, puzzle) {
     currentStatistics = {}
 
     for (let player of currentPlayers) {
-        currentDataset[player] = formattedData[currentPuzzle][player] || DEFAULT_LEVELS_OF_ACTIVITY
+        if (player === "avg") {
+            currentDataset[player] = getClassAverage(formattedData[currentPuzzle].stats) || DEFAULT_LEVELS_OF_ACTIVITY
+        } else {
+            currentDataset[player] = formattedData[currentPuzzle][player] || DEFAULT_LEVELS_OF_ACTIVITY
+        }
         currentStatistics[player] = formattedData[currentPuzzle].stats
     }
     createRadarChart()

@@ -1,4 +1,4 @@
-import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart, createNormalizationToggle } from './helpers.js'
+import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart, createNormalizationToggle, getClassAverage } from './helpers.js'
 import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, SANDBOX } from './constants.js'
 
 var playerMap = null
@@ -14,16 +14,20 @@ var currentPuzzles = new Set()
 var currentStudent = null
 var puzzlesToAdd = new Set()
 
-// TODO: stop legend from changing color
-// TODO: change avg to median
-
 var axisValues = []
 
 function addPuzzleToChart(puzzles) {
     if (currentStudent) {
-        for (let puzzle of puzzles) {
-            currentDataset[puzzle] = formattedData[puzzle][currentStudent] || DEFAULT_LEVELS_OF_ACTIVITY
-            currentStatistics[puzzle] = formattedData[puzzle].stats
+        if (currentStudent === "avg") {
+            for (let puzzle of puzzles) {
+                currentDataset[puzzle] = getClassAverage(formattedData[puzzle].stats) || DEFAULT_LEVELS_OF_ACTIVITY
+                currentStatistics[puzzle] = formattedData[puzzle].stats
+            }
+        } else {
+            for (let puzzle of puzzles) {
+                currentDataset[puzzle] = formattedData[puzzle][currentStudent] || DEFAULT_LEVELS_OF_ACTIVITY
+                currentStatistics[puzzle] = formattedData[puzzle].stats
+            }
         }
     }
 
@@ -101,7 +105,11 @@ function onStudentClick(event, id, name) {
     currentStatistics = {}
 
     for (let puzzle of currentPuzzles) {
-        currentDataset[puzzle] = formattedData[puzzle][currentStudent] || DEFAULT_LEVELS_OF_ACTIVITY
+        if (currentStudent === "avg") {
+            currentDataset[puzzle] = getClassAverage(formattedData[puzzle].stats) || DEFAULT_LEVELS_OF_ACTIVITY
+        } else {
+            currentDataset[puzzle] = formattedData[puzzle][currentStudent] || DEFAULT_LEVELS_OF_ACTIVITY
+        }
         currentStatistics[puzzle] = formattedData[puzzle].stats
     }
     createRadarChart()
