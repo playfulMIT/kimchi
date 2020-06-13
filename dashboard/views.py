@@ -286,12 +286,12 @@ def get_task_metrics(request, slug):
 
 def get_levels_of_activity(request, slug):
     try:
-        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['leja']")
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['" + slug + "']")
         result = json.loads(task_result)
 
         new_result = {}
         max_index = len(result['group'])
-        player_map = {v: k for k, v in create_player_map("leja").items()}
+        player_map = {v: k for k, v in create_player_map(slug).items()}
 
         for i_num in range(max_index):
             i = str(i_num)
@@ -308,27 +308,15 @@ def get_levels_of_activity(request, slug):
             new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
 
         completed_map = get_completed_puzzles_map(slug)
+        metric_keys = new_result.values()[0].values()[0].keys()
+
         for task in new_result:
             statistics = {}
             completed_statistics = {}
             values = {}
             completed_values = {}
-            class_avg = {
-                'active_time': 0,
-                'create_shape': 0,
-                'delete_shape': 0,
-                'different_events': 0,
-                'event': 0,
-                'move_shape': 0,
-                'paint': 0,
-                'redo_action': 0,
-                'rotate_view': 0,
-                'scale_shape': 0,
-                'snapshot': 0,
-                'undo_action': 0
-            }
 
-            for key in class_avg:
+            for key in metric_keys:
                 statistics[key] = {
                     'min': float("inf"),
                     'max': float("-inf"),
@@ -354,7 +342,6 @@ def get_levels_of_activity(request, slug):
                     continue
                 if task in completed_map[student]:
                     for key in value.keys():
-                        class_avg[key] += value[key]
                         values[key].append(value[key])
                         completed_values[key].append(value[key])
 
@@ -369,7 +356,6 @@ def get_levels_of_activity(request, slug):
                             completed_statistics[key]['max'] = value[key]
                 else:
                     for key in value.keys():
-                        class_avg[key] += value[key]
                         values[key].append(value[key])
 
                         if statistics[key]['min'] > value[key]:
@@ -377,9 +363,7 @@ def get_levels_of_activity(request, slug):
                         if statistics[key]['max'] < value[key]:
                             statistics[key]['max'] = value[key]
             
-            for key in class_avg:
-                class_avg[key] /= len(users)
-                
+            for key in metric_keys:
                 statistics[key]['median'] = np.median(values[key])
                 statistics[key]['mean'] = np.mean(values[key])
                 statistics[key]['stdev'] = np.std(values[key])
@@ -388,7 +372,6 @@ def get_levels_of_activity(request, slug):
                 completed_statistics[key]['mean'] = np.mean(completed_values[key])
                 completed_statistics[key]['stdev'] = np.std(completed_values[key])
             
-            new_result[task]['avg'] = class_avg
             new_result[task]['stats'] = statistics
             new_result[task]['completed_stats'] = completed_statistics
             
