@@ -314,6 +314,7 @@ def get_levels_of_activity(request, slug):
         for task in new_result:
             statistics = {}
             completed_statistics = {}
+            
             values = {}
             completed_values = {}
 
