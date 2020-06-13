@@ -296,7 +296,7 @@ def get_levels_of_activity(request, slug):
         for i_num in range(max_index):
             i = str(i_num)
             user = player_map.get(result['user'][i])
-            
+
             if user == None:
                 continue
 
@@ -309,7 +309,7 @@ def get_levels_of_activity(request, slug):
             new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
 
         completed_map = get_completed_puzzles_map(slug)
-        metric_keys = new_result.values()[0].values()[0].keys()
+        metric_keys = list(list(new_result.values())[0].values())[0].keys()
 
         for task in new_result:
             statistics = {}
