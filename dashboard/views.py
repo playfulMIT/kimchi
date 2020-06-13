@@ -296,6 +296,7 @@ def get_levels_of_activity(request, slug):
         for i_num in range(max_index):
             i = str(i_num)
             user = player_map.get(result['user'][i])
+            
             if user == None:
                 continue
 
