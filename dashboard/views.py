@@ -374,7 +374,7 @@ def get_levels_of_activity(request, slug):
                 completed_statistics[key]['stdev'] = np.std(completed_values[key])
             
             new_result[task]['stats'] = statistics
-            new_result[task]['completed_stats'] = completed_statistics
+            new_result[task]['completed_stats'] = None if completed_statistics["event"]["min"] == float("inf") else completed_statistics
             
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
