@@ -1,15 +1,17 @@
-import { showPage, puzzleNameToClassName, buildRadarChart } from './helpers.js'
+import { showPage, puzzleNameToClassName, buildRadarChart, getClassAverage } from './helpers.js'
 import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME } from './constants.js'
 
 var playerMap = null
 var puzzleData = null
 
 var formattedData = null
+var completedPuzzleData = null
 
 var stdevCoeff = 2 
 var minOutlierCount = 1
-var minPuzzles = 1
+var minPuzzleCount = 1
 var useCompletedClassAvg = false
+var includeNegativeOutliers = false
 
 var outlierMap = {}
 const metricsToIgnore = new Set(["event", "different_events", "paint"])
@@ -25,10 +27,13 @@ function findOutliers() {
             if (metricsToIgnore.has(metric)) continue
 
             const threshold = stats["mean"] + stdevCoeff*stats["stdev"]
+            const negative_threshold = stats["mean"] - stdevCoeff*stats["stdev"]
             for (let student of Object.keys(formattedData[puzzle])) {
                 if (student === "avg" || student === "stats" || student === "completed_stats") continue
+                if (useCompletedClassAvg && !completedPuzzleData[student].has(puzzle)) continue
 
-                if (formattedData[puzzle][student][metric] > threshold) {
+                if (formattedData[puzzle][student][metric] > threshold || 
+                    (includeNegativeOutliers && formattedData[puzzle][student][metric] < negative_threshold)) {
                     if (!(student in outlierMap)) {
                         outlierMap[student] = {}
                     }
@@ -47,8 +52,45 @@ function findOutliers() {
                 delete outlierMap[student][puzzle]
             }
         }
-        if (Object.keys(outlierMap[student]) === 0) {
+
+        if (Object.keys(outlierMap[student]).length === 0) {
             delete outlierMap[student]
+        } else {
+            var puzzlesPerMetric = {}
+            for (let [puzzle, metrics] of Object.entries(outlierMap[student])) {
+                for (let metric of metrics) {
+                    if (!(metric in puzzlesPerMetric)) {
+                        puzzlesPerMetric[metric] = new Set([puzzle])
+                    } else {
+                        puzzlesPerMetric[metric].add(puzzle)
+                    }
+                }
+            }
+
+            var puzzlesToKeep = {}
+            for (let [metric, puzzles] of Object.entries(puzzlesPerMetric)) {
+                if (puzzles.size > minPuzzleCount) {
+                    for (let puzzle of puzzles) {
+                        if (!(puzzle in puzzlesToKeep)) {
+                            puzzlesToKeep[puzzle] = [metric]
+                        } else {
+                            puzzlesToKeep[puzzle].push(metric)
+                        }
+                    }
+                }
+            }
+
+            for (let puzzle of Object.keys(outlierMap[student])) {
+                if (puzzle in puzzlesToKeep) {
+                    outlierMap[student][puzzle] = puzzlesToKeep[puzzle]
+                } else {
+                    delete outlierMap[student][puzzle]
+                }
+            }
+
+            if (Object.keys(outlierMap[student]).length === 0) {
+                delete outlierMap[student]
+            }
         }
     }
 
@@ -65,13 +107,15 @@ function showRadarModal(student, puzzle, metrics) {
         axisList = metrics
     }
 
+    const stats = useCompletedClassAvg ? formattedData[puzzle]['completed_stats'] : formattedData[puzzle]['stats']
+
     const studentData = {}
     studentData[student] = formattedData[puzzle][student]
-    studentData["avg"] = getClassAverage(formattedData[puzzle].stats)
+    studentData["avg"] = getClassAverage(stats)
 
     const puzzleStats = {}
-    puzzleStats[student] = formattedData[puzzle]['stats']
-    puzzleStats["avg"] = formattedData[puzzle]['stats']
+    puzzleStats[student] = stats
+    puzzleStats["avg"] = stats
 
     $("#outlier-radar-modal-puzzle").text(puzzle)
     buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), playerMap, true, puzzleStats)
@@ -158,18 +202,24 @@ function showFilters() {
 }
 
 function handleEmptyParam() {
-    if ($("#outlier-radar-stdev-coeff").val() === "" || $("#outlier-radar-min-metrics").val() === "") {
+    if ($("#outlier-radar-stdev-coeff").val() === "" || $("#outlier-radar-min-metrics").val() === ""
+        || $("#outlier-radar-min-puzzles").val() === "") {
         $("#outlier-radar-set-criteria-btn").prop("disabled", true)
     } else {
         $("#outlier-radar-set-criteria-btn").prop("disabled", false)
     }
 }
 
-export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity) {
+export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity, completed) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
         formattedData = levelsOfActivity
+
+        completedPuzzleData = {}
+        for (let student of Object.keys(completed)) {
+            completedPuzzleData[student] = new Set(completed[student])
+        }
 
         if (puzzleData["canUseSandbox"]) {
             puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
@@ -179,10 +229,17 @@ export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity) {
         $("#outlier-radar-stdev-coeff").on("input", handleEmptyParam)
         $("#outlier-radar-min-metrics").val(minOutlierCount)
         $("#outlier-radar-min-metrics").on("input", handleEmptyParam)
+        $("#outlier-radar-min-puzzles").val(minPuzzleCount)
+        $("#outlier-radar-min-puzzles").on("input", handleEmptyParam)
+        $("#outlier-radar-completed-avg").prop("checked", useCompletedClassAvg)
+        $("#outlier-radar-negative-outliers").prop("checked", includeNegativeOutliers)
 
         $("#outlier-radar-set-criteria-btn").click(() => {
             stdevCoeff = parseInt($("#outlier-radar-stdev-coeff").val())
             minOutlierCount = parseInt($("#outlier-radar-min-metrics").val())
+            minPuzzleCount = parseInt($("#outlier-radar-min-puzzles").val())
+            useCompletedClassAvg = $("#outlier-radar-completed-avg").is(":checked")
+            includeNegativeOutliers = $("#outlier-radar-negative-outliers").is(":checked")
             findOutliers()
         })
 

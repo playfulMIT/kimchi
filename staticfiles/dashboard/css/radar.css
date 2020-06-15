@@ -110,6 +110,15 @@
   padding: 10px;
 }
 
+#outlier-filters-container {
+  overflow-y: auto;
+  max-height: 25vh;
+}
+
 #outlier-radar-params {
   margin-bottom: 10px;
+}
+
+.outlier-radar-switch-container {
+  margin-left: 0px;
 }
