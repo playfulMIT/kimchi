@@ -115,19 +115,22 @@ def get_attempted_puzzles(request, slug):
 
     return JsonResponse(attempted)
 
-def get_completed_puzzles_map(url):
+def get_completed_puzzles_map(url, safe_for_serialization=False):
     players = create_player_list(url)
 
     completed = dict()
     for player in players:
         try:
-            completed[player] = set(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
+            if safe_for_serialization:
+                completed[player] = set(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
+            else:
+                completed[player] = list(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
         except ObjectDoesNotExist:
             completed[player] = []
     return completed
 
 def get_completed_puzzles(request, slug):
-    return JsonResponse(get_completed_puzzles_map(slug), safe=False)
+    return JsonResponse(get_completed_puzzles_map(slug, True))
 
 def get_time_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
