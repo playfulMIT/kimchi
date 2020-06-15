@@ -11,6 +11,7 @@ var playerMap = null
 var numPlayers = 0
 var puzzleData = null
 var levelsOfActivity = null
+var completedPuzzleData = null
 
 function handleTabSwitch(tab) {
     if (activeTab === tab) return 
@@ -23,7 +24,7 @@ function handleTabSwitch(tab) {
     } else if (activeTab === TABS.STUDENT_RADAR_CHART) {
         showStudentRadarCharts(playerMap, puzzleData, levelsOfActivity)
     } else if (activeTab === TABS.OUTLIER_RADAR_CHART) {
-        showOutlierRadarCharts(playerMap, puzzleData, levelsOfActivity)
+        showOutlierRadarCharts(playerMap, puzzleData, levelsOfActivity, completedPuzzleData)
     }
 }
 
@@ -34,6 +35,7 @@ async function startDashboard() {
     puzzleData = await callAPI(`${API}/puzzles`)
     levelsOfActivity = await callAPI(`${API}/levelsofactivity`)
     // levelsOfActivity = output
+    completedPuzzleData = await callAPI(`${API}/completed`)
     handleTabSwitch(TABS.OUTLIER_RADAR_CHART)
 }
 
