@@ -122,9 +122,9 @@ def get_completed_puzzles_map(url, safe_for_serialization=False):
     for player in players:
         try:
             if safe_for_serialization:
-                completed[player] = set(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
-            else:
                 completed[player] = list(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
+            else:
+                completed[player] = set(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
         except ObjectDoesNotExist:
             completed[player] = []
     return completed
