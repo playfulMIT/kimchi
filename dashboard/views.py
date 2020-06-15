@@ -127,7 +127,7 @@ def get_completed_puzzles_map(url):
     return completed
 
 def get_completed_puzzles(request, slug):
-    return JsonResponse(get_completed_puzzles_map(slug))
+    return JsonResponse(get_completed_puzzles_map(slug), safe=False)
 
 def get_time_per_puzzle(request, slug):
     player_to_session_map = create_player_to_session_map(slug)
@@ -314,7 +314,7 @@ def get_levels_of_activity(request, slug):
         for task in new_result:
             statistics = {}
             completed_statistics = {}
-            
+
             values = {}
             completed_values = {}
 
