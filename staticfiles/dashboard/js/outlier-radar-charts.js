@@ -14,7 +14,7 @@ var useCompletedClassAvg = false
 var includeNegativeOutliers = false
 
 var outlierMap = {}
-const metricsToIgnore = new Set(["event", "different_events", "paint"])
+const metricsToIgnore = new Set(["event", "different_events", "paint", "timeTotal", "inactive_time"])
 
 function findOutliers() {
     outlierMap = {}

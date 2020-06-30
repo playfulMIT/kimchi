@@ -29,69 +29,81 @@ export const FUNNEL_KEY_NAME_MAP = {
 
 export const DEFAULT_LEVELS_OF_ACTIVITY = {
     active_time: 0,
-    create_shape: 0,
-    delete_shape: 0,
+    "ws-create_shape": 0,
+    "ws-delete_shape": 0,
     different_events: 0,
     event: 0,
-    move_shape: 0,
-    paint: 0,
-    redo_action: 0,
-    rotate_view: 0,
-    scale_shape: 0,
-    snapshot: 0,
-    undo_action: 0
+    "ws-move_shape": 0,
+    "ws-paint": 0,
+    "ws-redo_action": 0,
+    "ws-rotate_view": 0,
+    "ws-scale_shape": 0,
+    "ws-rotate_shape": 0,
+    "ws-snapshot": 0,
+    "ws-undo_action": 0,
+    "ws-check_solution": 0
 }
 
 export const METRIC_TO_METRIC_NAME = {
     "active_time": "Active Time",
-    "create_shape": "Create Shape",
+    "ws-create_shape": "Create Shape",
     "event": "Event Count",
     "different_events": "Unique Event Count",
-    "move_shape": "Move Shape",
-    "scale_shape": "Scale Shape",
-    "delete_shape": "Delete Shape",
-    "paint": "Paint",
-    "undo_action": "Undo Action",
-    "redo_action": "Redo Action",
-    "rotate_view": "Rotate View",
-    "snapshot": "Snapshot"
+    "ws-move_shape": "Move Shape",
+    "ws-rotate_shape": "Rotate Shape",
+    "ws-scale_shape": "Scale Shape",
+    "ws-delete_shape": "Delete Shape",
+    "ws-paint": "Paint",
+    "ws-undo_action": "Undo Action",
+    "ws-redo_action": "Redo Action",
+    "ws-rotate_view": "Rotate View",
+    "ws-snapshot": "Snapshot",
+    "ws-check_solution": "Check Solution"
 }
 
 export const LEVELS_OF_ACTIVITY_DROPDOWN = [
     {
         axis: "Create Shape",
-        value: "create_shape"
+        value: "ws-create_shape"
     },
     {
         axis: "Move Shape",
-        value: "move_shape"
+        value: "ws-move_shape"
+    },
+    {
+        axis: "Rotate Shape",
+        value: "ws-rotate_shape"
     },
     {
         axis: "Scale Shape",
-        value: "scale_shape"
+        value: "ws-scale_shape"
     },
     {
         axis: "Delete Shape",
-        value: "delete_shape"
+        value: "ws-delete_shape"
     },
     {
         axis: "Paint",
-        value: "paint"
+        value: "ws-paint"
     },
     {
         axis: "Undo Action",
-        value: "undo_action"
+        value: "ws-undo_action"
     },
     {
         axis: "Redo Action",
-        value: "redo_action"
+        value: "ws-redo_action"
     },
     {
         axis: "Rotate View",
-        value: "rotate_view"
+        value: "ws-rotate_view"
     },
     {
         axis: "Snapshot",
-        value: "snapshot"
+        value: "ws-snapshot"
+    },
+    {
+        axis: "Check Solution",
+        value: "ws-check_solution"
     }
 ]
