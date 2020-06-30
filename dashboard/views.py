@@ -343,7 +343,7 @@ def get_levels_of_activity(request, slug):
             items = users.items()
             
             for student, value in items:
-                if value['create_shape'] == 0:
+                if value['ws-create_shape'] == 0:
                     continue
                 if task in completed_map[student]:
                     for key in value.keys():
