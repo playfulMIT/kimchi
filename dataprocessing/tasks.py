@@ -578,7 +578,7 @@ def computeLevelsOfActivity(group='all'):
         value_vars=['timeTotal','inactive_time','event','different_events', 'active_time','ws-snapshot','ws-paint','ws-rotate_view','ws-rotate_shape','ws-move_shape','ws-scale_shape','ws-create_shape','ws-delete_shape','ws-undo_action','ws-redo_action','ws-check_solution'],
         var_name='metric', value_name='value')
         
-    return activity_by_user
+    return activity_by_user.to_json()
 
 
 @app.task
