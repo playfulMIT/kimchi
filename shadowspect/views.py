@@ -31,8 +31,7 @@ def wildcard_players(request, slug):
     players = Player.objects.filter(url=url_obj)
     list = {}
     for player in players:
-        for session in player.customsession_set.all():
-            list[session.session_key] = player.id
+        list["player id: "] = player.id
     return render(request, "shadowspect/list.html", {"items": list})
 
 
