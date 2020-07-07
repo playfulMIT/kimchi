@@ -32,6 +32,7 @@ def wildcard_players(request, slug):
     list = {}
     n = 1
     for player in players:
+        n += 1
         list["player " + str(n)] = player.id
     return render(request, "shadowspect/list.html", {"items": list})
 
