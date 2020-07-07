@@ -30,8 +30,9 @@ def wildcard_players(request, slug):
     url_obj = get_object_or_404(URL, pk=slug)
     players = Player.objects.filter(url=url_obj)
     list = {}
+    n = 1
     for player in players:
-        list["player id"] = player.id
+        list["player " + str(n)] = player.id
     return render(request, "shadowspect/list.html", {"items": list})
 
 
