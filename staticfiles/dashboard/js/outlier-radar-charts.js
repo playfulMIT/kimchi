@@ -1,5 +1,5 @@
 import { showPage, puzzleNameToClassName, buildRadarChart, getClassAverage } from './helpers.js'
-import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME } from './constants.js'
+import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from './constants.js'
 
 var playerMap = null
 var puzzleData = null
@@ -15,6 +15,8 @@ var includeNegativeOutliers = false
 
 var outlierMap = {}
 const metricsToIgnore = new Set(["event", "different_events", "paint", "timeTotal", "inactive_time"])
+
+var anonymizeNames = true 
 
 function findOutliers() {
     outlierMap = {}
@@ -118,7 +120,7 @@ function showRadarModal(student, puzzle, metrics) {
     puzzleStats["avg"] = stats
 
     $("#outlier-radar-modal-puzzle").text(puzzle)
-    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), playerMap, true, puzzleStats)
+    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), anonymizeNames ? null : playerMap, NORMALIZATION_OPTIONS.STANDARD, puzzleStats)
     $('#outlier-radar-modal').modal('show')
 }
 
@@ -128,7 +130,7 @@ function showOutliersList() {
     const sortedKeys = Object.keys(outlierMap).sort((a, b) => Object.keys(outlierMap[b]).length - Object.keys(outlierMap[a]).length)
     for (let student of sortedKeys) {
         const collapseId = "student-" + student + "-collapse"
-        const studentName = playerMap[student]
+        const studentName = anonymizeNames ? student : playerMap[student]
 
         const card = document.createElement("div")
         card.className = "card"
@@ -210,19 +212,16 @@ function handleEmptyParam() {
     }
 }
 
-export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity, completed) {
+export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity, completed, anonymize=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
         formattedData = levelsOfActivity
+        anonymizeNames = anonymize
 
         completedPuzzleData = {}
         for (let student of Object.keys(completed)) {
             completedPuzzleData[student] = new Set(completed[student])
-        }
-
-        if (puzzleData["canUseSandbox"]) {
-            puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
         }
 
         $("#outlier-radar-stdev-coeff").val(stdevCoeff)

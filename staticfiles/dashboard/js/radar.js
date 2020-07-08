@@ -1,4 +1,4 @@
-import { METRIC_TO_METRIC_NAME } from './constants.js'
+import { METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from './constants.js'
 
 // render the visualization
 export function renderRadar(config, vis) {
@@ -29,15 +29,22 @@ function updateConfig(config, vis) {
     const dataLength = Object.keys(config.data).length
     if (dataLength > 0) {
         // adjust config parameters
-        config.maxValue = config.normalize ? 1 : Math.max(config.maxValue, d3.max(Object.values(config.data), function (v) {
-            return d3.max(Object.entries(v), function ([metric, value]) {
-                if (vis.allAxis.find((av) => av === metric)) {
-                    return v.event == 0 ? 1 : value
-                } else {
-                    return 1
-                }
-            })
-        }))
+        if (config.normalize === NORMALIZATION_OPTIONS.MINMAX) {
+            config.maxValue = 1
+        } else if (config.normalize === NORMALIZATION_OPTIONS.STANDARD) {
+            config.maxValue = 5
+        } else {
+            config.maxValue = Math.max(config.maxValue, d3.max(Object.values(config.data), function (v) {
+                return d3.max(Object.entries(v), function ([metric, value]) {
+                    if (vis.allAxis.find((av) => av === metric)) {
+                        return v.event == 0 ? 1 : value
+                    } else {
+                        return 1
+                    }
+                })
+            }))
+        }
+        
         config.maxValue += 1
 
         config.w *= config.levelScale;
@@ -191,10 +198,14 @@ function buildCoordinates(config, vis) {
                 value: numEvents > 0 ? entry[1] : 0
             }
 
-            if (config.normalize) {
+            if (config.normalize === NORMALIZATION_OPTIONS.MINMAX) {
                 const min = config.statistics[key][result.axis].min
                 const max = config.statistics[key][result.axis].max
                 result.norm_value = ((result.value - min) / (max - min)) + 1 || 1
+            } else if (config.normalize === NORMALIZATION_OPTIONS.STANDARD) {
+                const mean = config.statistics[key][result.axis].mean
+                const stdev = config.statistics[key][result.axis].stdev
+                result.norm_value = ((result.value - mean) / stdev) + 1 || 1
             } else {
                 result.value += 1
             }
@@ -205,19 +216,19 @@ function buildCoordinates(config, vis) {
 
         data.visibleAxes = vis.allAxis.map((axisLabel, i) => {
             const axis = findAxis(axisLabel)
-            return config.normalize ? {
+            return config.normalize !== NORMALIZATION_OPTIONS.NONE ? {
                 ...axis,
                 coordinates: { // [x, y] coordinates
                     x: config.w / 2 * (1 - (parseFloat(Math.max(axis.norm_value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
                     y: config.h / 2 * (1 - (parseFloat(Math.max(axis.norm_value, 0)) / config.maxValue) * Math.cos(i * config.radians / vis.totalAxes))
                 }
             } : {
-                    ...axis,
-                    coordinates: { // [x, y] coordinates
-                        x: config.w / 2 * (1 - (parseFloat(Math.max(axis.value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
-                        y: config.h / 2 * (1 - (parseFloat(Math.max(axis.value, 0)) / config.maxValue) * Math.cos(i * config.radians / vis.totalAxes))
-                    }
+                ...axis,
+                coordinates: { // [x, y] coordinates
+                    x: config.w / 2 * (1 - (parseFloat(Math.max(axis.value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
+                    y: config.h / 2 * (1 - (parseFloat(Math.max(axis.value, 0)) / config.maxValue) * Math.cos(i * config.radians / vis.totalAxes))
                 }
+            }
         })
     });
 }
@@ -295,13 +306,13 @@ function buildLegend(config, vis) {
         .attr("font-size", 11 * config.labelScale + "px")
         .attr("fill", d => config.data[d].event == 0 ? "red" : "grey")
         .text(function (d) {
-            return config.playerMap ? (d === "avg" ? "Class Avg." : config.playerMap[d]) : d;
+            return d === "avg" ? "Class Avg." : (config.playerMap ? config.playerMap[d] : d)
         });
 }
 
 // show tooltip of vertices
 function verticesTooltipShow(config, vis, d) {
-    if (config.normalize) {
+    if (config.normalize !== NORMALIZATION_OPTIONS.NONE) {
         vis.verticesTooltip.style("opacity", 0.9)
             .html("<strong>Value</strong>: " + (d.value).toFixed(2) + "<br /><strong>Normalized value</strong>: " + (d.norm_value - 1).toFixed(2) + "<br />")
             .style("left", (d3.event.pageX) + "px")

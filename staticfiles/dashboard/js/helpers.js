@@ -1,4 +1,4 @@
-import { LEVELS_OF_ACTIVITY_DROPDOWN } from './constants.js'
+import { LEVELS_OF_ACTIVITY_DROPDOWN, NORMALIZATION_OPTIONS } from './constants.js'
 import { renderRadar } from './radar.js';
 
 export function showPage(pageId, navId = null) {
@@ -126,17 +126,17 @@ export function createGraphCard(graph, id) {
     return card
 }
 
-export function showPlayerList(divId, playerMap, onClick) {
+export function showPlayerList(buttonClass, divId, playerMap, onClick, anonymizeNames=true) {
     const sortedEntries = Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
 
     for (let [pk, player] of sortedEntries) {
         const button = document.createElement("button")
         button.id = pk
-        button.className = "player-button list-group-item list-group-item-action btn-secondary"
+        button.className = "player-button list-group-item list-group-item-action btn-secondary " + buttonClass
         button.type = "button"
-        button.textContent = player
+        button.textContent = anonymizeNames ? pk : player
         document.getElementById(divId).appendChild(button)
-        $(`#${pk}`).click(onClick)
+        $(`#${pk}.${buttonClass}`).click(onClick)
     }
 }
 
@@ -149,23 +149,35 @@ export function puzzleNameToClassName(puzzle) {
 }
 
 export function createNormalizationToggle(configParentId, onChangeCallback) {
-    const ccDiv = document.createElement("div")
-    ccDiv.className = "custom-control custom-switch"
+//     <div class="form-check form-check-inline">
+//         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+//             <label class="form-check-label" for="inlineRadio1">1</label>
+// </div>
+    const form = document.createElement("form")
+    form.innerHTML = "Normalization<br>"
+    $(`#${configParentId} > .radar-config`).append(form)
 
-    const input = document.createElement("input")
-    input.type = "checkbox"
-    input.className = "custom-control-input"
-    input.id = configParentId + "-norm-toggle"
-    input.onchange = onChangeCallback
-    input.value = false
+    for (let key of Object.keys(NORMALIZATION_OPTIONS)) {
+        const formCheck = document.createElement("div")
+        formCheck.className = "form-check form-check-inline"
 
-    const label = document.createElement("label")
-    label.className = "custom-control-label"
-    label.htmlFor = configParentId + "-norm-toggle"
-    label.textContent = "Normalize Radar Chart"
-    ccDiv.appendChild(input)
-    ccDiv.appendChild(label)
-    $(`#${configParentId} > .radar-config`).append(ccDiv)
+        const input = document.createElement("input")
+        input.type = "radio"
+        input.className = "form-check-input"
+        input.id = configParentId + "-norm-" + key
+        input.name = configParentId + "-norm"
+        input.onchange = onChangeCallback
+        input.value = key
+        input.checked = key === "NONE"
+
+        const label = document.createElement("label")
+        label.className = "form-check-label"
+        label.htmlFor = configParentId + "-norm-" + key
+        label.textContent = key
+        formCheck.appendChild(input)
+        formCheck.appendChild(label)
+        form.appendChild(formCheck)
+    }
 }
 
 const numRemoved = {}
@@ -229,7 +241,7 @@ export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, l
     }
 }
 
-export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap = null, normalize = false, statistics = null) {
+export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap = null, normalize = NORMALIZATION_OPTIONS.NONE, statistics = null) {
     if (axisValues.length === 0) return
 
     var w = 350;

@@ -1,5 +1,5 @@
 import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart, createNormalizationToggle, getClassAverage } from './helpers.js'
-import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, SANDBOX } from './constants.js'
+import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, SANDBOX, NORMALIZATION_OPTIONS } from './constants.js'
 
 var playerMap = null
 var puzzleData = null
@@ -8,13 +8,15 @@ var formattedData = null
 
 var currentDataset = {}
 var currentStatistics = {}
-var normalizationOn = false
+var normalizationMode = NORMALIZATION_OPTIONS.NONE
 
 var currentPuzzles = new Set()
 var currentStudent = null
 var puzzlesToAdd = new Set()
 
 var axisValues = []
+
+var anonymizeNames = false
 
 function addPuzzleToChart(puzzles) {
     if (currentStudent) {
@@ -96,7 +98,7 @@ function showPuzzleList(puzzleList) {
 }
 
 function onStudentClick(event, id, name) {
-    $("#student-dropdown-button").text(name)
+    $("#student-dropdown-button").text(id === "avg" ? "Class Avg." : (anonymizeNames ? id : name))
     $(".student-dropdown-option").removeClass("active")
     $(event.target).addClass("active")
 
@@ -131,7 +133,7 @@ function createStudentDropdown() {
     for (let [id, player] of Object.entries(playerMap)) {
         const playerLink = document.createElement("a")
         playerLink.className = "student-dropdown-option dropdown-item"
-        playerLink.textContent = player
+        playerLink.textContent = anonymizeNames ? id : player
         playerLink.href = "#"
         playerLink.onclick = (event) => onStudentClick(event, id, player)
         dropdown.appendChild(playerLink)
@@ -139,11 +141,7 @@ function createStudentDropdown() {
 }
 
 function createRadarChart() {
-    if (normalizationOn) {
-        buildRadarChart(currentDataset, axisValues, '#student-radar-chart', currentPuzzles, null, true, currentStatistics)
-    } else {
-        buildRadarChart(currentDataset, axisValues, '#student-radar-chart', currentPuzzles, null, false, currentStatistics)
-    }
+    buildRadarChart(currentDataset, axisValues, '#student-radar-chart', currentPuzzles, null, normalizationMode, currentStatistics)
 }
 
 function handleAddPuzzleButtonClick(puzzle) {
@@ -172,19 +170,20 @@ function handleAddPuzzleButtonClick(puzzle) {
 }
 
 function toggleNormalization(event) {
-    normalizationOn = $(event.target).is(":checked")
+    normalizationMode = NORMALIZATION_OPTIONS[event.target.value]
     createRadarChart()
 }
 
-export function showStudentRadarCharts(pMap, puzzData, levelsOfActivity) {
+export function showStudentRadarCharts(pMap, puzzData, levelsOfActivity, anonymize=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
         formattedData = levelsOfActivity
+        anonymizeNames = anonymize
 
-        if (puzzleData["canUseSandbox"]) {
-            puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
-        }
+        // if (puzzleData["canUseSandbox"]) {
+        //     puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]
+        // }
 
         createStudentDropdown()
         createNormalizationToggle("student-radar-container", toggleNormalization)

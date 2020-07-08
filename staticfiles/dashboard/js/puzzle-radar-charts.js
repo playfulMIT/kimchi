@@ -1,5 +1,5 @@
 import { showPage, showPlayerList, toCamelCase, createOptionDropdownItems, buildRadarChart, createNormalizationToggle, getClassAverage } from './helpers.js'
-import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY } from './constants.js'
+import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, NORMALIZATION_OPTIONS } from './constants.js'
 
 var playerMap = null
 var puzzleData = null
@@ -12,9 +12,12 @@ var currentPlayers = new Set()
 var currentPuzzle = null
 var studentsToAdd = new Set()
 
-var normalizationOn = false
+var normalizationMode = NORMALIZATION_OPTIONS.NONE
+var anonymizeNames = true
 
 var axisValues = []
+
+const playerButtonClass = "puzzle-radar-player"
 
 function addStudentToChart(ids) {
     if (currentPuzzle) {
@@ -38,7 +41,7 @@ function addStudentToChart(ids) {
         .attr("id", d => `player-button-radar-${d}`)
         .classed("player-button-radar btn btn-light", true)
         .attr("type", "button")
-        .text(d => d === "avg" ? "Class Avg." : playerMap[d])
+        .text(d => d === "avg" ? "Class Avg." : anonymizeNames ? d : playerMap[d])
         .on("mouseover", (d) => {
             d3.select(`#player-button-radar-${d}`)
                 .classed("btn-light", false)
@@ -143,26 +146,22 @@ function createPuzzleDropdown() {
 }   
 
 function createRadarChart() {
-    if (normalizationOn) {
-        buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, playerMap, true, currentStatistics)
-    } else {
-        buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, playerMap, false, currentStatistics)
-    }
+    buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, anonymizeNames ? null : playerMap, normalizationMode, currentStatistics)
 }
 
 function handleAddStudentButtonClick(pk) {
     const formatSelectedPlayers = (players) => {
-        return players.size > 0 ? [...players].map(p => playerMap[p]).join(', ') : "None"
+        return players.size > 0 ? [...players].map(p => anonymizeNames ? p : playerMap[p]).join(', ') : "None"
     }
 
     if (studentsToAdd.has(pk)) {
         studentsToAdd.delete(pk)
-        $(`#${pk}`).removeClass("active")
+        $(`#${pk}.${playerButtonClass}`).removeClass("active")
     } else if (pk === null) {
         studentsToAdd = new Set()
     } else {
         studentsToAdd.add(pk)
-        $(`#${pk}`).addClass("active")
+        $(`#${pk}.${playerButtonClass}`).addClass("active")
     }
 
     if (studentsToAdd.size > 0) {
@@ -175,15 +174,16 @@ function handleAddStudentButtonClick(pk) {
 }
 
 function toggleNormalization(event) {
-    normalizationOn = $(event.target).is(":checked")
+    normalizationMode = NORMALIZATION_OPTIONS[event.target.value]
     createRadarChart()
 }
 
-export function showPuzzleRadarCharts(pMap, puzzData, levelsOfActivity) {
+export function showPuzzleRadarCharts(pMap, puzzData, levelsOfActivity, anonymized=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
         formattedData = levelsOfActivity
+        anonymizeNames = anonymized
 
         createPuzzleDropdown()
         createNormalizationToggle("puzzle-radar-container", toggleNormalization)
@@ -199,7 +199,7 @@ export function showPuzzleRadarCharts(pMap, puzzData, levelsOfActivity) {
                 .map(key => ({ [key]: playerMap[key] })))
 
             $("#add-player-list").empty()
-            showPlayerList("add-player-list", filteredPlayerMap, (event) => handleAddStudentButtonClick(event.target.id))
+            showPlayerList(playerButtonClass, "add-player-list", filteredPlayerMap, (event) => handleAddStudentButtonClick(event.target.id), anonymizeNames)
 
             if (currentPuzzle) {
                 for (let key of Object.keys(filteredPlayerMap)) {

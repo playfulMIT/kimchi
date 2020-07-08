@@ -107,3 +107,9 @@ export const LEVELS_OF_ACTIVITY_DROPDOWN = [
         value: "ws-check_solution"
     }
 ]
+
+export const NORMALIZATION_OPTIONS = {
+    "NONE": 0,
+    "MINMAX": 1,
+    "STANDARD": 2
+}

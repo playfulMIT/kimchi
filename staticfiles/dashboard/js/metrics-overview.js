@@ -70,6 +70,11 @@ var activeFunnelId = null
 
 var funnelPlayerMax = 0
 
+var anonymizeNames = true
+var printName = null
+
+const playerButtonClass = "metrics-overview-player"
+
 $(document).ready(() => {
     $('#zoom-range').on('input', function() {
         funnelPlayerMax = Math.floor(numPlayers/this.value)
@@ -177,7 +182,7 @@ function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user =
     const levelUserInfo = document.createElement('div')
     levelUserInfo.className = "h4"
     levelUserInfo.style = "padding-top: 5px; width: 100%;"
-    levelUserInfo.innerHTML = `${user ? playerMap[user] : 'Class'}  &middot;  ${puzzle}`
+    levelUserInfo.innerHTML = `${user ? (anonymizeNames ? user : playerMap[user]) : 'Class'}  &middot;  ${puzzle}`
     div.appendChild(levelUserInfo)
 
     const metricCardDeck = document.createElement('div')
@@ -343,7 +348,7 @@ function showFunnels(difficulty, user = null) {
     $(".zoom-icon").css("cursor", "pointer")
 
 
-    $("#class-level-filter-text").text(user ? playerMap[user] : "Class")
+    $("#class-level-filter-text").text(printName(user))
     
     if (user) {
         $("#filter-clear").show()
@@ -381,7 +386,7 @@ function showSandboxMetrics(user = null) {
     $(".zoom-item").prop("disabled", true)
     $(".zoom-item").css("cursor", "not-allowed")
 
-    $("#class-level-filter-text").text(user ? playerMap[user] : "Class")
+    $("#class-level-filter-text").text(printName(user))
 
     if (user) {
         $("#filter-clear").show()
@@ -392,7 +397,7 @@ function showSandboxMetrics(user = null) {
     const levelUserInfo = document.createElement('div')
     levelUserInfo.className = "h4"
     levelUserInfo.style = "padding-top: 5px; width: 100%;"
-    levelUserInfo.innerHTML = `${user ? playerMap[user] : 'Class'}  &middot;  Sandbox`
+    levelUserInfo.innerHTML = `${printName(user)}  &middot;  Sandbox`
     $(`#${parentDivId}`).append(levelUserInfo)
     
     const metricCardDeck = document.createElement('div')
@@ -494,13 +499,13 @@ function showSandboxMetrics(user = null) {
 }
 
 function togglePlayer(pk) {
-    $(`#${activePlayer}`).toggleClass("active")
+    $(`#${activePlayer}.${playerButtonClass}`).toggleClass("active")
     
     if (activePlayer === pk) {
         activePlayer = null
     } else {
         activePlayer = pk
-        if (activePlayer) $(`#${activePlayer}`).toggleClass("active")
+        if (activePlayer) $(`#${activePlayer}.${playerButtonClass}`).toggleClass("active")
     }
     
     if (activeDifficulty === SANDBOX) {
@@ -546,10 +551,12 @@ function createDifficultyTabs() {
     }
 }
 
-export async function showMetricsOverview(pMap, numP, puzzData) {
+export async function showMetricsOverview(pMap, numP, puzzData, anonymize=true) {
     playerMap = pMap
     numPlayers = numP
     puzzleData = puzzData
+    anonymizeNames = anonymize
+    printName = (user) => user ? (anonymizeNames ? user : playerMap[user]) : "Class"
 
     if (playerMap && !rawFunnelData) {
         showPage("loader-container")
@@ -568,6 +575,6 @@ export async function showMetricsOverview(pMap, numP, puzzData) {
     $("#funnel-difficulty").show()
 
     document.getElementById("player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
-    showPlayerList("player-list", playerMap, () => {togglePlayer(pk)})
+    showPlayerList(playerButtonClass, "player-list", playerMap, (event) => {togglePlayer(event.target.id)}, anonymizeNames)
     showFunnels(Object.keys(puzzleData['puzzles'])[0])
 }
