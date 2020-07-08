@@ -30,15 +30,16 @@ def wildcard_players(request, slug):
     url_obj = get_object_or_404(URL, pk=slug)
     players = Player.objects.filter(url=url_obj)
     list = {}
+    n = 1
     for player in players:
-        for session in player.customsession_set.all():
-            list[session.session_key] = player.name.replace(" ", "_")
+        list["player " + str(n)] = player.id
+        n += 1
     return render(request, "shadowspect/list.html", {"items": list})
 
 
 def wildcard_levels(request, slug, player):
     url_obj = get_object_or_404(URL, pk=slug)
-    selected_player = Player.objects.filter(url=url_obj).get(name=player.replace("_", " "))
+    selected_player = Player.objects.filter(url=url_obj).get(id=player)
     print(selected_player)
     levels = {}
     for level in selected_player.attempted.all():
