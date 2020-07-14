@@ -588,20 +588,20 @@ def computeLevelsOfActivity(group='all'):
         var_name='metric', value_name='value')
 
     ### MERGING ROWS CORRESPONDING TO THE SAME USER
-    activityJSON = activity_by_user.to_json()
-    max_index = len(activityJSON['group'])
+    activityDict = activity_by_user.to_dict('index')
+    max_index = len(activityDict['group'])
     merged_activity = {}
 
     for i_num in range(max_index):
         i = str(i_num)
 
-        if activityJSON['task_id'][i] not in merged_activity:
-            merged_activity[activityJSON['task_id'][i]] = {}
+        if activityDict['task_id'][i] not in merged_activity:
+            merged_activity[activityDict['task_id'][i]] = {}
 
-        if user not in merged_activity[activityJSON['task_id'][i]]:
-            merged_activity[activityJSON['task_id'][i]][user] = {"no_normalization": {}}
+        if user not in merged_activity[activityDict['task_id'][i]]:
+            merged_activity[activityDict['task_id'][i]][user] = {"no_normalization": {}}
 
-        merged_activity[activityJSON['task_id'][i]][user][activityJSON['metric'][i]] = float(activityJSON['value'][i])
+        merged_activity[activityDict['task_id'][i]][user][activityDict['metric'][i]] = float(activityDict['value'][i])
 
     ### GENERATING STATISTICS
     completed_puzzles_map = {}
@@ -700,8 +700,7 @@ def computeLevelsOfActivity(group='all'):
                 merged_activity[task]["standard_normalization"]['completed_stats'][student] = {}
                 merged_activity[task]["standard_normalization"]['completed_stats'][student][key] = ((key_val - mean_val) / stdev_val) if stdev_val != 0 else 0
 
-            
-    return merged_activity
+    return json.dumps(merged_activity)
 
 @app.task
 def generate_metadata_and_run_tasks():
