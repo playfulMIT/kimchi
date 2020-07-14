@@ -592,7 +592,7 @@ def computeLevelsOfActivity(group='all'):
     max_index = len(activity_dict['group'])
     merged_activity = {}
 
-    for i_num in range(max_index):
+    for i_num in range(1, max_index+1):
         i = str(i_num)
 
         if activity_dict['task_id'][i] not in merged_activity:
