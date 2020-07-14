@@ -686,7 +686,7 @@ def computeLevelsOfActivity(group='all'):
         merged_activity[task]["standard_normalization"] = {"all_stats": {}, "completed_stats": {}}
 
         for student, value in items:
-            for key, key_val in value.entries():
+            for key, key_val in value.items():
                 min_val = merged_activity[task]['all_stats'][key]['min']
                 max_val = merged_activity[task]['all_stats'][key]['max']
                 stdev_val = merged_activity[task]['all_stats'][key]['stdev']
