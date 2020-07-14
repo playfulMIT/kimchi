@@ -594,18 +594,18 @@ def computeLevelsOfActivity(group='all'):
 
     for i in range(max_index):
         if activity_dict['task_id'][i] not in merged_activity:
-            merged_activity[activity_dict['task_id'][i]] = {}
+            merged_activity[activity_dict['task_id'][i]] = {"no_normalization": {}}
 
-        if user not in merged_activity[activity_dict['task_id'][i]]:
-            merged_activity[activity_dict['task_id'][i]][user] = {"no_normalization": {}}
+        if user not in merged_activity[activity_dict['task_id'][i]]["no_normalization"]:
+            merged_activity[activity_dict['task_id'][i]]["no_normalization"][user] = {}
 
-        merged_activity[activity_dict['task_id'][i]][user][activity_dict['metric'][i]] = float(activity_dict['value'][i])
+        merged_activity[activity_dict['task_id'][i]]["no_normalization"][user][activity_dict['metric'][i]] = float(activity_dict['value'][i])
 
     ### GENERATING STATISTICS
     completed_puzzles_map = {}
     for url in urls:
         completed_puzzles_map.update(get_completed_puzzles_map(url.name))
-    metric_keys = list(list(merged_activity.values())[0].values())[0].no_normalization.keys()
+    metric_keys = list(list(merged_activity.values())[0]["no_normalization"].values())[0].keys()
 
     for task in merged_activity:
         statistics = {}
