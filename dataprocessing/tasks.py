@@ -8,6 +8,8 @@ import sys, traceback
 from dataprocessing.models import Task
 from django.utils import timezone
 
+from dashboard.views import get_completed_puzzles_map
+
 
 @app.task
 def process_task(task, *args):
@@ -419,6 +421,7 @@ def sequenceWithinPuzzles(group='all'):
 
 @app.task
 def computeLevelsOfActivity(group='all'):
+    ### DATA COLLECTION AND INITIAL PROCESSING
     if group == 'all':
         toFilter = all_data_collection_urls
     else:
@@ -584,8 +587,121 @@ def computeLevelsOfActivity(group='all'):
         value_vars=['timeTotal','inactive_time','event','different_events', 'active_time','ws-snapshot','ws-paint','ws-rotate_view','ws-rotate_shape','ws-move_shape','ws-scale_shape','ws-create_shape','ws-delete_shape','ws-undo_action','ws-redo_action','ws-check_solution'], 
         var_name='metric', value_name='value')
 
-    return activity_by_user.to_json()
+    ### MERGING ROWS CORRESPONDING TO THE SAME USER
+    activityJSON = activity_by_user.to_json()
+    max_index = len(activityJSON['group'])
+    merged_activity = {}
 
+    for i_num in range(max_index):
+        i = str(i_num)
+
+        if activityJSON['task_id'][i] not in merged_activity:
+            merged_activity[activityJSON['task_id'][i]] = {}
+
+        if user not in merged_activity[activityJSON['task_id'][i]]:
+            merged_activity[activityJSON['task_id'][i]][user] = {"no_normalization": {}}
+
+        merged_activity[activityJSON['task_id'][i]][user][activityJSON['metric'][i]] = float(activityJSON['value'][i])
+
+    ### GENERATING STATISTICS
+    completed_puzzles_map = {}
+    for url in urls:
+        completed_puzzles_map.update(get_completed_puzzles_map(url.name))
+    metric_keys = list(list(merged_activity.values())[0].values())[0].no_normalization.keys()
+
+    for task in merged_activity:
+        statistics = {}
+        completed_statistics = {}
+
+        values = {}
+        completed_values = {}
+
+        for key in metric_keys:
+            statistics[key] = {
+                'min': float("inf"),
+                'max': float("-inf"),
+                'median': 0,
+                'mean': 0,
+                'stdev': 0
+            }
+            completed_statistics[key] = {
+                'min': float("inf"),
+                'max': float("-inf"),
+                'median': 0,
+                'mean': 0,
+                'stdev': 0
+            }
+            values[key] = []
+            completed_values[key] = []
+        
+        users = merged_activity[task]
+        items = users.items()
+        
+        for student, norm in items:
+            value = norm.no_normalization
+            if value['ws-create_shape'] == 0:
+                continue
+            if task in completed_puzzles_map[student]:
+                for key in value.keys():
+                    values[key].append(value[key])
+                    completed_values[key].append(value[key])
+
+                    if statistics[key]['min'] > value[key]:
+                        statistics[key]['min'] = value[key]
+                    if statistics[key]['max'] < value[key]:
+                        statistics[key]['max'] = value[key]
+
+                    if completed_statistics[key]['min'] > value[key]:
+                        completed_statistics[key]['min'] = value[key]
+                    if completed_statistics[key]['max'] < value[key]:
+                        completed_statistics[key]['max'] = value[key]
+            else:
+                for key in value.keys():
+                    values[key].append(value[key])
+
+                    if statistics[key]['min'] > value[key]:
+                        statistics[key]['min'] = value[key]
+                    if statistics[key]['max'] < value[key]:
+                        statistics[key]['max'] = value[key]
+        
+        for key in metric_keys:
+            statistics[key]['median'] = np.median(values[key])
+            statistics[key]['mean'] = np.mean(values[key])
+            statistics[key]['stdev'] = np.std(values[key])
+
+            completed_statistics[key]['median'] = np.median(completed_values[key])
+            completed_statistics[key]['mean'] = np.mean(completed_values[key])
+            completed_statistics[key]['stdev'] = np.std(completed_values[key])
+        
+        merged_activity[task]['all_stats'] = statistics
+        merged_activity[task]['completed_stats'] = None if completed_statistics["event"]["min"] == float("inf") else completed_statistics
+
+        ### CALCULATING NORMALIZED VALUES
+        merged_activity[task]["minmax_normalization"] = {"all_stats": {}, "completed_stats": {}}
+        merged_activity[task]["standard_normalization"] = {"all_stats": {}, "completed_stats": {}}
+
+        for student, norm in items:
+            value = norm.no_normalization
+            
+            for key, key_val in value.entries():
+                min_val = merged_activity[task]['all_stats'][key]['min']
+                max_val = merged_activity[task]['all_stats'][key]['max']
+                stdev_val = merged_activity[task]['all_stats'][key]['stdev']
+                mean_val = merged_activity[task]['all_stats'][key]['mean']
+
+                merged_activity[task]["minmax_normalization"]['all_stats'][student] = {}
+                merged_activity[task]["minmax_normalization"]['all_stats'][student][key] = (key_val - min_val) / (max_val - min_val) if max_val - min_val != 0 else 0
+                
+                min_val = merged_activity[task]['completed_stats'][key]['min']
+                max_val = merged_activity[task]['completed_stats'][key]['max']
+                stdev_val = merged_activity[task]['completed_stats'][key]['stdev']
+                mean_val = merged_activity[task]['completed_stats'][key]['mean']
+
+                merged_activity[task]["standard_normalization"]['completed_stats'][student] = {}
+                merged_activity[task]["standard_normalization"]['completed_stats'][student][key] = ((key_val - mean_val) / stdev_val) if stdev_val != 0 else 0
+
+            
+    return merged_activity
 
 @app.task
 def generate_metadata_and_run_tasks():
