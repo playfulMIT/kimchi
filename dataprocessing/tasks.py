@@ -596,10 +596,10 @@ def computeLevelsOfActivity(group='all'):
         if activity_dict['task_id'][i] not in merged_activity:
             merged_activity[activity_dict['task_id'][i]] = {"no_normalization": {}}
 
-        if user not in merged_activity[activity_dict['task_id'][i]]["no_normalization"]:
-            merged_activity[activity_dict['task_id'][i]]["no_normalization"][user] = {}
+        if activity_dict['user'][i] not in merged_activity[activity_dict['task_id'][i]]["no_normalization"]:
+            merged_activity[activity_dict['task_id'][i]]["no_normalization"][activity_dict['user'][i]] = {}
 
-        merged_activity[activity_dict['task_id'][i]]["no_normalization"][user][activity_dict['metric'][i]] = float(activity_dict['value'][i])
+        merged_activity[activity_dict['task_id'][i]]["no_normalization"][activity_dict['user'][i]][activity_dict['metric'][i]] = float(activity_dict['value'][i])
 
     ### GENERATING STATISTICS
     completed_puzzles_map = {}
@@ -632,11 +632,10 @@ def computeLevelsOfActivity(group='all'):
             values[key] = []
             completed_values[key] = []
         
-        users = merged_activity[task]
+        users = merged_activity[task]["no_normalization"]
         items = users.items()
         
-        for student, norm in items:
-            value = norm.no_normalization
+        for student, value in items:
             if value['ws-create_shape'] == 0:
                 continue
             if task in completed_puzzles_map[student]:
@@ -678,9 +677,7 @@ def computeLevelsOfActivity(group='all'):
         merged_activity[task]["minmax_normalization"] = {"all_stats": {}, "completed_stats": {}}
         merged_activity[task]["standard_normalization"] = {"all_stats": {}, "completed_stats": {}}
 
-        for student, norm in items:
-            value = norm.no_normalization
-            
+        for student, value in items:
             for key, key_val in value.entries():
                 min_val = merged_activity[task]['all_stats'][key]['min']
                 max_val = merged_activity[task]['all_stats'][key]['max']
