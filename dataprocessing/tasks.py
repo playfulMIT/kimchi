@@ -695,6 +695,11 @@ def computeLevelsOfActivity(group='all'):
                 merged_activity[task]["minmax_normalization"]['all_stats'][student] = {}
                 merged_activity[task]["minmax_normalization"]['all_stats'][student][key] = (key_val - min_val) / (max_val - min_val) if max_val - min_val != 0 else 0
                 
+                if merged_activity[task]['completed_stats'] is None:
+                    merged_activity[task]["standard_normalization"]['completed_stats'][student] = None
+                    merged_activity[task]["standard_normalization"]['completed_stats'][student][key] = None
+                    continue
+
                 min_val = merged_activity[task]['completed_stats'][key]['min']
                 max_val = merged_activity[task]['completed_stats'][key]['max']
                 stdev_val = merged_activity[task]['completed_stats'][key]['stdev']
