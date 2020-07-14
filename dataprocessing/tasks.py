@@ -679,25 +679,25 @@ def computeLevelsOfActivity(group='all'):
             completed_statistics[key]['stdev'] = np.std(completed_values[key])
         
         merged_activity[task]['all_stats'] = statistics
-        merged_activity[task]['completed_stats'] = None if completed_statistics["event"]["min"] == float("inf") else completed_statistics
+        no_completed_stats = completed_statistics["event"]["min"] == float("inf")
+        merged_activity[task]['completed_stats'] = None if no_completed_stats else completed_statistics
 
         ### CALCULATING NORMALIZED VALUES
-        merged_activity[task]["minmax_normalization"] = {"all_stats": {}, "completed_stats": {}}
-        merged_activity[task]["standard_normalization"] = {"all_stats": {}, "completed_stats": {}}
+        merged_activity[task]["minmax_normalization"] = {"all_stats": {}, "completed_stats": None if no_completed_stats else {}}
+        merged_activity[task]["standard_normalization"] = {"all_stats": {}, "completed_stats": None if no_completed_stats else {}}
 
         for student, value in items:
+            merged_activity[task]["minmax_normalization"]['all_stats'][student] = {}
+
             for key, key_val in value.items():
                 min_val = merged_activity[task]['all_stats'][key]['min']
                 max_val = merged_activity[task]['all_stats'][key]['max']
                 stdev_val = merged_activity[task]['all_stats'][key]['stdev']
                 mean_val = merged_activity[task]['all_stats'][key]['mean']
 
-                merged_activity[task]["minmax_normalization"]['all_stats'][student] = {}
                 merged_activity[task]["minmax_normalization"]['all_stats'][student][key] = (key_val - min_val) / (max_val - min_val) if max_val - min_val != 0 else 0
-                
-                if merged_activity[task]['completed_stats'] is None:
-                    merged_activity[task]["standard_normalization"]['completed_stats'][student] = None
-                    merged_activity[task]["standard_normalization"]['completed_stats'][student][key] = None
+    
+                if no_completed_stats:
                     continue
 
                 min_val = merged_activity[task]['completed_stats'][key]['min']
