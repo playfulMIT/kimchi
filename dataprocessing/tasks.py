@@ -589,10 +589,11 @@ def computeLevelsOfActivity(group='all'):
 
     ### MERGING ROWS CORRESPONDING TO THE SAME USER
     activity_dict = activity_by_user.to_dict()
+    raise Exception(activity_dict)
     max_index = len(activity_dict['group'])
     merged_activity = {}
 
-    for i_num in range(1, max_index+1):
+    for i_num in range(max_index):
         i = str(i_num)
 
         if activity_dict['task_id'][i] not in merged_activity:
