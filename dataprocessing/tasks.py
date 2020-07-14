@@ -588,20 +588,20 @@ def computeLevelsOfActivity(group='all'):
         var_name='metric', value_name='value')
 
     ### MERGING ROWS CORRESPONDING TO THE SAME USER
-    activityDict = activity_by_user.to_dict('index')
-    max_index = len(activityDict['group'])
+    activity_dict = activity_by_user.to_dict()
+    max_index = len(activity_dict['group'])
     merged_activity = {}
 
     for i_num in range(max_index):
         i = str(i_num)
 
-        if activityDict['task_id'][i] not in merged_activity:
-            merged_activity[activityDict['task_id'][i]] = {}
+        if activity_dict['task_id'][i] not in merged_activity:
+            merged_activity[activity_dict['task_id'][i]] = {}
 
-        if user not in merged_activity[activityDict['task_id'][i]]:
-            merged_activity[activityDict['task_id'][i]][user] = {"no_normalization": {}}
+        if user not in merged_activity[activity_dict['task_id'][i]]:
+            merged_activity[activity_dict['task_id'][i]][user] = {"no_normalization": {}}
 
-        merged_activity[activityDict['task_id'][i]][user][activityDict['metric'][i]] = float(activityDict['value'][i])
+        merged_activity[activity_dict['task_id'][i]][user][activity_dict['metric'][i]] = float(activity_dict['value'][i])
 
     ### GENERATING STATISTICS
     completed_puzzles_map = {}
