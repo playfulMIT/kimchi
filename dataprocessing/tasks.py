@@ -8,7 +8,7 @@ import sys, traceback
 from dataprocessing.models import Task
 from django.utils import timezone
 
-from dashboard.views import get_completed_puzzles_map
+from dashboard.views import create_player_map, get_completed_puzzles_map
 
 
 @app.task
@@ -591,15 +591,23 @@ def computeLevelsOfActivity(group='all'):
     activity_dict = activity_by_user.to_dict()
     max_index = len(activity_dict['group'])
     merged_activity = {}
+    player_map = {}
+
+    for url in urls:
+        player_map[url.name] = {v: k for k, v in create_player_map(url.name).items()}
 
     for i in range(max_index):
+        user = player_map.get(activity_dict['group'][i]).get(activity_dict['user'][i])
+        if user == None:
+            continue
+
         if activity_dict['task_id'][i] not in merged_activity:
             merged_activity[activity_dict['task_id'][i]] = {"no_normalization": {}}
 
-        if activity_dict['user'][i] not in merged_activity[activity_dict['task_id'][i]]["no_normalization"]:
-            merged_activity[activity_dict['task_id'][i]]["no_normalization"][activity_dict['user'][i]] = {}
+        if user not in merged_activity[activity_dict['task_id'][i]]["no_normalization"]:
+            merged_activity[activity_dict['task_id'][i]]["no_normalization"][user] = {}
 
-        merged_activity[activity_dict['task_id'][i]]["no_normalization"][activity_dict['user'][i]][activity_dict['metric'][i]] = float(activity_dict['value'][i])
+        merged_activity[activity_dict['task_id'][i]]["no_normalization"][user][activity_dict['metric'][i]] = float(activity_dict['value'][i])
 
     ### GENERATING STATISTICS
     completed_puzzles_map = {}
