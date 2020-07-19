@@ -10,6 +10,8 @@ from django.utils import timezone
 
 from dashboard.views import create_player_map, get_completed_puzzles_map
 
+import rrcf
+import json
 
 @app.task
 def process_task(task, *args):
