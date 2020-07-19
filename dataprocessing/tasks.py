@@ -716,8 +716,8 @@ def computeLevelsOfActivityInProgress(group='all'):
 @app.task
 def computeLevelsOfActivityOutliers(group='all'):
     url = URL.objects.get(name='leja')
-    tasks = Task.objects.filter(signature__contains="computeLevelsOfActivityInProgress(['"+url.name+"']").values_list("result", flat=True)
-    outlier_data = json.loads(tasks[0])["Pyramids are Strange"]["minmax_normalization"]["all_stats"]
+    task = list(Task.objects.filter(signature__contains="computeLevelsOfActivityInProgress(['"+url.name+"']").values_list("result", flat=True))
+    outlier_data = json.loads(task[0])["Pyramids are Strange"]["minmax_normalization"]["all_stats"]
 
     np.random.seed(0)
     n = len(outlier_data.keys())
