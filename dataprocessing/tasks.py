@@ -712,6 +712,49 @@ def computeLevelsOfActivityInProgress(group='all'):
 
 
 @app.task
+def computeLevelsOfActivityOutliers(group='all'):
+    url = URL.objects.get(name='leja')
+    tasks = Task.objects.filter(signature__contains="computeLevelsOfActivityInProgress(['"+url.name+"']").values_list("result", flat=True)
+    outlier_data = json.loads(tasks[0])["Pyramids are Strange"]["minmax_normalization"]["all_stats"]
+
+    np.random.seed(0)
+    n = len(outlier_data.keys())
+    d = len(list(list(outlier_data.values())[0].keys()))
+
+    # Generate data
+    X = np.zeros((n, d))
+    for i in range(n):
+        X[i,...] = np.array(list(list(outlier_data.values())[i].values()))
+
+    num_trees = 100
+    tree_size = 256
+    sample_size_range = (n // tree_size, tree_size)
+
+    # Construct forest
+    forest = []
+    while len(forest) < num_trees:
+        # Select random subsets of points uniformly
+        ixs = np.random.choice(n, size=sample_size_range,
+                            replace=False)
+        # Add sampled trees to forest
+        trees = [rrcf.RCTree(X[ix], index_labels=ix)
+                for ix in ixs]
+        forest.extend(trees)
+
+    # Compute average CoDisp
+    avg_codisp = pd.Series(0.0, index=np.arange(n))
+    index = np.zeros(n)
+    for tree in forest:
+        codisp = pd.Series({leaf : tree.codisp(leaf)
+                        for leaf in tree.leaves})
+        avg_codisp[codisp.index] += codisp
+        np.add.at(index, codisp.index.values, 1)
+    avg_codisp /= index
+
+    return str(avg_codisp)
+
+
+@app.task
 def computeLevelsOfActivity(group='all'):
     ### DATA COLLECTION AND INITIAL PROCESSING
     if group == 'all':
