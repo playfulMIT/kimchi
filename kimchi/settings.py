@@ -161,7 +161,7 @@ CELERYBEAT_SCHEDULE = {
     'test-task': {
         'task': 'kimchi.celery.test',
         'schedule': timedelta(minutes=1),
-        'args': ('testing celery beat')
+        'args': 'testing celery beat',
     },
 }
 

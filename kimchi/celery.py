@@ -9,7 +9,7 @@ app = Celery('kimchi', broker=CELERY_BROKER_URL)
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
-@shared_task
+@app.task
 def test(arg):
     print(arg)
 
