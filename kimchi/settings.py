@@ -158,8 +158,8 @@ CELERY_TIMEZONE = 'UTC'
 
 from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
-    'post-every-30-seconds': {
-        'task': 'kimchi.celery.test',
+    'test-task': {
+        'task': 'celery.test',
         'schedule': timedelta(minutes=5),
         'args': ('testing celery beat')
     },
