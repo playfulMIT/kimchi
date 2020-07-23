@@ -159,8 +159,8 @@ CELERY_TIMEZONE = 'UTC'
 from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
     'test-task': {
-        'task': 'celery.test',
-        'schedule': timedelta(minutes=5),
+        'task': 'kimchi.celery.test',
+        'schedule': timedelta(minutes=1),
         'args': ('testing celery beat')
     },
 }

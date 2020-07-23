@@ -1,6 +1,7 @@
 import os
 from kimchi.settings import CELERY_BROKER_URL
 from celery import Celery
+from celery import shared_task
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kimchi.settings')
 
@@ -8,7 +9,7 @@ app = Celery('kimchi', broker=CELERY_BROKER_URL)
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
-@app.task
+@shared_task
 def test(arg):
     print(arg)
 
