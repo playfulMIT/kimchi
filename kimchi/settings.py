@@ -154,8 +154,16 @@ CHANNEL_LAYERS = {
 CELERY_BROKER_URL = os.environ['REDIS_MIT']
 CELERY_RESULT_BACKEND = os.environ['REDIS_MIT']
 
-
 CELERY_TIMEZONE = 'UTC'
+
+from datetime import timedelta
+CELERYBEAT_SCHEDULE = {
+    'post-every-30-seconds': {
+        'task': 'kimchi.celery.test',
+        'schedule': timedelta(minutes=5),
+        'args': ('testing celery beat')
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
