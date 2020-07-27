@@ -154,7 +154,6 @@ CHANNEL_LAYERS = {
 CELERY_BROKER_URL = os.environ['REDIS_MIT']
 CELERY_RESULT_BACKEND = os.environ['REDIS_MIT']
 
-
 CELERY_TIMEZONE = 'UTC'
 
 # Password validation
