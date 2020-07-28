@@ -404,6 +404,7 @@ def get_sequence_between_puzzles(request, slug):
                 new_result[user] = {}
 
             new_result[user][result['sequence'][i]] = result['task_id'][i]
-            
+        
+        return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
