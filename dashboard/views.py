@@ -384,7 +384,7 @@ def get_levels_of_activity(request, slug):
     except ObjectDoesNotExist:
         return JsonResponse({})
 
-def get_sequence_between_puzzles(slug):
+def get_sequence_between_puzzles(request, slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="sequenceBetweenPuzzles(['" + slug + "']")
         result = json.loads(task_result)
