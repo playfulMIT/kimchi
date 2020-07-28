@@ -383,3 +383,26 @@ def get_levels_of_activity(request, slug):
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
+
+def get_sequence_between_puzzles(slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="sequenceBetweenPuzzles(['" + slug + "']")
+        result = json.loads(task_result)
+
+        new_result = {}
+        max_index = len(result['user'])
+        player_map = {v: k for k, v in create_player_map(slug).items()}
+
+        for i_num in range(max_index):
+            i = str(i_num)
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            if user not in new_result:
+                new_result[user] = {}
+
+            new_result[user][result['sequence'][i]] = result['task_id'][i]
+    except ObjectDoesNotExist:
+        return JsonResponse({})
