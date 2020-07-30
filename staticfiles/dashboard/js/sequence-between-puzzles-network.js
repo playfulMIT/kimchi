@@ -43,6 +43,7 @@ function createSequenceDataPerStudent(originalSequence) {
     const nodes = []
     const links = {}
     const revisited = {}
+    const visited = {}
     const puzzleAttemptMap = {}
 
     for (const puzzles of Object.values(puzzleData["puzzles"])) {
@@ -74,12 +75,18 @@ function createSequenceDataPerStudent(originalSequence) {
         }
 
         revisited[student] = []
+        visited[student] = []
         Object.keys(puzzleAttemptMap).forEach((key) => {
-            if (puzzleAttemptMap[key] > 1) revisited[student].push(key)
+            if (puzzleAttemptMap[key] > 1) {
+                revisited[student].push(key)
+                visited[student].push(key)
+            } else if (puzzleAttemptMap[key] === 1) {
+                visited[student].push(key)
+            }
             puzzleAttemptMap[key] = 0
         })
     }
-    return { nodes: nodes, links: links, revisited: revisited }
+    return { nodes: nodes, links: links, revisited: revisited, visited: visited }
 }
 
 function drag(simulation) {
@@ -194,7 +201,7 @@ function createNetwork(perStudent = true) {
             isConnected(d, 1);
         })
         .attr("fill", (d, i) => perStudent && activePlayer && playerSequences.revisited[activePlayer].includes(d.id) ? "#29b6f6" : "white")
-        .attr("stroke-width", (d, i) => perStudent && activePlayer && playerSequences.revisited[activePlayer].includes(d.id) ? 3 : 1)
+        .attr("stroke-width", (d, i) => perStudent && activePlayer && playerSequences.visited[activePlayer].includes(d.id) ? 3 : 1)
 
     var labels = gnodes.append("text")
         .attr("dy", 4)
