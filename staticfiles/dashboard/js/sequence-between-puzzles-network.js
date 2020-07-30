@@ -130,9 +130,21 @@ function createNetwork(perStudent = true) {
 
     // fades out lines that aren't connected to node d
     var isConnected = function (d, opacity) {
+        const connectedNodes = new Set()
         link.transition().style("stroke-opacity", function (o) {
-            return o.source === d || o.target === d ? 1 : opacity;
-        });
+            var opacityToReturn = opacity
+            if (o.source === d) {
+                connectedNodes.add(o.target.index)
+                opacityToReturn = 1
+            } else if (o.target === d) {
+                connectedNodes.add(o.source.index)
+                opacityToReturn = 1
+            }
+            return opacityToReturn
+        })
+        gnodes.transition().attr("opacity", function (o) {
+            return connectedNodes.has(o.index) || o.index === d.index ? 1 : opacity
+        })
     }
 
     const links = perStudent ? (activePlayer ? playerSequences.links[activePlayer].map(d => Object.create(d)) : [])
