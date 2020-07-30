@@ -1,0 +1,17 @@
+line.node-link, path.node-link {
+    fill: none;
+    stroke: black
+}
+
+circle.node {
+    stroke: black;
+}
+
+circle.node+text {
+    text-anchor: middle;
+}
+
+text {
+    font-family: sans-serif;
+    pointer-events: none;
+}

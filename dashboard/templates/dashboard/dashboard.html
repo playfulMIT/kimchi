@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/dashboard/css/dashboard.css">
     <link rel="stylesheet" href="/static/dashboard/css/funnel.css">
     <link rel="stylesheet" href="/static/dashboard/css/radar.css">
+    <link rel="stylesheet" href="/static/dashboard/css/network.css">
 </head>
 
 <body>
@@ -25,6 +26,7 @@
                     <a id="nav-puzzle-radar" class="nav-item nav-link disabled" href="#">Puzzle Radar Chart</a>
                     <a id="nav-student-radar" class="nav-item nav-link disabled" href="#">Student Radar Chart</a>
                     <a id="nav-outlier-radar" class="nav-item nav-link disabled" href="#">Outlier Radar Chart</a>
+                    <a id="nav-network-radar" class="nav-item nav-link disabled" href="#">Sequence Between Puzzles Network</a>
                 </div>
             </div>
         </nav>
@@ -300,6 +302,19 @@
                         </div>
                     </div>
                 </div>
+                <div id="puzzle-network-container" class="container page" style="display:none">
+                    <div class="column-container">
+                        <div id="sequence-between-puzzles-network"></div>
+                        <div id="puzzle-network-player-container">
+                            <div id="player-card" class="card">
+                                <div class="card-header">
+                                    <h6 id="puzzle-network-player-count"></h6>
+                                </div>
+                                <div id="puzzle-network-player-list" class="list-group-flush"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -317,6 +332,7 @@
     <script src="/static/dashboard/js/puzzle-radar-charts.js" type="module"></script>
     <script src="/static/dashboard/js/student-radar-charts.js" type="module"></script>
     <script src="/static/dashboard/js/outlier-radar-charts.js" type="module"></script>
+    <script src="/static/dashboard/js/sequence-between-puzzles-network.js" type="module"></script>
     <script src="/static/dashboard/js/dashboard.js" type="module"></script>
 </body>
 

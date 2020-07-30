@@ -50,7 +50,8 @@ body {
     height: 90%;
 }
 
-#player-list {
+#player-list,
+#puzzle-network-player-list {
     overflow-y: auto;
 }
 
@@ -83,4 +84,20 @@ input[type=range]:enabled::-webkit-slider-thumb {
 
 input[type=range]:enabled::-moz-range-thumb:enabled {
     cursor: pointer; 
+}
+
+.column-container {
+    display: inline-flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+#sequence-between-puzzles-network {
+    width: 70vw;
+    height: 100%;
+}
+
+#puzzle-network-player-container {
+    width: 25vw;
 }
