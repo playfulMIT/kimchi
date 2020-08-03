@@ -44,6 +44,7 @@ function createSequenceDataPerStudent(originalSequence) {
     const links = {}
     const revisited = {}
     const visited = {}
+    const completed = {}
     const puzzleAttemptMap = {}
 
     for (const puzzles of Object.values(puzzleData["puzzles"])) {
@@ -55,12 +56,16 @@ function createSequenceDataPerStudent(originalSequence) {
     }
 
     for (const [student, seq] of Object.entries(originalSequence)) {
+        completed[student] = new Set()
+
         for (let i = 1; i < Object.keys(seq).length; i++) {
             if (!seq[i.toString()]) continue
             const puzzle = Object.keys(seq[i.toString()])[0]
             if (i === 1) puzzleAttemptMap[puzzle]++
+            if (Object.values(seq[i.toString()])[0] === 'completed') completed[student].add(puzzle)
 
             const nextPuzzle = Object.keys(seq[(i + 1).toString()])[0]
+            if (Object.values(seq[(i+1).toString()])[0] === 'completed') completed[student].add(nextPuzzle)
             puzzleAttemptMap[nextPuzzle]++
             
             if (!(student in links)) {
@@ -74,19 +79,20 @@ function createSequenceDataPerStudent(originalSequence) {
             })
         }
 
-        revisited[student] = []
-        visited[student] = []
+        revisited[student] = new Set()
+        visited[student] = new Set
+        
         Object.keys(puzzleAttemptMap).forEach((key) => {
             if (puzzleAttemptMap[key] > 1) {
-                revisited[student].push(key)
-                visited[student].push(key)
+                revisited[student].add(key)
+                visited[student].add(key)
             } else if (puzzleAttemptMap[key] === 1) {
-                visited[student].push(key)
+                visited[student].add(key)
             }
             puzzleAttemptMap[key] = 0
         })
     }
-    return { nodes: nodes, links: links, revisited: revisited, visited: visited }
+    return { nodes: nodes, links: links, revisited: revisited, visited: visited, completed: completed }
 }
 
 function drag(simulation) {
@@ -117,6 +123,7 @@ function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
 
+    console.log(playerSequences.completed[activePlayer])
     // console.log(height, width, "test")
 
     // evenly spaces nodes along arc
@@ -212,8 +219,18 @@ function createNetwork(perStudent = true) {
             node.transition().duration(100).attr("r", radius);
             isConnected(d, 1);
         })
-        .attr("fill", (d, i) => perStudent && activePlayer && playerSequences.revisited[activePlayer].includes(d.id) ? "#29b6f6" : "white")
-        .attr("stroke-width", (d, i) => perStudent && activePlayer && playerSequences.visited[activePlayer].includes(d.id) ? 3 : 1)
+        .attr("fill", (d, i) => {
+            if (perStudent && activePlayer) {
+                if (playerSequences.completed[activePlayer].has(d.id)) {
+                    return "#00FF00"
+                }
+                if (playerSequences.revisited[activePlayer].has(d.id)) {
+                    return "#29b6f6"
+                }
+            } 
+            return "white"
+        })
+        .attr("stroke-width", (d, i) => perStudent && activePlayer && playerSequences.visited[activePlayer].has(d.id) ? 3 : 1)
 
     var labels = gnodes.append("text")
         .attr("dy", 4)
