@@ -6,13 +6,14 @@ var playerSequences = null
 var anonymizeNames = true
 
 var activePlayer = null
+var activePlayers = new Set()
 
 const playerButtonClass = "puzzle-network-player"
 
-var color = () => {
-    const scale = d3.scaleOrdinal(d3.schemeCategory10);
-    return d => scale(d.student);
-}
+const scale = d3.scaleOrdinal(d3.schemeCategory10)
+
+// TODO: fix colors for graph with multiple students
+// TODO: make arrows visible
 
 // whole class list
 function createSequenceData(originalSequence) {
@@ -73,6 +74,7 @@ function createSequenceDataPerStudent(originalSequence) {
             }
 
             links[student].push({
+                id: student + puzzle + nextPuzzle,
                 source: puzzle,
                 target: nextPuzzle,
                 student: student
@@ -123,7 +125,6 @@ function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
 
-    console.log(playerSequences.completed[activePlayer])
     // console.log(height, width, "test")
 
     // evenly spaces nodes along arc
@@ -154,9 +155,60 @@ function createNetwork(perStudent = true) {
         })
     }
 
-    const links = perStudent ? (activePlayer ? playerSequences.links[activePlayer].map(d => Object.create(d)) : [])
-        : playerSequences.links.map(d => Object.create(d))
+    // const links = perStudent ? (activePlayer ? playerSequences.links[activePlayer].map(d => Object.create(d)) : [])
+    //     : playerSequences.links.map(d => Object.create(d))
+    const links = []
+    for (const player of activePlayers) {
+        links.push(...playerSequences.links[player].map(d => Object.create(d)))
+    }
     const nodes = playerSequences.nodes.map(d => Object.create(d))
+
+    var mLinkNum = {}
+    sortLinks()
+    setLinkIndexAndNum()
+
+    function sortLinks() {
+        links.sort(function (a, b) {
+            if (a.source > b.source) {
+                return 1;
+            }
+            else if (a.source < b.source) {
+                return -1;
+            }
+            else {
+                if (a.target > b.target) {
+                    return 1;
+                }
+                if (a.target < b.target) {
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
+    }
+
+    //any links with duplicate source and target get an incremented 'linknum'
+    function setLinkIndexAndNum() {
+        for (var i = 0; i < links.length; i++) {
+            if (i != 0 &&
+                links[i].source == links[i - 1].source &&
+                links[i].target == links[i - 1].target) {
+                links[i].linkindex = links[i - 1].linkindex + 1;
+            }
+            else {
+                links[i].linkindex = 1;
+            }
+            // save the total number of links between two nodes
+            if (mLinkNum[links[i].target + "," + links[i].source] !== undefined) {
+                mLinkNum[links[i].target + "," + links[i].source] = links[i].linkindex;
+            }
+            else {
+                mLinkNum[links[i].source + "," + links[i].target] = links[i].linkindex;
+            }
+        }
+    }
 
     const simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links).id(d => d.id).strength(0))
@@ -169,7 +221,18 @@ function createNetwork(perStudent = true) {
     const svg = d3.select("#sequence-between-puzzles-network").append("svg")
         .attr("width", width)
         .attr("height", height)
-        // .attr("viewBox", [-width / 2, -height / 2, width, height])
+    // .attr("viewBox", [-width / 2, -height / 2, width, height])
+
+    svg.append('defs').append('marker')
+        .attr('id', 'arrowhead')
+        .attr('viewBox', '0 -5 10 10')
+        .attr('refX', 15)
+        .attr('refY', 0.5)
+        .attr('orient', 'auto')
+        .attr('markerWidth', 5)
+        .attr('markerHeight', 5)
+        .append('svg:path')
+        .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
 
     // invisible circle for placing nodes
     // it's actually two arcs so we can use the getPointAtLength() and getTotalLength() methods
@@ -187,17 +250,41 @@ function createNetwork(perStudent = true) {
     var link = svg.selectAll("path.node-link")
         .data(links).enter().append("path")
         .attr("class", "node-link")
+        // .attr("d", function (d) {
+        //     var dx = d.target.x - d.source.x,
+        //         dy = d.target.y - d.source.y,
+        //         dr = Math.sqrt(dx * dx + dy * dy);
+        //     return "M" +
+        //         d.source.x + "," +
+        //         d.source.y + "A" +
+        //         dr + "," + dr + " 0 0,1 " +
+        //         d.target.x + "," +
+        //         d.target.y;
+        // })
         .attr("d", function (d) {
             var dx = d.target.x - d.source.x,
                 dy = d.target.y - d.source.y,
                 dr = Math.sqrt(dx * dx + dy * dy);
-            return "M" +
-                d.source.x + "," +
-                d.source.y + "A" +
-                dr + "," + dr + " 0 0,1 " +
-                d.target.x + "," +
-                d.target.y;
-        });
+
+            // get the total link numbers between source and target node
+            var lTotalLinkNum = mLinkNum[d.source.id + "," + d.target.id] || mLinkNum[d.target.id + "," + d.source.id];
+            if (lTotalLinkNum > 1) {
+                // if there are multiple links between these two nodes, we need generate different dr for each path
+                dr = dr / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
+            }
+            // generate svg path
+            return "M" + d.source.x + "," + d.source.y +
+                "A" + dr + "," + dr + " 0 0 1," + d.target.x + "," + d.target.y +
+                "A" + dr + "," + dr + " 0 0 0," + d.source.x + "," + d.source.y;
+        })
+        .attr('marker-end', 'url(#arrowhead)')
+        .attr("stroke", (d) => scale(d.student))
+        .attr("stroke-width", 2)
+        
+
+    // TODO: fix
+    link.append("title")
+        .text((d) => anonymizeNames ? d.student : playerMap[d.student])
 
     var gnodes = svg.selectAll('g.gnode')
         .data(nodes).enter().append('g')
@@ -213,24 +300,24 @@ function createNetwork(perStudent = true) {
         .on("mouseenter", function (d) {
             isConnected(d, 0.1)
             node.transition().duration(100).attr("r", radius)
-            d3.select(this).transition().duration(100).attr("r", radius+5)
+            d3.select(this).transition().duration(100).attr("r", radius + 5)
         })
         .on("mouseleave", function (d) {
             node.transition().duration(100).attr("r", radius);
             isConnected(d, 1);
         })
         .attr("fill", (d, i) => {
-            if (perStudent && activePlayer) {
-                if (playerSequences.completed[activePlayer].has(d.id)) {
-                    return "#00FF00"
-                }
-                if (playerSequences.revisited[activePlayer].has(d.id)) {
-                    return "#29b6f6"
-                }
-            } 
+            // if (perStudent && activePlayer) {
+            //     if (playerSequences.completed[activePlayer].has(d.id)) {
+            //         return "#00FF00"
+            //     }
+            //     if (playerSequences.revisited[activePlayer].has(d.id)) {
+            //         return "#29b6f6"
+            //     }
+            // }
             return "white"
         })
-        .attr("stroke-width", (d, i) => perStudent && activePlayer && playerSequences.visited[activePlayer].has(d.id) ? 3 : 1)
+        .attr("stroke-width", (d, i) => 1) //perStudent && activePlayer && playerSequences.visited[activePlayer].has(d.id) ? 3 : 1)
 
     var labels = gnodes.append("text")
         .attr("dy", 4)
@@ -239,56 +326,6 @@ function createNetwork(perStudent = true) {
     gnodes.append("title")
         .attr("dy", 4)
         .text((d) => d.id)
-    
-
-    // const link = svg.append("g")
-    //     .attr("stroke", "#999")
-    //     .attr("stroke-opacity", 0.6)
-    //     .selectAll("line")
-    //     .data(links)
-    //     .join("line")
-    //     .attr("fill", color)
-    //     .attr("stroke-width", 1)
-
-    // const node = svg.append("g")
-    //     .attr("stroke", "#fff")
-    //     .attr("stroke-width", 1.5)
-    //     .on("drag", null)
-
-    // const circle = node.selectAll("circle")
-    //     .data(nodes)
-    //     .join("circle")
-    //     .attr("r", 5)
-    //     .attr("fill", (d, i) => perStudent && activePlayer && playerSequences.revisited[activePlayer].includes(d.id) ? "#00FFFF" : "#ddd")
-    //     // .call(drag(simulation))
-
-    // const text = node.selectAll("text")
-    //     .data(nodes)
-    //     .join("text")
-    //     .text((d, i) => i + 1)
-    //     .attr("font-size", "0.4em")
-    //     .attr("stroke-width", 0.5)
-    //     .attr("stroke", "black")
-        
-    // circle.append("title")
-    //     .text(d => d.id);
-
-    // simulation.on("tick", () => { //"end"
-    //     link
-    //         .attr("x1", d => d.source.x)
-    //         .attr("y1", d => d.source.y)
-    //         .attr("x2", d => d.target.x)
-    //         .attr("y2", d => d.target.y);
-
-    //     text
-    //         .attr("dx", d => d.x - 3)
-    //         .attr("dy", d => d.y + 3)
-    //     circle
-    //         .attr("cx", d => d.x)
-    //         .attr("cy", d => d.y);
-    // });
-
-    // invalidation.then(() => simulation.stop());
 }
 
 function togglePlayer(pk) {
@@ -304,10 +341,22 @@ function togglePlayer(pk) {
     createNetwork()
 }
 
+function togglePlayerSelectMultiple(pk) {
+    $(`#${pk}.${playerButtonClass}`).toggleClass("active")
+
+    if (activePlayers.has(pk)) {
+        activePlayers.delete(pk)
+    } else {
+        activePlayers.add(pk)
+    }
+
+    createNetwork()
+}
+
 function generatePlayerList() {
     const numPlayers = Object.keys(playerMap).length
     document.getElementById("puzzle-network-player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
-    showPlayerList(playerButtonClass, "puzzle-network-player-list", playerMap, (event) => {togglePlayer(event.target.id)}, anonymizeNames)
+    showPlayerList(playerButtonClass, "puzzle-network-player-list", playerMap, (event) => {togglePlayerSelectMultiple(event.target.id)}, anonymizeNames)
 }
 
 export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, anonymize=true) {
