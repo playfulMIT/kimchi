@@ -272,6 +272,40 @@ function createNetwork(perStudent = true) {
                 // if there are multiple links between these two nodes, we need generate different dr for each path
                 dr = dr / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
             }
+
+            // Self edge.
+            if (dx === 0 && dy === 0) {
+                // Fiddle with this angle to get loop oriented.
+                var xRotation = -45;
+
+                // Needs to be 1.
+                var largeArc = 1;
+
+                // Change sweep to change orientation of loop. 
+                var sweep = 0;
+
+                // Make drx and dry different to get an ellipse
+                // instead of a circle.
+                var drx = 30
+                var dry = 20
+
+                if (lTotalLinkNum > 1) {
+                    // if there are multiple links between these two nodes, we need generate different dr for each path
+                    drx = drx / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
+                    dry = dry / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
+                }
+
+                var x1 = d.source.x
+                var y1 = d.source.y
+                var x2 = d.target.x
+                var y2 = d.target.y
+                // For whatever reason the arc collapses to a point if the beginning
+                // and ending points of the arc are the same, so kludge it.
+                x2 = x2 + 1
+                y2 = y2 + 1
+
+                return "M" + x1 + "," + y1 + "A" + drx + "," + dry + " " + xRotation + "," + largeArc + "," + sweep + " " + x2 + "," + y2
+            } 
             // generate svg path
             return "M" + d.source.x + "," + d.source.y +
                 "A" + dr + "," + dr + " 0 0 1," + d.target.x + "," + d.target.y +
