@@ -10,10 +10,10 @@ var activePlayers = new Set()
 
 const playerButtonClass = "puzzle-network-player"
 
-const scale = d3.scaleOrdinal(d3.schemeCategory10)
+const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
+const completedColorScale = d3.scaleThreshold().range(d3.schemeGreens[5])
+const revisitedSizeScale = d3.scaleSqrt().range([15, 23])
 
-// TODO: fix colors for graph with multiple students
-// TODO: make arrows visible
 
 // whole class list
 function createSequenceData(originalSequence) {
@@ -124,8 +124,11 @@ function drag(simulation) {
 function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
-    const radius = 18
+    const radius = 20
     // console.log(height, width, "test")
+
+    completedColorScale.domain([0, activePlayers.size])
+    revisitedSizeScale.domain([0, activePlayers.size])
 
     // evenly spaces nodes along arc
     var circleCoord = function (node, index, num_nodes) {
@@ -318,7 +321,7 @@ function createNetwork(perStudent = true) {
                 // "A" + dr + "," + dr + " 0 0 0," + d.source.x + "," + d.source.y;
         })
         .attr('marker-end', 'url(#arrowhead)')
-        .attr("stroke", (d) => scale(d.student))
+        .attr("stroke", (d) => lineColorScale(d.student))
         .attr("stroke-width", 2)
         
 
@@ -334,7 +337,13 @@ function createNetwork(perStudent = true) {
         .classed('gnode', true);
 
     var node = gnodes.append("circle")
-        .attr("r", radius)
+        .attr("r", (d) => {
+            var revisitedCount = 0
+            for (const player of activePlayers) {
+                if (playerSequences.revisited[player].has(d.id)) revisitedCount++
+            }
+            return revisitedSizeScale(revisitedCount)
+        })
         .attr("class", "node")
         .on("mouseenter", function (d) {
             isConnected(d, 0.1)
@@ -345,16 +354,12 @@ function createNetwork(perStudent = true) {
             node.transition().duration(100).attr("r", radius);
             isConnected(d, 1);
         })
-        .attr("fill", (d, i) => {
-            // if (perStudent && activePlayer) {
-            //     if (playerSequences.completed[activePlayer].has(d.id)) {
-            //         return "#00FF00"
-            //     }
-            //     if (playerSequences.revisited[activePlayer].has(d.id)) {
-            //         return "#29b6f6"
-            //     }
-            // }
-            return "white"
+        .attr("fill", (d) => {
+            var completedCount = 0
+            for (const player of activePlayers) {
+                if (playerSequences.completed[player].has(d.id)) completedCount++
+            }
+            return completedColorScale(completedCount)
         })
         .attr("stroke-width", (d, i) => 1) //perStudent && activePlayer && playerSequences.visited[activePlayer].has(d.id) ? 3 : 1)
 
