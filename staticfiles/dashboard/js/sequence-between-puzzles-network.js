@@ -124,7 +124,7 @@ function drag(simulation) {
 function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
-
+    const radius = 18
     // console.log(height, width, "test")
 
     // evenly spaces nodes along arc
@@ -226,7 +226,7 @@ function createNetwork(perStudent = true) {
     svg.append('defs').append('marker')
         .attr('id', 'arrowhead')
         .attr('viewBox', '0 -5 10 10')
-        .attr('refX', 15)
+        .attr('refX', 13)
         .attr('refY', 0.5)
         .attr('orient', 'auto')
         .attr('markerWidth', 5)
@@ -236,7 +236,7 @@ function createNetwork(perStudent = true) {
 
     // invisible circle for placing nodes
     // it's actually two arcs so we can use the getPointAtLength() and getTotalLength() methods
-    var dim = height - 80
+    var dim = height - 100
     var circle = svg.append("path")
         .attr("d", "M 40, " + (dim / 2 + 40) + " a " + dim / 2 + "," + dim / 2 + " 0 1,0 " + dim + ",0 a " + dim / 2 + "," + dim / 2 + " 0 1,0 " + dim * -1 + ",0")
         .style("fill", "white");
@@ -262,8 +262,15 @@ function createNetwork(perStudent = true) {
         //         d.target.y;
         // })
         .attr("d", function (d) {
-            var dx = d.target.x - d.source.x,
-                dy = d.target.y - d.source.y,
+            const t_radius = radius / 1.25
+            var gamma = Math.atan2(d.target.y - d.source.y, d.target.x - d.source.x);
+
+            // Math.atan2 returns the angle in the correct quadrant as opposed to Math.atan
+            var tx = d.target.x - (Math.cos(gamma) * t_radius);
+            var ty = d.target.y - (Math.sin(gamma) * t_radius);
+
+            var dx = tx - d.source.x,
+                dy = ty - d.source.y,
                 dr = Math.sqrt(dx * dx + dy * dy);
 
             // get the total link numbers between source and target node
@@ -284,8 +291,11 @@ function createNetwork(perStudent = true) {
                 // Change sweep to change orientation of loop. 
                 var sweep = 0;
 
-                // Make drx and dry different to get an ellipse
-                // instead of a circle.
+                const nodeNum = d.target.index
+                if (nodeNum < 18) {
+                    sweep = 1 
+                }
+
                 var drx = 30
                 var dry = 20
 
@@ -297,19 +307,15 @@ function createNetwork(perStudent = true) {
 
                 var x1 = d.source.x
                 var y1 = d.source.y
-                var x2 = d.target.x
-                var y2 = d.target.y
-                // For whatever reason the arc collapses to a point if the beginning
-                // and ending points of the arc are the same, so kludge it.
-                x2 = x2 + 1
-                y2 = y2 + 1
+                var x2 = tx + 1
+                var y2 = ty + 1
 
                 return "M" + x1 + "," + y1 + "A" + drx + "," + dry + " " + xRotation + "," + largeArc + "," + sweep + " " + x2 + "," + y2
             } 
             // generate svg path
             return "M" + d.source.x + "," + d.source.y +
-                "A" + dr + "," + dr + " 0 0 1," + d.target.x + "," + d.target.y +
-                "A" + dr + "," + dr + " 0 0 0," + d.source.x + "," + d.source.y;
+                "A" + dr + "," + dr + " 0 0 1," + tx + "," + ty; // +
+                // "A" + dr + "," + dr + " 0 0 0," + d.source.x + "," + d.source.y;
         })
         .attr('marker-end', 'url(#arrowhead)')
         .attr("stroke", (d) => scale(d.student))
@@ -327,7 +333,6 @@ function createNetwork(perStudent = true) {
         })
         .classed('gnode', true);
 
-    const radius = 20
     var node = gnodes.append("circle")
         .attr("r", radius)
         .attr("class", "node")
