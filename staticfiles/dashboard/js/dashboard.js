@@ -29,7 +29,7 @@ function handleTabSwitch(tab) {
     } else if (activeTab === TABS.OUTLIER_RADAR_CHART) {
         showOutlierRadarCharts(playerMap, puzzleData, levelsOfActivity, completedPuzzleData)
     } else if (activeTab === TABS.PUZZLE_SEQ_NETWORK) {
-        showSequenceBetweenPuzzlesNetwork(playerMap, puzzleData, sequenceBetweenPuzzles)
+        showSequenceBetweenPuzzlesNetwork(playerMap, puzzleData, sequenceBetweenPuzzles, levelsOfActivity)
     }
 }
 

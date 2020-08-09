@@ -1,8 +1,9 @@
-import { showPage, showPlayerList, formatPlurals } from "./helpers.js";
+import { showPage, showPlayerList, formatPlurals, formatTime } from "./helpers.js";
 
 var playerMap = null
 var puzzleData = null
 var playerSequences = null
+var levelsOfActivity = null
 var anonymizeNames = true
 
 var activePlayer = null
@@ -11,8 +12,8 @@ var activePlayers = new Set()
 const playerButtonClass = "puzzle-network-player"
 
 const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
-const completedColorScale = d3.scaleThreshold().range(d3.schemeGreens[5])
-const revisitedSizeScale = d3.scaleSqrt().range([15, 23])
+const completedColorScale = d3.scaleQuantize().range(["#FFFFFF", "#88D969", "#46CB18", "#06A10B", "#1D800E"])
+const revisitedSizeScale = d3.scaleQuantize().range([13, 18, 24])
 
 
 // whole class list
@@ -125,10 +126,11 @@ function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
     const radius = 20
+    const numPlayers = activePlayers.size
     // console.log(height, width, "test")
 
-    completedColorScale.domain([0, activePlayers.size])
-    revisitedSizeScale.domain([0, activePlayers.size])
+    completedColorScale.domain([0, Math.max(1, numPlayers)])
+    revisitedSizeScale.domain([0, Math.max(1, numPlayers)])
 
     // evenly spaces nodes along arc
     var circleCoord = function (node, index, num_nodes) {
@@ -248,6 +250,27 @@ function createNetwork(perStudent = true) {
         var coord = circleCoord(n, i, nodes.length)
         n.x = coord.x
         n.y = coord.y
+
+        var revisitedCount = 0
+        var completedCount = 0
+        var activeTimeCount = 0
+        var totalTimeCount = 0
+        var timeStudentCount = 0
+
+        for (const player of activePlayers) {
+            if (playerSequences.revisited[player].has(n.id)) revisitedCount++
+            if (playerSequences.completed[player].has(n.id)) completedCount++
+            if (player in levelsOfActivity[n.id]) {
+                activeTimeCount += levelsOfActivity[n.id][player].active_time
+                totalTimeCount += levelsOfActivity[n.id][player].timeTotal
+                timeStudentCount++
+            }
+        }
+
+        n.revisitedCount = revisitedCount
+        n.completedCount = completedCount
+        n.activeTime = timeStudentCount > 0 ? activeTimeCount / timeStudentCount : 0
+        n.totalTime = timeStudentCount > 0 ? totalTimeCount / timeStudentCount : 0
     });
 
     var link = svg.selectAll("path.node-link")
@@ -337,30 +360,18 @@ function createNetwork(perStudent = true) {
         .classed('gnode', true);
 
     var node = gnodes.append("circle")
-        .attr("r", (d) => {
-            var revisitedCount = 0
-            for (const player of activePlayers) {
-                if (playerSequences.revisited[player].has(d.id)) revisitedCount++
-            }
-            return revisitedSizeScale(revisitedCount)
-        })
+        .attr("r", (d) => revisitedSizeScale(d.revisitedCount))
         .attr("class", "node")
         .on("mouseenter", function (d) {
             isConnected(d, 0.1)
-            node.transition().duration(100).attr("r", radius)
-            d3.select(this).transition().duration(100).attr("r", radius + 5)
+            node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
+            d3.select(this).transition().duration(100).attr("r", revisitedSizeScale(d.revisitedCount) + 5)
         })
         .on("mouseleave", function (d) {
-            node.transition().duration(100).attr("r", radius);
-            isConnected(d, 1);
+            node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
+            isConnected(d, 1)
         })
-        .attr("fill", (d) => {
-            var completedCount = 0
-            for (const player of activePlayers) {
-                if (playerSequences.completed[player].has(d.id)) completedCount++
-            }
-            return completedColorScale(completedCount)
-        })
+        .attr("fill", (d) => completedColorScale(d.completedCount))
         .attr("stroke-width", (d, i) => 1) //perStudent && activePlayer && playerSequences.visited[activePlayer].has(d.id) ? 3 : 1)
 
     var labels = gnodes.append("text")
@@ -369,7 +380,8 @@ function createNetwork(perStudent = true) {
 
     gnodes.append("title")
         .attr("dy", 4)
-        .text((d) => d.id)
+        .attr("data-html", "true")
+        .html((d) => `${d.id}, ${numPlayers > 1 ? "avg. " : ""}total time: ${formatTime(d.totalTime)}, ${numPlayers > 1 ? "avg. " : ""}active time: ${formatTime(d.activeTime)}`)
 }
 
 function togglePlayer(pk) {
@@ -403,12 +415,13 @@ function generatePlayerList() {
     showPlayerList(playerButtonClass, "puzzle-network-player-list", playerMap, (event) => {togglePlayerSelectMultiple(event.target.id)}, anonymizeNames)
 }
 
-export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, anonymize=true) {
+export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, loa, anonymize=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
         playerSequences = createSequenceDataPerStudent(seq)
         anonymizeNames = anonymize
+        levelsOfActivity = loa
 
         generatePlayerList()
         createNetwork()
