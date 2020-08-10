@@ -34,9 +34,9 @@ def get_level_json(request, slug):
 
 
 def get_replay_json(request):
-    url_name, player_name, level_name = request.session["replay_metadata"]
+    url_name, player, level_name = request.session["replay_metadata"]
     url = URL.objects.get(name=url_name)
-    player = Player.objects.filter(url=url).get(name=player_name)
+    player = Player.objects.filter(url=url).get(id=player)
     # Instantiate an empty queryset that can be used to merge all player querysets
     player_events = Event.objects.none()
     for session in player.customsession_set.all():
