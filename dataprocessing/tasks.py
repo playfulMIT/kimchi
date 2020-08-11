@@ -20,7 +20,11 @@ def process_task(task, *args):
     # this fixes an extraneous comma in tuples
     if len(args) == 1:
         args = args[0]
-    task_sig = task.s(args)
+    # and this fixes when there are no args
+    if len(args) == 0:
+        task_sig = task.s()
+    else:
+        task_sig = task.s(args)
     taskname = str(task_sig)
     print("processing task", taskname)
     task_db, created = Task.objects.get_or_create(signature=taskname)
