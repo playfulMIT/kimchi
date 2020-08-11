@@ -1,17 +1,19 @@
-from kimchi.celery import app
-from datacollection.models import Event, URL, CustomSession
-from django_pandas.io import read_frame
-import pandas as pd
-import numpy as np
 import json
-import sys, traceback
-from dataprocessing.models import Task
+import traceback
+
+import numpy as np
+import pandas as pd
+import rrcf
+from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
+from django_pandas.io import read_frame
 
 from dashboard.views import create_player_map, get_completed_puzzles_map
+from datacollection.models import Event, URL, CustomSession, Player
+from dataprocessing.models import Task
+from kimchi.celery import app
+from shadowspect.models import Level, Replay
 
-import rrcf
-import json
 
 @app.task
 def process_task(task, *args):
@@ -1005,3 +1007,55 @@ def generate_metadata_and_run_tasks():
 #
 #     # Calls test('world') every 30 seconds
 #     sender.add_periodic_task(30.0, test.s('world'), expires=10)
+
+
+@app.task
+def generate_all_replays():
+    urls = URL.objects.all()
+    for url in urls:
+        players = Player.objects.filter(url=url)
+        for player in players:
+            text = ""
+            player_events = Event.objects.none()
+            for session in player.customsession_set.all():
+                session_events = Event.objects.filter(session=session)
+                # Here | is the set union operator, not bitwise OR. Thanks, Django.
+                player_events = player_events | session_events
+            start_events = []
+            end_events = []
+            for event in player_events.values():
+                text += (str(event) + '\n')
+                if 'ws-start_level' in event['type']:
+                    start_events.append(event['id'])
+                if 'ws-exit_to_menu' in event['type'] or 'ws-disconnect' in event['type']:
+                    end_events.append(event['id'])
+            # print(start_events)
+            events = start_events + end_events
+            events.sort()
+            if events is not None:
+                for index, event in enumerate(events):
+                    if index < len(events) - 1:
+                        if events[index] in start_events and events[index + 1] in end_events:
+                            print(events[index])
+                            generic_replay = {"events": [], }
+                            level_name = 'no level name found'
+                            for event in player_events.values():
+                                if events[index] <= event['id'] <= events[index + 1]:
+                                    generic_replay["events"].append(event)
+
+                                    # Check to see if there's a level name in the event
+                                    data_json = json.loads(event['data'])
+                                    if 'task_id' in data_json:
+                                        level_name = data_json['task_id']
+                            event_range = [events[index], events[index + 1]]
+                            print(event_range)
+                            replay_obj, created = Replay.objects.get_or_create(
+                                event_range=event_range,
+                                player=player,
+                                url=url,
+                                level=Level.objects.get(filename=level_name)
+                            )
+                            replay_obj.replay = json.dumps(generic_replay, cls=DjangoJSONEncoder)
+                            if not created:
+                                replay_obj.last_updated = timezone.now()
+                            replay_obj.save()
