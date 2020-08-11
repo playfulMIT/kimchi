@@ -243,7 +243,7 @@ function buildVertices(config, vis) {
             .attr("r", config.polygonPointSize)
             .attr("cx", function (d, i) { return d.coordinates.x; })
             .attr("cy", function (d, i) { return d.coordinates.y; })
-            .attr("fill", config.colors(g))
+            .attr("fill", config.colors(player))
             .on('mouseover', (d) => verticesTooltipShow(config, vis, d))
             .on('mouseout', (d) => verticesTooltipHide(vis));
     });
@@ -261,8 +261,8 @@ function buildPolygons(config, vis) {
             return verticesString;
         })
         .attr("stroke-width", "2px")
-        .attr("stroke", function (d, i) { return config.colors(i) })
-        .attr("fill", function (d, i) { return config.colors(i) })
+        .attr("stroke", function (d, i) { return config.colors(d[0]) })
+        .attr("fill", function (d, i) { return config.colors(d[0]) })
         .attr("fill-opacity", config.polygonAreaOpacity)
         .attr("stroke-opacity", config.polygonStrokeOpacity)
         .on('mouseover', function (d) {
@@ -294,7 +294,7 @@ function buildLegend(config, vis) {
         .attr("y", function (d, i) { return i * 2 * config.legendBoxSize; })
         .attr("width", config.legendBoxSize)
         .attr("height", config.legendBoxSize)
-        .attr("fill", function (d, g) { return config.colors(g); });
+        .attr("fill", function (d) { return config.colors(d); });
 
     //Create text next to squares
     vis.legend.selectAll(".legend-labels")
