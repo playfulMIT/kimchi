@@ -1,10 +1,10 @@
 import json
 
 from django.http import JsonResponse
-
-from datacollection.models import URL, CustomSession, Player, Event
-from shadowspect.models import Level
 from django.shortcuts import get_object_or_404
+
+from datacollection.models import URL, CustomSession, Player
+from shadowspect.models import Level, Replay
 
 
 def get_config_json(request):
@@ -38,27 +38,32 @@ def get_replay_json(request):
     url = URL.objects.get(name=url_name)
     player = Player.objects.filter(url=url).get(id=player)
     # Instantiate an empty queryset that can be used to merge all player querysets
-    player_events = Event.objects.none()
-    for session in player.customsession_set.all():
-        session_events = Event.objects.filter(session=session)
-        player_events = player_events | session_events
-    
-    generic_replay = {"events": [], }
-    start_found = False
-    start_event = 0
-    end_event = 0
-
-    for event in player_events.values():
-        if 'ws-start_level' in event['type'] and level_name in event['data']:
-            start_event = event['id']
-            start_found = True
-        if start_found and 'ws-exit_to_menu' in event['type'] and event['id'] > start_event:
-            end_event = event['id']
-            break
-
-    for event in player_events.values():
-        if start_event <= event['id'] <= end_event:
-            generic_replay["events"].append(event)
+    # player_events = Event.objects.none()
+    # for session in player.customsession_set.all():
+    #     session_events = Event.objects.filter(session=session)
+    #     player_events = player_events | session_events
+    #
+    # generic_replay = {"events": [], }
+    # start_found = False
+    # start_event = 0
+    # end_event = 0
+    #
+    # for event in player_events.values():
+    #     if 'ws-start_level' in event['type'] and level_name in event['data']:
+    #         start_event = event['id']
+    #         start_found = True
+    #     if start_found and 'ws-exit_to_menu' in event['type'] and event['id'] > start_event:
+    #         end_event = event['id']
+    #         break
+    #
+    # for event in player_events.values():
+    #     if start_event <= event['id'] <= end_event:
+    #         generic_replay["events"].append(event)
+    Replay.objects.get(
+        player=player,
+        url=url,
+        level=Level.objects.get(filename=level_name)
+    )
 
     return JsonResponse(generic_replay)
 
