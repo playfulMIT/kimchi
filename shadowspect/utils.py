@@ -64,7 +64,7 @@ def get_replay_json(request):
         url=url,
         level=Level.objects.get(filename=level_name)
     )
-    replay_json = replay_obj.replay
+    replay_json = json.loads(replay_obj.replay)
     return JsonResponse(replay_json)
 
 
