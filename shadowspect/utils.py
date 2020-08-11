@@ -59,13 +59,13 @@ def get_replay_json(request):
     # for event in player_events.values():
     #     if start_event <= event['id'] <= end_event:
     #         generic_replay["events"].append(event)
-    Replay.objects.get(
+    replay_obj = Replay.objects.get(
         player=player,
         url=url,
         level=Level.objects.get(filename=level_name)
     )
-
-    return JsonResponse(generic_replay)
+    replay_json = replay_obj.replay
+    return JsonResponse(replay_json)
 
 
 def generate_session(request, url):
