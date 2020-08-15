@@ -1,4 +1,5 @@
-import { showPage, showPlayerList, formatPlurals, formatTime } from "./helpers.js";
+import { showPage, showPlayerList, formatPlurals, formatTime } from "./helpers.js"
+import { colorLegend, swatches } from "./legend.js"
 
 var playerMap = null
 var puzzleData = null
@@ -11,10 +12,91 @@ var activePlayers = new Set()
 
 const playerButtonClass = "puzzle-network-player"
 
-const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
-const completedColorScale = d3.scaleQuantize().range(["#FFFFFF", "#88D969", "#46CB18", "#06A10B", "#1D800E"])
-const revisitedSizeScale = d3.scaleQuantize().range([13, 18, 24])
+var svg = null
 
+const whiteGreenColorScale = ["#FFFFFF", "#88D969", "#46CB18", "#06A10B", "#1D800E"]
+const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
+const completedColorScale = d3.scaleQuantize().range(whiteGreenColorScale)
+const revisitedSizeScale = d3.scaleQuantize().range([13, 19, 26])
+
+function createLegend() {
+    const numPlayers = activePlayers.size
+
+    svg.selectAll(".legend").remove()
+    d3.select("#sequence-between-puzzles-student-legend").selectAll("*").remove()
+
+    const studentColorLegend = swatches({
+        color: lineColorScale,
+        columns: "75px",
+        title: "Students"
+    })
+
+    d3.select("#sequence-between-puzzles-student-legend")
+        .html(studentColorLegend)
+
+    const completedColorLegend = colorLegend({
+        color: completedColorScale,
+        title: "No. students who completed the puzzle",
+        width: 200,
+        ticks: numPlayers + 1,
+        tickFormat: (d) => Math.ceil(d),
+        
+    })
+
+    svg.append("g")
+        .attr("transform", "translate(620,10)")
+        .attr('class', 'legend')
+        .node()
+        .append(completedColorLegend)
+
+    const circleSizes = [0, numPlayers]
+    if (numPlayers > 1) {
+        const midpoint = numPlayers / 2
+        circleSizes.push(numPlayers % 2 === 0 ? midpoint : Math.floor(midpoint))
+    }
+
+    const revisitedSizeLegend = svg.append("g")
+        .attr("class", "circle-legend legend")
+        .attr("fill", "#777")
+        .attr("transform", "translate(650,150)")
+        .attr("text-anchor", "middle")
+        .style("font", "10px sans-serif")
+        .selectAll("g")
+        .data(circleSizes)
+        .join("g")
+        .call(g => {
+            g.append("text")
+                .attr("x", -35)
+                .attr("y", -65)
+                .attr("fill", "currentColor")
+                .attr("text-anchor", "start")
+                .style("font", "500 10px sans-serif")
+                .text('No. students who revisited the puzzle')
+        });
+
+    revisitedSizeLegend.append("circle")
+        .attr("transform", "translate(50,0)")
+        .attr("fill", "none")
+        .attr("stroke", "#ccc")
+        .attr("cy", d => -revisitedSizeScale(d))
+        .attr("r", revisitedSizeScale);
+
+    revisitedSizeLegend.append("text")
+        .attr("transform", "translate(50,0)")
+        .attr("y", d => -2 * revisitedSizeScale(d))
+        .attr("dy", "1.3em")
+        .text(d => d);
+
+    d3.select('.circle-legend')
+        .append("rect")
+        .lower()
+        .attr("transform", "translate(-41,-80)")
+        .attr("height", 85)
+        .attr("width", 190)
+        .style("fill", "white")
+        .style("stroke-width", 1)
+        .style("stroke", "lightgrey")
+}
 
 // whole class list
 function createSequenceData(originalSequence) {
@@ -122,6 +204,21 @@ function drag(simulation) {
         .on("end", dragended);
 }
 
+function getCompletedColorScaleRange(numPlayers) {
+    switch (numPlayers) {
+        case 0: 
+            return [whiteGreenColorScale[0]]
+        case 1:
+            return [whiteGreenColorScale[0], whiteGreenColorScale[4]]
+        case 2: 
+            return [whiteGreenColorScale[0], whiteGreenColorScale[2], whiteGreenColorScale[4]]
+        case 3: 
+            return [whiteGreenColorScale[0], whiteGreenColorScale[1], whiteGreenColorScale[3], whiteGreenColorScale[4]]
+        default: 
+            return whiteGreenColorScale
+    }
+}
+
 function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
@@ -129,7 +226,8 @@ function createNetwork(perStudent = true) {
     const numPlayers = activePlayers.size
     // console.log(height, width, "test")
 
-    completedColorScale.domain([0, Math.max(1, numPlayers)])
+    lineColorScale.domain(activePlayers)
+    completedColorScale.range(getCompletedColorScaleRange(numPlayers)).domain([0, Math.max(1, numPlayers)])
     revisitedSizeScale.domain([0, Math.max(1, numPlayers)])
 
     // evenly spaces nodes along arc
@@ -223,7 +321,7 @@ function createNetwork(perStudent = true) {
     // .force("y", d3.forceY())
 
     d3.select("#sequence-between-puzzles-network").selectAll("svg").remove()
-    const svg = d3.select("#sequence-between-puzzles-network").append("svg")
+    svg = d3.select("#sequence-between-puzzles-network").append("svg")
         .attr("width", width)
         .attr("height", height)
     // .attr("viewBox", [-width / 2, -height / 2, width, height])
@@ -382,6 +480,8 @@ function createNetwork(perStudent = true) {
         .attr("dy", 4)
         .attr("data-html", "true")
         .html((d) => `${d.id}, ${numPlayers > 1 ? "avg. " : ""}total time: ${formatTime(d.totalTime)}, ${numPlayers > 1 ? "avg. " : ""}active time: ${formatTime(d.activeTime)}`)
+
+    createLegend()
 }
 
 function togglePlayer(pk) {
