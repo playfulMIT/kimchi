@@ -19,3 +19,4 @@ class Replay(models.Model):
     url = models.ForeignKey("datacollection.URL", null=True, on_delete=models.SET_NULL)
     level = models.ForeignKey(Level, null=True, on_delete=models.SET_NULL)
     event_range = ArrayField(models.IntegerField(), null=True)
+    replay_start_time = models.DateTimeField(blank=True, null=True)

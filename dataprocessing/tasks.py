@@ -1041,12 +1041,12 @@ def generate_all_replays():
                     if index < len(events) - 1:
                         if events[index] in start_events and events[index + 1] in end_events:
                             print(events[index])
+                            replay_start_time = Event.objects.get(pk=events[index]).time
                             generic_replay = {"events": [], }
                             level_name = 'no level name found'
                             for event in player_events.values():
                                 if events[index] <= event['id'] <= events[index + 1]:
                                     generic_replay["events"].append(event)
-
                                     # Check to see if there's a level name in the event
                                     data_json = json.loads(event['data'])
                                     if 'task_id' in data_json:
@@ -1059,6 +1059,7 @@ def generate_all_replays():
                                 url=url,
                                 level=Level.objects.get(filename=level_name)
                             )
+                            replay_obj.replay_start_time = replay_start_time
                             replay_obj.replay = json.dumps(generic_replay, cls=DjangoJSONEncoder)
                             if not created:
                                 replay_obj.last_updated = timezone.now()

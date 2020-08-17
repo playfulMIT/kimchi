@@ -43,17 +43,22 @@ def wildcard_levels(request, slug, player):
     print(selected_player)
     levels = {}
     for level in selected_player.attempted.all():
-        levels['attempted ' + str(level.pk)] = level.filename.replace(" ", "_")
+        if level not in selected_player.completed.all():
+            levels['incomplete: ' + level.filename.replace(" ", "_")] = str(level.pk)
     for level in selected_player.completed.all():
-        levels['completed ' + str(level.pk)] = level.filename.replace(" ", "_")
+        levels['complete: ' + level.filename.replace(" ", "_")] = str(level.pk)
     return render(request, "shadowspect/list.html", {"items": levels})
 
-# def wildcard_attempts(request, slug, player, level):
-#     url_obj = get_object_or_404(URL, pk=slug)
-#     replays = Replay.objects.filter(url=url_obj,player=player)
+def wildcard_attempts(request, slug, player, level):
+    url_obj = get_object_or_404(URL, pk=slug)
+    replays = Replay.objects.filter(url=url_obj, player=player, level=level).order_by('replay_start_time')
+    attempts = {}
+    for index, replay in enumerate(replays):
+        attempts["attempt #" + str(index)] = index
+    return render(request, "shadowspect/list.html", {"items": attempts})
 
-def wildcard_replay(request, slug, player, level):
-    request.session["replay_metadata"] = [slug, player.replace("_", " "), level.replace("_", " ")]
+def wildcard_replay(request, slug, player, level, attempt):
+    request.session["replay_metadata"] = [slug, player.replace("_", " "), level.replace("_", " "), attempt]
     session = generate_session(request, slug)
     return render(
         request,
