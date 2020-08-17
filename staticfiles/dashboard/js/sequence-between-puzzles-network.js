@@ -208,7 +208,7 @@ function createLegend() {
         .node()
         .append(completedColorLegend)
 
-    const circleSizes = [0, numPlayers]
+    const circleSizes = [0, Math.max(1, numPlayers)]
     if (numPlayers > 1) {
         const midpoint = numPlayers / 2
         circleSizes.push(numPlayers % 2 === 0 ? midpoint : Math.floor(midpoint))
@@ -392,7 +392,9 @@ function createNetwork(perStudent = true) {
     // console.log(height, width, "test")
 
     lineColorScale.domain(activePlayers)
-    completedColorScale.range(getCompletedColorScaleRange(numPlayers)).domain([0, Math.max(1, numPlayers)])
+    completedColorScale.domain([0, Math.max(1, numPlayers)])
+    // .range(getCompletedColorScaleRange(numPlayers))
+    
     revisitedSizeScale.domain([0, Math.max(1, numPlayers)])
 
     // evenly spaces nodes along arc
