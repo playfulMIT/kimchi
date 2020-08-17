@@ -60,7 +60,7 @@ def get_replay_json(request):
     # for event in player_events.values():
     #     if start_event <= event['id'] <= end_event:
     #         generic_replay["events"].append(event)
-    replays = Replay.objects.get(
+    replays = Replay.objects.filter(
         player=player,
         url=url,
         level=level
