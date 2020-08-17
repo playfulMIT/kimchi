@@ -93,11 +93,7 @@ input[type=range]:enabled::-moz-range-thumb:enabled {
     width: 100%;
 }
 
-#sequence-between-puzzles-network {
-    width: 70vw;
-    height: 100%;
-}
-
-#puzzle-network-player-container {
-    width: 25vw;
+i,
+a {
+    cursor: pointer;
 }

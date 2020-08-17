@@ -162,7 +162,7 @@ export function swatches({
 }) {
     const id = "u" + Math.floor(Math.random() * 100)
 
-    if (columns !== null) return `<div style="display: flex; align-items: center; margin-left: ${+marginLeft}px; min-height: 33px; font: 10px sans-serif;">
+    if (columns !== null) return `<div style="display: flex; align-items: center; margin-left: ${+marginLeft}px; min-height: 33px; font: 14px sans-serif;">
   <style>
 .${id}-item {
   break-inside: avoid;
@@ -193,7 +193,7 @@ export function swatches({
     })}
   </div>
 </div>`;
-    return `<div style="display: flex; align-items: center; min-height: 33px; margin-left: ${+marginLeft}px; font: 10px sans-serif;">
+    return `<div style="display: flex; align-items: center; min-height: 33px; margin-left: ${+marginLeft}px; font: 14px sans-serif;">
   <style>
 .${id} {
   display: inline-flex;

@@ -1,4 +1,4 @@
-import { showPage, showPlayerList, formatPlurals, formatTime } from "./helpers.js"
+import { showPage, showPlayerList, formatPlurals, formatTime, toCamelCase } from "./helpers.js"
 import { colorLegend, swatches } from "./legend.js"
 
 var playerMap = null
@@ -13,11 +13,170 @@ var activePlayers = new Set()
 const playerButtonClass = "puzzle-network-player"
 
 var svg = null
+var completedPuzzleFilterCount = 0
+var completedCountFilterRange = [0, 30]
+var abandonedCountFilterRange = [0, 30]
 
 const whiteGreenColorScale = ["#FFFFFF", "#88D969", "#46CB18", "#06A10B", "#1D800E"]
 const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
 const completedColorScale = d3.scaleQuantize().range(whiteGreenColorScale)
 const revisitedSizeScale = d3.scaleQuantize().range([13, 19, 26])
+
+function setFilters() {
+    var useCompletedCount = $("#puzzle-network-completed-count-check").is(":checked")
+    var useAbandonedCount = $("#puzzle-network-abandoned-count-check").is(":checked")
+    var completedPuzzles = $(".puzzle-network-completed-puzzle-button").filter(function () {
+        return $(this).text() !== "Select a Puzzle"
+    }).map(function () {
+        return $(this).text()
+    })
+
+    const completedCountSet = new Set()
+    const abandonedCountSet = new Set()
+    const completedPuzzleSet = new Set()
+
+    for (let student of Object.keys(playerMap)) {
+        if (useCompletedCount) {
+            if (student in playerSequences.completed 
+                && playerSequences.completed[student].size <= completedCountFilterRange[1] 
+                && playerSequences.completed[student].size >= completedCountFilterRange[0]) 
+            {
+                completedCountSet.add(student)
+            }
+        }
+
+        if (useAbandonedCount) {
+            if (student in playerSequences.abandoned
+                && playerSequences.abandoned[student].size <= abandonedCountFilterRange[1]
+                && playerSequences.abandoned[student].size >= abandonedCountFilterRange[0]) {
+                abandonedCountSet.add(student)
+            }
+        }
+
+        var shouldAddToSet = true
+        for (let puzzle of completedPuzzles) {
+            if (!(student in playerSequences.completed) ||
+                !playerSequences.completed[student].has(puzzle)) {
+                    shouldAddToSet = false
+            }
+        }
+        if (shouldAddToSet) completedPuzzleSet.add(student)
+    }
+
+    var newPlayerSet = completedPuzzleSet
+    if (useCompletedCount) newPlayerSet = new Set([...newPlayerSet].filter(x => completedCountSet.has(x)))
+    if (useAbandonedCount) newPlayerSet = new Set([...newPlayerSet].filter(x => abandonedCountSet.has(x)))
+
+    activePlayers = newPlayerSet
+    $(`.${playerButtonClass}`).removeClass("active")
+    for (let player of activePlayers) {
+        $(`#${player}.${playerButtonClass}`).addClass("active")
+    }
+
+    createNetwork()
+}
+
+function clearFiltersAndNetwork() {
+    activePlayers = new Set()
+    $("." + playerButtonClass).removeClass("active")
+
+    $("#puzzle-network-completed-count-check").prop("checked", false)
+    $("#puzzle-network-abandoned-count-check").prop("checked", false)
+    $(".puzzle-network-completed-puzzle-filter").remove()
+
+    createNetwork()
+}
+
+function onCompletedPuzzleClick(event, puzzle, id) {
+    $("#puzzle-network-completed-puzzle-" + id).text(puzzle)
+    $(".puzzle-network-completed-puzzle-dropdown > *").removeClass("active")
+    $(event.target).addClass("active")
+}
+
+function createCompletedPuzzleFilter(id) {
+    const dropdown = document.createElement("div")
+    dropdown.id = "puzzle-network-completed-puzzle-dropdown-" + id
+    dropdown.className = "dropdown puzzle-network-filter puzzle-network-completed-puzzle-filter"
+    dropdown.textContent = "Completed puzzle "
+
+    const button = document.createElement("button")
+    button.className = "btn btn-secondary dropdown-toggle puzzle-network-completed-puzzle-button"
+    button.type = "button"
+    button.id = "puzzle-network-completed-puzzle-" + id
+    button.dataset.toggle = "dropdown"
+    button.dataset.boundary = "viewport"
+    button.textContent = "Select a Puzzle"
+    dropdown.appendChild(button)
+    
+    const menu = document.createElement("div")
+    menu.className = "dropdown-menu puzzle-network-completed-puzzle-dropdown"
+    dropdown.appendChild(menu)
+
+    for (let [difficulty, puzzles] of Object.entries(puzzleData["puzzles"])) {
+        const header = document.createElement("h6")
+        header.className = "dropdown-header"
+        header.textContent = toCamelCase(difficulty)
+        menu.appendChild(header)
+
+        for (let puzzle of puzzles) {
+            const link = document.createElement("a")
+            link.className = "dropdown-item"
+            link.href = "#"
+            link.textContent = puzzle
+            link.onclick = (event) => onCompletedPuzzleClick(event, puzzle, id)
+            menu.appendChild(link)
+        }
+    }
+
+    const close = document.createElement("a")
+    close.className = "puzzle-network-remove-filter"
+    close.onclick = function (event) {
+        $("#" + dropdown.id).remove()
+    }
+
+    const closeIcon = document.createElement("i")
+    closeIcon.className = "fas fa-times"
+    close.appendChild(closeIcon)
+    dropdown.appendChild(close)
+
+    document.getElementById("puzzle-network-completed-puzzles").appendChild(dropdown)
+}
+
+function createFilters() {
+    $("#puzzle-network-completed-count-slider").slider({
+        range: true,
+        min: 0,
+        max: playerSequences.nodes.length,
+        values: [0, playerSequences.nodes.length],
+        slide: function (event, ui) {
+            $("#puzzle-network-completed-count").val(ui.values[0] + " - " + ui.values[1]);
+            completedCountFilterRange = [ui.values[0], ui.values[1]]
+        }
+    });
+    $("#puzzle-network-completed-count").val($("#puzzle-network-completed-count-slider").slider("values", 0) +
+        " - " + $("#puzzle-network-completed-count-slider").slider("values", 1));
+
+    $("#puzzle-network-abandoned-count-slider").slider({
+        range: true,
+        min: 0,
+        max: playerSequences.nodes.length,
+        values: [0, playerSequences.nodes.length],
+        slide: function (event, ui) {
+            $("#puzzle-network-abandoned-count").val(ui.values[0] + " - " + ui.values[1]);
+            abandonedCountFilterRange = [ui.values[0], ui.values[1]]
+        }
+    });
+    $("#puzzle-network-abandoned-count").val($("#puzzle-network-abandoned-count-slider").slider("values", 0) +
+        " - " + $("#puzzle-network-abandoned-count-slider").slider("values", 1));
+
+    $("#puzzle-network-add-completed-puzzle").click(() => {
+        createCompletedPuzzleFilter(completedPuzzleFilterCount)
+        completedPuzzleFilterCount++
+    })
+
+    $("#puzzle-network-set-filters-btn").click(() => setFilters())
+    $("#puzzle-network-clear-network-btn").click(() => clearFiltersAndNetwork())
+}
 
 function createLegend() {
     const numPlayers = activePlayers.size
@@ -129,6 +288,7 @@ function createSequenceDataPerStudent(originalSequence) {
     const revisited = {}
     const visited = {}
     const completed = {}
+    const abandoned = {}
     const puzzleAttemptMap = {}
 
     for (const puzzles of Object.values(puzzleData["puzzles"])) {
@@ -165,19 +325,24 @@ function createSequenceDataPerStudent(originalSequence) {
         }
 
         revisited[student] = new Set()
-        visited[student] = new Set
+        visited[student] = new Set()
+        abandoned[student] = new Set()
         
         Object.keys(puzzleAttemptMap).forEach((key) => {
-            if (puzzleAttemptMap[key] > 1) {
-                revisited[student].add(key)
+            if (puzzleAttemptMap[key] >= 1) {
+                if (puzzleAttemptMap[key] > 1) {
+                    revisited[student].add(key)
+                }
                 visited[student].add(key)
-            } else if (puzzleAttemptMap[key] === 1) {
-                visited[student].add(key)
+
+                if (!completed[student].has(key)) {
+                    abandoned[student].add(key)
+                }
             }
             puzzleAttemptMap[key] = 0
         })
     }
-    return { nodes: nodes, links: links, revisited: revisited, visited: visited, completed: completed }
+    return { nodes: nodes, links: links, revisited: revisited, visited: visited, completed: completed, abandoned: abandoned }
 }
 
 function drag(simulation) {
@@ -523,6 +688,7 @@ export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, loa, anon
         anonymizeNames = anonymize
         levelsOfActivity = loa
 
+        createFilters()
         generatePlayerList()
         createNetwork()
     }
