@@ -14,3 +14,53 @@ text {
     font-family: sans-serif;
     pointer-events: none;
 }
+
+#sequence-between-puzzles-network {
+    width: 70vw;
+    height: 100%;
+}
+
+#puzzle-network-config {
+  width: 25vw;
+  height: 100%;
+  position: sticky;
+  top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#puzzle-network-filters-container {
+  padding: 10px; 
+  overflow-y: auto;
+  max-height: 35vh;
+}
+
+#puzzle-network-filters {
+  margin-bottom: 10px;
+}
+
+#puzzle-network-player-card {
+    height: 50vh;
+    overflow-y: auto;
+}
+
+#sequence-between-puzzles-student-legend {
+    font-size: 14px;
+}
+
+.puzzle-network-filter {
+    margin-bottom: 8px;
+}
+
+.puzzle-network-remove-filter {
+    padding-left: 5px; 
+}
+
+#puzzle-network-add-completed-puzzle-icon {
+    padding-right: 5px; 
+}
+
+.puzzle-network-remove-filter :hover {
+    color: red;
+}

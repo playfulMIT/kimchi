@@ -43,7 +43,7 @@ async function startDashboard() {
     sequenceBetweenPuzzles = await callAPI(`${API}/sequencebetweenpuzzles`)
     // sequenceBetweenPuzzles = output2
     completedPuzzleData = await callAPI(`${API}/completed`)
-    handleTabSwitch(TABS.OUTLIER_RADAR_CHART)
+    handleTabSwitch(TABS.PUZZLE_SEQ_NETWORK)
 }
 
 $(document).ready(() => {
