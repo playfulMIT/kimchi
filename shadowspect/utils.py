@@ -35,7 +35,7 @@ def get_level_json(request, slug):
 
 
 def get_replay_json(request):
-    url_name, player, level_name, attempt = request.session["replay_metadata"]
+    url_name, player, level, attempt = request.session["replay_metadata"]
     url = URL.objects.get(name=url_name)
     player = Player.objects.filter(url=url).get(id=player)
     # Instantiate an empty queryset that can be used to merge all player querysets
@@ -63,7 +63,7 @@ def get_replay_json(request):
     replays = Replay.objects.get(
         player=player,
         url=url,
-        level=Level.objects.get(filename=level_name)
+        level=level
     )
     replay_obj = replays[attempt]
     replay_json = json.loads(replay_obj.replay)
