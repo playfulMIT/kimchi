@@ -20,6 +20,7 @@ def get_config_json(request):
     if "replay_metadata" in request.session:
         data["replayFiles"] = ["generated_replay.json"]
         data["canEdit"] = True
+        data["useGuests"] = True
         print(data)
     if "groupID" not in data and url is not None:
         print("no group id, injecting it from URL")

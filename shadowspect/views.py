@@ -48,6 +48,9 @@ def wildcard_levels(request, slug, player):
         levels['completed ' + str(level.pk)] = level.filename.replace(" ", "_")
     return render(request, "shadowspect/list.html", {"items": levels})
 
+# def wildcard_attempts(request, slug, player, level):
+#     url_obj = get_object_or_404(URL, pk=slug)
+#     replays = Replay.objects.filter(url=url_obj,player=player)
 
 def wildcard_replay(request, slug, player, level):
     request.session["replay_metadata"] = [slug, player.replace("_", " "), level.replace("_", " ")]
