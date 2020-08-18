@@ -65,7 +65,7 @@ def get_replay_json(request):
         url=url,
         level=level
     )
-    replay_obj = replays.all()[attempt] # force eval of queryset
+    replay_obj = replays[int(attempt)]
     replay_json = json.loads(replay_obj.replay)
     return JsonResponse(replay_json)
 
