@@ -8,11 +8,11 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from django_pandas.io import read_frame
 
-from dashboard.views import create_player_map, get_completed_puzzles_map
 from datacollection.models import Event, URL, CustomSession, Player
 from dataprocessing.models import Task
 from kimchi.celery import app
 from shadowspect.models import Level, Replay
+from dashboard.views import create_player_map, get_completed_puzzles_map, get_puzzles_dict
 
 
 @app.task
@@ -748,13 +748,25 @@ def computeLevelsOfActivityInProgress(group='all'):
 
 @app.task
 def computeLevelsOfActivityOutliers(group='all'):
-    url = URL.objects.get(name='leja')
-    task = list(Task.objects.filter(signature__contains="computeLevelsOfActivityInProgress(['"+url.name+"']").values_list("result", flat=True))
-    outlier_data = json.loads(task[0])["Pyramids are Strange"]["minmax_normalization"]["all_stats"]
-
+    url = URL.objects.get(name='leja') #TODO: fix name 
+    puzzles = get_puzzles_dict(url.name)["puzzles"]
+    task = list(Task.objects.filter(signature__contains="computeLevelsOfActivityInProgress(['"+url.name+"']").values_list("result", flat=True))[0]
     np.random.seed(0)
-    outlier_metrics = list(outlier_data.values())
-    n = len(outlier_data.keys())
+
+    outlier_vals = {}
+    outlier_vals_puzzles = {}
+    outlier_metrics = []
+    outlier_metrics_students = []
+    outlier_metrics_puzzles = []
+
+    for puzzle_list in puzzles.values():
+        for puzzle in puzzle_list:
+            data = json.loads(task)[puzzle]["minmax_normalization"]["all_stats"]
+            outlier_metrics.extend(data.values())
+            outlier_metrics_students.extend(data.keys())
+            outlier_metrics_puzzles.extend([puzzle] * len(data.keys()))
+
+    n = len(outlier_metrics)
     d = len(list(outlier_metrics[0].keys()))
 
     # Generate data
@@ -763,7 +775,7 @@ def computeLevelsOfActivityOutliers(group='all'):
         X[i,...] = np.array(list(outlier_metrics[i].values()))
 
     num_trees = 100
-    tree_size = n // 4 
+    tree_size = 256  
     sample_size_range = (n // tree_size, tree_size)
 
     # Construct forest
@@ -787,7 +799,25 @@ def computeLevelsOfActivityOutliers(group='all'):
         np.add.at(index, codisp.index.values, 1)
     avg_codisp /= index
 
-    return avg_codisp.to_json()
+    threshold = avg_codisp.quantile(0.99)
+    print(threshold)
+
+    for i in range(len(outlier_metrics)):
+        student = outlier_metrics_students[i]
+        puzzle = outlier_metrics_puzzles[i]
+        if student not in outlier_vals:
+            outlier_vals[student] = []
+            outlier_vals_puzzles[student] = []
+        outlier_vals[student].append(avg_codisp[i])
+        outlier_vals_puzzles[student].append(puzzle)
+
+    outlier_result = {}
+    for student in outlier_vals:
+        indices = np.where(outlier_vals[student] > threshold)
+        if len(indices[0]) > 0:
+            outlier_result[student] = list(np.array(outlier_vals_puzzles[student])[indices])
+
+    return json.dumps(outlier_result)
 
 @app.task
 def computeLevelsOfActivity(group='all'):
