@@ -186,7 +186,7 @@ function createLegend() {
 
     const studentColorLegend = swatches({
         color: lineColorScale,
-        columns: "75px",
+        columns: "100px",
         title: "Students"
     })
 
@@ -496,8 +496,8 @@ function createNetwork(perStudent = true) {
     svg.append('defs').append('marker')
         .attr('id', 'arrowhead')
         .attr('viewBox', '0 -5 10 10')
-        .attr('refX', 13)
-        .attr('refY', 0.5)
+        .attr('refX', 5)
+        .attr('refY', .5)
         .attr('orient', 'auto')
         .attr('markerWidth', 5)
         .attr('markerHeight', 5)
@@ -553,7 +553,7 @@ function createNetwork(perStudent = true) {
         //         d.target.y;
         // })
         .attr("d", function (d) {
-            const t_radius = radius / 1.25
+            const t_radius = revisitedSizeScale(d.target.revisitedCount) + 5
             var gamma = Math.atan2(d.target.y - d.source.y, d.target.x - d.source.x);
 
             // Math.atan2 returns the angle in the correct quadrant as opposed to Math.atan
@@ -629,11 +629,11 @@ function createNetwork(perStudent = true) {
         .attr("class", "node")
         .on("mouseenter", function (d) {
             isConnected(d, 0.1)
-            node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
-            d3.select(this).transition().duration(100).attr("r", revisitedSizeScale(d.revisitedCount) + 5)
+            // node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
+            // d3.select(this).transition().duration(100).attr("r", revisitedSizeScale(d.revisitedCount) + 5)
         })
         .on("mouseleave", function (d) {
-            node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
+            // node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
             isConnected(d, 1)
         })
         .attr("fill", (d) => completedColorScale(d.completedCount))

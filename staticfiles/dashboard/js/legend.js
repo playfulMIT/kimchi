@@ -175,6 +175,7 @@ export function swatches({
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: calc(100% - ${+swatchWidth}px - 0.5em);
+  min-width: 45px;
 }
 .${id}-swatch {
   width: ${+swatchWidth}px;

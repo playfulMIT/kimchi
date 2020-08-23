@@ -125,11 +125,11 @@ function showRadarModal(student, puzzle, metrics) {
 }
 
 function showOutliersList() {
-    $("#outlier-accordion").empty()
+    $("#outlier-radar-accordion").empty()
 
     const sortedKeys = Object.keys(outlierMap).sort((a, b) => Object.keys(outlierMap[b]).length - Object.keys(outlierMap[a]).length)
     for (let student of sortedKeys) {
-        const collapseId = "student-" + student + "-collapse"
+        const collapseId = "outlier-radar-student-" + student + "-collapse"
         const studentName = anonymizeNames ? student : playerMap[student]
 
         const card = document.createElement("div")
@@ -137,7 +137,7 @@ function showOutliersList() {
 
         const header = document.createElement("div")
         header.className = "card-header"
-        header.id = "student-" + student + "-header"
+        header.id = "outlier-radar-student-" + student + "-header"
         header.innerHTML = `<h2 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#${collapseId}"` + 
             `aria-expanded="true" aria-controls="${collapseId}">${studentName}</button>` + 
             `<span class="badge badge-warning outlier-student-badge">${Object.keys(outlierMap[student]).length}</span></h2>`
@@ -147,24 +147,24 @@ function showOutliersList() {
         collapse.id = collapseId
         collapse.className = "collapse"
         collapse.setAttribute("aria-labelledby", header.id)
-        collapse.setAttribute("data-parent", "#outlier-accordion")
+        collapse.setAttribute("data-parent", "#outlier-radar-accordion")
         
-        const tableBodyId = "outlier-student-" + student + "-table"
+        const tableBodyId = "outlier-radar-student-" + student + "-table"
         const body = document.createElement("div")
         body.className = "card-body"
         body.innerHTML = `<table class="table"><thead><tr><th scope="col">Puzzle</th><th scope="col">Outlier Metrics</th><th scope="col">Radar Chart</th></tr></thead><tbody id="${tableBodyId}"></tbody></table>`
         collapse.appendChild(body)
         card.appendChild(collapse)
 
-        document.getElementById("outlier-accordion").appendChild(card)
+        document.getElementById("outlier-radar-accordion").appendChild(card)
 
         for (let [puzzle, metrics] of Object.entries(outlierMap[student])) {
             const tr = document.createElement("tr")
             tr.innerHTML = `<th scope="row">${puzzle}</th><td>${metrics.map(v => METRIC_TO_METRIC_NAME[v]).join(", ")}</td>` +
-                `<td><button id="${student}-${puzzleNameToClassName(puzzle)}-radar-btn" type="button" class="btn btn-secondary btn-sm">Show &#187;</button></td>`
+                `<td><button id="outlier-radar-${student}-${puzzleNameToClassName(puzzle)}-radar-btn" type="button" class="btn btn-secondary btn-sm">Show &#187;</button></td>`
             $("#" + tableBodyId).append(tr)
 
-            $(`#${student}-${puzzleNameToClassName(puzzle)}-radar-btn`).click(function () {
+            $(`#outlier-radar-${student}-${puzzleNameToClassName(puzzle)}-radar-btn`).click(function () {
                 showRadarModal(student, puzzle, metrics)
             })
         }
