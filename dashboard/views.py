@@ -52,13 +52,13 @@ def get_player_list(request, slug):
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
 
-def get_puzzles(request, slug):
+def get_puzzles_dict(url):
     def get_puzzle_properties(puzzle_filename):
         level = Level.objects.get(filename=puzzle_filename)
         return json.loads(level.data)["puzzleName"]
 
     puzzles = dict()
-    url = URL.objects.get(name=slug)
+    url = URL.objects.get(name=url)
     config = url.data
     config_dict = json.loads(config)
     
@@ -69,7 +69,10 @@ def get_puzzles(request, slug):
         if puzzleSet["canPlay"]:
             puzzles["puzzles"][puzzleSet["name"].lower()] = [get_puzzle_properties(p) for p in puzzleSet["puzzles"]]
     
-    return JsonResponse(puzzles)
+    return puzzles
+
+def get_puzzles(request, slug):
+    return JsonResponse(get_puzzles_dict(slug))
 
 def get_snapshot_metrics(request, slug):
     player_to_snapshot_map = dict()
@@ -406,5 +409,14 @@ def get_sequence_between_puzzles(request, slug):
             new_result[user][result['sequence'][i]] = result['task_id'][i]
         
         return JsonResponse(new_result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
+
+def get_machine_learning_outliers(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivityOutliers(['" + slug + "']")
+        result = json.loads(task_result)
+
+        return JsonResponse(result)
     except ObjectDoesNotExist:
         return JsonResponse({})
