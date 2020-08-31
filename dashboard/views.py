@@ -406,7 +406,8 @@ def get_sequence_between_puzzles(request, slug):
             if user not in new_result:
                 new_result[user] = {}
 
-            new_result[user][result['sequence'][i]] = result['task_id'][i]
+            puzzle, status = list(result['task_id'][i].items())[0]
+            new_result[user][result['sequence'][i]] = { 'session': result['session'][i], 'puzzle': puzzle, 'status': status}
         
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
