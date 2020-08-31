@@ -127,7 +127,9 @@ export function createGraphCard(graph, id) {
 }
 
 export function showPlayerList(buttonClass, divId, playerMap, onClick, anonymizeNames=true) {
-    const sortedEntries = Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
+    const sortedEntries = anonymizeNames 
+        ? Object.entries(playerMap).sort((a, b) => parseInt(a[0]) - parseInt(b[1]))
+        : Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
 
     for (let [pk, player] of sortedEntries) {
         const button = document.createElement("button")

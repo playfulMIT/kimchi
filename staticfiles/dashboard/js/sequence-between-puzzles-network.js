@@ -6,6 +6,7 @@ var puzzleData = null
 var playerSequences = null
 var levelsOfActivity = null
 var anonymizeNames = true
+var playerStats = {}
 
 var activePlayer = null
 var activePlayers = new Set()
@@ -19,8 +20,28 @@ var abandonedCountFilterRange = [0, 30]
 
 const whiteGreenColorScale = ["#FFFFFF", "#88D969", "#46CB18", "#06A10B", "#1D800E"]
 const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
-const completedColorScale = d3.scaleQuantize().range(whiteGreenColorScale)
+// const completedColorScale = d3.scaleQuantize().range(whiteGreenColorScale)
+const completedColorScale = d3.scaleSequential(d3.interpolateSpectral)
 const revisitedSizeScale = d3.scaleQuantize().range([13, 19, 26])
+
+
+function generatePlayerStats() {
+    for (let player of Object.keys(playerMap)) {
+        playerStats[player] = {}
+
+        playerStats[player]["activeTime"] = 0
+        playerStats[player]["totalTime"] = 0
+
+        for (let puzzles of Object.values(puzzleData["puzzles"])) {
+            for (let puzzle of puzzles) {
+                if (player in levelsOfActivity[puzzle]) {
+                    playerStats[player]["activeTime"] += levelsOfActivity[puzzle][player].active_time
+                    playerStats[player]["totalTime"] += levelsOfActivity[puzzle][player].timeTotal
+                }
+            }
+        }
+    }
+}
 
 function setFilters() {
     var useCompletedCount = $("#puzzle-network-completed-count-check").is(":checked")
@@ -169,6 +190,11 @@ function createFilters() {
     $("#puzzle-network-abandoned-count").val($("#puzzle-network-abandoned-count-slider").slider("values", 0) +
         " - " + $("#puzzle-network-abandoned-count-slider").slider("values", 1));
 
+    // $("#puzzle-network-active-total-dropdown-menu > a").click(function(e) {
+    //     e.preventDefault()
+    //     $("#puzzle-network-active-total-dropdown").text($(this).text())
+    // })
+
     $("#puzzle-network-add-completed-puzzle").click(() => {
         createCompletedPuzzleFilter(completedPuzzleFilterCount)
         completedPuzzleFilterCount++
@@ -197,7 +223,6 @@ function createLegend() {
         color: completedColorScale,
         title: "No. students who completed the puzzle",
         width: 200,
-        ticks: numPlayers + 1,
         tickFormat: (d) => Math.ceil(d),
         
     })
@@ -258,6 +283,7 @@ function createLegend() {
 }
 
 // whole class list
+// needs update if using
 function createSequenceData(originalSequence) {
     const nodes = []
     const links = []
@@ -290,6 +316,8 @@ function createSequenceDataPerStudent(originalSequence) {
     const completed = {}
     const abandoned = {}
     const puzzleAttemptMap = {}
+    // const activeTime = {}
+    // const totalTime = {}
 
     for (const puzzles of Object.values(puzzleData["puzzles"])) {
         nodes.push(...puzzles.map(p => ({ id: p })))
@@ -304,12 +332,14 @@ function createSequenceDataPerStudent(originalSequence) {
 
         for (let i = 1; i < Object.keys(seq).length; i++) {
             if (!seq[i.toString()]) continue
-            const puzzle = Object.keys(seq[i.toString()])[0]
+            const puzzle = seq[i.toString()]['puzzle']
+            const sourceSession = seq[i.toString()]['session']
             if (i === 1) puzzleAttemptMap[puzzle]++
-            if (Object.values(seq[i.toString()])[0] === 'completed') completed[student].add(puzzle)
+            if (seq[i.toString()]['status'] === 'completed') completed[student].add(puzzle)
 
-            const nextPuzzle = Object.keys(seq[(i + 1).toString()])[0]
-            if (Object.values(seq[(i+1).toString()])[0] === 'completed') completed[student].add(nextPuzzle)
+            const nextPuzzle = seq[(i + 1).toString()]['puzzle']
+            const targetSession = seq[(i + 1).toString()]['session']
+            if (seq[(i+1).toString()]['status'] === 'completed') completed[student].add(nextPuzzle)
             puzzleAttemptMap[nextPuzzle]++
             
             if (!(student in links)) {
@@ -320,7 +350,9 @@ function createSequenceDataPerStudent(originalSequence) {
                 id: student + puzzle + nextPuzzle,
                 source: puzzle,
                 target: nextPuzzle,
-                student: student
+                student: student,
+                sourceSession: sourceSession,
+                targetSession: targetSession
             })
         }
 
@@ -342,7 +374,16 @@ function createSequenceDataPerStudent(originalSequence) {
             puzzleAttemptMap[key] = 0
         })
     }
-    return { nodes: nodes, links: links, revisited: revisited, visited: visited, completed: completed, abandoned: abandoned }
+    return { 
+        nodes: nodes, 
+        links: links, 
+        revisited: revisited, 
+        visited: visited, 
+        completed: completed, 
+        abandoned: abandoned, 
+        // activeTime: activeTime,
+        // totalTime: totalTime 
+    }
 }
 
 function drag(simulation) {
@@ -572,7 +613,7 @@ function createNetwork(perStudent = true) {
             }
 
             // Self edge.
-            if (dx === 0 && dy === 0) {
+            if (d.target.x === d.source.x && d.target.y === d.source.y) {
                 // Fiddle with this angle to get loop oriented.
                 var xRotation = -45;
 
@@ -690,6 +731,8 @@ export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, loa, anon
         anonymizeNames = anonymize
         levelsOfActivity = loa
 
+        generatePlayerStats()
+        console.log(playerStats)
         createFilters()
         generatePlayerList()
         createNetwork()

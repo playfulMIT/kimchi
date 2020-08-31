@@ -66,7 +66,7 @@ function showOutliersList() {
         const tableBodyId = "ml-outlier-student-" + student + "-table"
         const body = document.createElement("div")
         body.className = "card-body"
-        body.innerHTML = `<table class="table"><thead><tr><th scope="col">Puzzle</th><th scope="col">Outlier Metrics</th><th scope="col">Radar Chart</th></tr></thead><tbody id="${tableBodyId}"></tbody></table>`
+        body.innerHTML = `<table class="table"><thead><tr><th scope="col">Puzzle</th><th scope="col">TBD</th><th scope="col">TBD</th></tr></thead><tbody id="${tableBodyId}"></tbody></table>`
         collapse.appendChild(body)
         card.appendChild(collapse)
 
