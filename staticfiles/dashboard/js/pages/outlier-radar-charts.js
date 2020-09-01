@@ -1,5 +1,5 @@
-import { showPage, puzzleNameToClassName, buildRadarChart, getClassAverage } from './helpers.js'
-import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from './constants.js'
+import { showPage, puzzleNameToClassName, buildRadarChart, getClassAverage } from '../util/helpers.js'
+import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from '../util/constants.js'
 
 var playerMap = null
 var puzzleData = null

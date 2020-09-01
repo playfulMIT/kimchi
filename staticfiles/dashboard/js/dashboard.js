@@ -1,13 +1,11 @@
-import { TABS, API } from './constants.js'
-import { callAPI } from './helpers.js'
-import { showMetricsOverview } from './metrics-overview.js'
-import { showPuzzleRadarCharts } from './puzzle-radar-charts.js'
-import { showStudentRadarCharts } from './student-radar-charts.js'
-import { showOutlierRadarCharts } from './outlier-radar-charts.js'
-import { showSequenceBetweenPuzzlesNetwork } from './sequence-between-puzzles-network.js'
-import { showMachineLearningOutliers } from './machine-learning-outliers.js';
-// import { output } from './output.js'
-// import { output2 } from './output2.js'
+import { TABS, API } from './util/constants.js'
+import { callAPI } from './util/helpers.js'
+import { showMetricsOverview } from './pages/metrics-overview.js'
+import { showPuzzleRadarCharts } from './pages/puzzle-radar-charts.js'
+import { showStudentRadarCharts } from './pages/student-radar-charts.js'
+import { showOutlierRadarCharts } from './pages/outlier-radar-charts.js'
+import { showSequenceBetweenPuzzlesNetwork } from './pages/sequence-between-puzzles-network.js'
+import { showMachineLearningOutliers } from './pages/machine-learning-outliers.js'
 
 var activeTab = null
 var playerMap = null 
@@ -50,9 +48,7 @@ async function startDashboard() {
     numPlayers = Object.keys(playerMap).length
     puzzleData = await callAPI(`${API}/puzzles`)
     levelsOfActivity = await callAPI(`${API}/levelsofactivity`)
-    // levelsOfActivity = output
     sequenceBetweenPuzzles = await callAPI(`${API}/sequencebetweenpuzzles`)
-    // sequenceBetweenPuzzles = output2
     outlierData = await callAPI(`${API}/mloutliers`)
     completedPuzzleData = await callAPI(`${API}/completed`)
     handleTabSwitch(TABS.PUZZLE_SEQ_NETWORK)

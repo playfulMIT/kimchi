@@ -1,5 +1,5 @@
-import { showPage, showPlayerList, formatPlurals, formatTime, toCamelCase } from "./helpers.js"
-import { colorLegend, swatches } from "./legend.js"
+import { showPage, showPlayerList, formatPlurals, formatTime, toCamelCase } from "../util/helpers.js"
+import { colorLegend, swatches } from "../util/legend.js"
 
 var playerMap = null
 var puzzleData = null

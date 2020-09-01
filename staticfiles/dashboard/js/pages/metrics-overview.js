@@ -2,12 +2,12 @@ import {
     API, INDEX_TO_SHAPE, INDEX_TO_XFM_MODE, FUNNEL_KEY_NAME_MAP, 
     SESSION_BIN_SIZE, DEFAULT_FUNNEL, TIME_BIN_SIZE, SNAPSHOT_BIN_SIZE,
     DEFAULT_SHAPE_ARRAY, DEFAULT_MODE_ARRAY, SANDBOX, SANDBOX_PUZZLE_NAME
-} from './constants.js'
+} from '../util/constants.js'
 import { 
     callAPI, toEchartsData, formatPlurals, formatTime, showPage,
     createBarChart, createGraphCard, createMetricCard, showPlayerList,
     toCamelCase
-} from './helpers.js'
+} from '../util/helpers.js'
 
 // TODO: attempt funnel rotation 
 // TODO: student search?

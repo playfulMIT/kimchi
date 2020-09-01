@@ -1,5 +1,5 @@
-import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart, createNormalizationToggle, getClassAverage } from './helpers.js'
-import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, SANDBOX, NORMALIZATION_OPTIONS } from './constants.js'
+import { showPage, puzzleNameToClassName, createOptionDropdownItems, buildRadarChart, createNormalizationToggle, getClassAverage } from '../util/helpers.js'
+import { SANDBOX_PUZZLE_NAME, DEFAULT_LEVELS_OF_ACTIVITY, SANDBOX, NORMALIZATION_OPTIONS } from '../util/constants.js'
 
 var playerMap = null
 var puzzleData = null
