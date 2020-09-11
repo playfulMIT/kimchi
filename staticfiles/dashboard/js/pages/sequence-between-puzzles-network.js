@@ -1,4 +1,4 @@
-import { showPage, showPlayerList, formatPlurals, formatTime, toCamelCase } from "../util/helpers.js"
+import { showPage, showPlayerList, formatPlurals, formatTime, toCamelCase, createOptionDropdownItems } from "../util/helpers.js"
 import { colorLegend, swatches } from "../util/legend.js"
 
 var playerMap = null
@@ -10,6 +10,7 @@ var playerStats = {}
 
 var activePlayer = null
 var activePlayers = new Set()
+var selectedActivePlayers = new Set()
 
 const playerButtonClass = "puzzle-network-player"
 
@@ -22,8 +23,14 @@ const whiteGreenColorScale = ["#FFFFFF", "#88D969", "#46CB18", "#06A10B", "#1D80
 const lineColorScale = d3.scaleOrdinal(d3.schemeCategory10)
 // const completedColorScale = d3.scaleQuantize().range(whiteGreenColorScale)
 const completedColorScale = d3.scaleSequential(d3.interpolateSpectral)
+const activeTimeColorScale = d3.scaleQuantize().range(whiteGreenColorScale)
 const revisitedSizeScale = d3.scaleQuantize().range([13, 19, 26])
 
+var showPaths = true
+var currentColorScale = 'completed'
+
+const opacityFunction = (d) => 1
+// const opacityFunction = (d) => .35 + .55 * d.students.length / activePlayers.size
 
 function generatePlayerStats() {
     for (let player of Object.keys(playerMap)) {
@@ -89,6 +96,7 @@ function setFilters() {
     if (useAbandonedCount) newPlayerSet = new Set([...newPlayerSet].filter(x => abandonedCountSet.has(x)))
 
     activePlayers = newPlayerSet
+    selectedActivePlayers = newPlayerSet
     $(`.${playerButtonClass}`).removeClass("active")
     for (let player of activePlayers) {
         $(`#${player}.${playerButtonClass}`).addClass("active")
@@ -99,6 +107,7 @@ function setFilters() {
 
 function clearFiltersAndNetwork() {
     activePlayers = new Set()
+    selectedActivePlayers = new Set()
     $("." + playerButtonClass).removeClass("active")
 
     $("#puzzle-network-completed-count-check").prop("checked", false)
@@ -205,33 +214,57 @@ function createFilters() {
 }
 
 function createLegend() {
-    const numPlayers = activePlayers.size
+    const numPlayers = selectedActivePlayers.size
 
     svg.selectAll(".legend").remove()
     d3.select("#sequence-between-puzzles-student-legend").selectAll("*").remove()
 
+    const studentLegendClassName = "puzzle-network-student-legend-item"
     const studentColorLegend = swatches({
         color: lineColorScale,
         columns: "100px",
-        title: "Students"
+        title: "Students",
+        className: studentLegendClassName
     })
 
     d3.select("#sequence-between-puzzles-student-legend")
         .html(studentColorLegend)
 
-    const completedColorLegend = colorLegend({
+    $("." + studentLegendClassName).each(function () {
+        const student = $(this).attr("label")
+
+        const checkbox = document.createElement("input")
+        checkbox.className = "legend-checkbox"
+        checkbox.type = "checkbox"
+        checkbox.checked = selectedActivePlayers.has(student)
+        $(checkbox).on('input', function () {
+            if ($(this).is(":checked")) {
+                selectedActivePlayers.add(student)
+            } else {
+                selectedActivePlayers.delete(student)
+            }
+            createNetwork()
+        })
+        $(this).prepend(checkbox)
+    })
+
+    const nodeColorLegend = currentColorScale === 'completed' ? colorLegend({
         color: completedColorScale,
         title: "No. students who completed the puzzle",
         width: 200,
         tickFormat: (d) => Math.ceil(d),
-        
+    }) : colorLegend({
+        color: activeTimeColorScale,
+        title: "Total active time spent on puzzle",
+        width: 200,
+        tickFormat: (d) => Math.ceil(d),
     })
 
     svg.append("g")
         .attr("transform", "translate(620,10)")
         .attr('class', 'legend')
         .node()
-        .append(completedColorLegend)
+        .append(nodeColorLegend)
 
     const circleSizes = [0, Math.max(1, numPlayers)]
     if (numPlayers > 1) {
@@ -350,7 +383,7 @@ function createSequenceDataPerStudent(originalSequence) {
                 id: student + puzzle + nextPuzzle,
                 source: puzzle,
                 target: nextPuzzle,
-                student: student,
+                students: [student],
                 sourceSession: sourceSession,
                 targetSession: targetSession
             })
@@ -425,18 +458,74 @@ function getCompletedColorScaleRange(numPlayers) {
     }
 }
 
+function createLinksArray() {
+    const links = []
+    
+    if (selectedActivePlayers.size == 1) {
+        for (const player of selectedActivePlayers) {
+            if (!(player in playerSequences.links)) continue
+            links.push(...playerSequences.links[player].map(d => Object.create(d)))
+        }
+    } else {
+        const linkWeight = {}
+
+        for (const player of selectedActivePlayers) {
+            if (!(player in playerSequences.links)) continue
+            const playerLinks = playerSequences.links[player].map(d => Object.create(d))
+            for (let link of playerLinks) {
+                const linkName = link.source + ";" + link.target
+                if (!(linkName in linkWeight)) {
+                    linkWeight[linkName] = [player]
+                } else {
+                    linkWeight[linkName].push(player)
+                }
+            }
+        }
+
+        for (let link of Object.keys(linkWeight)) {
+            const [source, dest] = link.split(";")
+            links.push({
+                id: source + dest,
+                source: source,
+                target: dest, 
+                students: linkWeight[link],
+                sourceSession: null,
+                targetSession: null
+            })
+        }
+    }
+    
+    return links
+}
+
+function getNodeFillColor(d) {
+    switch(currentColorScale) {
+        case 'completed':
+            return completedColorScale(d.completedCount)
+        case 'active':
+            return activeTimeColorScale(d.activeTime)
+        default:
+            return "#FFF"
+    }
+}
+
 function createNetwork(perStudent = true) {
     var height = 650 //$("#puzzle-network-player-container").height()
     var width = $("#sequence-between-puzzles-network").width()
     const radius = 20
-    const numPlayers = activePlayers.size
+    const numPlayers = selectedActivePlayers.size
     // console.log(height, width, "test")
 
+    const domainArr = [0, Math.max(1, numPlayers)]
     lineColorScale.domain(activePlayers)
-    completedColorScale.domain([0, Math.max(1, numPlayers)])
+    for (let player of activePlayers) {
+        lineColorScale(player)
+    }
+    completedColorScale.domain(domainArr)
+    activeTimeColorScale.domain(domainArr)
     // .range(getCompletedColorScaleRange(numPlayers))
     
-    revisitedSizeScale.domain([0, Math.max(1, numPlayers)])
+    revisitedSizeScale.domain(domainArr)
 
     // evenly spaces nodes along arc
     var circleCoord = function (node, index, num_nodes) {
@@ -450,14 +539,14 @@ function createNetwork(perStudent = true) {
     // fades out lines that aren't connected to node d
     var isConnected = function (d, opacity) {
         const connectedNodes = new Set()
-        link.transition().style("stroke-opacity", function (o) {
-            var opacityToReturn = opacity
+        link.transition().style("opacity", function (o) {
+            var opacityToReturn = opacity * opacityFunction(o)
             if (o.source === d) {
                 connectedNodes.add(o.target.index)
-                opacityToReturn = 1
+                opacityToReturn = opacityFunction(o)
             } else if (o.target === d) {
                 connectedNodes.add(o.source.index)
-                opacityToReturn = 1
+                opacityToReturn = opacityFunction(o)
             }
             return opacityToReturn
         })
@@ -468,10 +557,7 @@ function createNetwork(perStudent = true) {
 
     // const links = perStudent ? (activePlayer ? playerSequences.links[activePlayer].map(d => Object.create(d)) : [])
     //     : playerSequences.links.map(d => Object.create(d))
-    const links = []
-    for (const player of activePlayers) {
-        links.push(...playerSequences.links[player].map(d => Object.create(d)))
-    }
+    const links = createLinksArray()
     const nodes = playerSequences.nodes.map(d => Object.create(d))
 
     var mLinkNum = {}
@@ -540,8 +626,9 @@ function createNetwork(perStudent = true) {
         .attr('refX', 5)
         .attr('refY', .5)
         .attr('orient', 'auto')
-        .attr('markerWidth', 5)
-        .attr('markerHeight', 5)
+        .attr('markerWidth', 8)
+        .attr('markerHeight', 8)
+        .attr('markerUnits', 'userSpaceOnUse')
         .append('svg:path')
         .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
 
@@ -563,9 +650,9 @@ function createNetwork(perStudent = true) {
         var totalTimeCount = 0
         var timeStudentCount = 0
 
-        for (const player of activePlayers) {
-            if (playerSequences.revisited[player].has(n.id)) revisitedCount++
-            if (playerSequences.completed[player].has(n.id)) completedCount++
+        for (const player of selectedActivePlayers) {
+            if (player in playerSequences.revisited && playerSequences.revisited[player].has(n.id)) revisitedCount++
+            if (player in playerSequences.completed && playerSequences.completed[player].has(n.id)) completedCount++
             if (player in levelsOfActivity[n.id]) {
                 activeTimeCount += levelsOfActivity[n.id][player].active_time
                 totalTimeCount += levelsOfActivity[n.id][player].timeTotal
@@ -579,84 +666,88 @@ function createNetwork(perStudent = true) {
         n.totalTime = timeStudentCount > 0 ? totalTimeCount / timeStudentCount : 0
     });
 
-    var link = svg.selectAll("path.node-link")
-        .data(links).enter().append("path")
-        .attr("class", "node-link")
-        // .attr("d", function (d) {
-        //     var dx = d.target.x - d.source.x,
-        //         dy = d.target.y - d.source.y,
-        //         dr = Math.sqrt(dx * dx + dy * dy);
-        //     return "M" +
-        //         d.source.x + "," +
-        //         d.source.y + "A" +
-        //         dr + "," + dr + " 0 0,1 " +
-        //         d.target.x + "," +
-        //         d.target.y;
-        // })
-        .attr("d", function (d) {
-            const t_radius = revisitedSizeScale(d.target.revisitedCount) + 5
-            var gamma = Math.atan2(d.target.y - d.source.y, d.target.x - d.source.x);
+    var link = null
+    if (showPaths) {
+        link = svg.selectAll("path.node-link")
+            .data(links).enter().append("path")
+            .attr("class", "node-link")
+            // .attr("d", function (d) {
+            //     var dx = d.target.x - d.source.x,
+            //         dy = d.target.y - d.source.y,
+            //         dr = Math.sqrt(dx * dx + dy * dy);
+            //     return "M" +
+            //         d.source.x + "," +
+            //         d.source.y + "A" +
+            //         dr + "," + dr + " 0 0,1 " +
+            //         d.target.x + "," +
+            //         d.target.y;
+            // })
+            .attr("d", function (d) {
+                const t_radius = revisitedSizeScale(d.target.revisitedCount) + 5
+                var gamma = Math.atan2(d.target.y - d.source.y, d.target.x - d.source.x);
 
-            // Math.atan2 returns the angle in the correct quadrant as opposed to Math.atan
-            var tx = d.target.x - (Math.cos(gamma) * t_radius);
-            var ty = d.target.y - (Math.sin(gamma) * t_radius);
+                // Math.atan2 returns the angle in the correct quadrant as opposed to Math.atan
+                var tx = d.target.x - (Math.cos(gamma) * t_radius);
+                var ty = d.target.y - (Math.sin(gamma) * t_radius);
 
-            var dx = tx - d.source.x,
-                dy = ty - d.source.y,
-                dr = Math.sqrt(dx * dx + dy * dy);
+                var dx = tx - d.source.x,
+                    dy = ty - d.source.y,
+                    dr = Math.sqrt(dx * dx + dy * dy);
 
-            // get the total link numbers between source and target node
-            var lTotalLinkNum = mLinkNum[d.source.id + "," + d.target.id] || mLinkNum[d.target.id + "," + d.source.id];
-            if (lTotalLinkNum > 1) {
-                // if there are multiple links between these two nodes, we need generate different dr for each path
-                dr = dr / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
-            }
-
-            // Self edge.
-            if (d.target.x === d.source.x && d.target.y === d.source.y) {
-                // Fiddle with this angle to get loop oriented.
-                var xRotation = -45;
-
-                // Needs to be 1.
-                var largeArc = 1;
-
-                // Change sweep to change orientation of loop. 
-                var sweep = 0;
-
-                const nodeNum = d.target.index
-                if (nodeNum < 18) {
-                    sweep = 1 
-                }
-
-                var drx = 30
-                var dry = 20
-
+                // get the total link numbers between source and target node
+                var lTotalLinkNum = mLinkNum[d.source.id + "," + d.target.id] || mLinkNum[d.target.id + "," + d.source.id];
                 if (lTotalLinkNum > 1) {
                     // if there are multiple links between these two nodes, we need generate different dr for each path
-                    drx = drx / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
-                    dry = dry / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
+                    dr = dr / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
                 }
 
-                var x1 = d.source.x
-                var y1 = d.source.y
-                var x2 = tx + 1
-                var y2 = ty + 1
+                // Self edge.
+                if (d.target.x === d.source.x && d.target.y === d.source.y) {
+                    // Fiddle with this angle to get loop oriented.
+                    var xRotation = -45;
 
-                return "M" + x1 + "," + y1 + "A" + drx + "," + dry + " " + xRotation + "," + largeArc + "," + sweep + " " + x2 + "," + y2
-            } 
-            // generate svg path
-            return "M" + d.source.x + "," + d.source.y +
-                "A" + dr + "," + dr + " 0 0 1," + tx + "," + ty; // +
+                    // Needs to be 1.
+                    var largeArc = 1;
+
+                    // Change sweep to change orientation of loop. 
+                    var sweep = 0;
+
+                    const nodeNum = d.target.index
+                    if (nodeNum < 18) {
+                        sweep = 1
+                    }
+
+                    var drx = 30
+                    var dry = 20
+
+                    if (lTotalLinkNum > 1) {
+                        // if there are multiple links between these two nodes, we need generate different dr for each path
+                        drx = drx / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
+                        dry = dry / (1 + (1 / lTotalLinkNum) * (d.linkindex - 1));
+                    }
+
+                    var x1 = d.source.x
+                    var y1 = d.source.y
+                    var x2 = tx + 1
+                    var y2 = ty + 1
+
+                    return "M" + x1 + "," + y1 + "A" + drx + "," + dry + " " + xRotation + "," + largeArc + "," + sweep + " " + x2 + "," + y2
+                }
+                // generate svg path
+                return "M" + d.source.x + "," + d.source.y +
+                    "A" + dr + "," + dr + " 0 0 1," + tx + "," + ty; // +
                 // "A" + dr + "," + dr + " 0 0 0," + d.source.x + "," + d.source.y;
-        })
-        .attr('marker-end', 'url(#arrowhead)')
-        .attr("stroke", (d) => lineColorScale(d.student))
-        .attr("stroke-width", 2)
-        
+            })
+            .attr('marker-end', 'url(#arrowhead)')
+            .attr("stroke", (d) => d.students.length === 1 ? lineColorScale(d.students[0]) : "#654321")
+            .attr("stroke-width", (d) => Math.sqrt(d.students.length*5))
+            .style("opacity", opacityFunction)
 
-    // TODO: fix
-    link.append("title")
-        .text((d) => anonymizeNames ? d.student : playerMap[d.student])
+
+        // TODO: fix
+        link.append("title")
+            .text((d) => anonymizeNames ? d.students.join() : d.students.map(s => playerMap[s]).join())
+    }
 
     var gnodes = svg.selectAll('g.gnode')
         .data(nodes).enter().append('g')
@@ -669,7 +760,7 @@ function createNetwork(perStudent = true) {
         .attr("r", (d) => revisitedSizeScale(d.revisitedCount))
         .attr("class", "node")
         .on("mouseenter", function (d) {
-            isConnected(d, 0.1)
+            isConnected(d, 0.05)
             // node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
             // d3.select(this).transition().duration(100).attr("r", revisitedSizeScale(d.revisitedCount) + 5)
         })
@@ -677,7 +768,7 @@ function createNetwork(perStudent = true) {
             // node.transition().duration(100).attr("r", (di) => revisitedSizeScale(di.revisitedCount))
             isConnected(d, 1)
         })
-        .attr("fill", (d) => completedColorScale(d.completedCount))
+        .attr("fill", getNodeFillColor)
         .attr("stroke-width", (d, i) => 1) //perStudent && activePlayer && playerSequences.visited[activePlayer].has(d.id) ? 3 : 1)
 
     var labels = gnodes.append("text")
@@ -710,11 +801,34 @@ function togglePlayerSelectMultiple(pk) {
 
     if (activePlayers.has(pk)) {
         activePlayers.delete(pk)
+        selectedActivePlayers.delete(pk)
     } else {
         activePlayers.add(pk)
+        selectedActivePlayers.add(pk)
     }
 
     createNetwork()
+}
+
+function recolorNodes() {
+    svg.selectAll(".node").attr("fill", getNodeFillColor)
+}
+
+function createDisplayOptions() {
+    if (showPaths) {
+        $("#puzzle-network-show-paths-check").prop("checked", true)
+    }
+
+    $("#puzzle-network-show-paths-check").change(function() {
+        showPaths = $(this).is(":checked")
+        createNetwork()
+    })
+
+    $(".puzzle-network-color-option").change(function() {
+        currentColorScale = $(this).val()
+        createLegend()
+        recolorNodes()
+    })
 }
 
 function generatePlayerList() {
@@ -732,8 +846,8 @@ export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, loa, anon
         levelsOfActivity = loa
 
         generatePlayerStats()
-        console.log(playerStats)
         createFilters()
+        createDisplayOptions()
         generatePlayerList()
         createNetwork()
     }

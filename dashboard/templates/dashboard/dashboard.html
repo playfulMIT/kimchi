@@ -311,6 +311,27 @@
                             <div id="sequence-between-puzzles-network"></div>
                         </div>
                         <div id="puzzle-network-config">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="puzzle-network-show-paths-check">
+                                <label class="custom-control-label" for="puzzle-network-show-paths-check">Show Paths between Puzzles</label>
+                            </div>
+                            <div>
+                                Color by: &nbsp;
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input puzzle-network-color-option" type="radio" name="puzzle-network-color-radio"
+                                        id="puzzle-network-color-radio-completed" value="completed" checked>
+                                    <label class="form-check-label" for="puzzle-network-color-radio-completed">
+                                        Completion
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input puzzle-network-color-option" type="radio" name="puzzle-network-color-radio"
+                                        id="puzzle-network-color-radio-active-time" value="active">
+                                    <label class="form-check-label" for="puzzle-network-color-radio-active-time">
+                                        Active Time
+                                    </label>
+                                </div>
+                            </div>
                             <div id="puzzle-network-filters" class="card">
                                 <div class="card-header">
                                     Filter Students
@@ -338,18 +359,18 @@
                                         </label>
                                         <div id="puzzle-network-abandoned-count-slider"></div>
                                     </div>
-                                    <div class="puzzle-network-filter form-check">
+                                    <!-- <div class="puzzle-network-filter form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="puzzle-network-time-spent-check">
                                         <label class="form-check-label" for="puzzle-network-time-spent-check">
                                             <div>
-                                                <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="puzzle-network-active-total-dropdown" data-toggle="dropdown"
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="puzzle-network-active-total-dropdown" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     Active
                                                 </button>
                                                 <div id="puzzle-network-active-total-dropdown-menu" class="dropdown-menu" aria-labelledby="puzzle-network-active-total-dropdown">
                                                     <a class="dropdown-item">Active</a>
                                                     <a class="dropdown-item">Total</a>
-                                                </div> -->
+                                                </div>
                                                 <select class="custom-select" id="puzzle-network-time-spent-select">
                                                     <option value="active" selected>Active</option>
                                                     <option value="total">Total</option>
@@ -357,7 +378,7 @@
                                                 time of XX on all puzzles
                                             </div>
                                         </label>
-                                    </div>
+                                    </div> -->
                                     <div id="puzzle-network-completed-puzzles" class="puzzle-network-filter"></div>
                                     <a id="puzzle-network-add-completed-puzzle" role="button"><i id="puzzle-network-add-completed-puzzle-icon" class="fas fa-plus plus-option"></i>Add Completed Puzzle</a>
                                 </div>

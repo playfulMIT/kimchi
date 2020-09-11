@@ -140,6 +140,35 @@ export function showPlayerList(buttonClass, divId, playerMap, onClick, anonymize
         document.getElementById(divId).appendChild(button)
         $(`#${pk}.${buttonClass}`).click(onClick)
     }
+
+    const searchBarDiv = document.createElement("div")
+    searchBarDiv.className = "input-group md-form form-sm form-2 pl-0"
+
+    const searchBarInput = document.createElement("input")
+    searchBarInput.className = "form-control my-0 py-1 amber-border"
+    searchBarInput.type = "text"
+    searchBarInput.placeholder = "Search"
+    searchBarInput.oninput = function(e) {
+        const searchString = e.target.value
+        const shouldShowAll = searchString === ""
+        $(`.${buttonClass}`).each(function() {
+            if (shouldShowAll || $(this).attr("id").startsWith(searchString)) {
+                $(this).show()
+            } else {
+                $(this).hide()
+            }
+        })
+    }
+
+    searchBarDiv.appendChild(searchBarInput)
+
+    const searchBarInputGroup = document.createElement("div")
+    searchBarInputGroup.className = "input-group-append"
+    searchBarInputGroup.innerHTML = '<span class="input-group-text amber lighten-3"><i class="fas fa-search text-grey"'
+        + ' aria-hidden="true"></i></span>'
+    searchBarDiv.appendChild(searchBarInputGroup)
+
+    $(searchBarDiv).insertBefore($(`#${divId}`))
 }
 
 export function toCamelCase(text) {

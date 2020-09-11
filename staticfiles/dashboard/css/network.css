@@ -68,3 +68,7 @@ text {
 #puzzle-network-time-spent-select {
     width: fit-content;
 }
+
+.legend-checkbox {
+    margin-right: 5px;
+}
