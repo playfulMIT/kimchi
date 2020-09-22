@@ -421,3 +421,12 @@ def get_machine_learning_outliers(request, slug):
         return JsonResponse(result)
     except ObjectDoesNotExist:
         return JsonResponse({})
+
+def get_persistence_data(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computePersistence(['" + slug + "']")
+        result = json.loads(task_result)
+
+        return JsonResponse(result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
