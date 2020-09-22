@@ -62,7 +62,7 @@ def wildcard_replay(request, slug, player, level, attempt):
     session = generate_session(request, slug)
     return render(
         request,
-        "shadowspect/play.html",
+        "shadowspect/replay.html",
         {"title": "Shadow Tangrams", "sessionID": request.session.session_key},
     )
 

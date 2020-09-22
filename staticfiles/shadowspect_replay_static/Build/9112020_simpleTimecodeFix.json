@@ -1,0 +1,13 @@
+{
+"companyName": "MIT Education Arcade",
+"productName": "Shadowspect",
+"dataUrl": "9112020_simpleTimecodeFix.data.unityweb",
+"wasmCodeUrl": "9112020_simpleTimecodeFix.wasm.code.unityweb",
+"wasmFrameworkUrl": "9112020_simpleTimecodeFix.wasm.framework.unityweb",
+"TOTAL_MEMORY": 1073741824,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"}
+}
