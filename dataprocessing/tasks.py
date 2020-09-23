@@ -1033,6 +1033,7 @@ def computeLevelsOfActivity(group='all'):
     ### MERGING ROWS CORRESPONDING TO THE SAME USER
     return activity_by_user.to_json()
 
+@app.task
 def computePersistence(group = 'all'):
     if group == 'all' : 
         toFilter = all_data_collection_urls
