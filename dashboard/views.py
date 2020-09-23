@@ -427,6 +427,25 @@ def get_persistence_data(request, slug):
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computePersistence(['" + slug + "']")
         result = json.loads(task_result)
 
+        new_result = {}
+        columns = ['task_id','puzzle_difficulty' ,'completed','timestamp', 'active_time','percentileActiveTime','n_events','percentileEvents', 'n_check_solution','percentileAtt','percentileComposite' ,'persistence','n_breaks','n_snapshot','n_rotate_view','n_manipulation_events','time_failed_submission_exit','avg_time_between_submissions','cum_weighted_difficulty_perc_composite','percentileCompositeAcrossAttempts','persistenceAcrossAttempts','cum_global_puzzle_attempts','cum_this_puzzle_attempt','cum_avg_perc_composite', 'cum_avg_persistence']
+        player_map = {v: k for k, v in create_player_map(slug).items()}
+
+        for i in result['group'].keys():
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            if user not in new_result:
+                new_result[user] = []
+            
+            persistence_dict = {}
+            for column in columns:
+                persistence_dict[column] = result[column][i]
+                
+            new_result[user].append(persistence_dict)
+
         return JsonResponse(result)
     except ObjectDoesNotExist:
         return JsonResponse({})
