@@ -446,6 +446,6 @@ def get_persistence_data(request, slug):
                 
             new_result[user].append(persistence_dict)
 
-        return JsonResponse(result)
+        return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
