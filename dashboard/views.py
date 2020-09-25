@@ -442,7 +442,7 @@ def get_persistence_data(request, slug):
             
             persistence_dict = {}
             for column in columns:
-                persistence_dict[column] = result[column][i]
+                persistence_dict[column] = json.loads(result[column][i]) if column == 'cum_avg_persistence' else result[column][i]
                 
             new_result[user].append(persistence_dict)
 
