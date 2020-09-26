@@ -14,7 +14,6 @@ urlpatterns = [
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/funnelperpuzzle", views.get_funnel_per_puzzle),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/shapesperpuzzle", views.get_shapes_per_puzzle),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/modesperpuzzle", views.get_modes_per_puzzle),
-    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/metrics", views.get_task_metrics),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/levelsofactivity", views.get_levels_of_activity),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/sequencebetweenpuzzles", views.get_sequence_between_puzzles),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/mloutliers", views.get_machine_learning_outliers),
