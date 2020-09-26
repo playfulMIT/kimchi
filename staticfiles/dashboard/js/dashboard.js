@@ -37,7 +37,7 @@ function handleTabSwitch(tab) {
             showSequenceBetweenPuzzlesNetwork(playerMap, puzzleData, sequenceBetweenPuzzles, levelsOfActivity)
             break
         case TABS.ML_OUTLIERS:
-            showMachineLearningOutliers(playerMap, puzzleData, outlierData, completedPuzzleData)
+            showMachineLearningOutliers(playerMap, puzzleData, outlierData, levelsOfActivity, completedPuzzleData)
             break
     }
 }
@@ -51,7 +51,7 @@ async function startDashboard() {
     sequenceBetweenPuzzles = await callAPI(`${API}/sequencebetweenpuzzles`)
     outlierData = await callAPI(`${API}/mloutliers`)
     completedPuzzleData = await callAPI(`${API}/completed`)
-    handleTabSwitch(TABS.PUZZLE_SEQ_NETWORK)
+    handleTabSwitch(TABS.ML_OUTLIERS)
 }
 
 $(document).ready(() => {

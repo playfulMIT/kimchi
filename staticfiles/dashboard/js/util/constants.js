@@ -115,3 +115,9 @@ export const NORMALIZATION_OPTIONS = {
     "MINMAX": 1,
     "STANDARD": 2
 }
+
+export const NORMALIZATION_OPTION_KEYS = {
+    [NORMALIZATION_OPTIONS.NONE]: "no_normalization",
+    [NORMALIZATION_OPTIONS.MINMAX]: "minmax_normalization",
+    [NORMALIZATION_OPTIONS.STANDARD]: "standard_normalization"
+}

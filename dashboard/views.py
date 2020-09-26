@@ -290,103 +290,6 @@ def get_task_metrics(request, slug):
     tasks = list(Task.objects.filter(input_urls=url).values_list("result", flat=True))
     return JsonResponse(tasks, safe=False)
 
-def get_levels_of_activity(request, slug):
-    try:
-        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['" + slug + "']")
-        result = json.loads(task_result)
-
-        new_result = {}
-        max_index = len(result['group'])
-        player_map = {v: k for k, v in create_player_map(slug).items()}
-
-        for i_num in range(max_index):
-            i = str(i_num)
-            user = player_map.get(result['user'][i])
-
-            if user == None:
-                continue
-
-            if result['task_id'][i] not in new_result:
-                new_result[result['task_id'][i]] = {}
-
-            if user not in new_result[result['task_id'][i]]:
-                new_result[result['task_id'][i]][user] = {}
-
-            new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
-
-        completed_map = get_completed_puzzles_map(slug)
-        metric_keys = list(list(new_result.values())[0].values())[0].keys()
-
-        for task in new_result:
-            statistics = {}
-            completed_statistics = {}
-
-            values = {}
-            completed_values = {}
-
-            for key in metric_keys:
-                statistics[key] = {
-                    'min': float("inf"),
-                    'max': float("-inf"),
-                    'median': 0,
-                    'mean': 0,
-                    'stdev': 0
-                }
-                completed_statistics[key] = {
-                    'min': float("inf"),
-                    'max': float("-inf"),
-                    'median': 0,
-                    'mean': 0,
-                    'stdev': 0
-                }
-                values[key] = []
-                completed_values[key] = []
-            
-            users = new_result[task]
-            items = users.items()
-            
-            for student, value in items:
-                if value['ws-create_shape'] == 0:
-                    continue
-                if task in completed_map[student]:
-                    for key in value.keys():
-                        values[key].append(value[key])
-                        completed_values[key].append(value[key])
-
-                        if statistics[key]['min'] > value[key]:
-                            statistics[key]['min'] = value[key]
-                        if statistics[key]['max'] < value[key]:
-                            statistics[key]['max'] = value[key]
-
-                        if completed_statistics[key]['min'] > value[key]:
-                            completed_statistics[key]['min'] = value[key]
-                        if completed_statistics[key]['max'] < value[key]:
-                            completed_statistics[key]['max'] = value[key]
-                else:
-                    for key in value.keys():
-                        values[key].append(value[key])
-
-                        if statistics[key]['min'] > value[key]:
-                            statistics[key]['min'] = value[key]
-                        if statistics[key]['max'] < value[key]:
-                            statistics[key]['max'] = value[key]
-            
-            for key in metric_keys:
-                statistics[key]['median'] = np.median(values[key])
-                statistics[key]['mean'] = np.mean(values[key])
-                statistics[key]['stdev'] = np.std(values[key])
-
-                completed_statistics[key]['median'] = np.median(completed_values[key])
-                completed_statistics[key]['mean'] = np.mean(completed_values[key])
-                completed_statistics[key]['stdev'] = np.std(completed_values[key])
-            
-            new_result[task]['stats'] = statistics
-            new_result[task]['completed_stats'] = None if completed_statistics["event"]["min"] == float("inf") else completed_statistics
-            
-        return JsonResponse(new_result)
-    except ObjectDoesNotExist:
-        return JsonResponse({})
-
 def get_sequence_between_puzzles(request, slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="sequenceBetweenPuzzles(['" + slug + "']")
@@ -410,6 +313,15 @@ def get_sequence_between_puzzles(request, slug):
             new_result[user][result['sequence'][i]] = { 'session': result['session'][i], 'puzzle': puzzle, 'status': status}
         
         return JsonResponse(new_result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
+
+def get_levels_of_activity(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['" + slug + "']")
+        result = json.loads(task_result)
+
+        return JsonResponse(result)
     except ObjectDoesNotExist:
         return JsonResponse({})
 

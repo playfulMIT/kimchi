@@ -1,5 +1,8 @@
 import { showPage, showPlayerList, formatPlurals, formatTime, toCamelCase, createOptionDropdownItems } from "../util/helpers.js"
 import { colorLegend, swatches } from "../util/legend.js"
+import { NORMALIZATION_OPTION_KEYS, NORMALIZATION_OPTIONS } from "../util/constants.js";
+
+const normKey = NORMALIZATION_OPTION_KEYS[NORMALIZATION_OPTIONS.NONE]
 
 var playerMap = null
 var puzzleData = null
@@ -41,9 +44,9 @@ function generatePlayerStats() {
 
         for (let puzzles of Object.values(puzzleData["puzzles"])) {
             for (let puzzle of puzzles) {
-                if (player in levelsOfActivity[puzzle]) {
-                    playerStats[player]["activeTime"] += levelsOfActivity[puzzle][player].active_time
-                    playerStats[player]["totalTime"] += levelsOfActivity[puzzle][player].timeTotal
+                if (player in levelsOfActivity[puzzle][normKey]) {
+                    playerStats[player]["activeTime"] += levelsOfActivity[puzzle][normKey][player].active_time
+                    playerStats[player]["totalTime"] += levelsOfActivity[puzzle][normKey][player].timeTotal
                 }
             }
         }
@@ -653,9 +656,9 @@ function createNetwork(perStudent = true) {
         for (const player of selectedActivePlayers) {
             if (player in playerSequences.revisited && playerSequences.revisited[player].has(n.id)) revisitedCount++
             if (player in playerSequences.completed && playerSequences.completed[player].has(n.id)) completedCount++
-            if (player in levelsOfActivity[n.id]) {
-                activeTimeCount += levelsOfActivity[n.id][player].active_time
-                totalTimeCount += levelsOfActivity[n.id][player].timeTotal
+            if (player in levelsOfActivity[n.id][normKey]) {
+                activeTimeCount += levelsOfActivity[n.id][normKey][player].active_time
+                totalTimeCount += levelsOfActivity[n.id][normKey][player].timeTotal
                 timeStudentCount++
             }
         }

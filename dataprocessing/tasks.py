@@ -500,7 +500,7 @@ def sequenceWithinPuzzles(group='all'):
     return modDf.to_json()
 
 @app.task
-def computeLevelsOfActivityInProgress(group='all'):
+def computeLevelsOfActivity(group='all'):
     ### DATA COLLECTION AND INITIAL PROCESSING
     if group == 'all':
         toFilter = all_data_collection_urls
@@ -758,34 +758,43 @@ def computeLevelsOfActivityInProgress(group='all'):
             completed_statistics[key]['mean'] = np.mean(completed_values[key])
             completed_statistics[key]['stdev'] = np.std(completed_values[key])
         
-        merged_activity[task]['all_stats'] = statistics
+        merged_activity[task]['no_normalization']['all_stats'] = statistics
         no_completed_stats = completed_statistics["event"]["min"] == float("inf")
-        merged_activity[task]['completed_stats'] = None if no_completed_stats else completed_statistics
+        merged_activity[task]['no_normalization']['completed_stats'] = None if no_completed_stats else completed_statistics
 
         ### CALCULATING NORMALIZED VALUES
         merged_activity[task]["minmax_normalization"] = {"all_stats": {}, "completed_stats": None if no_completed_stats else {}}
         merged_activity[task]["standard_normalization"] = {"all_stats": {}, "completed_stats": None if no_completed_stats else {}}
 
         for student, value in items:
+            if (student == "all_stats" or student == "completed_stats"):
+                continue
+
             merged_activity[task]["minmax_normalization"]['all_stats'][student] = {}
+            merged_activity[task]["standard_normalization"]['all_stats'][student] = {}
+
+            if not no_completed_stats:
+                merged_activity[task]["minmax_normalization"]['completed_stats'][student] = {}
+                merged_activity[task]["standard_normalization"]['completed_stats'][student] = {}
 
             for key, key_val in value.items():
-                min_val = merged_activity[task]['all_stats'][key]['min']
-                max_val = merged_activity[task]['all_stats'][key]['max']
-                stdev_val = merged_activity[task]['all_stats'][key]['stdev']
-                mean_val = merged_activity[task]['all_stats'][key]['mean']
+                min_val = merged_activity[task]['no_normalization']['all_stats'][key]['min']
+                max_val = merged_activity[task]['no_normalization']['all_stats'][key]['max']
+                stdev_val = merged_activity[task]['no_normalization']['all_stats'][key]['stdev']
+                mean_val = merged_activity[task]['no_normalization']['all_stats'][key]['mean']
 
                 merged_activity[task]["minmax_normalization"]['all_stats'][student][key] = (key_val - min_val) / (max_val - min_val) if max_val - min_val != 0 else 0
-    
+                merged_activity[task]["standard_normalization"]['all_stats'][student][key] = ((key_val - mean_val) / stdev_val) if stdev_val != 0 else 0
+
                 if no_completed_stats:
                     continue
 
-                min_val = merged_activity[task]['completed_stats'][key]['min']
-                max_val = merged_activity[task]['completed_stats'][key]['max']
-                stdev_val = merged_activity[task]['completed_stats'][key]['stdev']
-                mean_val = merged_activity[task]['completed_stats'][key]['mean']
+                min_val = merged_activity[task]['no_normalization']['completed_stats'][key]['min']
+                max_val = merged_activity[task]['no_normalization']['completed_stats'][key]['max']
+                stdev_val = merged_activity[task]['no_normalization']['completed_stats'][key]['stdev']
+                mean_val = merged_activity[task]['no_normalization']['completed_stats'][key]['mean']
 
-                merged_activity[task]["standard_normalization"]['completed_stats'][student] = {}
+                merged_activity[task]["minmax_normalization"]['completed_stats'][student][key] = (key_val - min_val) / (max_val - min_val) if max_val - min_val != 0 else 0
                 merged_activity[task]["standard_normalization"]['completed_stats'][student][key] = ((key_val - mean_val) / stdev_val) if stdev_val != 0 else 0
 
     return json.dumps(merged_activity)
@@ -863,177 +872,6 @@ def computeLevelsOfActivityOutliers(group='all'):
             outlier_result[student] = list(np.array(outlier_vals_puzzles[student])[indices])
 
     return json.dumps(outlier_result)
-
-@app.task
-def computeLevelsOfActivity(group='all'):
-    ### DATA COLLECTION AND INITIAL PROCESSING
-    if group == 'all':
-        toFilter = all_data_collection_urls
-    else:
-        toFilter = group
-
-    urls = URL.objects.filter(name__in=toFilter)
-    sessions = CustomSession.objects.filter(url__in=urls)
-    qs = Event.objects.filter(session__in=sessions)
-    dataEvents = read_frame(qs)
-
-    dataEvents['time'] = pd.to_datetime(dataEvents['time'])
-    dataEvents = dataEvents.sort_values('time')
-    
-    #iterates in the groups and users of the data
-    dataEvents['group'] = [json.loads(x)['group'] if 'group' in json.loads(x).keys() else '' for x in dataEvents['data']]
-    dataEvents['user'] = [json.loads(x)['user'] if 'user' in json.loads(x).keys() else '' for x in dataEvents['data']]
-    dataEvents['task_id'] = [json.loads(x)['task_id'] if 'task_id' in json.loads(x).keys() else '' for x in dataEvents['data']]
-    
-    # removing those rows where we dont have a group and a user that is not guest
-    dataEvents = dataEvents[((dataEvents['group'] != '') & (dataEvents['user'] != '') & (dataEvents['user'] != 'guest'))]
-    dataEvents['group_user_id'] = dataEvents['group'] + '~' + dataEvents['user']
-    dataEvents['group_user_task_id'] = dataEvents['group'] + '~' + dataEvents['user']+'~'+dataEvents['task_id']
-
-         
-    # filtering to only take the group passed as argument
-    if(group != 'all'):
-        dataEvents = dataEvents[dataEvents['group'].isin(group)]
-          
-    # the data is grouped by the necessary variables      
-    activity_by_user = dataEvents.groupby(['group_user_id','group', 'user','group_user_task_id','task_id']).agg({'id':'count',
-                                             'type':'nunique'}).reset_index().rename(columns={'id':'events',
-                                                                                              'type':'different_events'}) 
-    
-    #indicate the index variable                                                                                                                                                               
-    activity_by_user.index = activity_by_user['group_user_task_id'].values
-    
-    typeEvents = ['ws-snapshot','ws-paint', 'ws-rotate_view','ws-move_shape','ws-rotate_shape' ,'ws-scale_shape','ws-create_shape','ws-delete_shape','ws-undo_action','ws-redo_action', 'ws-check_solution']
-    
-   
-    #initialize the metrics  
-    activity_by_user['timeTotal'] = np.nan
-    activity_by_user['inactive_time'] = np.nan
-    activity_by_user['event'] = np.nan
-    activity_by_user['different_events'] = np.nan
-    activity_by_user['active_time'] = np.nan
-    for event in typeEvents:
-        activity_by_user[event] = 0
-    
-    #initialize the data structures
-    userFunnelDict = dict()  
-    puzzleEvents = dict()
-    eventsDiff = []
-    eventsDiff_puzzle = dict()
-    timePuzzle = dict()
-    globalTypesEvents = dict()
-    eventInitial = dict()
-    totalTime = dict()
-    
-      
-    for user in dataEvents['group_user_id'].unique():
-        
-        # Computing active time
-        previousEvent = None
-        theresHoldActivity = 60 # np.percentile(allDifferences, 98) is 10 seconds
-        limit = 3600
-        activeTime = []
-        
-        user_events = dataEvents[dataEvents['group_user_id'] == user]
-        user_puzzle_key = None
-
-        for enum, event in user_events.iterrows():
-            
-            # If it is the first event
-            if(previousEvent is None):
-                previousEvent = event
-                continue
-            
-            if(event['type'] in ['ws-start_level', 'ws-puzzle_started']):
-                
-                #create id: group+user+task_id                                                                              
-                user_puzzle_key = event['group'] + '~' + event['user'] + '~' + json.loads(event['data'])['task_id']
-                
-                if(user_puzzle_key not in totalTime.keys()):
-                    totalTime[user_puzzle_key] = 0
-                    
-                delta_seconds = (event['time'] - previousEvent['time']).total_seconds()
-                if((delta_seconds < limit)):
-                    totalTime[user_puzzle_key] += delta_seconds
-                previousEvent = event
-                
-                       
-                # initialize if the id is new                                                                              
-                if(user_puzzle_key not in puzzleEvents.keys()):
-                    #totalTime[user_puzzle_key] = 0
-                    puzzleEvents[user_puzzle_key]= 1
-                    eventsDiff_puzzle[user_puzzle_key] = []
-                    eventsDiff_puzzle[user_puzzle_key].append(event['type'])
-                    timePuzzle[user_puzzle_key] = 0
-                    globalTypesEvents[user_puzzle_key] = dict()
-                    for ev in typeEvents:
-                        globalTypesEvents[user_puzzle_key][ev]= 0
-                        
-                       
-            
-            # the event is not final event
-            if(event['type'] not in ['ws-exit_to_menu', 'ws-puzzle_complete', 'ws-create_user', 'ws-login_user']): 
-                    puzzleEvents[user_puzzle_key] += 1
-                                                                                              
-                    #add the event type                                                                          
-                    eventsDiff_puzzle[user_puzzle_key].append(event['type'])
-                    
-                    #calculate the duration of the event                                                                          
-                    delta_seconds = (event['time'] - previousEvent['time']).total_seconds()
-                    if((delta_seconds < limit)):
-                        totalTime[user_puzzle_key] += delta_seconds
-                    if((delta_seconds < theresHoldActivity)):
-                        timePuzzle[user_puzzle_key] += delta_seconds
-
-                    previousEvent = event 
-                    
-                    #update event counters by type
-                    if(event['type'] in typeEvents):
-                        globalTypesEvents[user_puzzle_key][event['type']] +=1
-                    
-                        
-            # the puzzle ends        
-            if(event['type'] in ['ws-exit_to_menu', 'ws-puzzle_complete']):
-                
-                    puzzleEvents[user_puzzle_key] += 1
-                    
-                    #add the event type                                                                         
-                    eventsDiff_puzzle[user_puzzle_key].append(event['type'])
-                    
-                    #calculate the duration of the event                                                                          
-                    delta_seconds = (event['time'] - previousEvent['time']).total_seconds()
-                    if((delta_seconds < limit)):
-                        totalTime[user_puzzle_key] += delta_seconds
-                    if((delta_seconds < theresHoldActivity)):
-                        timePuzzle[user_puzzle_key] += delta_seconds
-                        
-
-                    previousEvent = event
-    
-    # add the data by group_user_task_id            
-    for i in dataEvents['group_user_task_id'].unique():
-        key_split = i.split('~')
-        if(key_split[2] != ''):
-            activity_by_user.at[i, 'timeTotal'] = totalTime[i]
-            activity_by_user.at[i, 'inactive_time'] = totalTime[i]-timePuzzle[i]
-            activity_by_user.at[i, 'event'] = puzzleEvents[i]
-            activity_by_user.at[i, 'different_events'] = len(set(eventsDiff_puzzle[i]))
-            activity_by_user.at[i, 'active_time'] = timePuzzle[i]
-            for event in typeEvents:
-                activity_by_user.at[i, event] = globalTypesEvents[i][event]
-
-    #delete row with NaN
-    activity_by_user.dropna(inplace=True)
-    #delete group_user_task_id column
-    activity_by_user.drop(columns=['group_user_task_id'], inplace=True)
-    
-    #data output preparation                                                                                          
-    activity_by_user = pd.melt(activity_by_user, id_vars=['group', 'user','task_id'], 
-        value_vars=['timeTotal','inactive_time','event','different_events', 'active_time','ws-snapshot','ws-paint','ws-rotate_view','ws-rotate_shape','ws-move_shape','ws-scale_shape','ws-create_shape','ws-delete_shape','ws-undo_action','ws-redo_action','ws-check_solution'], 
-        var_name='metric', value_name='value')
-
-    ### MERGING ROWS CORRESPONDING TO THE SAME USER
-    return activity_by_user.to_json()
 
 @app.task
 def computePersistence(group = 'all'):

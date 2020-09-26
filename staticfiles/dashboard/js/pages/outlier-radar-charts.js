@@ -1,6 +1,7 @@
 import { showPage, puzzleNameToClassName, buildRadarChart, getClassAverage } from '../util/helpers.js'
-import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from '../util/constants.js'
+import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS, NORMALIZATION_OPTION_KEYS } from '../util/constants.js'
 
+const NORM_KEY = NORMALIZATION_OPTION_KEYS[NORMALIZATION_OPTIONS.NONE]
 var playerMap = null
 var puzzleData = null
 
@@ -23,19 +24,19 @@ function findOutliers() {
     for (let puzzle of Object.keys(formattedData)) {
         if (puzzle === SANDBOX_PUZZLE_NAME) continue 
 
-        var statsMap = useCompletedClassAvg ? formattedData[puzzle]['completed_stats'] : formattedData[puzzle]['stats']
+        var statsMap = useCompletedClassAvg ? formattedData[puzzle][NORM_KEY]['completed_stats'] : formattedData[puzzle][NORM_KEY]['all_stats']
 
         for (let [metric, stats] of Object.entries(statsMap)) {
             if (metricsToIgnore.has(metric)) continue
 
             const threshold = stats["mean"] + stdevCoeff*stats["stdev"]
             const negative_threshold = stats["mean"] - stdevCoeff*stats["stdev"]
-            for (let student of Object.keys(formattedData[puzzle])) {
-                if (student === "avg" || student === "stats" || student === "completed_stats") continue
+            for (let student of Object.keys(formattedData[puzzle][NORM_KEY])) {
+                if (student === "avg" || student === "all_stats" || student === "completed_stats") continue
                 if (useCompletedClassAvg && !completedPuzzleData[student].has(puzzle)) continue
 
-                if (formattedData[puzzle][student][metric] > threshold || 
-                    (includeNegativeOutliers && formattedData[puzzle][student][metric] < negative_threshold)) {
+                if (formattedData[puzzle][NORM_KEY][student][metric] > threshold || 
+                    (includeNegativeOutliers && formattedData[puzzle][NORM_KEY][student][metric] < negative_threshold)) {
                     if (!(student in outlierMap)) {
                         outlierMap[student] = {}
                     }
@@ -109,18 +110,14 @@ function showRadarModal(student, puzzle, metrics) {
         axisList = metrics
     }
 
-    const stats = useCompletedClassAvg ? formattedData[puzzle]['completed_stats'] : formattedData[puzzle]['stats']
+    const stats = useCompletedClassAvg ? formattedData[puzzle][NORM_KEY]['completed_stats'] : formattedData[puzzle][NORM_KEY]['all_stats']
 
     const studentData = {}
-    studentData[student] = formattedData[puzzle][student]
+    studentData[student] = formattedData[puzzle][NORM_KEY][student]
     studentData["avg"] = getClassAverage(stats)
 
-    const puzzleStats = {}
-    puzzleStats[student] = stats
-    puzzleStats["avg"] = stats
-
     $("#outlier-radar-modal-puzzle").text(puzzle)
-    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), anonymizeNames ? null : playerMap, NORMALIZATION_OPTIONS.STANDARD, puzzleStats)
+    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), anonymizeNames ? null : playerMap)
     $('#outlier-radar-modal').modal('show')
 }
 
