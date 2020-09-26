@@ -14,8 +14,6 @@ from dataprocessing.models import Task
 
 import numpy as np
 
-# TODO: convert code to use the task output
-
 def dashboard(request, slug):
     return render(request, "dashboard/dashboard.html", {"url": slug})
 
