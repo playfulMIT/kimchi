@@ -284,12 +284,6 @@ def get_modes_per_puzzle(request, slug):
 
     return JsonResponse(puzzle_mode_map)
 
-
-def get_task_metrics(request, slug):
-    url = URL.objects.get(name=slug)
-    tasks = list(Task.objects.filter(input_urls=url).values_list("result", flat=True))
-    return JsonResponse(tasks, safe=False)
-
 def get_sequence_between_puzzles(request, slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="sequenceBetweenPuzzles(['" + slug + "']")
