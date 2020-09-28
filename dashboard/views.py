@@ -347,7 +347,12 @@ def get_persistence_data_from_server(slug):
             persistence_dict = {}
             for column in columns:
                 persistence_dict[column] = json.loads(result[column][i]) if column == 'cum_avg_persistence' else result[column][i]
-                
+            
+            cum_avg_persistence_dict = persistence_dict['cum_avg_persistence']
+            cum_avg_persistence_dict_minimizing_no_behavior = {k:(v*.01 if k == 'NO_BEHAVIOR' else v) for k,v in cum_avg_persistence_dict.items()}
+            
+            persistence_dict['cum_persistence_label'] = max(cum_avg_persistence_dict, key=cum_avg_persistence_dict.get)
+            persistence_dict['cum_persistence_label_minimizing_no_behavior'] = max(cum_avg_persistence_dict_minimizing_no_behavior, key=cum_avg_persistence_dict_minimizing_no_behavior.get)
             new_result[user].append(persistence_dict)
 
         return new_result
