@@ -272,7 +272,7 @@ export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, l
     }
 }
 
-export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap = null, normalize = NORMALIZATION_OPTIONS.NONE, statistics = null) {
+export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap = null) {
     if (axisValues.length === 0) return
 
     var w = 350;
@@ -306,9 +306,7 @@ export function buildRadarChart(currentDataset, axisValues, svgId, legendList, p
         svgId: svgId,
         data: currentDataset,
         legendList: legendList,
-        playerMap: playerMap,
-        normalize: normalize,
-        statistics: statistics
+        playerMap: playerMap
     };
 
     // initiate main vis component

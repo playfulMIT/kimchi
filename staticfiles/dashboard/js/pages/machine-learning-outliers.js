@@ -1,8 +1,10 @@
 import { showPage, puzzleNameToClassName, buildRadarChart, getClassAverage } from '../util/helpers.js'
-import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from '../util/constants.js'
+import { SANDBOX_PUZZLE_NAME, SANDBOX, METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS, NORMALIZATION_OPTION_KEYS } from '../util/constants.js'
 
+const NORM_KEY = NORMALIZATION_OPTION_KEYS[NORMALIZATION_OPTIONS.NONE]
 var playerMap = null
 var puzzleData = null
+var levelsOfActivity = null
 
 var outlierData = null
 var completedPuzzleData = null
@@ -66,19 +68,37 @@ function showOutliersList() {
         const tableBodyId = "ml-outlier-student-" + student + "-table"
         const body = document.createElement("div")
         body.className = "card-body"
-        body.innerHTML = `<table class="table"><thead><tr><th scope="col">Puzzle</th><th scope="col">TBD</th><th scope="col">TBD</th></tr></thead><tbody id="${tableBodyId}"></tbody></table>`
+        body.innerHTML = `<table class="table"><thead><tr><th scope="col">Puzzle</th><th scope="col">Alerts</th></tr></thead><tbody id="${tableBodyId}"></tbody></table>`
         collapse.appendChild(body)
         card.appendChild(collapse)
 
         document.getElementById("ml-outlier-accordion").appendChild(card)
 
         for (let puzzle of outlierData[student]) {
+            const puzzleClassName = puzzleNameToClassName(puzzle)
             const tr = document.createElement("tr")
-            tr.innerHTML = `<th scope="row">${puzzle}</th><td>tbd</td>` +
-                `<td><button id="ml-outlier-${student}-${puzzleNameToClassName(puzzle)}-radar-btn" type="button" class="btn btn-secondary btn-sm">Show &#187;</button></td>`
+            tr.innerHTML = `<th scope="row">${puzzle}</th><td id="ml-outlier-${student}-${puzzleClassName}-alerts"></td>` +
+                `<td><button id="ml-outlier-${student}-${puzzleClassName}-radar-btn" type="button" class="btn btn-secondary btn-sm">Show &#187;</button></td>`
             $("#" + tableBodyId).append(tr)
 
-            $(`#ml-outlier-${student}-${puzzleNameToClassName(puzzle)}-radar-btn`).click(function () {
+
+            $(`#ml-outlier-${student}-${puzzleClassName}-alerts`).html(function () {
+                const flags = []
+                if (completedPuzzleData[student].has(puzzle)) {
+                    flags.push("Completed")
+                } else if (levelsOfActivity[puzzle][NORM_KEY][student].timeTotal >= 60) {
+                    flags.push("Quickly abandonded")
+                }
+                
+                return flags.join()
+
+                // low time
+                // low event percentile? 
+                // outlier that completed and is below class avg
+                // outlier on a puzzle of lower difficulty?
+            })
+
+            $(`#ml-outlier-${student}-${puzzleClassName}-radar-btn`).click(function () {
                 alert("button clicked")
             })
         }
@@ -126,10 +146,11 @@ function handleEmptyParam() {
     }
 }
 
-export function showMachineLearningOutliers(pMap, puzzData, outliers, completed, anonymize = true) {
+export function showMachineLearningOutliers(pMap, puzzData, outliers, loa, completed, anonymize = true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
+        levelsOfActivity = loa
         outlierData = outliers
         anonymizeNames = anonymize
 

@@ -1,4 +1,4 @@
-import { METRIC_TO_METRIC_NAME, NORMALIZATION_OPTIONS } from './constants.js'
+import { METRIC_TO_METRIC_NAME } from './constants.js'
 
 // render the visualization
 export function renderRadar(config, vis) {
@@ -29,21 +29,15 @@ function updateConfig(config, vis) {
     const dataLength = Object.keys(config.data).length
     if (dataLength > 0) {
         // adjust config parameters
-        if (config.normalize === NORMALIZATION_OPTIONS.MINMAX) {
-            config.maxValue = 1
-        } else if (config.normalize === NORMALIZATION_OPTIONS.STANDARD) {
-            config.maxValue = 5
-        } else {
-            config.maxValue = Math.max(config.maxValue, d3.max(Object.values(config.data), function (v) {
-                return d3.max(Object.entries(v), function ([metric, value]) {
-                    if (vis.allAxis.find((av) => av === metric)) {
-                        return v.event == 0 ? 1 : value
-                    } else {
-                        return 1
-                    }
-                })
-            }))
-        }
+        config.maxValue = Math.max(config.maxValue, d3.max(Object.values(config.data), function (v) {
+            return d3.max(Object.entries(v), function ([metric, value]) {
+                if (vis.allAxis.find((av) => av === metric)) {
+                    return v.event == 0 ? 1 : value
+                } else {
+                    return 1
+                }
+            })
+        }))
         
         config.maxValue += 1
 
@@ -195,34 +189,15 @@ function buildCoordinates(config, vis) {
 
             const result = {
                 axis: entry[0],
-                value: numEvents > 0 ? entry[1] : 0
+                value: numEvents > 0 ? entry[1] + 1: 1
             }
 
-            if (config.normalize === NORMALIZATION_OPTIONS.MINMAX) {
-                const min = config.statistics[key][result.axis].min
-                const max = config.statistics[key][result.axis].max
-                result.norm_value = ((result.value - min) / (max - min)) + 1 || 1
-            } else if (config.normalize === NORMALIZATION_OPTIONS.STANDARD) {
-                const mean = config.statistics[key][result.axis].mean
-                const stdev = config.statistics[key][result.axis].stdev
-                result.norm_value = ((result.value - mean) / stdev) + 1 || 1
-            } else {
-                result.value += 1
-            }
-
-            console.log(config.statistics, result)
             return result
         }
 
         data.visibleAxes = vis.allAxis.map((axisLabel, i) => {
             const axis = findAxis(axisLabel)
-            return config.normalize !== NORMALIZATION_OPTIONS.NONE ? {
-                ...axis,
-                coordinates: { // [x, y] coordinates
-                    x: config.w / 2 * (1 - (parseFloat(Math.max(axis.norm_value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
-                    y: config.h / 2 * (1 - (parseFloat(Math.max(axis.norm_value, 0)) / config.maxValue) * Math.cos(i * config.radians / vis.totalAxes))
-                }
-            } : {
+            return {
                 ...axis,
                 coordinates: { // [x, y] coordinates
                     x: config.w / 2 * (1 - (parseFloat(Math.max(axis.value, 0)) / config.maxValue) * Math.sin(i * config.radians / vis.totalAxes)),
@@ -312,17 +287,10 @@ function buildLegend(config, vis) {
 
 // show tooltip of vertices
 function verticesTooltipShow(config, vis, d) {
-    if (config.normalize !== NORMALIZATION_OPTIONS.NONE) {
-        vis.verticesTooltip.style("opacity", 0.9)
-            .html("<strong>Value</strong>: " + (d.value).toFixed(2) + "<br /><strong>Normalized value</strong>: " + (d.norm_value - 1).toFixed(2) + "<br />")
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY) + "px");
-    } else {
-        vis.verticesTooltip.style("opacity", 0.9)
-            .html("<strong>Value</strong>: " + (d.value - 1).toFixed(2) + "<br />")
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY) + "px");
-    }
+    vis.verticesTooltip.style("opacity", 0.9)
+        .html("<strong>Value</strong>: " + (d.value - 1).toFixed(2) + "<br />")
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY) + "px");
 }
 
 function verticesTooltipHide(vis) {

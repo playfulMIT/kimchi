@@ -14,8 +14,6 @@ from dataprocessing.models import Task
 
 import numpy as np
 
-# TODO: convert code to use the task output
-
 def dashboard(request, slug):
     return render(request, "dashboard/dashboard.html", {"url": slug})
 
@@ -284,109 +282,6 @@ def get_modes_per_puzzle(request, slug):
 
     return JsonResponse(puzzle_mode_map)
 
-
-def get_task_metrics(request, slug):
-    url = URL.objects.get(name=slug)
-    tasks = list(Task.objects.filter(input_urls=url).values_list("result", flat=True))
-    return JsonResponse(tasks, safe=False)
-
-def get_levels_of_activity(request, slug):
-    try:
-        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['" + slug + "']")
-        result = json.loads(task_result)
-
-        new_result = {}
-        max_index = len(result['group'])
-        player_map = {v: k for k, v in create_player_map(slug).items()}
-
-        for i_num in range(max_index):
-            i = str(i_num)
-            user = player_map.get(result['user'][i])
-
-            if user == None:
-                continue
-
-            if result['task_id'][i] not in new_result:
-                new_result[result['task_id'][i]] = {}
-
-            if user not in new_result[result['task_id'][i]]:
-                new_result[result['task_id'][i]][user] = {}
-
-            new_result[result['task_id'][i]][user][result['metric'][i]] = float(result['value'][i])
-
-        completed_map = get_completed_puzzles_map(slug)
-        metric_keys = list(list(new_result.values())[0].values())[0].keys()
-
-        for task in new_result:
-            statistics = {}
-            completed_statistics = {}
-
-            values = {}
-            completed_values = {}
-
-            for key in metric_keys:
-                statistics[key] = {
-                    'min': float("inf"),
-                    'max': float("-inf"),
-                    'median': 0,
-                    'mean': 0,
-                    'stdev': 0
-                }
-                completed_statistics[key] = {
-                    'min': float("inf"),
-                    'max': float("-inf"),
-                    'median': 0,
-                    'mean': 0,
-                    'stdev': 0
-                }
-                values[key] = []
-                completed_values[key] = []
-            
-            users = new_result[task]
-            items = users.items()
-            
-            for student, value in items:
-                if value['ws-create_shape'] == 0:
-                    continue
-                if task in completed_map[student]:
-                    for key in value.keys():
-                        values[key].append(value[key])
-                        completed_values[key].append(value[key])
-
-                        if statistics[key]['min'] > value[key]:
-                            statistics[key]['min'] = value[key]
-                        if statistics[key]['max'] < value[key]:
-                            statistics[key]['max'] = value[key]
-
-                        if completed_statistics[key]['min'] > value[key]:
-                            completed_statistics[key]['min'] = value[key]
-                        if completed_statistics[key]['max'] < value[key]:
-                            completed_statistics[key]['max'] = value[key]
-                else:
-                    for key in value.keys():
-                        values[key].append(value[key])
-
-                        if statistics[key]['min'] > value[key]:
-                            statistics[key]['min'] = value[key]
-                        if statistics[key]['max'] < value[key]:
-                            statistics[key]['max'] = value[key]
-            
-            for key in metric_keys:
-                statistics[key]['median'] = np.median(values[key])
-                statistics[key]['mean'] = np.mean(values[key])
-                statistics[key]['stdev'] = np.std(values[key])
-
-                completed_statistics[key]['median'] = np.median(completed_values[key])
-                completed_statistics[key]['mean'] = np.mean(completed_values[key])
-                completed_statistics[key]['stdev'] = np.std(completed_values[key])
-            
-            new_result[task]['stats'] = statistics
-            new_result[task]['completed_stats'] = None if completed_statistics["event"]["min"] == float("inf") else completed_statistics
-            
-        return JsonResponse(new_result)
-    except ObjectDoesNotExist:
-        return JsonResponse({})
-
 def get_sequence_between_puzzles(request, slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="sequenceBetweenPuzzles(['" + slug + "']")
@@ -413,6 +308,15 @@ def get_sequence_between_puzzles(request, slug):
     except ObjectDoesNotExist:
         return JsonResponse({})
 
+def get_levels_of_activity(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivity(['" + slug + "']")
+        result = json.loads(task_result)
+
+        return JsonResponse(result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
+
 def get_machine_learning_outliers(request, slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeLevelsOfActivityOutliers(['" + slug + "']")
@@ -421,3 +325,40 @@ def get_machine_learning_outliers(request, slug):
         return JsonResponse(result)
     except ObjectDoesNotExist:
         return JsonResponse({})
+
+def get_persistence_data_from_server(slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computePersistence(['" + slug + "']")
+        result = json.loads(task_result)
+
+        new_result = {}
+        columns = ['task_id','puzzle_difficulty' ,'completed','timestamp', 'active_time','percentileActiveTime','n_events','percentileEvents', 'n_check_solution','percentileAtt','percentileComposite' ,'persistence','n_breaks','n_snapshot','n_rotate_view','n_manipulation_events','time_failed_submission_exit','avg_time_between_submissions','cum_weighted_difficulty_perc_composite','percentileCompositeAcrossAttempts','persistenceAcrossAttempts','cum_global_puzzle_attempts','cum_this_puzzle_attempt','cum_avg_perc_composite', 'cum_avg_persistence']
+        player_map = {v: k for k, v in create_player_map(slug).items()}
+
+        for i in result['group'].keys():
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            if user not in new_result:
+                new_result[user] = []
+            
+            persistence_dict = {}
+            for column in columns:
+                persistence_dict[column] = json.loads(result[column][i]) if column == 'cum_avg_persistence' else result[column][i]
+            
+            cum_avg_persistence_dict = persistence_dict['cum_avg_persistence']
+            cum_avg_persistence_dict_minimizing_no_behavior = {k:(v*.01 if k == 'NO_BEHAVIOR' else v) for k,v in cum_avg_persistence_dict.items()}
+            
+            persistence_dict['cum_persistence_label'] = max(cum_avg_persistence_dict, key=cum_avg_persistence_dict.get)
+            persistence_dict['cum_persistence_label_minimizing_no_behavior'] = max(cum_avg_persistence_dict_minimizing_no_behavior, key=cum_avg_persistence_dict_minimizing_no_behavior.get)
+            new_result[user].append(persistence_dict)
+
+        return new_result
+    except ObjectDoesNotExist:
+        return {}
+
+def get_persistence_data(request, slug):
+    return JsonResponse(get_persistence_data_from_server(slug))
+
