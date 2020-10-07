@@ -993,6 +993,8 @@ def computePersistence(group = 'all'):
 
                     #create id: group+user+task_id          
                     task_id = json.loads(event['data'])['task_id']
+                    if (task_id =="Sandbox"):
+                        continue
 
                     if(user_puzzle_key not in timeSubExit.keys()):
                         timeSubExit[user_puzzle_key] = str(0)
@@ -1070,7 +1072,8 @@ def computePersistence(group = 'all'):
 
                 # the event is not final event
                 if(event['type'] not in ['ws-exit_to_menu' , 'ws-disconnect', 'ws-create_user', 'ws-login_user']): 
-
+                        if (task_id == "Sandbox"):
+                            continue
 
 
                         if(event['type'] in ['ws-puzzle_complete']): completados[user_puzzle_key] = 1
@@ -1105,6 +1108,8 @@ def computePersistence(group = 'all'):
 
                 # the puzzle ends        
                 if(event['type'] in ['ws-exit_to_menu', 'ws-disconnect']):
+                        if (task_id == "Sandbox"):
+                            continue
 
                         idComplete[user_puzzle_key] = 1
                         puzzleEvents[user_puzzle_key] += 1
