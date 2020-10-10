@@ -24,6 +24,6 @@ urlpatterns = [
     path("debug/", debug),
     path("admin/", admin.site.urls),
     path("", include("datacollection.urls")),
-    path("", include("shadowspect.urls")),
+    path("", include("aquapressure.urls")),
     path("", include("dashboard.urls")),
 ]
