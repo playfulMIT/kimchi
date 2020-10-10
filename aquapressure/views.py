@@ -21,7 +21,7 @@ def wildcard_url(request, slug):
     # return HttpResponse(response)
     return render(
         request,
-        "shadowspect/play.html",
+        "aquapressure/play.html",
         {"title": "Shadow Tangrams", "sessionID": request.session.session_key},
     )
 
