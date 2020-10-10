@@ -1,0 +1,2292 @@
+{
+    "id": "5fb07b35-e3e4-4d73-a5ac-3b3ae03204ab",
+    "isHot": false,
+    "totalTime": 0.0,
+    "levelRuntimeData": [
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": false,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": false
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Level1",
+                "startTime": 15.0,
+                "isAccuracyRound": false,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 2,
+                "exitRoom": 0,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    }
+                ]
+            },
+            "timeSpent": 2.078138828277588,
+            "totalMoves": 2,
+            "numRoomTransitions": 2,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 1.202606439590454,
+                    "previousRoom": {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 1,
+                    "timeInRoom": 0.1978367567062378,
+                    "previousRoom": {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 1,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": false,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": false
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Level2",
+                "startTime": 12.0,
+                "isAccuracyRound": false,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 2,
+                "exitRoom": 1,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 1,
+                            "y": 0
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    }
+                ]
+            },
+            "timeSpent": 1.2776429653167725,
+            "totalMoves": 2,
+            "numRoomTransitions": 2,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 0.5496236681938171,
+                    "previousRoom": {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 1,
+                    "timeInRoom": 0.06521192193031311,
+                    "previousRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 1,
+                            "y": 0
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": false,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": false
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Level3",
+                "startTime": 8.0,
+                "isAccuracyRound": false,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 2,
+                "exitRoom": 5,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 3,
+                            "y": 2
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 3,
+                            "y": 1
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    }
+                ]
+            },
+            "timeSpent": 2.8063619136810304,
+            "totalMoves": 5,
+            "numRoomTransitions": 5,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 0.4622938930988312,
+                    "previousRoom": {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 1,
+                    "timeInRoom": 0.0,
+                    "previousRoom": {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 2,
+                    "timeInRoom": 0.3801517188549042,
+                    "previousRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 1,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 3,
+                    "timeInRoom": 0.15817414224147798,
+                    "previousRoom": {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 3,
+                            "y": 2
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 4,
+                    "timeInRoom": 0.12076485902070999,
+                    "previousRoom": {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 3,
+                            "y": 2
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 3,
+                            "y": 1
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": false,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": false
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Level4",
+                "startTime": 4.0,
+                "isAccuracyRound": false,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 0,
+                "exitRoom": 5,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 2,
+                            "y": 3
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-3",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    }
+                ]
+            },
+            "timeSpent": 3.6506638526916506,
+            "totalMoves": 6,
+            "numRoomTransitions": 5,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 0.5870295763015747,
+                    "previousRoom": {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 1,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 1,
+                    "timeInRoom": 0.12452784180641175,
+                    "previousRoom": {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 2,
+                            "y": 3
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 2,
+                    "timeInRoom": 0.10192210227251053,
+                    "previousRoom": {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 2,
+                            "y": 3
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 3,
+                    "timeInRoom": 0.08080894500017166,
+                    "previousRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "doors": 0,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 4,
+                    "moveResult": 2,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 4,
+                    "timeInRoom": 0.2356063276529312,
+                    "previousRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 5,
+                    "timeInRoom": 0.40678590536117556,
+                    "previousRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_1-3",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    "moveDirection": 4,
+                    "moveResult": 1,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": true,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": false
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Shifting_1",
+                "startTime": 9.0,
+                "isAccuracyRound": false,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 7,
+                "exitRoom": 2,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 2,
+                            "y": 3
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    {
+                        "roomName": "Room_3-3",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 13,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 2,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_3-1",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "Go in the\nOPPOSITE direction \nof RED arrows!",
+                        "topIcon": 2,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-3 (2)",
+                        "position": {
+                            "x": 0,
+                            "y": 1
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-3 (1)",
+                        "position": {
+                            "x": 0,
+                            "y": 2
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 4
+                    },
+                    {
+                        "roomName": "Room_1-3",
+                        "position": {
+                            "x": 0,
+                            "y": 3
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    }
+                ]
+            },
+            "timeSpent": 5.492106914520264,
+            "totalMoves": 9,
+            "numRoomTransitions": 5,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 0.6212540864944458,
+                    "previousRoom": {
+                        "roomName": "Room_1-3 (1)",
+                        "position": {
+                            "x": 0,
+                            "y": 2
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_3-1",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "Go in the\nOPPOSITE direction \nof RED arrows!",
+                        "topIcon": 2,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 1,
+                    "timeInRoom": 0.28508874773979189,
+                    "previousRoom": {
+                        "roomName": "Room_3-1",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "Go in the\nOPPOSITE direction \nof RED arrows!",
+                        "topIcon": 2,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "doors": 0,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 2,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 2,
+                    "timeInRoom": 0.11982081830501557,
+                    "previousRoom": {
+                        "roomName": "Room_3-1",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "Go in the\nOPPOSITE direction \nof RED arrows!",
+                        "topIcon": 2,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "doors": 0,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 2,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 3,
+                    "timeInRoom": 0.11280819028615952,
+                    "previousRoom": {
+                        "roomName": "Room_3-1",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "Go in the\nOPPOSITE direction \nof RED arrows!",
+                        "topIcon": 2,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_3-3",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 13,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 2,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 4,
+                    "timeInRoom": 0.4997559189796448,
+                    "previousRoom": {
+                        "roomName": "Room_3-3",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 13,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 2,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 5,
+                    "timeInRoom": 0.18548986315727235,
+                    "previousRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "doors": 0,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 2,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 6,
+                    "timeInRoom": 0.1248040646314621,
+                    "previousRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "doors": 0,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 2,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 7,
+                    "timeInRoom": 0.13215401768684388,
+                    "previousRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 1,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 8,
+                    "timeInRoom": 0.29972022771835329,
+                    "previousRoom": {
+                        "roomName": "Room_2-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 3,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 2,
+                            "y": 3
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    "moveDirection": 1,
+                    "moveResult": 1,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": true,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": true
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Shifting_2",
+                "startTime": 12.0,
+                "isAccuracyRound": true,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 1,
+                "exitRoom": 3,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 2,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 2,
+                            "y": 4
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 4
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 0,
+                            "y": 4
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 0,
+                            "y": 3
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    }
+                ]
+            },
+            "timeSpent": 0.5527729988098145,
+            "totalMoves": 1,
+            "numRoomTransitions": 0,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 0.3688579201698303,
+                    "previousRoom": {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 2,
+                            "y": 4
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "doors": 0,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 8,
+                    "moveResult": 2,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": true,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": true
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Shifting_2",
+                "startTime": 12.0,
+                "isAccuracyRound": true,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 1,
+                "exitRoom": 3,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 2,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 2,
+                            "y": 4
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 4
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 0,
+                            "y": 4
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 0,
+                            "y": 3
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    }
+                ]
+            },
+            "timeSpent": 2.858454465866089,
+            "totalMoves": 4,
+            "numRoomTransitions": 4,
+            "moves": [
+                {
+                    "moveNumber": 0,
+                    "timeInRoom": 0.6004343628883362,
+                    "previousRoom": {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 2,
+                            "y": 4
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 4
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 4,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 1,
+                    "timeInRoom": 0.17714548110961915,
+                    "previousRoom": {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 4
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 2,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 2,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 2,
+                    "timeInRoom": 0.47344839572906496,
+                    "previousRoom": {
+                        "roomName": "Room_2-3",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 5,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 2,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 0,
+                            "y": 3
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "moveDirection": 4,
+                    "moveResult": 1,
+                    "switchPressed": false
+                },
+                {
+                    "moveNumber": 3,
+                    "timeInRoom": 0.2709231972694397,
+                    "previousRoom": {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 0,
+                            "y": 3
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 2,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    "destinationRoom": {
+                        "roomName": "Room_1-4",
+                        "position": {
+                            "x": 0,
+                            "y": 4
+                        },
+                        "doors": 2,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    "moveDirection": 1,
+                    "moveResult": 1,
+                    "switchPressed": false
+                }
+            ]
+        },
+        {
+            "levelData": {
+                "instructionData": [
+                    {
+                        "instructionText": "",
+                        "callToActionText": "",
+                        "showArrowIcon": true,
+                        "showInvertedArrowIcon": true,
+                        "showSlammerIcon": false,
+                        "showInversionIcon": false,
+                        "showSwitchIcon": false,
+                        "showShortcutIcon": false,
+                        "showAccuracyRoundIcon": false
+                    }
+                ],
+                "levelId": "0",
+                "levelName": "Shifting_3",
+                "startTime": 9.0,
+                "isAccuracyRound": false,
+                "hasSwitch": false,
+                "stepsToExit": 5,
+                "startRoom": 7,
+                "exitRoom": 8,
+                "switchRoom": 0,
+                "rooms": [
+                    {
+                        "roomName": "Room_1-1",
+                        "position": {
+                            "x": 3,
+                            "y": 1
+                        },
+                        "doors": 4,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 1,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-2 (1)",
+                        "position": {
+                            "x": 3,
+                            "y": 2
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_3-1 (1)",
+                        "position": {
+                            "x": 3,
+                            "y": 3
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 2,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-4",
+                        "position": {
+                            "x": 3,
+                            "y": 4
+                        },
+                        "doors": 6,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-5",
+                        "position": {
+                            "x": 2,
+                            "y": 1
+                        },
+                        "doors": 9,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 1,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_3-1",
+                        "position": {
+                            "x": 2,
+                            "y": 2
+                        },
+                        "doors": 7,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 2,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_3-2",
+                        "position": {
+                            "x": 2,
+                            "y": 3
+                        },
+                        "doors": 14,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 1,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_2-2",
+                        "position": {
+                            "x": 2,
+                            "y": 4
+                        },
+                        "doors": 12,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 2,
+                        "rightIcon": 0,
+                        "centerIcon": 4
+                    },
+                    {
+                        "roomName": "Room_1-2",
+                        "position": {
+                            "x": 1,
+                            "y": 1
+                        },
+                        "doors": 1,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 3
+                    },
+                    {
+                        "roomName": "Room_2-6",
+                        "position": {
+                            "x": 1,
+                            "y": 2
+                        },
+                        "doors": 10,
+                        "slammerDoors": 0,
+                        "givesOxygen": true,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 2,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 0,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-3 (1)",
+                        "position": {
+                            "x": 1,
+                            "y": 3
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    },
+                    {
+                        "roomName": "Room_1-3",
+                        "position": {
+                            "x": 1,
+                            "y": 4
+                        },
+                        "doors": 8,
+                        "slammerDoors": 0,
+                        "givesOxygen": false,
+                        "hasInversion": false,
+                        "roomText": "",
+                        "topIcon": 0,
+                        "bottomIcon": 0,
+                        "leftIcon": 0,
+                        "rightIcon": 1,
+                        "centerIcon": 0
+                    }
+                ]
+            },
+            "timeSpent": 0.0,
+            "totalMoves": 0,
+            "numRoomTransitions": 0,
+            "moves": []
+        }
+    ]
+}

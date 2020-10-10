@@ -1,0 +1,181 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "There are dead ends on this floor!\nWe’ll point them out to you.",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": true,
+            "showSlammerIcon": false,
+            "showInversionIcon": false,
+            "showSwitchIcon": false,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Shifting_1",
+    "startTime": 9.0,
+    "bestTime": 2.370889186859131,
+    "targetRank": 1,
+    "isAccuracyRound": false,
+    "hasSwitch": false,
+    "stepsToExit": 5,
+    "startRoom": 7,
+    "exitRoom": 2,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_2-3",
+            "position": {
+                "x": 2,
+                "y": 1
+            },
+            "doors": 5,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 1,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-1",
+            "position": {
+                "x": 2,
+                "y": 2
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 2,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-4",
+            "position": {
+                "x": 2,
+                "y": 3
+            },
+            "doors": 2,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        },
+        {
+            "roomName": "Room_3-3",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 13,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-1",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 7,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "Go in the OPPOSITE direction of RED arrows!",
+            "topIcon": 2,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-4",
+            "position": {
+                "x": 1,
+                "y": 3
+            },
+            "doors": 6,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-3 (2)",
+            "position": {
+                "x": 0,
+                "y": 1
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-3 (1)",
+            "position": {
+                "x": 0,
+                "y": 2
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 4
+        },
+        {
+            "roomName": "Room_1-3",
+            "position": {
+                "x": 0,
+                "y": 3
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 0
+        }
+    ]
+}

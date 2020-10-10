@@ -1,0 +1,113 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "A couple of airlocks and you’ll\nbe out of the high-voltage area!",
+            "callToActionText": "",
+            "showArrowIcon": false,
+            "showInvertedArrowIcon": false,
+            "showSlammerIcon": true,
+            "showInversionIcon": true,
+            "showSwitchIcon": false,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Inversion_Alt_2",
+    "startTime": 10.0,
+    "bestTime": 7.056647300720215,
+    "targetRank": 1,
+    "isAccuracyRound": false,
+    "hasSwitch": false,
+    "stepsToExit": 5,
+    "startRoom": 0,
+    "exitRoom": 2,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_1-4",
+            "position": {
+                "x": 1,
+                "y": 4
+            },
+            "doors": 2,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 4
+        },
+        {
+            "roomName": "Room_2-1",
+            "position": {
+                "x": 1,
+                "y": 3
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": true,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 5
+        },
+        {
+            "roomName": "Room_1-2",
+            "position": {
+                "x": 1,
+                "y": 0
+            },
+            "doors": 1,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        },
+        {
+            "roomName": "Room_2-1 (1)",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 3,
+            "slammerDoors": 2,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 6,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-1 (2)",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 3,
+            "slammerDoors": 3,
+            "givesOxygen": true,
+            "hasInversion": true,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 6,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 5
+        }
+    ]
+}

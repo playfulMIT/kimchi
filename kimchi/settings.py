@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "shadowspect",
+    "aquapressure",
     "datacollection",
     "rest_framework",
     "channels",
@@ -197,4 +198,4 @@ REST_FRAMEWORK = {
 }
 
 # project specific settings
-HOMEPAGE = "http://shadowspect.org"
+HOMEPAGE = "http://aquapressure.org/brandontest/"

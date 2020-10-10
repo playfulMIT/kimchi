@@ -1,0 +1,147 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "Yes, I think the lab is\nstarting to float again!",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": true,
+            "showSlammerIcon": false,
+            "showInversionIcon": false,
+            "showSwitchIcon": true,
+            "showShortcutIcon": true,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Shortcut_Alt_2",
+    "startTime": 17.0,
+    "bestTime": 4.371128559112549,
+    "targetRank": 0,
+    "isAccuracyRound": false,
+    "hasSwitch": true,
+    "stepsToExit": 4,
+    "startRoom": 0,
+    "exitRoom": 1,
+    "switchRoom": 6,
+    "rooms": [
+        {
+            "roomName": "Room_2-5",
+            "position": {
+                "x": 1,
+                "y": 0
+            },
+            "doors": 9,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 4
+        },
+        {
+            "roomName": "Room_2-3",
+            "position": {
+                "x": 2,
+                "y": 0
+            },
+            "doors": 5,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        },
+        {
+            "roomName": "Room_2-4",
+            "position": {
+                "x": 2,
+                "y": 1
+            },
+            "doors": 6,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 1,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-4",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 11,
+            "slammerDoors": 8,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 2,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-3",
+            "position": {
+                "x": 0,
+                "y": 2
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-2",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 14,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-1",
+            "position": {
+                "x": 2,
+                "y": 2
+            },
+            "doors": 4,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 7
+        }
+    ]
+}

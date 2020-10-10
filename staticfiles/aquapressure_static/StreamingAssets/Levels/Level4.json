@@ -1,0 +1,130 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "At least our electrical system works.\nWe’ll guide you to the switches!",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": false,
+            "showSlammerIcon": false,
+            "showInversionIcon": false,
+            "showSwitchIcon": false,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Level4",
+    "startTime": 4.0,
+    "bestTime": 2.3899474143981935,
+    "targetRank": 1,
+    "isAccuracyRound": false,
+    "hasSwitch": false,
+    "stepsToExit": 5,
+    "startRoom": 0,
+    "exitRoom": 5,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_1-2",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 1,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 1,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 4
+        },
+        {
+            "roomName": "Room_2-6",
+            "position": {
+                "x": 1,
+                "y": 3
+            },
+            "doors": 10,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-4",
+            "position": {
+                "x": 2,
+                "y": 3
+            },
+            "doors": 6,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-1",
+            "position": {
+                "x": 2,
+                "y": 2
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-3",
+            "position": {
+                "x": 2,
+                "y": 1
+            },
+            "doors": 5,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 1,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-3",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        }
+    ]
+}

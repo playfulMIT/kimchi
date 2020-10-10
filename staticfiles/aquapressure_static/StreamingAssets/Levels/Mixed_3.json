@@ -1,0 +1,232 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "The lab is rising! Reach the last\nswitch, and get out of there!",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": true,
+            "showSlammerIcon": false,
+            "showInversionIcon": true,
+            "showSwitchIcon": true,
+            "showShortcutIcon": true,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Mixed_3",
+    "startTime": 16.0,
+    "bestTime": 4.497520446777344,
+    "targetRank": 0,
+    "isAccuracyRound": false,
+    "hasSwitch": true,
+    "stepsToExit": 5,
+    "startRoom": 11,
+    "exitRoom": 4,
+    "switchRoom": 3,
+    "rooms": [
+        {
+            "roomName": "Room_2-6",
+            "position": {
+                "x": 0,
+                "y": 3
+            },
+            "doors": 10,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-2 (1)",
+            "position": {
+                "x": 1,
+                "y": 3
+            },
+            "doors": 14,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-2",
+            "position": {
+                "x": 2,
+                "y": 3
+            },
+            "doors": 14,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": true,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 1,
+            "centerIcon": 5
+        },
+        {
+            "roomName": "Room_2-4",
+            "position": {
+                "x": 3,
+                "y": 3
+            },
+            "doors": 6,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 7
+        },
+        {
+            "roomName": "Room_2-5",
+            "position": {
+                "x": 0,
+                "y": 1
+            },
+            "doors": 9,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        },
+        {
+            "roomName": "Room_3-3 (1)",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 13,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 1,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-3",
+            "position": {
+                "x": 2,
+                "y": 1
+            },
+            "doors": 13,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": true,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 1,
+            "centerIcon": 5
+        },
+        {
+            "roomName": "Room_2-3",
+            "position": {
+                "x": 3,
+                "y": 1
+            },
+            "doors": 5,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-1",
+            "position": {
+                "x": 3,
+                "y": 2
+            },
+            "doors": 7,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 2,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_4 (1)",
+            "position": {
+                "x": 2,
+                "y": 2
+            },
+            "doors": 15,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 1,
+            "bottomIcon": 2,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-4",
+            "position": {
+                "x": 0,
+                "y": 2
+            },
+            "doors": 11,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": true,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 2,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 5
+        },
+        {
+            "roomName": "Room_4",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 15,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 2,
+            "rightIcon": 0,
+            "centerIcon": 4
+        }
+    ]
+}

@@ -1,0 +1,130 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "Entering a high-voltage area!\nIt may scramble your nagivation.",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": false,
+            "showSlammerIcon": false,
+            "showInversionIcon": true,
+            "showSwitchIcon": false,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Inversion_1",
+    "startTime": 17.0,
+    "bestTime": 2.709083318710327,
+    "targetRank": 2,
+    "isAccuracyRound": false,
+    "hasSwitch": false,
+    "stepsToExit": 5,
+    "startRoom": 2,
+    "exitRoom": 3,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_2-1 (1)",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 1,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-1 (2)",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": true,
+            "roomText": "Press DOWN to go UP!",
+            "topIcon": 1,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 5
+        },
+        {
+            "roomName": "Room_1-2",
+            "position": {
+                "x": 1,
+                "y": 0
+            },
+            "doors": 1,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 1,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 4
+        },
+        {
+            "roomName": "Room_1-1",
+            "position": {
+                "x": 2,
+                "y": 3
+            },
+            "doors": 4,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        },
+        {
+            "roomName": "Room_1-3",
+            "position": {
+                "x": 0,
+                "y": 3
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_3-2",
+            "position": {
+                "x": 1,
+                "y": 3
+            },
+            "doors": 14,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": true,
+            "roomText": "Press LEFT to go RIGHT!",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 5
+        }
+    ]
+}

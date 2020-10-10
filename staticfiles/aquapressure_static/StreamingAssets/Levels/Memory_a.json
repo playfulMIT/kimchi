@@ -1,0 +1,113 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "Turn off the lights to power the\npumps and find your way back!",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": false,
+            "showSlammerIcon": false,
+            "showInversionIcon": false,
+            "showSwitchIcon": true,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Memory_a",
+    "startTime": 12.0,
+    "bestTime": 4.045945167541504,
+    "targetRank": 2,
+    "isAccuracyRound": false,
+    "hasSwitch": true,
+    "stepsToExit": 4,
+    "startRoom": 4,
+    "exitRoom": 4,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_1-2",
+            "position": {
+                "x": 2,
+                "y": 1
+            },
+            "doors": 1,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "Retrace your steps to the start!",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 7
+        },
+        {
+            "roomName": "Room_2-1",
+            "position": {
+                "x": 2,
+                "y": 2
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-4",
+            "position": {
+                "x": 2,
+                "y": 3
+            },
+            "doors": 6,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-2",
+            "position": {
+                "x": 1,
+                "y": 3
+            },
+            "doors": 12,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-3",
+            "position": {
+                "x": 0,
+                "y": 3
+            },
+            "doors": 8,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "Remember this exit!",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 3
+        }
+    ]
+}

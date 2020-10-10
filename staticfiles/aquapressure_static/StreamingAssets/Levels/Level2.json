@@ -1,0 +1,79 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "Make your way deeper into our lab!\nThere's a bit of air, but not much.",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": false,
+            "showSlammerIcon": false,
+            "showInversionIcon": false,
+            "showSwitchIcon": false,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Level2",
+    "startTime": 12.0,
+    "bestTime": 0.8956044316291809,
+    "targetRank": 0,
+    "isAccuracyRound": false,
+    "hasSwitch": false,
+    "stepsToExit": 5,
+    "startRoom": 2,
+    "exitRoom": 1,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_2-1",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 3,
+            "slammerDoors": 0,
+            "givesOxygen": true,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-2",
+            "position": {
+                "x": 1,
+                "y": 0
+            },
+            "doors": 1,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 3
+        },
+        {
+            "roomName": "Room_1-4",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 2,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 4
+        }
+    ]
+}
