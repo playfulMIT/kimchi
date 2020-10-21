@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "A couple of airlocks and you’ll\nbe out of the high-voltage area!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": false,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_Alt_2",
     "startTime": 10.0,
-    "bestTime": 7.056647300720215,
-    "targetRank": 1,
+    "bestTime": 7.014392375946045,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

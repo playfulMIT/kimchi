@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Yes, I think the lab is\nstarting to float again!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Shortcut_Alt_2",
     "startTime": 17.0,
-    "bestTime": 4.371128559112549,
+    "bestTime": 4.36113166809082,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": true,

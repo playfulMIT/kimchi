@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Keep your ears open for the airlocks!\nJust two more switches...",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inversion_Alt_3",
     "startTime": 16.0,
-    "bestTime": 10.029760360717774,
+    "bestTime": 9.012557983398438,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": true,

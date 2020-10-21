@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Awesome! Water is pumping\nout of the upper decks.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Memory_f",
     "startTime": 8.0,
-    "bestTime": 5.146066665649414,
+    "bestTime": 4.065938949584961,
     "targetRank": 2,
     "isAccuracyRound": false,
     "hasSwitch": true,

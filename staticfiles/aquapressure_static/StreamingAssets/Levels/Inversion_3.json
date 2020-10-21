@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "All this water didn’t do our\nelectrical system any good...",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_3",
     "startTime": 14.0,
-    "bestTime": 3.0848793983459474,
-    "targetRank": 1,
+    "bestTime": 2.8376505374908449,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

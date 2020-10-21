@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Entering a high-voltage area!\nIt may scramble your nagivation.",
+            "instructionText": "Watch out for <color=#8f499d>FLIPPING CONTROLS</color>!\nReady?",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_1",
     "startTime": 17.0,
-    "bestTime": 2.709083318710327,
-    "targetRank": 2,
+    "bestTime": 2.148550271987915,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

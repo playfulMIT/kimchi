@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "I got lost on this floor\nwhen I was an intern at the lab.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inhibition_Shifting_1",
     "startTime": 10.0,
-    "bestTime": 5.223724842071533,
-    "targetRank": 0,
+    "bestTime": 4.948368549346924,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

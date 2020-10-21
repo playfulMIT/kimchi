@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Make your way deeper into our lab!\nThere's a bit of air, but not much.",
+            "instructionText": "Ready?",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Level2",
     "startTime": 12.0,
-    "bestTime": 0.8956044316291809,
+    "bestTime": 0.8116744160652161,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,

@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "The lab is rising! Reach the last\nswitch, and get out of there!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Mixed_3",
     "startTime": 16.0,
-    "bestTime": 4.497520446777344,
+    "bestTime": 4.117095470428467,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": true,

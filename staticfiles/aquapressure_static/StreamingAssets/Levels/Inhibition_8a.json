@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Get past these airlocks to reach\nthe next bank of switches!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inhibition_8a",
     "startTime": 10.0,
-    "bestTime": 45.564144134521487,
+    "bestTime": 43.6419563293457,
     "targetRank": 2,
     "isAccuracyRound": false,
     "hasSwitch": false,

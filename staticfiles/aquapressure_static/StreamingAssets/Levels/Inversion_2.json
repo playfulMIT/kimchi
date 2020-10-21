@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Over-pressurized air AND high\nvoltage? Be very very careful!",
+            "instructionText": "<color=#ed1f24>Caution!</color> You won’t run out of air\nbut you must not touch any walls.",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_2",
     "startTime": 17.0,
-    "bestTime": 1.8546645641326905,
-    "targetRank": 2,
+    "bestTime": 2.367002010345459,
+    "targetRank": 0,
     "isAccuracyRound": true,
     "hasSwitch": false,
     "stepsToExit": 5,

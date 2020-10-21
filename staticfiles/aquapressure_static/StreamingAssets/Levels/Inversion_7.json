@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Keep at it, you‘re getting near\nour backup power batteries...",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inversion_7",
     "startTime": 10.0,
-    "bestTime": 13.117770195007325,
+    "bestTime": 11.252320289611817,
     "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,

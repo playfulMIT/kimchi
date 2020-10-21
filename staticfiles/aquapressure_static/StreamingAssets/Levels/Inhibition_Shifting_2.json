@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "You’ve almost reached the pumps!\nJust one more corridor.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inhibition_Shifting_2",
     "startTime": 10.0,
-    "bestTime": 8.536107063293457,
-    "targetRank": 2,
+    "bestTime": 8.054293632507325,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

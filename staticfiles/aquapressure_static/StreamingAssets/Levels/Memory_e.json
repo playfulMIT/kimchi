@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Excellent work! Remember your way back after you flip these switches.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Memory_e",
     "startTime": 9.0,
-    "bestTime": 4.912587642669678,
-    "targetRank": 2,
+    "bestTime": 4.5983710289001469,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": true,
     "stepsToExit": 6,

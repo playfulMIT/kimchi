@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "The passages on this platform are\na little twisty. We’ll guide you!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Shifting_6",
     "startTime": 5.0,
-    "bestTime": 7.156684875488281,
-    "targetRank": 1,
+    "bestTime": 6.457451820373535,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

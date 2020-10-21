@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Two switches activated!\nA whole lot more to go...",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Memory_c",
     "startTime": 15.0,
-    "bestTime": 4.496274471282959,
+    "bestTime": 3.274693489074707,
     "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": true,

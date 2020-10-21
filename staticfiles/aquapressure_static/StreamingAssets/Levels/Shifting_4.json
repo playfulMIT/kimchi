@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "We’ll lead you to the next airlock.\nIt’ll take you deeper in the lab.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Shifting_4",
     "startTime": 3.0,
-    "bestTime": 7.896144390106201,
-    "targetRank": 0,
+    "bestTime": 6.9109978675842289,
+    "targetRank": 2,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "You’ve reached the next platform!\nLots of dead ends here, be careful!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Shifting_5",
     "startTime": 5.0,
-    "bestTime": 9.86662483215332,
-    "targetRank": 2,
+    "bestTime": 8.782201766967774,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

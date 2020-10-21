@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "You’re running low on air,\nbut be patient with the airlocks!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inhibition_5a",
     "startTime": 5.0,
-    "bestTime": 15.84634017944336,
-    "targetRank": 1,
+    "bestTime": 15.00971794128418,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

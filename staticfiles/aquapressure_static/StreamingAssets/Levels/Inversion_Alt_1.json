@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Watch out for dead ends!\nWe’ll point them out.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_Alt_1",
     "startTime": 10.0,
-    "bestTime": 2.979499101638794,
-    "targetRank": 0,
+    "bestTime": 2.172776937484741,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "You’ve reached the first platform!\nIt’s flooded and a little bigger.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Shifting_3",
     "startTime": 9.0,
-    "bestTime": 3.011791706085205,
-    "targetRank": 0,
+    "bestTime": 2.5815467834472658,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

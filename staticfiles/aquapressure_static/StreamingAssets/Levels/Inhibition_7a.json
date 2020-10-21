@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Unfortunately, you’ll have to\ngo the long way around.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inhibition_7a",
     "startTime": 10.0,
-    "bestTime": 20.570178985595704,
+    "bestTime": 19.21722984313965,
     "targetRank": 2,
     "isAccuracyRound": false,
     "hasSwitch": false,

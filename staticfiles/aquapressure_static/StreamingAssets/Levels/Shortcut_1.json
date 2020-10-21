@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Great! The external lights are\nworking again. Look for the exit!",
+            "instructionText": "Find the <color=#f1592a>SWITCH</color> and look out for the <color=#0c716e>EXIT</color>! Ready?",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Shortcut_1",
     "startTime": 10.0,
-    "bestTime": 7.775758743286133,
+    "bestTime": 7.256695747375488,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": true,

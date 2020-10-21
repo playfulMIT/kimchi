@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "At least our electrical system works.\nWe’ll guide you to the switches!",
+            "instructionText": "Ready? Find the exit\nbefore you run out of air!",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Level4",
     "startTime": 4.0,
-    "bestTime": 2.3899474143981935,
-    "targetRank": 1,
+    "bestTime": 1.8071694374084473,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

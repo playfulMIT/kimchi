@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Get past this high voltage platform\nto activate our backup power!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_8",
     "startTime": 8.0,
-    "bestTime": 11.976956367492676,
-    "targetRank": 1,
+    "bestTime": 11.861091613769532,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

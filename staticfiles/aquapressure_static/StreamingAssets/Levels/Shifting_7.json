@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Not every room has arrows.\nDon’t get turned around!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Shifting_7",
     "startTime": 5.0,
-    "bestTime": 9.834790229797364,
+    "bestTime": 8.972339630126954,
     "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,

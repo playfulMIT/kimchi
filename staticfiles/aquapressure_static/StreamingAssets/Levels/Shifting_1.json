@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "There are dead ends on this floor!\nWe’ll point them out to you.",
+            "instructionText": "You’ll see <color=#0c716e>GREEN</color> and <color=#ed1f24>RED</color> arrows in this level! Ready?",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Shifting_1",
     "startTime": 9.0,
-    "bestTime": 2.370889186859131,
+    "bestTime": 1.9293088912963868,
     "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,

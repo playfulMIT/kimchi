@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Pressure is stabilizing throughout the lab! Keep it up!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Memory_fg",
     "startTime": 8.0,
-    "bestTime": 5.793442726135254,
+    "bestTime": 5.026022434234619,
     "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": true,

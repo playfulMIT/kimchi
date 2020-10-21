@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "You found the airlocks! They\nautomatically open and close.",
+            "instructionText": "Watch out and listen for the <color=#0c716e>DOORS</color>! Ready?",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inhibition_1",
     "startTime": 15.0,
-    "bestTime": 17.568328857421876,
+    "bestTime": 16.79494285583496,
     "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,

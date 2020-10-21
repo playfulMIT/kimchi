@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "The airlocks should have kept us\ndry but that hurricane was too much.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inhibition_4",
     "startTime": 6.0,
-    "bestTime": 21.31702995300293,
+    "bestTime": 19.53620147705078,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,

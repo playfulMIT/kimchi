@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Navigate these floors to reach\nthe pumps to save our lab.",
+            "instructionText": "Ready? Find the exit\nbefore you run out of air!",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Level3",
     "startTime": 8.0,
-    "bestTime": 2.335904121398926,
+    "bestTime": 1.9102282524108887,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,

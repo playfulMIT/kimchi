@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "At least we were able\nto mark all the dead ends.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Shifting_8",
     "startTime": 5.0,
-    "bestTime": 7.714820861816406,
-    "targetRank": 1,
+    "bestTime": 6.659931659698486,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

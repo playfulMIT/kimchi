@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "A few dead ends here. We’ll use\nred arrows to point them out.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inhibition_Shifting_Memory_2",
     "startTime": 8.0,
-    "bestTime": 5.320334434509277,
-    "targetRank": 1,
+    "bestTime": 4.967113018035889,
+    "targetRank": 2,
     "isAccuracyRound": false,
     "hasSwitch": true,
     "stepsToExit": 6,

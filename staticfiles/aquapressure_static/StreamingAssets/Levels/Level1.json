@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Help us recover our sunken lab.\nWe’re counting on you!",
+            "instructionText": "Ready?",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Level1",
     "startTime": 15.0,
-    "bestTime": 0.9641451835632324,
+    "bestTime": 0.8082209229469299,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,

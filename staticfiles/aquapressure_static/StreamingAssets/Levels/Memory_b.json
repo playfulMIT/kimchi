@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Another over-pressurized room!\nTake your time and be careful.",
+            "instructionText": "<color=#ed1f24>Caution!</color> You won’t run out of air\nbut you must not touch any walls.",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Memory_b",
     "startTime": 12.0,
-    "bestTime": 3.7575435638427736,
-    "targetRank": 2,
+    "bestTime": 4.842779159545898,
+    "targetRank": 0,
     "isAccuracyRound": true,
     "hasSwitch": true,
     "stepsToExit": 4,

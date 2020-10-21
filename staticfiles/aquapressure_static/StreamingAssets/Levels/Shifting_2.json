@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "There’s air in this corridor.\nSo much that it could burst!",
+            "instructionText": "<color=#ed1f24>Caution!</color> You won’t run out of air\nbut you must not touch any walls.",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": true,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Shifting_2",
     "startTime": 12.0,
-    "bestTime": 2.053194284439087,
+    "bestTime": 2.3180012702941896,
     "targetRank": 0,
     "isAccuracyRound": true,
     "hasSwitch": false,

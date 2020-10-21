@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "High pressure! Be careful. There’s\na shorter route back to the exit.",
+            "instructionText": "<color=#ed1f24>Caution!</color> You won’t run out of air\nbut you must not touch any walls.",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Shortcut_2",
     "startTime": 10.0,
-    "bestTime": 6.424615859985352,
-    "targetRank": 0,
+    "bestTime": 7.982463359832764,
+    "targetRank": 1,
     "isAccuracyRound": true,
     "hasSwitch": true,
     "stepsToExit": 5,

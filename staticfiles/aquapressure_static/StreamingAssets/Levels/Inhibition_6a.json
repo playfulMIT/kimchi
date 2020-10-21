@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "There’s more air near the end\nof this series of airlocks.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inhibition_6a",
     "startTime": 6.0,
-    "bestTime": 14.977522850036621,
-    "targetRank": 2,
+    "bestTime": 14.028762817382813,
+    "targetRank": 1,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

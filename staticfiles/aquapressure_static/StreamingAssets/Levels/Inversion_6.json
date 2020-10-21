@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "A lot of high voltage on this deck.\nBe careful!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_6",
     "startTime": 8.0,
-    "bestTime": 8.543341636657715,
-    "targetRank": 1,
+    "bestTime": 6.963174819946289,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

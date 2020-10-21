@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "This part of the lab took the most damage. Beware of high voltages!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,8 +15,8 @@
     "levelId": "0",
     "levelName": "Inversion_5",
     "startTime": 6.0,
-    "bestTime": 4.0960774421691898,
-    "targetRank": 1,
+    "bestTime": 3.4024345874786379,
+    "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,
     "stepsToExit": 5,

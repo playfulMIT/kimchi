@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "You’re going to need some patience\nto navigate this flooded corridor.",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Inhibition_3",
     "startTime": 10.0,
-    "bestTime": 15.178043365478516,
+    "bestTime": 13.664169311523438,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": false,

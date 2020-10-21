@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "Just five more switches and\nthe lab will be bouyant again!",
+            "instructionText": "",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -15,7 +15,7 @@
     "levelId": "0",
     "levelName": "Shortcut_Alt_1",
     "startTime": 19.0,
-    "bestTime": 3.4234235286712648,
+    "bestTime": 3.40502667427063,
     "targetRank": 0,
     "isAccuracyRound": false,
     "hasSwitch": true,
