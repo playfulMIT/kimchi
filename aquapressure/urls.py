@@ -6,7 +6,7 @@ from . import views
 from kimchi.settings import HOMEPAGE
 
 urlpatterns = [
-    # path("static/shadowspect_static/StreamingAssets/config.json", get_config_json),
+    path("static/aquapressure_static/StreamingAssets/config.json", get_config_json),
     # path("static/shadowspect_static/StreamingAssets/generated_replay.json", get_replay_json),
     # re_path(
     #     r"^static/shadowspect_static/StreamingAssets/(?P<slug>[a-zA-Z0-9-_]+).json",
