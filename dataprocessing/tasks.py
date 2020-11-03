@@ -1426,7 +1426,6 @@ def generate_all_replays():
                     start_events.append(event['id'])
                 if 'ws-exit_to_menu' in event['type'] or 'ws-disconnect' in event['type']:
                     end_events.append(event['id'])
-            # print(start_events)
             events = start_events + end_events
             events.sort()
             if events is not None:

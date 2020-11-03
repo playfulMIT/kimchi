@@ -102,7 +102,7 @@
             "slammerDoors": 0,
             "givesOxygen": false,
             "hasInversion": false,
-            "roomText": "Remember this exit!",
+            "roomText": "Remember this <color=#0c716e>exit</color>!",
             "topIcon": 0,
             "bottomIcon": 0,
             "leftIcon": 0,

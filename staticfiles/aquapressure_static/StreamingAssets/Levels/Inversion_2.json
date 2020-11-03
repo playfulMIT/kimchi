@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "<color=#ed1f24>Caution!</color> You won’t run out of air\nbut you must not touch any walls.",
+            "instructionText": "<color=#ed1f24>Make no mistakes!</color> If you touch a wall, you will instantly fail.",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,

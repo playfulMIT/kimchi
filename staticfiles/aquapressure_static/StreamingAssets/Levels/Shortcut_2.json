@@ -1,7 +1,7 @@
 {
     "instructionData": [
         {
-            "instructionText": "<color=#ed1f24>Caution!</color> You won’t run out of air\nbut you must not touch any walls.",
+            "instructionText": "<color=#ed1f24>Make no mistakes!</color> If you touch a wall, you will instantly fail.",
             "callToActionText": "",
             "showArrowIcon": true,
             "showInvertedArrowIcon": false,
@@ -221,7 +221,7 @@
             "slammerDoors": 0,
             "givesOxygen": false,
             "hasInversion": false,
-            "roomText": "Remember this exit!",
+            "roomText": "Remember this <color=#0c716e>exit</color>!",
             "topIcon": 0,
             "bottomIcon": 0,
             "leftIcon": 0,

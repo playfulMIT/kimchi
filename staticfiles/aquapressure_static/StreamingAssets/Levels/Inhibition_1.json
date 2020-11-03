@@ -68,7 +68,7 @@
             "slammerDoors": 2,
             "givesOxygen": false,
             "hasInversion": false,
-            "roomText": "Wait until the doors reopen!",
+            "roomText": "Wait until the <color=#0c716e>doors</color> reopen!",
             "topIcon": 0,
             "bottomIcon": 6,
             "leftIcon": 0,

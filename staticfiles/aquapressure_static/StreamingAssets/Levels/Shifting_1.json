@@ -102,7 +102,7 @@
             "slammerDoors": 0,
             "givesOxygen": false,
             "hasInversion": false,
-            "roomText": "Go in the OPPOSITE direction of RED arrows!",
+            "roomText": "Go in the <color=#ed1f24>OPPOSITE</color> direction of <color=#ed1f24>RED arrows</color>!",
             "topIcon": 2,
             "bottomIcon": 0,
             "leftIcon": 0,
