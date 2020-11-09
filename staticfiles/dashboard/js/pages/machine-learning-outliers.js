@@ -154,10 +154,7 @@ export function showMachineLearningOutliers(pMap, puzzData, outliers, loa, compl
         outlierData = outliers
         anonymizeNames = anonymize
 
-        completedPuzzleData = {}
-        for (let student of Object.keys(completed)) {
-            completedPuzzleData[student] = new Set(completed[student])
-        }
+        completedPuzzleData = completed
 
         showOutliersList()
     }

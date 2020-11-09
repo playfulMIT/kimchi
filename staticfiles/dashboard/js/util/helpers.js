@@ -105,7 +105,13 @@ export function formatPlurals(text, value) {
 }
 
 export function formatTime(timeInSeconds) {
-    return timeInSeconds > 60 ? `${Math.floor(timeInSeconds / 60)}m ${(timeInSeconds % 60).toFixed()}s` : `${timeInSeconds.toFixed()}s`
+    if (timeInSeconds > 60*60) {
+        return `${Math.floor(timeInSeconds / 3600)}h ${Math.floor((timeInSeconds % 3600) / 60)}m ${((timeInSeconds % 300)% 60).toFixed()}s`
+    }
+    if (timeInSeconds > 60) {
+        return `${Math.floor(timeInSeconds / 60)}m ${(timeInSeconds % 60).toFixed()}s`
+    }
+    return `${timeInSeconds.toFixed()}s`
 }
 
 export function createMetricCard(name, value) {

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/static/dashboard/css/funnel.css">
     <link rel="stylesheet" href="/static/dashboard/css/radar.css">
     <link rel="stylesheet" href="/static/dashboard/css/network.css">
+    <link rel="stylesheet" href="/static/dashboard/css/portal.css">
 </head>
 
 <body>
@@ -29,6 +30,7 @@
                     <a id="nav-outlier-radar" class="nav-item nav-link disabled" href="#">Outlier Radar Chart</a>
                     <a id="nav-puzzle-network" class="nav-item nav-link disabled" href="#">Sequence Between Puzzles</a>
                     <a id="nav-ml-outliers" class="nav-item nav-link disabled" href="#">Outliers via ML</a>
+                    <a id="nav-portal" class="nav-item nav-link disabled" href="#">Portal</a>
                 </div>
             </div>
         </nav>
@@ -400,26 +402,49 @@
                     <div id="ml-outlier-items-container">
                         <div class="accordion" id="ml-outlier-accordion"></div>
                     </div>
-                    <!-- <div class="modal fade" id="outlier-radar-modal" tabindex="-1" role="dialog"
-                        aria-labelledby="outlier-radar-modal-label" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="outlier-radar-modal-label">
-                                        Radar Chart for
-                                        <span id="outlier-radar-modal-puzzle">Puzzle</span>
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                </div>
+                <div id="portal-container" class="container page" style="display:none">
+                    <div id="portal-top-row" class="row">
+                        <div id="portal-view-container" class="col-8">
+                            <div id="portal-view-area" class="portal-area decorated"></div>
+                        </div>
+                        <div id="portal-view-panel-container" class="col-4">
+                            <div>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a id="portal-overview-tab" class="nav-link active orange-background" data-toggle="tab" role="tab" aria-controls="portal-view-overview-container" aria-selected="true" href="#portal-view-overview-container">Overview</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a id="portal-persistence-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="portal-view-persistence-container" aria-selected="false" href="#portal-view-persistence-container">Persistence</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="portal-view-panels" class="tab-content">
+                                <div id="portal-view-overview-container" class="tab-pane active portal-view-panel orange-background" role="tabpanel" aria-labelledby="portal-overview-tab">
+                                    <div id="portal-view-overview-views" class="portal-view-overview-section not-last"><h5 class="underlined">Views:</h5></div>
+                                    <div id="portal-view-overview-stats" class="portal-view-overview-section not-last"><h5 class="underlined">Class Statistics:</h5></div>
+                                    <div id="portal-view-overview-puzzles" class="portal-view-overview-section"><h5 class="underlined">Puzzles that Deserve Attention:</h5>TBD</div>
                                 </div>
-                                <div id="outlier-radar-svg" class="modal-body"></div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <div id="portal-view-persistence-container" class="tab-pane portal-view-panel" role="tabpanel" aria-labelledby="portal-persistence-tab">
+                                    TBD
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
+                    <div id="portal-bottom-row" class="row">
+                        <div id="portal-alerts-container" class="col-8">
+                            <div class="portal-area decorated">
+                                <h5>Alerts:</h5>
+                                <div id="portal-alerts-display"></div>
+                            </div>
+                        </div>
+                        <div id="portal-filter-container" class="col-4">
+                            <div class="portal-area decorated">
+                                Session and Puzzle Filters<br>
+                                TBD
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

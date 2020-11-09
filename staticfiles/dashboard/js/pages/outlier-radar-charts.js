@@ -216,10 +216,7 @@ export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity, complet
         formattedData = levelsOfActivity
         anonymizeNames = anonymize
 
-        completedPuzzleData = {}
-        for (let student of Object.keys(completed)) {
-            completedPuzzleData[student] = new Set(completed[student])
-        }
+        completedPuzzleData = completed
 
         $("#outlier-radar-stdev-coeff").val(stdevCoeff)
         $("#outlier-radar-stdev-coeff").on("input", handleEmptyParam)
