@@ -92,15 +92,6 @@
     stroke: #3E3E3E;
 }
 
-.point {
-    stroke-width: 0px;
-}
-
-.point.alert-point {
-    fill: white !important;
-    stroke-width: 2px;
-}
-
 .portal-alert-checkbox {
     width: 0.5em;
     height: 0.5em;
@@ -132,6 +123,32 @@
   border-radius: 3px;
 }
 
-.point {
+circle.point {
     fill: #000;
+    stroke-width: 0px;
+}
+
+circle.point.alert-point {
+    fill: white !important;
+    stroke-width: 2px;
+}
+
+image.point {
+    outline-width: 0px;
+}
+
+image.point.alert-point {
+    outline-style: solid;
+    outline-width: 2px;
+}
+
+#portal-view-overview-toggle {
+    margin-bottom: 5px;
+}
+
+#portal-tooltip {
+    background-color: lightgrey;
+    font-weight: bold;
+    border: 1px solid grey;
+    border-radius: 2px;
 }

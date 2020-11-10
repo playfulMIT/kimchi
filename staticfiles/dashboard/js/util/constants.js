@@ -122,3 +122,22 @@ export const NORMALIZATION_OPTION_KEYS = {
     [NORMALIZATION_OPTIONS.MINMAX]: "minmax_normalization",
     [NORMALIZATION_OPTIONS.STANDARD]: "standard_normalization"
 }
+
+export const MONSTER_IMAGE_PATHS = [
+    "../../static/dashboard/images/creature1.png",
+    "../../static/dashboard/images/creature2.png",
+    "../../static/dashboard/images/creature3.png",
+    "../../static/dashboard/images/creature4.png",
+    "../../static/dashboard/images/creature5.png",
+    "../../static/dashboard/images/creature6.png",
+    "../../static/dashboard/images/creature7.png",
+    "../../static/dashboard/images/creature8.png",
+    "../../static/dashboard/images/creature9.png",
+    "../../static/dashboard/images/creature10.png",
+    "../../static/dashboard/images/creature11.png",
+    "../../static/dashboard/images/creature12.png",
+    "../../static/dashboard/images/creature13.png",
+    "../../static/dashboard/images/creature14.png",
+    "../../static/dashboard/images/creature15.png",
+    "../../static/dashboard/images/creature16.png"
+]

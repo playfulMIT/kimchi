@@ -1,4 +1,5 @@
 import { showPage, formatTime, getClassAverage } from '../util/helpers.js'
+import { MONSTER_IMAGE_PATHS } from '../util/constants.js';
 
 var anonymizeNames = false
 var playerMap = null
@@ -31,12 +32,15 @@ var selectedStudents = {}
 
 var svg = null
 var tooltip = null
-const margin = { top: 20, right: 30, bottom: 30, left: 50 }
+const margin = { top: 20, right: 40, bottom: 30, left: 30 }
 var width = 0
 var height = 0
 var xScale = null
 var yScale = null
 var alertColorScale = null
+
+var displayStudentsAsMonsters = true
+var playerMonsterMap = {}
 
 // TODO: fix checkmarks 
 
@@ -139,6 +143,7 @@ function updateSelectedStudents() {
     svg.selectAll(".point")
         .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
         .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
+        .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
 }
 
 function computeAndRenderClassStatistics() {
@@ -207,6 +212,12 @@ function renderOverviewViewsOptions() {
         }
         counter++
     }
+
+    displayStudentsAsMonsters = $("#portal-toggle-creatures").is(":checked")
+    $("#portal-toggle-creatures").change(function() {
+        displayStudentsAsMonsters = $("#portal-toggle-creatures").is(":checked")
+        renderStudentPoints()
+    })
 }
 
 function initializeView() {
@@ -221,6 +232,7 @@ function initializeView() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
     tooltip = d3.select("body").append("div")
+        .attr("id", "portal-tooltip")
         .attr("class", "tooltip")
         .style("opacity", 0)
 
@@ -296,31 +308,78 @@ function renderStudentAttemptedVsCompletedView() {
         .style("fill", "#000")
         .text("# of Puzzles Completed")
 
-    svg.selectAll(".point")
-        .data(Object.keys(playerMap))
-        .enter()
-        .append("circle")
-        .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
-        .attr("id", d => "portal-student-point" + d)
-        .attr("r", 3.5)
-        .attr("cx", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0))
-        .attr("cy", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0))
-        .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
-        .on("mouseover", function (d) {
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", .9)
+    renderStudentPoints()
+}
 
-            tooltip.html(`${anonymizeNames ? d : playerMap[d]}`)
-                .style("left", (d3.event.pageX + 10) + "px")
-                .style("top", (d3.event.pageY - 10) + "px")
-        })
-        .on("mouseout", function (d) {
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", 0)
-        })
-        // .on("click", handleExperimentClick)
+function renderStudentPoints() {
+    svg.selectAll(".point").remove()
+    
+    if (displayStudentsAsMonsters) {
+        const monsterSize = 40
+        svg.selectAll(".point")
+            .data(Object.keys(playerMap))
+            .enter()
+            .append("image")
+            .attr("xlink:href", d => playerMonsterMap[d])
+            .attr("width", monsterSize)
+            .attr("height", monsterSize)
+            .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
+            .attr("id", d => "portal-student-point" + d)
+            .attr("x", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) - (monsterSize / 2))
+            .attr("y", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) - (monsterSize / 2))
+            .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
+            .on("mouseover", function (d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9)
+
+                tooltip.html(`${anonymizeNames ? d : playerMap[d]}`)
+                    .style("left", (d3.event.pageX + 10) + "px")
+                    .style("top", (d3.event.pageY - 10) + "px")
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0)
+            })
+    } else {
+        svg.selectAll(".point")
+            .data(Object.keys(playerMap))
+            .enter()
+            .append("circle")
+            .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
+            .attr("id", d => "portal-student-point" + d)
+            .attr("r", 3.5)
+            .attr("cx", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0))
+            .attr("cy", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0))
+            .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
+            .on("mouseover", function (d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9)
+
+                tooltip.html(`${anonymizeNames ? d : playerMap[d]}`)
+                    .style("left", (d3.event.pageX + 10) + "px")
+                    .style("top", (d3.event.pageY - 10) + "px")
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0)
+            })
+            .on("click", handleExperimentClick)
+    }
+}
+
+function assignPlayersToMonsters() {
+    var index = 0
+    for (let player of Object.keys(playerMap)) {
+        playerMonsterMap[player] = MONSTER_IMAGE_PATHS[index]
+        index++
+        if (index == MONSTER_IMAGE_PATHS.length) {
+            index = 0
+        }
+    }
 }
 
 export function showPortal(pMap, puzzData, persistence, completed, attempted, loa, anonymize=true) {
@@ -337,6 +396,8 @@ export function showPortal(pMap, puzzData, persistence, completed, attempted, lo
         completedPuzzleData = completed
         attemptedPuzzleData = attempted
         levelsOfActivityData = loa
+
+        assignPlayersToMonsters()
     }
 
     showPage("portal-container", "nav-portal")
