@@ -1,7 +1,7 @@
 {
 "companyName": "MIT Playful Journey Lab",
 "productName": "MIT-PJL-ExecutiveFunction",
-"productVersion": "0.1",
+"productVersion": "0.1.5",
 "dataUrl": "chris_dev.data.unityweb",
 "wasmCodeUrl": "chris_dev.wasm.code.unityweb",
 "wasmFrameworkUrl": "chris_dev.wasm.framework.unityweb",
