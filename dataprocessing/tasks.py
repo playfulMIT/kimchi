@@ -1418,6 +1418,11 @@ def generate_metadata_and_run_tasks():
 #     # Calls test('world') every 30 seconds
 #     sender.add_periodic_task(30.0, test.s('world'), expires=10)
 
+# TODO: where is the best place to put this?
+@app.task
+def getPuzzleDifficulty(group = 'all'):
+    return json.dumps(difficultyPuzzles)
+
 # TODO: remove unnecessary code
 @app.task
 def computeInsights(group = 'all'):
@@ -1850,16 +1855,32 @@ def computeInsights(group = 'all'):
 
             persistantCumPerc[i] = json.dumps({"NON_PERSISTANT ": round(totalNonPer[key_split[1]],2), "RAPID_SOLVER": round(totalRapid[key_split[1]],2), "PRODUCTIVE_PERSISTANCE": round(totalProduct[key_split[1]],2), "UNPRODUCTIVE_PERSISTANCE": round(totalUnpro[key_split[1]],2), "NO_BEHAVIOR": round(totalNoBehavior[key_split[1]],2) })
 
+    player_map = {}
+    completed_puzzle_map = {}
+    for url in urls:
+        player_map[url.name] = {v: k for k, v in create_player_map(url.name).items()}
+        completed_puzzle_map[url.name] = get_completed_puzzles_map(url.name)
+
     puzzles = defaultdict(lambda: {'total_attempts': 0, 'successful_attempts': 0})
+    students = defaultdict(lambda: defaultdict(list))
 
     warning_puzzles = []
+    stuck_students = defaultdict(list)
     for i in puzzleEvents.keys():
         if(idComplete[i]==0): 
             continue
         key_split = i.split('~')
         if(key_split[2] != '' and key_split[1] != '' and i != ''):
             task_id = key_split[2]
-            puzzles[task_id]['totalAttempts'] += 1
+            user = key_split[1]
+            group_name = key_split[0]
+            if group_name not in player_map or user not in player_map[group_name]:
+                continue
+            user_key = player_map[group_name][user]
+            completed_puzzles = completed_puzzle_map[group_name][user_key]
+            if task_id not in completed_puzzles:
+                students[user_key][task_id].append(timestamp[i])
+            puzzles[task_id]['total_attempts'] += 1
             if completados[i] == 1:
                 puzzles[task_id]['successful_attempts'] += 1
     
@@ -1867,9 +1888,17 @@ def computeInsights(group = 'all'):
         ratio_successful_attempt = float(puzzles[puzzle]['successful_attempts'])/puzzles[puzzle]['total_attempts']
         if ratio_successful_attempt < 0.5:
             warning_puzzles.append(puzzle)
+
+    for student in students.keys():
+        for puzzle in students[student].keys():
+            num_attempts = len(students[student][puzzle])
+            delta = students[student][puzzle][-1] - students[student][puzzle][0]
+            if delta.seconds >= .5 * 60 * 60 or num_attempts > 5:
+                stuck_students[student].append(puzzle)
     
-    return JsonResponse({'puzzles': warning_puzzles})
+    return json.dumps({"warning_puzzles": warning_puzzles, "stuck_students": stuck_students})
         # puzzles[puzzle]['ratio_successful_attempt'] = ratio_successful_attempt
+
 
 
 @app.task
