@@ -16,6 +16,7 @@ from dataprocessing.models import Task
 from kimchi.celery import app
 from shadowspect.models import Level, Replay
 from dashboard.views import create_player_map, get_completed_puzzles_map, get_puzzles_dict
+from dataprocessing.elo import adaptedData, run
 
 difficultyMapping = ['Sandbox~0.000001','1. One Box~0.000002', '2. Separated Boxes~0.111127', '3. Rotate a Pyramid~0.083447', '4. Match Silhouettes~0.061887', '5. Removing Objects~0.106021', '6. Stretch a Ramp~0.107035', '7. Max 2 Boxes~0.078039', '8. Combine 2 Ramps~0.068608', '9. Scaling Round Objects~0.128647', 
                'Square Cross-Sections~0.199714', 'Bird Fez~0.156674', 'Pi Henge~0.067346', '45-Degree Rotations~0.096715',  'Pyramids are Strange~0.179600', 'Boxes Obscure Spheres~0.266198', 'Object Limits~0.257177', 'Not Bird~0.260197', 'Angled Silhouette~0.147673',
@@ -2259,7 +2260,7 @@ def computePersistenceByPuzzle(group = 'all'):
 def computeELO(group = 'all'):
     totalData, train_set, test_set = adaptedData(group=group)
     difficulty_ELO, competency_ELO = run('multiTopic',1.8, 0.05, totalData, train_set, test_set)
-    return json.dumps({"difficulty_ELO": difficulty_ELO.to_json(), "competency_ELO": competency_ELO.to_json()})
+    return "{\"difficulty_ELO\": " + difficulty_ELO.to_json() + ", \"competency_ELO\": " + competency_ELO.to_json() + "}"
 
 @app.task
 def generate_metadata_and_run_tasks():
