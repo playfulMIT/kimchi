@@ -7,6 +7,7 @@ urlpatterns = [
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/players", views.get_player_list),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/sessions", views.get_player_to_session_map),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/puzzles", views.get_puzzles),
+    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/puzzlekeys", views.get_puzzle_keys),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/snapshotsperpuzzle", views.get_snapshot_metrics),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/attempted", views.get_attempted_puzzles),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/completed", views.get_completed_puzzles),
@@ -18,5 +19,8 @@ urlpatterns = [
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/sequencebetweenpuzzles", views.get_sequence_between_puzzles),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/mloutliers", views.get_machine_learning_outliers),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/persistence", views.get_persistence_data),
+    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/insights", views.get_insights),
+    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/difficulty", views.get_puzzle_difficulty_mapping),
     re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/dashboard/", views.dashboard),
+    re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/thesisdashboard/", views.thesis_dashboard)
 ]

@@ -17,6 +17,9 @@ import numpy as np
 def dashboard(request, slug):
     return render(request, "dashboard/dashboard.html", {"url": slug})
 
+def thesis_dashboard(request, slug):
+    return render(request, "dashboard/thesis_dashboard.html", {"url": slug})
+
 # TODO: should this be based on the last url per student (currently implemented) or any url they have been on?
 def create_player_to_session_map(url):
     player_to_session_map = dict()
@@ -50,11 +53,15 @@ def get_player_list(request, slug):
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
 
-def get_puzzles_dict(url):
-    def get_puzzle_properties(puzzle_filename):
-        level = Level.objects.get(filename=puzzle_filename)
-        return json.loads(level.data)["puzzleName"]
+def get_puzzle_name(puzzle_filename):
+    level = Level.objects.get(filename=puzzle_filename)
+    return json.loads(level.data)["puzzleName"]
 
+def get_puzzle_pk(puzzle_filename):
+    level = Level.objects.get(filename=puzzle_filename)
+    return level.pk
+
+def get_puzzles_dict(url):
     puzzles = dict()
     url = URL.objects.get(name=url)
     config = url.data
@@ -65,9 +72,20 @@ def get_puzzles_dict(url):
 
     for puzzleSet in config_dict["puzzleSets"]:
         if puzzleSet["canPlay"]:
-            puzzles["puzzles"][puzzleSet["name"].lower()] = [get_puzzle_properties(p) for p in puzzleSet["puzzles"]]
+            puzzles["puzzles"][puzzleSet["name"].lower()] = [get_puzzle_name(p) for p in puzzleSet["puzzles"]]
     
     return puzzles
+
+def get_puzzle_keys(request, slug):
+    url = URL.objects.get(name=slug)
+    config_dict = json.loads(url.data)
+    result = dict()
+
+    for puzzleSet in config_dict["puzzleSets"]:
+        if puzzleSet["canPlay"]:
+            result.update({get_puzzle_name(p): get_puzzle_pk(p) for p in puzzleSet["puzzles"]})
+
+    return JsonResponse(result)
 
 def get_puzzles(request, slug):
     return JsonResponse(get_puzzles_dict(slug))
@@ -362,3 +380,20 @@ def get_persistence_data_from_server(slug):
 def get_persistence_data(request, slug):
     return JsonResponse(get_persistence_data_from_server(slug))
 
+def get_insights(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeInsights(['" + slug + "']")
+        result = json.loads(task_result)
+
+        return JsonResponse(result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
+
+def get_puzzle_difficulty_mapping(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="getPuzzleDifficulty(['" + slug + "']")
+        result = json.loads(task_result)
+
+        return JsonResponse(result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shadowspect Dashboard</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="/static/dashboard/css/semantic.min.css">
+</head>
+
+<body>
+    <div id="root">
+        <div class="ui top attached tabular menu">
+            <a class="item" data-tab="overview-tab">Overview</a>
+            <a class="item" id="students-tab" data-tab="students-tab">Students</a>
+            <a class="item" id="puzzles-tab" data-tab="puzzles-tab">Puzzles</a>
+            <a class="item active" id="alerts-tab" data-tab="alerts-tab">Alerts</a>
+            <a class="item" id="filter-settings-tab" data-tab="filter-settings-tab">Filter Settings</a>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="overview-tab">
+            <div id="overview-class-statistics">
+                <div id="overview-statistics-container" class="ui statistics"></div>
+            </div>
+            <div class="ui toggle checkbox">
+                <input id="overview-insights-difficulty-toggle" type="checkbox" checked>
+                <label><span data-tooltip="These are puzzles with a difficulty index > 0.5.">Include Difficult Puzzles <i class="question circle outline icon"></i></span></label>
+            </div>
+            <div id="overview-insights-list"></div>
+            <button id="overview-insights-link">View</button>
+            <div>
+                <span data-tooltip="Alerts are filters with an alert type.">Alerts <i class="question circle outline icon"></i></span>
+                <div id="overview-alerts-list"></div>
+                <button id="overview-alerts-link">View</button>
+            </div>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="students-tab">
+            <div id="student-view-breadcrumb"></div>
+            <div id="all-students-view" class="student-view" style="display: none">
+                <div>
+                    <div id="all-students-view-container"></div>
+                    <div id="student-view-puzzle-heatmap-container"></div>
+                </div>
+                <div>
+                    Customize Display
+                    <div id="student-view-student-form" class="ui form">
+                        <div class="grouped fields">
+                            <label>Students</label>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="student-view-student-list" value="all-students" checked>
+                                    <label>All Students</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="student-view-student-list" value="filter-group">
+                                    <label>Filter group...</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <select id="student-view-filter-group" name="student-view-filter-group" multiple=""
+                                class="ui inline dropdown">
+                                <option value="">Filter group</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="student-view-view-type-form" class="ui form">
+                        <div class="grouped fields">
+                            <label>View Type</label>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="student-view-view-type" value="table" checked>
+                                    <label>Table View</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="student-view-view-type" value="graph">
+                                    <label>Graph View</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="student-view-configure-table-group">
+                        Table Settings
+                        <div id="student-view-table-settings-form" class="ui form">
+                            <div id="student-view-table-settings" class="grouped fields">
+                                <label>Columns</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="student-view-configure-graph-group" style="display:none">Graph Settings</div>
+                </div>
+            </div>
+            <div id="single-student-view-container" class="student-view" style="display: none">
+                <div id="single-student-statistics">
+                    <div id="single-student-statistics-container" class="ui statistics"></div>
+                </div>
+                <div id="single-student-alerts"></div>
+                <div id="single-student-view-puzzle-heatmap-container"></div>
+            </div>
+            <div id="single-student-puzzle-view-container" class="student-view" style="display: none">
+                <div id="single-student-puzzle-statistics">
+                    <div id="single-student-puzzle-statistics-container" class="ui statistics"></div>
+                </div>
+                <div id="single-student-puzzle-table"></div>
+                <div id="student-puzzle-view-configure-table-group">
+                    Table Settings
+                    <div id="student-puzzle-view-table-settings-form" class="ui form">
+                        <div id="student-puzzle-view-table-settings" class="grouped fields">
+                            <label>Columns</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="puzzles-tab">
+            <div id="puzzle-view-breadcrumb"></div>
+            <div id="all-puzzles-view" class="puzzle-view" style="display: none">
+                <div>
+                    <div id="all-puzzles-view-container"></div>
+                    <div id="puzzle-view-puzzle-heatmap-container"></div>
+                </div>
+                <div>
+                    Customize Display
+                    <div id="puzzle-view-view-type-form" class="ui form">
+                        <div class="grouped fields">
+                            <label>View Type</label>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="puzzle-view-view-type" value="table" checked>
+                                    <label>Table View</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="puzzle-view-view-type" value="graph">
+                                    <label>Graph View</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="puzzle-view-configure-table-group">
+                        Table Settings
+                        <div id="puzzle-view-table-settings-form" class="ui form">
+                            <div id="puzzle-view-table-settings" class="grouped fields">
+                                <label>Columns</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="puzzle-view-configure-graph-group" style="display:none">Graph Settings</div>
+                </div>
+            </div>
+            <div id="single-puzzle-view" class="puzzle-view" style="display: none">
+                <div id="single-puzzle-statistics">
+                    <div id="single-puzzle-statistics-container" class="ui statistics"></div>
+                </div>
+                <div id="single-puzzle-table-container"></div>
+            </div>
+        </div>
+        <div class="ui bottom attached tab segment active" data-tab="alerts-tab">
+            <div id="alert-view"></div>
+            <div id="alert-list-container">
+                <span data-tooltip="Alerts are filters with an alert type.">Alerts <i class="question circle outline icon"></i></span>
+                <div class="ui toggle checkbox">
+                    <input id="alerts-view-by-student-toggle" type="checkbox">
+                    <label>View by Student</label>
+                </div>
+                <div id="alert-list"></div>
+                <button id="alert-list-customize-btn"><i class="plus icon"></i> Customize</button>
+            </div>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="filter-settings-tab">
+            <div>
+                <div id="filter-settings-wksp-placeholder">
+                    Add a new filter or select an existing filter to edit!
+                </div>
+                <div id="filter-settings-wksp" style="display: none">
+                    <div id="filter-settings-wksp-filter-name">Filter Name</div> <!-- TODO: change to editable field? -->
+                    <div id="blockly-container" style="height: 480px; width: 600px;"></div>
+                    <div id="blockly-temp-container" style="height: 480px; width: 600px; display: none;"></div>
+                    <button id="save-btn">Save Filter</button>
+                    <button id="clear-wksp-btn">Clear Workspace</button>
+                    <button id="delete-btn">Delete Filter</button>
+                    <button id="cancel-btn">Cancel</button>
+                </div>
+            </div>
+            <div>
+                <div>Filter List</div>
+                <div id="filter-settings-filter-list"></div>
+                <button id="filter-settings-add-btn">Add New Filter</button>
+            </div>
+        </div>
+        <div id="insights-modal" class="ui modal">
+            <div class="header">Insights</div>
+            <div id="insights-modal-content" class="scrolling content"></div>
+        </div>
+    </div>
+
+    <script> const GROUP = "{{url}}"; </script>
+    <script src="/static/dashboard/js/vendor/jquery-3.3.1.min.js"></script>
+    <script src="/static/dashboard/js/vendor/fontawesome-all.min.js"></script>
+    <script src="/static/dashboard/js/vendor/d3.min.js"></script>
+    <script src="/static/thesisdashboard/js/tablesort.js"></script>
+    <script src="/static/dashboard/js/vendor/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/blockly_compressed.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/blocks_compressed.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/javascript_compressed.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/msg/js/en.js"></script>
+    <script src="/static/thesisdashboard/js/thesis_dashboard.js" type="module"></script>
+
+    <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+        <category name="Filter Types" colour="65">
+            <block type="alert"></block>
+        </category>
+        <category name="Conditions" colour="330">
+            <block type="persistence"></block>
+            <block type="mins_played"></block>
+            <block type="percentile"></block>
+            <block type="condition">
+                <field name="operator">&gt;</field>
+                <field name="comp_val">0</field>
+            </block>
+        </category>
+        <category name="Combining Conditions" colour="260">
+            <block type="and_condition"></block>
+            <block type="or_condition"></block>
+        </category>
+    </xml>
+
+    <xml xmlns="https://developers.google.com/blockly/xml" id="defaultWorkspaceBlocks" style="display: none">
+        <block type="alert" id="ps]h{#KOI@r|v~T!im){" x="37" y="38"></block>
+    </xml>
+</body>
+
+</html>
