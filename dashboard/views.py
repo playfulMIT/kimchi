@@ -344,7 +344,7 @@ def get_machine_learning_outliers(request, slug):
     except ObjectDoesNotExist:
         return JsonResponse({})
 
-def get_persistence_data_from_server(slug):
+def get_persistence_by_attempt_data_from_server(slug):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computePersistence(['" + slug + "']")
         result = json.loads(task_result)
@@ -377,17 +377,67 @@ def get_persistence_data_from_server(slug):
     except ObjectDoesNotExist:
         return {}
 
-def get_persistence_data(request, slug):
-    return JsonResponse(get_persistence_data_from_server(slug))
-
-def get_insights(request, slug):
+def get_persistence_by_puzzle_data_from_server(slug):
     try:
-        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeInsights(['" + slug + "']")
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computePersistenceByPuzzle(['" + slug + "']")
         result = json.loads(task_result)
 
-        return JsonResponse(result)
+        new_result = defaultdict(lambda: defaultdict(dict))
+        columns = ['n_attempts','completed','timestamp', 'active_time','percentileActiveTime','n_events','percentileEvents', 'n_check_solution','percentileAtt','percentileComposite' ,'persistence','n_breaks','n_snapshot','n_rotate_view','n_manipulation_events','time_failed_submission_exit','avg_time_between_submissions']
+        player_map = {v: k for k, v in create_player_map(slug).items()}
+
+        for i in result['group'].keys():
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            puzzle = result['task_id'][i]
+            for column in columns:
+                new_result[user][puzzle][column] = result[column][i]
+        return new_result
     except ObjectDoesNotExist:
-        return JsonResponse({})
+        return {}
+
+def get_persistence_by_attempt_data(request, slug):
+    return JsonResponse(get_persistence_by_attempt_data_from_server(slug))
+
+def get_persistence_by_puzzle_data(request, slug):
+    return JsonResponse(get_persistence_by_puzzle_data_from_server(slug))
+
+def get_insights(request, slug):
+    persistence_data = get_persistence_by_attempt_data_from_server(slug)
+    player_map = {}
+    completed_puzzle_map = get_completed_puzzles_map(slug)
+
+    puzzles = defaultdict(lambda: {'total_attempts': 0, 'successful_attempts': 0})
+    students = defaultdict(lambda: defaultdict(list))
+
+    warning_puzzles = []
+    stuck_students = defaultdict(list)
+    
+    for student in persistence_data.keys():
+        for attempt in persistence_data[student]:
+            if attempt.task_id not in completed_puzzles:
+                students[student][attempt.task_id].append(attempt.timestamp)
+            puzzles[attempt.task_id]['total_attempts'] += 1
+            if attempt.completed == 1:
+                puzzles[attempt.task_id]['successful_attempts'] += 1
+
+    for puzzle in puzzles.keys():
+        ratio_successful_attempt = float(puzzles[puzzle]['successful_attempts'])/puzzles[puzzle]['total_attempts']
+        if ratio_successful_attempt < 0.5:
+            warning_puzzles.append(puzzle)
+
+    for student in students.keys():
+        for puzzle in students[student].keys():
+            num_attempts = len(students[student][puzzle])
+            delta = students[student][puzzle][-1] - students[student][puzzle][0]
+            if delta.seconds >= .5 * 60 * 60 or num_attempts > 5:
+                stuck_students[student].append(puzzle)
+    
+    # TODO: move to views.py
+    return JsonResponse({"warning_puzzles": warning_puzzles, "stuck_students": stuck_students})
 
 def get_puzzle_difficulty_mapping(request, slug):
     try:
