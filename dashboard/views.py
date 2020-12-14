@@ -2,6 +2,7 @@ import json
 import datetime
 from operator import or_
 from functools import reduce
+from collections import defaultdict
 
 from django.db.models import Q
 from django.shortcuts import render
@@ -125,27 +126,33 @@ def get_snapshot_metrics(request, slug):
 def get_attempted_puzzles(request, slug):
     players = create_player_list(slug)
 
-    attempted = dict()
-    for player in players:
-        try:
-            attempted[player] = list(Player.objects.get(pk=player, url__name=slug).attempted.values_list("filename", flat=True))
-        except ObjectDoesNotExist:
-            attempted[player] = []
+    attempted = defaultdict(list) if safe_for_serialization else defaultdict(set)
+    persistence_data = get_persistence_by_puzzle_data_from_server(url)
 
-    return JsonResponse(attempted)
+    for player in players:
+        if player in persistence_data:
+            for puzzle in persistence_data[player].keys():
+                if persistence_data[player][puzzle]['n_attempts'] >= 1:
+                    if safe_for_serialization:
+                        attempted[player].append(puzzle)
+                    else:
+                        attempted[player].add(puzzle)
+    return attempted
 
 def get_completed_puzzles_map(url, safe_for_serialization=False):
     players = create_player_list(url)
 
-    completed = dict()
+    completed = defaultdict(list) if safe_for_serialization else defaultdict(set)
+    persistence_data = get_persistence_by_puzzle_data_from_server(url)
+
     for player in players:
-        try:
-            if safe_for_serialization:
-                completed[player] = list(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
-            else:
-                completed[player] = set(Player.objects.get(pk=player, url__name=url).completed.values_list("filename", flat=True))
-        except ObjectDoesNotExist:
-            completed[player] = []
+        if player in persistence_data:
+            for puzzle in persistence_data[player].keys():
+                if persistence_data[player][puzzle]['completed'] == 1:
+                    if safe_for_serialization:
+                        completed[player].append(puzzle)
+                    else:
+                        completed[player].add(puzzle)
     return completed
 
 def get_completed_puzzles(request, slug):
@@ -383,7 +390,7 @@ def get_persistence_by_puzzle_data_from_server(slug):
         result = json.loads(task_result)
 
         new_result = defaultdict(lambda: defaultdict(dict))
-        columns = ['n_attempts','completed','timestamp', 'active_time','percentileActiveTime','n_events','percentileEvents', 'n_check_solution','percentileAtt','percentileComposite' ,'persistence','n_breaks','n_snapshot','n_rotate_view','n_manipulation_events','time_failed_submission_exit','avg_time_between_submissions']
+        columns = ['puzzle_difficulty', 'puzzle_category', 'n_attempts','completed','timestamp', 'active_time','percentileActiveTime','n_events','percentileEvents', 'n_check_solution','percentileAtt','percentileComposite' ,'persistence','n_breaks','n_snapshot','n_rotate_view','n_manipulation_events','time_failed_submission_exit','avg_time_between_submissions']
         player_map = {v: k for k, v in create_player_map(slug).items()}
 
         for i in result['group'].keys():
@@ -407,8 +414,7 @@ def get_persistence_by_puzzle_data(request, slug):
 
 def get_insights(request, slug):
     persistence_data = get_persistence_by_attempt_data_from_server(slug)
-    player_map = {}
-    completed_puzzle_map = get_completed_puzzles_map(slug)
+    completed_puzzles = get_completed_puzzles_map(slug)
 
     puzzles = defaultdict(lambda: {'total_attempts': 0, 'successful_attempts': 0})
     students = defaultdict(lambda: defaultdict(list))
@@ -418,11 +424,12 @@ def get_insights(request, slug):
     
     for student in persistence_data.keys():
         for attempt in persistence_data[student]:
-            if attempt.task_id not in completed_puzzles:
-                students[student][attempt.task_id].append(attempt.timestamp)
-            puzzles[attempt.task_id]['total_attempts'] += 1
-            if attempt.completed == 1:
-                puzzles[attempt.task_id]['successful_attempts'] += 1
+            puzzle = attempt['task_id']
+            if puzzle not in completed_puzzles[student]:
+                students[student][puzzle].append(attempt['timestamp'])
+            puzzles[puzzle]['total_attempts'] += 1
+            if attempt['completed'] == 1:
+                puzzles[puzzle]['successful_attempts'] += 1
 
     for puzzle in puzzles.keys():
         ratio_successful_attempt = float(puzzles[puzzle]['successful_attempts'])/puzzles[puzzle]['total_attempts']
@@ -433,7 +440,7 @@ def get_insights(request, slug):
         for puzzle in students[student].keys():
             num_attempts = len(students[student][puzzle])
             delta = students[student][puzzle][-1] - students[student][puzzle][0]
-            if delta.seconds >= .5 * 60 * 60 or num_attempts > 5:
+            if delta >= .5 * 1000 * 60 * 60 or num_attempts > 5:
                 stuck_students[student].append(puzzle)
     
     # TODO: move to views.py

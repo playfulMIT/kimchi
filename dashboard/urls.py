@@ -19,7 +19,7 @@ urlpatterns = [
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/sequencebetweenpuzzles", views.get_sequence_between_puzzles),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/mloutliers", views.get_machine_learning_outliers),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/persistence", views.get_persistence_by_attempt_data),
-    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/persistencebypuzzle", views.get_persistence_by_puzzle_data),
+    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/puzzlepersistence", views.get_persistence_by_puzzle_data),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/insights", views.get_insights),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/difficulty", views.get_puzzle_difficulty_mapping),
     re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/dashboard/", views.dashboard),
