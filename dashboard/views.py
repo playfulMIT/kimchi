@@ -10,7 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 
 from datacollection.models import Event, CustomSession, Player, URL
-from shadowspect.models import Level
+from shadowspect.models import Level, Replay
 from dataprocessing.models import Task
 
 import numpy as np
@@ -88,6 +88,13 @@ def get_puzzle_keys(request, slug):
 
     return JsonResponse(result)
 
+def get_replay_urls(request, slug, player, level):
+    replays = Replay.objects.filter(
+        player=player,
+        level=level
+    )
+    return JsonResponse({"urls": list(map(lambda replay: replay.url.name, replays))})
+
 def get_puzzles(request, slug):
     return JsonResponse(get_puzzles_dict(slug))
 
@@ -123,8 +130,8 @@ def get_snapshot_metrics(request, slug):
 
     return JsonResponse(player_to_snapshot_map)
 
-def get_attempted_puzzles(request, slug):
-    players = create_player_list(slug)
+def get_attempted_puzzles_map(url, safe_for_serialization=False):
+    players = create_player_list(url)
 
     attempted = defaultdict(list) if safe_for_serialization else defaultdict(set)
     persistence_data = get_persistence_by_puzzle_data_from_server(url)
@@ -132,11 +139,10 @@ def get_attempted_puzzles(request, slug):
     for player in players:
         if player in persistence_data:
             for puzzle in persistence_data[player].keys():
-                if persistence_data[player][puzzle]['n_attempts'] >= 1:
-                    if safe_for_serialization:
-                        attempted[player].append(puzzle)
-                    else:
-                        attempted[player].add(puzzle)
+                if safe_for_serialization:
+                    attempted[player].append(puzzle)
+                else:
+                    attempted[player].add(puzzle)
     return attempted
 
 def get_completed_puzzles_map(url, safe_for_serialization=False):
@@ -154,6 +160,9 @@ def get_completed_puzzles_map(url, safe_for_serialization=False):
                     else:
                         completed[player].add(puzzle)
     return completed
+
+def get_attempted_puzzles(request, slug):
+    return JsonResponse(get_attempted_puzzles_map(slug, True))
 
 def get_completed_puzzles(request, slug):
     return JsonResponse(get_completed_puzzles_map(slug, True))
@@ -443,7 +452,6 @@ def get_insights(request, slug):
             if delta >= .5 * 1000 * 60 * 60 or num_attempts > 5:
                 stuck_students[student].append(puzzle)
     
-    # TODO: move to views.py
     return JsonResponse({"warning_puzzles": warning_puzzles, "stuck_students": stuck_students})
 
 def get_puzzle_difficulty_mapping(request, slug):

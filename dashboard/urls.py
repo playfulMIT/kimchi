@@ -22,6 +22,7 @@ urlpatterns = [
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/puzzlepersistence", views.get_persistence_by_puzzle_data),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/insights", views.get_insights),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/difficulty", views.get_puzzle_difficulty_mapping),
+    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/(?P<player>[a-zA-Z0-9-_.]+)/(?P<level>[a-zA-Z0-9-_.]+)/replayurls", views.get_replay_urls),
     re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/dashboard/", views.dashboard),
     re_path(r"^(?P<slug>[a-zA-Z0-9-_]+)/thesisdashboard/", views.thesis_dashboard)
 ]

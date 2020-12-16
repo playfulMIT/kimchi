@@ -15,18 +15,21 @@ var insightsData = null
 var insightsDataNoDifficultPuzzles = null
 var includeDifficultPuzzlesInInsights = true
 
-// TODO: insights: students who made no progress, students who briefly looked at a puzzle and left, students who low time between submissions, quick to exit
-// TODO: connect insights to other pages
-// TODO: alert to text 
+// TODO: insights: students who made no progress, students who briefly looked at a puzzle and left, students who low time between submissions, quick to exit here
 
 const INSIGHT_TO_HEADER = {
-    "warning_puzzles": "Warning Puzzles<br>info text",
-    "stuck_students": "Stuck Students<br>info text",
+    "warning_puzzles": '<h3 class="ui header accordion-header">Warning Puzzles<div class="sub header">These are puzzles in which over 50% of all attempts were unsuccessful. This may indicate that the class is struggling on the puzzle.</div></h3>',
+    "stuck_students": '<h3 class="ui header accordion-header">Stuck Students<div class="sub header">These are student, puzzle pairs in which the student has either attempted the puzzle more than 5 times or has time between attempts spanning more than half an hour. This may indicate that a student is stuck on a particular puzzle.</div></h3>',
 }
 
 const INSIGHT_TO_ITEMS = {
     "warning_puzzles": () => includeDifficultPuzzlesInInsights ? insightsData.warning_puzzles : insightsDataNoDifficultPuzzles.warning_puzzles,
     "stuck_students": () => Object.entries(includeDifficultPuzzlesInInsights ? insightsData.stuck_students : insightsDataNoDifficultPuzzles.stuck_students)
+}
+
+export function handleFilterChange() {
+    showAlerts()
+    showFilters()
 }
 
 function hideModal(callback = null) {
@@ -81,16 +84,18 @@ const INSIGHTS_RENDER_FUNCTION = {
 function renderInsightsModalContent() {
     const container = document.getElementById("insights-modal-content")
     container.innerHTML = ''
-    
+    container.className = "scrolling content ui accordion"
+
     for (let insight of Object.keys(insightsData)) {
-        const insightContainer = document.createElement("div")
-        insightContainer.innerHTML = INSIGHT_TO_HEADER[insight]
-        container.appendChild(insightContainer)
+        const title = document.createElement("div")
+        title.className = "title"
+        title.innerHTML = '<i class="dropdown icon"></i>' + INSIGHT_TO_HEADER[insight]
+        container.appendChild(title)
 
         const listContainer = document.createElement("div")
         listContainer.id = insight + "list"
-        insightContainer.appendChild(listContainer)
-        util.renderList(listContainer.id, INSIGHT_TO_ITEMS[insight](), INSIGHTS_RENDER_FUNCTION[insight], "bulleted")
+        container.appendChild(listContainer)
+        util.renderList(listContainer.id, INSIGHT_TO_ITEMS[insight](), INSIGHTS_RENDER_FUNCTION[insight], "bulleted content")
     }
 }
 
@@ -99,9 +104,19 @@ function showAlerts() {
     util.renderList("overview-alerts-list", Object.keys(alerts), (alertName) => {
         const content = document.createElement("div")
         content.className = "content"
-        content.textContent = `${alerts[alertName].length + " " + formatPlurals("student", alerts[alertName].length)} flagged for ${alertName}`
+        content.innerHTML = `${alerts[alertName].length + " " + formatPlurals("student", alerts[alertName].length)} flagged for <span class="bold">${alertName}</span>`
         return content
-    })
+    }, "divided", "alert")
+}
+
+function showFilters() {
+    const filters = dashboard.getFilterKeys()
+    util.renderList("overview-filters-list", filters, (filterName) => {
+        const content = document.createElement("div")
+        content.className = "content"
+        content.innerHTML = filterName
+        return content
+    }, "divided", "filter-type", (alert) => dashboard.getFilterIcon(alert), (alert) => dashboard.getFilterTooltip(alert))
 }
 
 function generateClassStatistics() {
@@ -161,7 +176,7 @@ function generateInsights(insights) {
         insightText.textContent = INSIGHT_TEXT_FUNCTIONS[insightName](insights[insightName])
         content.appendChild(insightText)
         return content
-    })
+    }, "divided", "alert")
 
     $("#overview-insights-difficulty-toggle").change(handleDifficultPuzzlesCheckbox)
 }
@@ -193,9 +208,14 @@ export function initializeTab(players, puzzleDifficulty, levelsOfActivity, compl
     }
 
     $("#overview-alerts-link").click(() => $("#alerts-tab").click())
-    $("#overview-insights-link").click(() => $("#insights-modal").modal({}).modal('show'))
+    $("#overview-filters-link").click(() => $("#filter-settings-tab").click())
+    $("#overview-alerts-customize-link").click(() => $("#filter-settings-tab").click())
+    $("#overview-insights-link").click(() => $("#insights-modal").modal({ 
+        onVisible: () => $("#insights-modal-content").accordion().accordion("open", 0)
+    }).modal('show'))
     generateClassStatistics()
     handleDifficultPuzzlesCheckbox()
     showAlerts()
+    showFilters()
     renderInsightsModalContent()
 }

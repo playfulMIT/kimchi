@@ -1,4 +1,7 @@
 import * as dashboard from './thesis_dashboard.js'
+import * as overviewTab from './overview.js'
+import * as studentsTab from './students.js'
+import * as alertsTab from './alerts.js'
 import * as util from './helpers.js'
 
 const FILTER_DROPDOWN_OPTIONS = {
@@ -11,12 +14,14 @@ var workspace = null
 var activeFilterForEditing = null
 
 function initializeDropdowns() {
-    $('.ui .dropdown').dropdown({ action: 'select' })
+    $('.setting-dropdown').dropdown({ action: 'select' })
 }
 
 function initializeWorkspaceButtons() {
     $("#filter-settings-add-btn").click(() => {
-        addNewFilter(prompt("Please provide a name for the new filter.", "test"))
+        showFilterNameModal("Add New Filter", "Add Filter", "New Filter", (newFilterName) => {
+            addNewFilter(newFilterName)
+        })
     })
 
     $("#cancel-btn").click(() => {
@@ -66,14 +71,17 @@ function checkWorkspaceValidity() {
         alert("bad")
         return null
     }
-
     const code = Blockly.JavaScript.workspaceToCode(workspace)
+
     try {
         const parsedCode = JSON.parse(code)
         if (parsedCode instanceof Array) {
             alert("You need a header!")
             return null
         }
+        const xml = Blockly.Xml.workspaceToDom(workspace)
+        const xmlString = Blockly.Xml.domToText(xml)
+        console.log(xmlString)
         return parsedCode
     } catch (err) {
         if (err instanceof SyntaxError) {
@@ -84,14 +92,13 @@ function checkWorkspaceValidity() {
 }
 
 function populateFiltersList() {
-    // TODO: add active coloring
     util.renderList("filter-settings-filter-list", dashboard.getFilterKeys(), (filterName) => {
         const content = document.createElement("div")
         content.className = "content"
         
         const dropdown = document.createElement("div")
-        dropdown.className = "ui dropdown"
-        dropdown.innerHTML = `<div class="text">${filterName}</div><i class="dropdown icon"></i>`
+        dropdown.className = "ui fluid dropdown setting-dropdown"
+        dropdown.innerHTML = `<div class="text filter-settings-dropdown-text">${filterName}</div><i class="dropdown icon filter-settings-dropdown-icon"></i>`
         content.appendChild(dropdown)
 
         const menu = document.createElement("div")
@@ -107,7 +114,7 @@ function populateFiltersList() {
         }
 
         return content
-    }, "selection celled")
+    }, "selection divided", "filter-type", (alert) => dashboard.getFilterIcon(alert), (alert) => dashboard.getFilterTooltip(alert), true)
     initializeDropdowns()
 }
 
@@ -143,14 +150,33 @@ function addNewFilter(filterName) {
     showFilterWorkspace(filterName)
 }
 
+function showFilterNameModal(modalTitle, buttonText, initialFilterName, onApproveFunction) {
+    $("#filter-name-modal-title").text(modalTitle)
+    $("#filter-name-modal-btn").text(buttonText)
+    $("#filter-name-modal-input").val(initialFilterName)
+    $("#filter-name-modal").modal({
+        onApprove: () => onApproveFunction($("#filter-name-modal-input").val())
+    }).modal("show")
+}
+
+function updateFiltersAcrossDashboard() {
+    dashboard.handleFilterChange()
+    overviewTab.handleFilterChange()
+    studentsTab.handleFilterChange()
+    alertsTab.handleFilterChange()
+}
+
 function renameFilter(filterName) {
+    hideFilterWorkspace()
     const filterData = window.localStorage.getItem(filterName)
-    const newFilterName = prompt("Please enter the new filter name.", "test")
-    window.localStorage.removeItem(filterName)
-    window.localStorage.setItem(newFilterName, filterData)
-    dashboard.setFilter(newFilterName, dashboard.getFilter(filterName))
-    dashboard.removeFilter(filterName)
-    populateFiltersList()
+    showFilterNameModal(`Rename ${filterName}`, "Rename", filterName, (newFilterName) => {
+        window.localStorage.removeItem(filterName)
+        window.localStorage.setItem(newFilterName, filterData)
+        dashboard.setFilter(newFilterName, dashboard.getFilter(filterName))
+        dashboard.removeFilter(filterName)
+        populateFiltersList()
+    })
+    updateFiltersAcrossDashboard()
 }
 
 function saveFilter(filterName) {
@@ -163,13 +189,16 @@ function saveFilter(filterName) {
 
     dashboard.setFilter(filterName, filter)
     populateFiltersList()
+    updateFiltersAcrossDashboard()
 }
 
 function deleteFilter(filterName) {
+    hideFilterWorkspace()
     window.localStorage.removeItem(filterName)
     dashboard.removeFilter(filterName)
     hideFilterWorkspace()
     populateFiltersList()
+    updateFiltersAcrossDashboard()
 }
 
 export function initializeTab() {

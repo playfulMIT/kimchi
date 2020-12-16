@@ -5,13 +5,16 @@ import * as util from './helpers.js'
 var playerMap = null
 
 var renderListByAlert = true
-// var selected = null
 
-// TODO: show selected in list
+export function handleFilterChange() {
+    handleViewByStudentCheckbox()
+}
+
 function renderAlertView(selected) {
     if (renderListByAlert) {
         const alertsByAlert = dashboard.getAlertsByAlert()
-        util.renderAlertsPanel("alert-view", selected, alertsByAlert[selected], (v) => playerMap[v], (student) => {
+        $("#alert-view-header").text(selected)
+        util.renderAlertsPanel("alert-view-container", alertsByAlert[selected], (v) => playerMap[v], (student) => {
             $("#students-tab").click()
             studentTab.showSingleStudentView(student)
         })
@@ -19,7 +22,8 @@ function renderAlertView(selected) {
     }
 
     const alertsByStudent = dashboard.getAlertsByStudent()
-    util.renderAlertsPanel("alert-view", playerMap[selected], alertsByStudent[selected], null, (alert) => {
+    $("#alert-view-header").text(playerMap[selected])
+    util.renderAlertsPanel("alert-view-container", alertsByStudent[selected], null, (alert) => {
         $("#students-tab").click()
         studentTab.showSingleStudentView(selected)
     })
@@ -28,31 +32,36 @@ function renderAlertView(selected) {
 function renderAlertList() {
     if (renderListByAlert) {
         const alertsByAlert = dashboard.getAlertsByAlert()
-        util.renderList("alert-list", Object.keys(alertsByAlert), (alert) => {
+        util.renderList("alert-list", Object.keys(alertsByAlert).sort((a, b) => alertsByAlert[b].length - alertsByAlert[a].length), (alert) => {
             const content = document.createElement("div")
             content.className = "content"
-            content.textContent = alert
+            content.style.display = "flex"
+            content.style.alignItems = "center"
+            content.innerHTML = `<div class="ui orange circular label" style="align-self: center;">${alertsByAlert[alert].length}</div><div class="alert-list-item">${alert}</div>`
             content.onclick = () => renderAlertView(alert)
             return content
-        }, "selection celled")
+        }, "selection divided", null, null, null, true)
         return
     }
 
     const alertsByStudent = dashboard.getAlertsByStudent()
-    util.renderList("alert-list", Object.keys(alertsByStudent), (student) => {
+    util.renderList("alert-list", Object.keys(alertsByStudent).sort((a, b) => alertsByStudent[b].length - alertsByStudent[a].length), (student) => {
         const content = document.createElement("div")
         content.className = "content"
-        content.textContent = playerMap[student]
+        content.style.display = "flex"
+        content.style.alignItems = "center"
+        content.innerHTML = `<div class="ui orange circular label" style="align-self: center;">${alertsByStudent[student].length}</div><div class="alert-list-item">${playerMap[student]}</div>`
         content.onclick = () => renderAlertView(student)
         return content
-    }, "selection celled")
+    }, "selection divided", null, null, null, true)
 }
 
 function handleViewByStudentCheckbox() {
     renderListByAlert = !$("#alerts-view-by-student-toggle").is(":checked")
     const alerts = renderListByAlert ? dashboard.getAlertsByAlert() : dashboard.getAlertsByStudent()
     renderAlertList()
-    renderAlertView(Object.keys(alerts)[0])
+    renderAlertView(Object.keys(alerts).sort((a, b) => alerts[b].length - alerts[a].length)[0])
+    $("#alert-list > .list-item:first-child").addClass("active")
 }
 
 export function initializeTab(players) {

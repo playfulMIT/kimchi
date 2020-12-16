@@ -3,7 +3,7 @@ import * as studentsTab from './students.js'
 import * as util from './helpers.js'
 import { formatTime } from '../../dashboard/js/util/helpers.js';
 
-const SINGLE_PUZZLE_TABLE_COLUMNS = ["Student", "Attempted?", "Completed?"]
+const SINGLE_PUZZLE_TABLE_COLUMNS = ["Student", "Attempted?", "Completed?", "View More"]
 
 const ALL_PUZZLES_COLUMN_RENDER_FUNCTION = {
     "Puzzle": (puzzle) => puzzle,
@@ -16,7 +16,8 @@ const ALL_PUZZLES_COLUMN_RENDER_FUNCTION = {
     "Median Total Time": (puzzle) => puzzle in levelsOfActivityData ? formatTime(levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].timeTotal.median) : formatTime(0),
     "Median Active Time": (puzzle) => puzzle in levelsOfActivityData ? formatTime(levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].active_time.median) : formatTime(0),
     "Difficulty (out of 100)": (puzzle) => (puzzleStatistics[puzzle].difficulty * 100).toFixed(1),
-    "Median % Active Time": (puzzle) => puzzle in levelsOfActivityData ? (levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].active_time.median * 100 / levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].timeTotal.median).toFixed(2) : "N/A"
+    "Median % Active Time": (puzzle) => puzzle in levelsOfActivityData ? (levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].active_time.median * 100 / levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].timeTotal.median).toFixed(2) : "N/A",
+    "Main Concept Tested": (puzzle) => util.PUZZLE_TO_MAIN_CONCEPTS_TESTED(puzzle)
 }
 
 var playerMap = null
@@ -27,7 +28,9 @@ var attemptedPuzzleData = null
 var levelsOfActivityData = null
 
 var selectedPuzzle = null
-var puzzleTableColumns = ["Puzzle", "Category", "Difficulty (out of 100)", "% Completed/Attempted", "Median % Active Time"]
+var puzzleTableColumns = ["Puzzle", "Category", "Difficulty (out of 100)", "% Completed/Attempted", "Median % Active Time", "Main Concept Tested"]
+
+var firstLoad = true
 
 function generateBreadcrumb() {
     const breadcrumb = document.getElementById("puzzle-view-breadcrumb")
@@ -70,7 +73,7 @@ export function computePuzzleStatistics(puzzle, divId = null) {
     const medianActiveTime = levelsOfActivityData[puzzle]["no_normalization"]["all_stats"].active_time.median
     
     const statsMap = {
-        'Concepts Tested': "TBD",
+        'Main Concept Tested': util.PUZZLE_TO_MAIN_CONCEPTS_TESTED(puzzle),
         'Difficulty (out of 100)': difficulty.toFixed(2),
         '% Students Completed': studentsCompleted.toFixed(2)+"%",
         '% Students Attempted': studentsAttempted.toFixed(2)+"%",
@@ -80,22 +83,36 @@ export function computePuzzleStatistics(puzzle, divId = null) {
     util.renderStatistics(divId || "single-puzzle-statistics-container", statsMap)
 }
 
+export function showPuzzleMisconceptions(divId, puzzle, student = null) {
+    const renderFunction = (div) => {
+        if (!student) {
+            util.renderMockMisconceptionsGraph(div)
+        } else {
+            document.getElementById(div).innerHTML = '<h4 class="ui header">s7a: <span style="font-weight: normal">An incorrect solution with the shapes <1 pyramid, 1 ramp, 1 sphere></span></h4><h5 class="ui header">Recommendations:</h5><span>The student should try the following puzzles can involve this misconception: Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance.</span>'
+        }
+    }
+    util.renderGraphPopout(divId, student ? "Errors and Misconceptions" : "Student Misconceptions", renderFunction, null, null, false)
+}
+
 function renderSinglePuzzleTable(puzzle) {
     const SINGLE_PUZZLE_COLUMN_RENDER_FUNCTION = {
         "Student": (student) => playerMap[student],
-        "Completed?": (student) => completedPuzzleData[student].has(puzzle) ? "Yes" : "No",
-        "Attempted?": (student) => attemptedPuzzleData[student].has(puzzle) ? "Yes" : "No"
+        "Completed?": (student) => student in completedPuzzleData && completedPuzzleData[student].has(puzzle) ? "Yes" : "No",
+        "Attempted?": (student) => student in attemptedPuzzleData && attemptedPuzzleData[student].has(puzzle) ? "Yes" : "No",
+        "View More": (student) => '<a>View</a>'
     }
 
     util.renderTable("single-puzzle-table-container", SINGLE_PUZZLE_TABLE_COLUMNS, Object.keys(playerMap), SINGLE_PUZZLE_COLUMN_RENDER_FUNCTION, (student) => {
         $("#students-tab").click()
         studentsTab.showSingleStudentPuzzleView(student, puzzle)
     }, "striped compact selectable sortable")
+    renderPuzzleSilhouettes(puzzle)
 }
 
 function renderSinglePuzzleView(puzzle) {
     computePuzzleStatistics(puzzle)
     renderSinglePuzzleTable(puzzle)
+    showPuzzleMisconceptions("puzzle-view-misconceptions-container", puzzle)
 }
 
 function renderPuzzleTable() {
@@ -111,8 +128,20 @@ function renderPuzzleChart() {
 }
 
 function renderPuzzleProgressChart(student = null) {
-    const renderFunction = (divId) => util.renderPuzzleHeatmap(divId, allPuzzlesList, puzzleStatistics, () => { alert("heyyyy") }, Object.keys(playerMap).length, student)
-    util.renderGraphPopout("puzzle-view-puzzle-heatmap-container", "Puzzle Progress", renderFunction)
+    const renderFunction = (divId) => util.renderPuzzleHeatmap(divId, allPuzzlesList, puzzleStatistics, (puzzle) => showSinglePuzzleView(puzzle), Object.keys(playerMap).length, student)
+    util.renderGraphPopout("puzzle-view-puzzle-heatmap-container", "Puzzle Progress", renderFunction, "Darker shades correspond to a higher value.")
+}
+
+function renderPuzzleSilhouettes(puzzle) {
+    util.renderPuzzleSilhouette("puzzle-view-silhouette-container", puzzle)
+}
+
+export function handleTabVisible() {
+    if (!selectedPuzzle) {
+        renderPuzzleProgressChart()
+        renderPuzzleTable()
+    }
+    firstLoad = false
 }
 
 function handleTableColumnChange(column, checked) {

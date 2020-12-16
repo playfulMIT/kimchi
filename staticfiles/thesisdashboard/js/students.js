@@ -1,6 +1,7 @@
 import * as dashboard from './thesis_dashboard.js'
 import * as puzzlesTab from './puzzles.js'
 import * as util from './helpers.js'
+import * as filter from './filter.js'
 import { formatTime } from '../../dashboard/js/util/helpers.js';
 
 const ALL_STUDENT_COLUMN_RENDER_FUNCTION = {
@@ -9,6 +10,7 @@ const ALL_STUDENT_COLUMN_RENDER_FUNCTION = {
     "# Attempted": (student) => attemptedPuzzleData[student].size,
     "% Completed": (student) => (completedPuzzleData[student].size / 30).toFixed(2),
     "% Attempted": (student) => (attemptedPuzzleData[student].size / 30).toFixed(2),
+    "% Completed/Attempted": (student) => student in attemptedPuzzleData ? (completedPuzzleData[student].size * 100 / attemptedPuzzleData[student].size).toFixed(2) : (0).toFixed(2),
     "Total Time": (student) => student in levelsOfActivityData["all"]["no_normalization"] ? formatTime(levelsOfActivityData["all"]["no_normalization"][student].timeTotal) : formatTime(0),
     "Total Active Time": (student) => student in levelsOfActivityData["all"]["no_normalization"] ? formatTime(levelsOfActivityData["all"]["no_normalization"][student].active_time) : formatTime(0),
     "Persistence Score": (student) => student in persistenceData ? persistenceData[student][persistenceData[student].length - 1].percentileCompositeAcrossAttempts : "N/A",
@@ -28,10 +30,13 @@ var selectedStudent = null
 var selectedPuzzle = null
 
 var activeStudentList = []
-var studentTableColumns = ["Student", "% Active Time", "Total Time", "Persistence Score"]
+var activeFilterList = []
+var studentTableColumns = ["Student", "% Active Time", "Total Time", "% Completed/Attempted", "Persistence Score"]
 var studentPuzzleTableColumns = ["#", "Attempt Date", "Active Time", "# Submissions", "Completed?", "View Replay"]
 
-// TODO: add learn more about puzzle link
+var showFilterGroups = false
+var firstLoad = true
+
 function generateBreadcrumb() {
     const breadcrumb = document.getElementById("student-view-breadcrumb")
     breadcrumb.className = "ui breadcrumb"
@@ -97,13 +102,29 @@ function computeStudentStatistics(student) {
 function showStudentAlerts(student) {
     const alertsByStudent = dashboard.getAlertsByStudent()
     const alerts = student in alertsByStudent ? alertsByStudent[student] : []
-    util.renderAlertsPanel("single-student-alerts", "Alerts", alerts)
+    if (alerts.length) {
+        $("#single-student-alert-card").show()
+        util.renderAlertsPanel("single-student-alerts", alerts)
+        return
+    }
+    $("#single-student-alert-card").show()
+    $("#single-student-alerts").text("No alerts")
+}
+
+export function handleTabVisible() {
+    if (!selectedStudent && !selectedPuzzle) {
+        renderPuzzleProgressChart("student-view-puzzle-heatmap-container")
+        renderStudentTable()
+        renderCompetencyGraph()
+    }
+    firstLoad = false
 }
 
 function renderSingleStudentView(student) {
     computeStudentStatistics(student)
     renderPuzzleProgressChart("single-student-view-puzzle-heatmap-container", student)
     showStudentAlerts(student)
+    renderCompetencyGraph()
 }
 
 export function showSingleStudentPuzzleView(student, puzzle) {
@@ -122,24 +143,37 @@ function getStudentPuzzleAttempts(student, puzzle) {
     return persistenceData[student].filter(v => v.task_id === puzzle)
 }
 
+function renderCompetencyGraph() {
+    const divId = selectedStudent ? "single-student-view-competency-container" : "student-view-competency-container"
+    const renderFunction = (divId) => util.renderMockCompetencyGraph(divId)
+    util.renderGraphPopout(divId, "Concept Mastery", renderFunction)
+}
+
+
+function renderPuzzleSilhouettes(puzzle) {
+    util.renderPuzzleSilhouette("student-view-silhouette-container", puzzle)
+}
+
 function renderSingleStudentPuzzleView() {
+    $("#single-student-puzzle-goto-link").click(() => {
+        $("#puzzles-tab").click()
+        puzzlesTab.showSinglePuzzleView(selectedPuzzle)
+    })
     puzzlesTab.computePuzzleStatistics(selectedPuzzle, "single-student-puzzle-statistics-container")
     renderStudentPuzzleTable()
     util.renderCheckboxes("student-puzzle-view-table-settings", util.SINGLE_STUDENT_PUZZLE_TABLE_COLUMNS, studentPuzzleTableColumns, handleStudentPuzzleTableColumnChange)
+    renderPuzzleSilhouettes(selectedPuzzle)
+    puzzlesTab.showPuzzleMisconceptions("student-view-misconceptions-container", selectedPuzzle, selectedStudent)
 }
 
-// TODO: fix primary keys of puzzles
-// TODO: add concepts tested to single student puzzle view
-
 function getReplayURL(student, puzzle, attemptIndex) {
-    return `/${GROUP}/players/${student}/${puzzleKeys[puzzle]}/${attemptIndex}`
+    return `/${GROUP}/players/${student}/${util.PUZZLE_TO_KEY[puzzle]}/${attemptIndex}`
 }
 
 function renderStudentPuzzleTable() {
     const attempts = getStudentPuzzleAttempts(selectedStudent, selectedPuzzle)
     const numAttempts = attempts.length
 
-    // TODO: generate replay links
     const SINGLE_STUDENT_PUZZLE_COLUMN_RENDER_FUNCTION = {
         "#": (attemptIndex) => attemptIndex + 1,
         "Attempt Date": (attemptIndex) => d3.timeFormat("%c")(d3.timeParse("%Q")(attempts[attemptIndex].timestamp)),
@@ -180,8 +214,12 @@ function renderPuzzleProgressChart(divId, student = null) {
         onClickFunction = (puzzle) => showSingleStudentPuzzleView(student, puzzle)
     }
 
-    const renderFunction = (divId) => util.renderPuzzleHeatmap(divId, allPuzzlesList, puzzleStatistics, onClickFunction, student ? 1 : Object.keys(playerMap).length, student)
-    util.renderGraphPopout(divId, "Puzzle Progress", renderFunction)
+    const stats = showFilterGroups ? dashboard.computeStatsForGroup(activeStudentList) : puzzleStatistics
+    const renderFunction = (divId) => util.renderPuzzleHeatmap(divId, allPuzzlesList, stats, onClickFunction, student ? 1 : activeStudentList.length, student)
+
+    const tooltipText = student ? "Blue corresponds to completed puzzles. Yellow corresponds to attempted, uncompleted puzzles." : "Darker shades correspond to higher values." 
+    const subtitleText = student ? "Click on a puzzle to see the student's data for the specific puzzle." : null
+    util.renderGraphPopout(divId, "Puzzle Progress", renderFunction, tooltipText, subtitleText)
 }
 
 function handleAllStudentTableColumnChange(column, checked) {
@@ -212,6 +250,7 @@ function handleStudentPuzzleTableColumnChange(column, checked) {
 
 function renderAllStudentsView() {
     const value = $('input[name=student-view-view-type]:checked', '#student-view-view-type-form').val()
+    renderCompetencyGraph()
     switch (value) {
         case "table":
             renderStudentTable()
@@ -222,14 +261,28 @@ function renderAllStudentsView() {
     }
 }
 
+function getStudentsFromFilters() {
+    const filterObject = {}
+    for (let filter of activeFilterList) {
+        filterObject[filter] = dashboard.getFilter(filter)
+    }
+    return Object.keys(filter.retrieveSelectedStudents(Object.keys(playerMap), filterObject))
+}
+
 function handleCustomizeDisplayPanel() {
     $('#student-view-student-form input').on('change', function () {
         const value = $('input[name=student-view-student-list]:checked', '#student-view-student-form').val()
         switch (value) {
             case "all-students": 
-                
+                showFilterGroups = false
+                activeStudentList = Object.keys(playerMap)
+                break
             case "filter-group":
+                showFilterGroups = true
+                activeStudentList = getStudentsFromFilters()
+                break
         }
+        handleFilterGroupChange()
     })
 
     $('#student-view-view-type-form input').on('change', renderAllStudentsView)
@@ -238,7 +291,18 @@ function handleCustomizeDisplayPanel() {
     util.renderCheckboxes("student-view-table-settings", util.ALL_STUDENT_TABLE_COLUMNS, studentTableColumns, handleAllStudentTableColumnChange)
 }
 
-// TODO: handle filter saving and updating
+function handleFilterGroupChange() {
+    renderAllStudentsView()
+    renderPuzzleProgressChart("student-view-puzzle-heatmap-container")
+    renderCompetencyGraph()
+}
+
+export function handleFilterChange() {
+    if (selectedStudent) showStudentAlerts(selectedStudent)
+    handleFilterGroupChange()
+    populateFilterGroupDropdown()
+}
+
 function populateFilterGroupDropdown() {
     const filters = dashboard.getFilterKeys()
     const dropdown = document.getElementById("student-view-filter-group")
@@ -250,9 +314,17 @@ function populateFilterGroupDropdown() {
         dropdown.appendChild(option)
     }
     
-    $('#student-view-filter-group').dropdown({maxSelections: 10})
-    // TODO: fix multiselect
-    // TODO: on filter change
+    dropdown.onchange = function (event) {
+        activeFilterList = $(event.target).val()
+        if (showFilterGroups) {
+            activeStudentList = getStudentsFromFilters()
+            handleFilterGroupChange()
+            return
+        }
+
+        $("#filter-group-radio").click()
+    }
+    $("#student-view-filter-group").dropdown()
 }
 
 // function initializeView() {
@@ -417,6 +489,7 @@ export function initializeTab(players, puzzleList, puzzleKs, puzzleStats, persis
     attemptedPuzzleData = attempted
 
     activeStudentList = Object.keys(playerMap)
+    showFilterGroups = false
 
     showAllStudentsView()
     handleCustomizeDisplayPanel()

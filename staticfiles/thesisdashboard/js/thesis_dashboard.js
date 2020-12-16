@@ -17,6 +17,7 @@ var puzzleKeys = null
 var puzzleDifficultyData = null
 var levelsOfActivityData = null
 var persistenceData = null
+var persistenceByPuzzleData = null
 var completedPuzzleDataNoSandbox = null
 var attemptedPuzzleDataNoSandbox = null
 var insightsData = null
@@ -27,13 +28,6 @@ var alertsByStudent = {}
 const filters = {}
 const puzzleStats = {}
 const puzzleList = []
-
-// TODO: preset filter blocks? 
-// TODO: add symbols and new block for filter types
-// TODO: compare students with whole class? compare with distributions?
-// TODO: use Grace's misconceptions doc as prototype for recommendations to users
-// TODO: add in new persistence task and data
-// TODO: fix graphs only loading when tab/page is active
 
 export function getFilter(filterName) {
     return filters[filterName]
@@ -51,38 +45,78 @@ export function getFilterKeys() {
     return Object.keys(filters)
 }
 
-function initializeBlocklyCode() {
-    Blockly.defineBlocksWithJsonArray(blockDefinitions)
-    setBlockCodeGeneration()
-}
-
-export function reinitializeTableSort() {
-    $('table').tablesort()
-    // Sort by dates in YYYY-MM-DD format
-    for (let column of Object.keys(util.COLUMN_SORTBY)) {
-        $('thead th.' + column).data('sortBy', util.COLUMN_SORTBY[column])
+export function getFilterIcon(filterName) {
+    switch (filters[filterName].type) {
+        case "alert":
+            return "yellow bell"
+        case "filter": 
+        default: 
+            return "teal filter"
     }
 }
 
-function initializeSemanticComponents() {
-    $('.menu .item').tab()
-    $('.ui.checkbox').checkbox()
-    reinitializeTableSort()
+export function getFilterTooltip(filterName) {
+    switch (filters[filterName].type) {
+        case "alert":
+            return "This is an alert filter."
+        case "filter":
+        default:
+            return "This is a normal filter."
+    }
 }
 
+export function handleFilterChange() {
+    findStudentsWithAlerts()
+}
+
+function initializeBlocklyCode() {
+    Blockly.defineBlocksWithJsonArray(blockDefinitions(puzzleList))
+    setBlockCodeGeneration()
+}
+
+function initializeSemanticComponents() {
+    $('.menu .item').tab({
+        onVisible: (tab) => {
+            switch (tab) {
+                case "puzzles-tab":
+                    puzzleTab.handleTabVisible()
+                    break
+                case "students-tab":
+                    studentTab.handleTabVisible()
+                    break
+                default:
+                    break
+            }
+        }
+    })
+    $('.ui.checkbox').checkbox()
+    util.reinitializeTableSort()
+}
 
 // TODO: eventually replace with actual account storage
 function fetchSavedFiltersOnLoad() {
+    const tempWorkspace = Blockly.inject('blockly-temp-container', { toolbox: document.getElementById('toolbox') })
+
+    function saveToFilters(filterName, xmlString) {
+        const xml = Blockly.Xml.textToDom(xmlString)
+        Blockly.Xml.domToWorkspace(xml, tempWorkspace)
+        const filter = Blockly.JavaScript.workspaceToCode(tempWorkspace)
+        filters[filterName] = JSON.parse(filter)
+        tempWorkspace.clear()
+    }
+
     try {
-        const tempWorkspace = Blockly.inject('blockly-temp-container', { toolbox: document.getElementById('toolbox') })
         for (var i = 0; i < window.localStorage.length; i++) {
             const filterName = window.localStorage.key(i)
             const xmlString = window.localStorage.getItem(filterName)
-            const xml = Blockly.Xml.textToDom(xmlString)
-            Blockly.Xml.domToWorkspace(xml, tempWorkspace)
-            const filter = Blockly.JavaScript.workspaceToCode(tempWorkspace)
-            filters[filterName] = JSON.parse(filter)
-            tempWorkspace.clear()
+            saveToFilters(filterName, xmlString)
+        }
+        for (let filterName of Object.keys(util.DEFAULT_FILTERS)) {
+            if (!(filterName in filters)) {
+                window.localStorage.setItem(filterName, util.DEFAULT_FILTERS[filterName])
+                const xmlString = util.DEFAULT_FILTERS[filterName]
+                saveToFilters(filterName, xmlString)
+            }
         }
         tempWorkspace.dispose()
     } catch (e) {
@@ -122,6 +156,7 @@ export function getAlertsByStudent() {
     return alertsByStudent
 }
 
+
 // function addToPuzzleStats(statKey, student, puzzleData) {
 //     for (let puzzle of puzzleData) {
 //         if (!(statKey in puzzleStats[puzzle])) {
@@ -148,6 +183,8 @@ function addCalculationToPuzzleStats(statKey, calculationFunction) {
     }
 }
 
+// TODO: handle persistence changes
+// TODO: submit event percentile
 async function startDashboard() {
     playerMap = await callAPI(`${API}/players`)
     puzzleData = await callAPI(`${API}/puzzles`)
@@ -188,18 +225,35 @@ async function startDashboard() {
         addToPuzzleStats("attempted", student, attemptedPuzzleDataNoSandbox[student])
     }
 
-    addCalculationToPuzzleStats("completed_v_attempted", (stats) => stats["completed"].size / stats["attempted"].size)
+    addCalculationToPuzzleStats("completed_v_attempted", (stats) => (stats["completed"].size / stats["attempted"].size) || 0)
 
     puzzleKeys = await callAPI(`${API}/puzzlekeys`)
-    // TODO: add loader and display stuff
+    persistenceByPuzzleData = await callAPI(`${API}/puzzlepersistence`)
+}
+
+export function computeStatsForGroup(studentGroup) {
+    const stats = {}
+    for (let puzzle of Object.keys(puzzleStats)) {
+        const oldStats = puzzleStats[puzzle]
+        stats[puzzle] = {}
+        stats[puzzle].category = oldStats.category
+        stats[puzzle].difficulty = oldStats.difficulty
+        stats[puzzle].completed = new Set(studentGroup.filter(x => oldStats.completed.has(x)))
+        stats[puzzle].attempted = new Set(studentGroup.filter(x => oldStats.attempted.has(x)))
+        stats[puzzle].completed_v_attempted = (stats[puzzle].completed.size / stats[puzzle].attempted.size) || 0
+    }
+    return stats
 }
 
 $(document).ready(function() {
     startDashboard().then(success => {
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
-        filter.setFilterModuleData(levelsOfActivityData, persistenceData)
+        filter.setFilterModuleData(levelsOfActivityData, persistenceData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, persistenceByPuzzleData)
         findStudentsWithAlerts()
+
+        // $('.ui .dropdown').dropdown()
+        $("#about-site-link").click(() => $("#about-modal").modal().modal('show'))
 
         overviewTab.initializeTab(playerMap, puzzleDifficultyData, levelsOfActivityData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, insightsData)
         studentTab.initializeTab(playerMap, puzzleList, puzzleKeys, puzzleStats, persistenceData, levelsOfActivityData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox)
@@ -208,5 +262,11 @@ $(document).ready(function() {
         filterSettingsTab.initializeTab()
 
         initializeSemanticComponents()
+
+        $("#loading-page").hide()
+        $("#dashboard-page").show()
+        $("#tab-container").height($("#root").height() - $("#top").height() -1)
     })
+
+    
 })

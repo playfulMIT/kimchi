@@ -1,33 +1,22 @@
-export const blockDefinitions = [{
-    "type": "and_condition",
-    "message0": "%1 AND %2 %3",
+export const blockDefinitions = (puzzleList) => [
+{
+    "type": "percentile",
+    "message0": "percentile  %1",
     "args0": [
         {
-            "type": "input_statement",
-            "name": "condition1",
-            // "check": [
-            //     "condition",
-            //     "and_condition",
-            //     "or_condition"
-            // ]
-        },
-        {
-            "type": "input_dummy"
-        },
-        {
-            "type": "input_statement",
-            "name": "condition2",
-            // "check": [
-            //     "condition",
-            //     "and_condition",
-            //     "or_condition"
-            // ]
+            "type": "input_value",
+            "name": "variable",
+            "check": [
+                "persistence",
+                "mins_played",
+                "attempted_puzzles",
+                "completed_puzzles"
+            ]
         }
     ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "colour": 260,
-    "tooltip": "selects students that meet both conditions",
+    "output": null,
+    "colour": 330,
+    "tooltip": "percentile of a variable",
     "helpUrl": ""
 },
 {
@@ -40,10 +29,34 @@ export const blockDefinitions = [{
 },
 {
     "type": "mins_played",
-    "message0": "minutes played",
+    "message0": "active time (mins)",
     "output": null,
     "colour": 330,
     "tooltip": "total minutes a student has played Shadowspect for",
+    "helpUrl": ""
+},
+{
+    "type": "completed_puzzles",
+    "message0": "# puzzles completed",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the total number of puzzles a student has completed",
+    "helpUrl": ""
+},
+{
+    "type": "attempted_puzzles",
+    "message0": "# puzzles attempted",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the total number of puzzles a student has attempted",
+    "helpUrl": ""
+},
+{
+    "type": "attempts_per_puzzle",
+    "message0": "median # of attempts per puzzle attempted",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the median number of attempts per puzzle attempted",
     "helpUrl": ""
 },
 {
@@ -56,7 +69,9 @@ export const blockDefinitions = [{
             "check": [
                 "persistence",
                 "mins_played",
-                "percentile"
+                "percentile",
+                "attempted_puzzles",
+                "completed_puzzles"
             ],
             "align": "CENTRE"
         },
@@ -103,6 +118,104 @@ export const blockDefinitions = [{
     "helpUrl": ""
 },
 {
+    "type": "completed_specific",
+    "message0": "completed puzzles %1 %2",
+    "args0": [
+        {
+            "type": "input_dummy"
+        },
+        {
+            "type": "input_statement",
+            "name": "NAME",
+            "check": "puzzle"
+        }
+    ],
+    "previousStatement": null,
+    "colour": 290,
+    "tooltip": "the puzzles a student has completed",
+    "helpUrl": ""
+},
+{
+    "type": "attempted_specific",
+    "message0": "attempted puzzles %1 %2",
+    "args0": [
+        {
+            "type": "input_dummy"
+        },
+        {
+            "type": "input_statement",
+            "name": "NAME",
+            "check": "puzzle"
+        }
+    ],
+    "previousStatement": null,
+    "colour": 290,
+    "tooltip": "the puzzles a student has attempted",
+    "helpUrl": ""
+},
+{
+    "type": "puzzle",
+    "message0": "%1",
+    "args0": [
+        {
+            "type": "field_dropdown",
+            "name": "puzzles",
+            "options": puzzleList.map(v => [v,v])
+        }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 330,
+    "tooltip": "represents a single puzzle",
+    "helpUrl": ""
+},
+{
+    "type": "not_condition",
+    "message0": "NOT %1",
+    "args0": [
+        {
+            "type": "input_statement",
+            "name": "NAME"
+        }
+    ],
+    "previousStatement": null,
+    "colour": 260,
+    "tooltip": "selects students that do not meet the condition",
+    "helpUrl": ""
+},
+{
+    "type": "and_condition",
+    "message0": "%1 AND %2 %3",
+    "args0": [
+        {
+            "type": "input_statement",
+            "name": "condition1",
+            // "check": [
+            //     "condition",
+            //     "and_condition",
+            //     "or_condition"
+            // ]
+        },
+        {
+            "type": "input_dummy"
+        },
+        {
+            "type": "input_statement",
+            "name": "condition2",
+            // "check": [
+            //     "condition",
+            //     "and_condition",
+            //     "or_condition"
+            // ]
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "colour": 260,
+    "tooltip": "selects students that meet both conditions",
+    "helpUrl": ""
+},
+{
     "type": "or_condition",
     "message0": "%1 OR %2 %3",
     "args0": [
@@ -135,24 +248,6 @@ export const blockDefinitions = [{
     "helpUrl": ""
 },
 {
-    "type": "percentile",
-    "message0": "percentile  %1",
-    "args0": [
-        {
-            "type": "input_value",
-            "name": "variable",
-            "check": [
-                "persistence",
-                "mins_played"
-            ]
-        }
-    ],
-    "output": null,
-    "colour": 330,
-    "tooltip": "percentile of a variable",
-    "helpUrl": ""
-},
-{
     "type": "alert",
     "message0": "Alert me of students who: %1 %2",
     "args0": [
@@ -165,7 +260,9 @@ export const blockDefinitions = [{
             "check": [
                 "condition",
                 "and",
-                "or"
+                "or",
+                "attempted_specific",
+                "completed_specific"
             ]
         }
     ],
@@ -173,14 +270,41 @@ export const blockDefinitions = [{
     "colour": 65,
     "tooltip": "selected students will form an alert group",
     "helpUrl": ""
+},
+{
+    "type": "filter",
+    "message0": "Filter students who: %1 %2",
+    "args0": [
+        {
+            "type": "input_dummy"
+        },
+        {
+            "type": "input_statement",
+            "name": "conditions",
+            "check": [
+                "condition",
+                "and",
+                "or",
+                "attempted_specific",
+                "completed_specific"
+            ]
+        }
+    ],
+    "inputsInline": true,
+    "colour": 65,
+    "tooltip": "selected students will form an filter group",
+    "helpUrl": ""
 }]
 
 export function setBlockCodeGeneration() {
-    Blockly.JavaScript['and_condition'] = function (block) {
-        var statements_condition1 = Blockly.JavaScript.statementToCode(block, 'condition1');
-        var statements_condition2 = Blockly.JavaScript.statementToCode(block, 'condition2');
-        var code = `{"and": [${statements_condition1}, ${statements_condition2}]}`;
-        return code;
+    Blockly.JavaScript['completed_puzzles'] = function (block) {
+        var code = 'completed_count';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['attempted_puzzles'] = function (block) {
+        var code = 'attempted_count';
+        return [code, Blockly.JavaScript.ORDER_NONE];
     };
 
     Blockly.JavaScript['persistence'] = function (block) {
@@ -193,11 +317,47 @@ export function setBlockCodeGeneration() {
         return [code, Blockly.JavaScript.ORDER_NONE];
     };
 
+    Blockly.JavaScript['attempts_per_puzzle'] = function (block) {
+        var code = 'attempts_per_puzzle';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['percentile'] = function (block) {
+        var value_variable = Blockly.JavaScript.valueToCode(block, 'variable', Blockly.JavaScript.ORDER_NONE);
+        var code = value_variable + '_percentile';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['completed_specific'] = function (block) {
+        var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+        var code = `["completed", [${statements_name.replace("\"\"", "\",\"")}]]`;
+        return code;
+    };
+
+    Blockly.JavaScript['attempted_specific'] = function (block) {
+        var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+        var code = `["attempted", [${statements_name.replace("\"\"", "\",\"")}]]`;
+        return code;
+    };
+
+    Blockly.JavaScript['puzzle'] = function (block) {
+        var dropdown_puzzles = block.getFieldValue('puzzles');
+        var code = `"${dropdown_puzzles}"`;
+        return code;
+    };
+
     Blockly.JavaScript['condition'] = function (block) {
         var value_variable = Blockly.JavaScript.valueToCode(block, 'variable', Blockly.JavaScript.ORDER_NONE);
         var dropdown_operator = block.getFieldValue('operator');
         var number_comp_val = block.getFieldValue('comp_val');
         var code = `["${value_variable}", "${dropdown_operator}", ${number_comp_val}]`;
+        return code;
+    };
+
+    Blockly.JavaScript['and_condition'] = function (block) {
+        var statements_condition1 = Blockly.JavaScript.statementToCode(block, 'condition1');
+        var statements_condition2 = Blockly.JavaScript.statementToCode(block, 'condition2');
+        var code = `{"and": [${statements_condition1}, ${statements_condition2}]}`;
         return code;
     };
 
@@ -208,15 +368,21 @@ export function setBlockCodeGeneration() {
         return code;
     };
 
-    Blockly.JavaScript['percentile'] = function (block) {
-        var value_variable = Blockly.JavaScript.valueToCode(block, 'variable', Blockly.JavaScript.ORDER_NONE);
-        var code = value_variable + '_percentile';
-        return [code, Blockly.JavaScript.ORDER_NONE];
+    Blockly.JavaScript['not_condition'] = function (block) {
+        var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+        var code = `{"not": [${statements_name}]}`;
+        return code;
     };
 
     Blockly.JavaScript['alert'] = function (block) {
         var statements_conditions = Blockly.JavaScript.statementToCode(block, 'conditions');
         var code = `{"type": "alert", "filter": ${statements_conditions}}`;
+        return code;
+    };
+
+    Blockly.JavaScript['filter'] = function (block) {
+        var statements_conditions = Blockly.JavaScript.statementToCode(block, 'conditions');
+        var code = `{"type": "filter", "filter": ${statements_conditions}}`;
         return code;
     };
 }
