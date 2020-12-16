@@ -361,10 +361,34 @@
         <div class="header">Insights</div>
         <div id="insights-modal-content" class="scrolling content"></div>
     </div>
-    <div id="about-modal" class="ui fullscreen modal">
+    <div id="about-modal" class="ui modal">
         <div class="header">About</div>
         <div id="about-modal-content" class="scrolling content">
             This dashboard is a prototype meant for a thesis. Not all of the information displayed is accurate, and is here for testing purposes. The information displayed is derived from Shadowspect data collection and processing efforts. No data collection occurs within this dashboard. 
+
+            <div id="about-modal-accordion" class="ui accordion">
+                <div class="active title bold">
+                    <i class="dropdown icon"></i>
+                    What counts as an attempt?
+                </div>
+                <div class="active content">
+                    <p>An attempt is the time from which a student opens a puzzle to the time they exit it, either to the menu or out of the application. Within an attempt, a student can submit their solution multiple times.</p>
+                </div>
+                <div class="title bold">
+                    <i class="dropdown icon"></i>
+                    How do you determine when a student is active vs. inactive?
+                </div>
+                <div class="content">
+                    <p>A student is considered to become inactive when there is more than 60 seconds since their last action.</p>
+                </div>
+                <div class="title bold">
+                    <i class="dropdown icon"></i>
+                    About Persistence
+                </div>
+                <div class="content">
+                    <p>Persistence is calculated by analyzing the levels of activity for a student over time.</p>
+                </div>
+            </div>
         </div>
     </div>
 

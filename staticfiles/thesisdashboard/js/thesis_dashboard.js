@@ -253,7 +253,10 @@ $(document).ready(function() {
         findStudentsWithAlerts()
 
         // $('.ui .dropdown').dropdown()
-        $("#about-site-link").click(() => $("#about-modal").modal().modal('show'))
+        $("#about-site-link").click(() => {
+            $("#about-modal").modal().modal('show')
+            $("#about-modal-accordion").accordion()
+        })
 
         overviewTab.initializeTab(playerMap, puzzleDifficultyData, levelsOfActivityData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, insightsData)
         studentTab.initializeTab(playerMap, puzzleList, puzzleKeys, puzzleStats, persistenceData, levelsOfActivityData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox)
