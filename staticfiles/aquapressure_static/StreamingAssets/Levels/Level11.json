@@ -1,0 +1,79 @@
+{
+    "instructionData": [
+        {
+            "instructionText": "Ready?",
+            "callToActionText": "",
+            "showArrowIcon": true,
+            "showInvertedArrowIcon": false,
+            "showSlammerIcon": false,
+            "showInversionIcon": false,
+            "showSwitchIcon": false,
+            "showShortcutIcon": false,
+            "showAccuracyRoundIcon": false
+        }
+    ],
+    "levelId": "0",
+    "levelName": "Level1",
+    "startTime": 15.0,
+    "bestTime": 0.8082209229469299,
+    "targetRank": 0,
+    "isAccuracyRound": false,
+    "hasSwitch": false,
+    "stepsToExit": 5,
+    "startRoom": 2,
+    "exitRoom": 0,
+    "switchRoom": 0,
+    "rooms": [
+        {
+            "roomName": "Room_1-1",
+            "position": {
+                "x": 2,
+                "y": 1
+            },
+            "doors": 4,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_2-5",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "doors": 9,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 0,
+            "leftIcon": 0,
+            "rightIcon": 1,
+            "centerIcon": 0
+        },
+        {
+            "roomName": "Room_1-4",
+            "position": {
+                "x": 1,
+                "y": 2
+            },
+            "doors": 2,
+            "slammerDoors": 0,
+            "givesOxygen": false,
+            "hasInversion": false,
+            "roomText": "",
+            "topIcon": 0,
+            "bottomIcon": 1,
+            "leftIcon": 0,
+            "rightIcon": 0,
+            "centerIcon": 4
+        }
+    ]
+}

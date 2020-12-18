@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "primaryText": "Don’t run out of air!\n\nFollow the path to the exit to collect extra air.\n\nIf you bump into a wall, you will lose more air.",
+            "spriteName": "OxygenTankSmall",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        },
+        {
+            "primaryText": "Ready?\n\nFind the exit before you run out of air!",
+            "spriteName": "Tutorial_Exit",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

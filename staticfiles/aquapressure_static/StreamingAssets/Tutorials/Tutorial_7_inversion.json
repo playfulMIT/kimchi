@@ -1,0 +1,9 @@
+{
+    "data": [
+        {
+            "primaryText": "If the screen turns <b><color=#8f499d>purple</color></b>, your controls are flipped!",
+            "spriteName": "Tutorial_Inversion",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "primaryText": "Use the arrow keys to move!",
+            "spriteName": "key_arrows_white",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        },
+        {
+            "primaryText": "Follow the <b><color=#0c716e>GREEN ARROWS</color></b>.",
+            "spriteName": "Tutorial_Arrow",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        },
+        {
+            "primaryText": "Find the exit as quickly as possible!",
+            "spriteName": "Tutorial_Exit",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

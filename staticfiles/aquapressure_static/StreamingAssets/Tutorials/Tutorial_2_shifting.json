@@ -1,0 +1,9 @@
+{
+    "data": [
+        {
+            "primaryText": "When you see a <b><color=#ed1f24>RED ARROW</color></b>, move in the OPPOSITE direction!",
+            "spriteName": "Tutorial_Arrow_Inverted",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

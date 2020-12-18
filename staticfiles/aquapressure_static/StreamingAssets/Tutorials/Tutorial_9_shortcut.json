@@ -1,0 +1,9 @@
+{
+    "data": [
+        {
+            "primaryText": "Exits are not where you started!\nUse <b><color=#00aeef>shortcuts</color></b> and find the exits.\n\nDoors will still be visible after finding the <b><color=#f1592a>switch</color></b>.",
+            "spriteName": "Tutorial_Shortcut",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

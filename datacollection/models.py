@@ -7,8 +7,8 @@ from django.utils import timezone
 
 
 class CustomSession(AbstractBaseSession):
-    player = models.ForeignKey("Player", null=True, on_delete=models.SET_NULL)
-    url = models.ForeignKey("URL", null=True, on_delete=models.SET_NULL)
+    player = models.ForeignKey("Player", null=True, blank=True, on_delete=models.SET_NULL)
+    url = models.ForeignKey("URL", null=True, blank=True, on_delete=models.SET_NULL)
     ip = models.CharField(max_length=45, null=True)  # IPv6 can have length up to 45
     useragent = models.TextField(null=True)
 

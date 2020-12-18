@@ -1,0 +1,9 @@
+{
+    "data": [
+        {
+            "primaryText": "Wait!\n\nDon’t go through these doors until they reopen.",
+            "spriteName": "Tutorial_Slammer",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

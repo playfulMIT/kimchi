@@ -1,0 +1,9 @@
+{
+    "data": [
+        {
+            "primaryText": "Now, combine all the skills you’ve learned!",
+            "spriteName": "Tutorial_Shortcut_Alt_1",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}

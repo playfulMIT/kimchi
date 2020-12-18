@@ -1,0 +1,9 @@
+{
+    "data": [
+        {
+            "primaryText": "Follow the arrows to find the <b><color=#f1592a>switch</color></b>.\n\nThe <b><color=#f1592a>switch</color></b> will turn off all the lights!\nRetrace your steps back to the exit.",
+            "spriteName": "Tutorial_Switch_Off",
+            "secondaryText": "Press <sprite name=\"key_space\"> to continue"
+        }
+    ]
+}
