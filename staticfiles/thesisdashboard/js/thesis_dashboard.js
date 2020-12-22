@@ -94,6 +94,7 @@ function initializeSemanticComponents() {
 }
 
 // TODO: eventually replace with actual account storage
+// TODO: fix chart bugs, implement error modal
 function fetchSavedFiltersOnLoad() {
     const tempWorkspace = Blockly.inject('blockly-temp-container', { toolbox: document.getElementById('toolbox') })
 

@@ -1,0 +1,318 @@
+@import url(https://fonts.googleapis.com/css?family=Dosis|Oswald);
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.bentoContainer {
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+    margin: 10pt auto;
+    border: 8pt double #3f91f5;
+    border-radius: 18px;
+    background-color: #3FA9F5;
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    min-height: 210px;
+    position: relative;
+    transition: transform .2s;
+    box-shadow: 10pt 10pt rgba(1, 1, 1, .4);
+}
+
+/* h1 h2 {
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+
+} */
+
+.bentoHead h1 {
+    font-size: 60pt;
+    color: #333333;
+    text-shadow: 3pt 3pt #f64139;
+    padding: 0;
+    margin: 0 auto;
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    text-align: center;
+}
+
+.bentoHead h2 {
+    font-size: 32pt;
+    color: #f64139;
+    padding: 0;
+    margin: 0 auto;
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    text-align: center;
+}
+
+.bentoHead {
+    width: 100%;
+    background-color: #f5bd5d;
+    margin: 0 auto 6pt;
+}
+
+.bentoContainer:hover {
+    transform: scale(2);
+    box-shadow: 10pt 10pt 60px 30px rgba(1, 1, 1, .4);
+    z-index: 1;
+}
+
+.bentoRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.bentoColumn {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.bentoTitleRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background: #FF1D25;
+    border-radius: 16px 16px 0 0;
+    color: white;
+}
+
+.bentoSubTitleRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    color: white;
+    border-bottom: 2px dashed #444444;
+}
+
+.bentoInside {
+    width: 100%;
+    margin-top: 4pt;
+    display: flex;
+    flex-direction: row;
+}
+
+.bentoInside .bentoItem {
+
+    background-color: white;
+    color: #333333;
+    height: fit-content;
+    margin: 2pt 3pt;
+}
+
+.bentoInside .bentoRow {
+    width: 100%;
+}
+
+
+.bentoTitleRow .bentoItem {
+    width: 50%;
+}
+
+.bentoSmItem {
+    flex: 1 2 35%;
+    width: 32%;
+    margin: 2pt;
+}
+
+.bentoSmItem label {
+    font-size: .3rem;
+    font-weight: lighter;
+}
+
+.bentoSmItem .field {
+    background-color: white;
+    box-shadow: 1pt 1pt #333333;
+}
+
+/* 
+.student {
+    text-align: left;
+    font-weight: 600;
+    size: 14pt;
+} */
+
+.compositeScore {
+    text-align: right;
+    font-weight: 600;
+    size: 14pt;
+}
+
+.cumAvgPer {
+    font-size: 7pt;
+    font-weight: 200;
+    color: white;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.persistence {
+    font-size: 10pt;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+}
+
+.bentoItem {
+    align-items: end;
+    margin: 2pt 10pt 2pt;
+    width: fit-content;
+}
+
+.bentoItem label {
+    position: absolute;
+    font: small-caption;
+    font-size: 7pt;
+}
+
+.bentoSubComp {
+    height: 9em;
+    display: flex;
+    flex-direction: row;
+    width: 3em;
+}
+
+.bentoSubNumber {
+    width: 80%;
+    font-size: 8pt;
+    z-index: 1;
+}
+
+.bentoBarGraphBG {
+    height: 100%;
+    background-color: #888888;
+    width: 20%;
+    position: relative;
+}
+
+.bentoBarGraph {
+    background-color: #ba2121;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: initial;
+}
+
+
+
+.digIN {
+    margin: 10pt auto;
+}
+
+.digIN button {
+    position: absolute;
+    background-color: #333333;
+    bottom: 0;
+    color: white;
+    font-weight: 600;
+    right: 140px;
+    width: 4em;
+}
+
+.zoom {
+  padding: 50px;
+  transition: transform .2s; /* Animation */
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.cumGraphContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.cumAvgGraph {
+    display: flex;
+    flex-direction: row;
+    width: 220px;
+    margin: 1px;
+}
+
+.cumAvgLabel {
+    width: 30%;
+    text-align: right;
+    font-size: 75%;
+    border-right: 1pt solid white;
+    margin-right: 2pt;
+}
+
+.cumAvgGraphBG {
+    position: relative;
+    width: 70%;
+    border-bottom: .5px solid #5f5f5f;
+    border-right: .5px solid #5f5f5f;
+}
+
+.cumAvgGraphBar {
+    position: absolute;
+    background-color: #cfcfcf;
+    font-size: 50%;
+
+}
+
+#monsterMap {
+    margin: auto;
+    width: 100%;
+}
+
+.scaleSVG {
+    transform: scale(1);
+    transform-origin: center;
+}
+
+.bigMbg {
+    fill: #ccc8c8;
+    stroke: #f64139;
+    stroke-width: 5;
+}
+
+.persBarLabel {
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 12pt;
+    color: #333333;
+    text-anchor: end;
+    dominant-baseline: central;
+}
+
+.persNum {
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 9pt;
+    fill: #333333;
+    text-anchor: start;
+    dominant-baseline: central;
+
+}
+
+.monsterHeader {
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 24pt;
+    font-weight: bold;
+    fill: #f64139;
+    text-anchor: middle;
+}
+
+.monsterLabel {
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 12pt;
+    fill: #333333;
+}
+
+.activeArc {
+    fill: #f5bd5d;
+    stroke: #f64139;
+}
+
+.totalArc {
+    fill: #f5bd5d;
+}
+
+.cumPerTitle {
+    font-family: Oswald, "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    fill: #f64139;
+    font-size: 18pt;
+    text-anchor: middle;
+}

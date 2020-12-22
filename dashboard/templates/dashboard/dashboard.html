@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/static/dashboard/css/radar.css">
     <link rel="stylesheet" href="/static/dashboard/css/network.css">
     <link rel="stylesheet" href="/static/dashboard/css/portal.css">
+    <link rel="stylesheet" href="/static/dashboard/css/monster-map.css">
 </head>
 
 <body>
@@ -417,6 +418,11 @@
                                     <li class="nav-item" role="presentation">
                                         <a id="portal-persistence-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="portal-view-persistence-container" aria-selected="false" href="#portal-view-persistence-container">Persistence</a>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a id="portal-customize-tab" class="nav-link" data-toggle="tab" role="tab"
+                                            aria-controls="portal-view-customize-container" aria-selected="false"
+                                            href="#portal-view-customize-container">Customize</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div id="portal-view-panels" class="tab-content">
@@ -427,11 +433,15 @@
                                         <label class="custom-control-label" for="portal-toggle-creatures">Display Students as Creatures</label>
                                     </div>
                                     <div id="portal-view-overview-stats" class="portal-view-overview-section not-last"><h5 class="underlined">Class Statistics:</h5></div>
-                                    <div id="portal-view-overview-puzzles" class="portal-view-overview-section"><h5 class="underlined">Puzzles that Deserve Attention:</h5>TBD</div>
+                                    <div id="portal-view-overview-puzzles" class="portal-view-overview-section">
+                                        <h5 class="underlined">Puzzles that Deserve Attention:</h5>
+                                        <div id="portal-view-overview-attention-puzzles"></div>
+                                    </div>
                                 </div>
                                 <div id="portal-view-persistence-container" class="tab-pane portal-view-panel" role="tabpanel" aria-labelledby="portal-persistence-tab">
                                     TBD
                                 </div>
+                                <div role="tabpanel" aria-labelledby="portal-customize-tab"></div>
                             </div>
                         </div>
                     </div>
@@ -449,6 +459,23 @@
                             </div>
                         </div>
                     </div>
+                    <div id="blockly-temp-container" style="display: none;"></div>
+                    <div id="portal-view-customize-container" style="display: none;"">
+                        <div>
+                            <h5>Create an alert for students who...</h5>
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <input id="create-filter-name" type="text" class="form-control" placeholder="Name for Alert">
+                                    <button id="create-filter-btn" type="button" class="btn btn-success">Create!</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="blockly-container"></div>
+                        <div id="customize-active-alerts-container">
+                            <h5>Active Alerts:</h5>
+                            <div id="customize-alerts-list"></div>
+                        </div>  
+                    </div>
                 </div>
             </div>
         </div>
@@ -462,7 +489,40 @@
     <script src="/static/dashboard/js/vendor/fontawesome-all.min.js"></script>
     <script src="/static/dashboard/js/vendor/echarts-en.min.js"></script>
     <script src="/static/dashboard/js/vendor/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/blockly_compressed.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/blocks_compressed.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/javascript_compressed.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/blockly/msg/js/en.js"></script>
     <script src="/static/dashboard/js/dashboard.js" type="module"></script>
+
+    <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+        <category name="Filter Types" colour="65">
+            <block type="filter"></block>
+            <block type="alert"></block>
+        </category>
+        <category name="Conditions" colour="330">
+            <block type="persistence"></block>
+            <block type="mins_played"></block>
+            <block type="percentile"></block>
+            <block type="attempted_puzzles"></block>
+            <block type="completed_puzzles"></block>
+            <block type="attempts_per_puzzle"></block>
+            <block type="condition">
+                <field name="operator">&gt;</field>
+                <field name="comp_val">0</field>
+            </block>
+            <block type="puzzle">
+                <field name="puzzles">1. One Box</field>
+            </block>
+            <block type="attempted_specific"></block>
+            <block type="completed_specific"></block>
+        </category>
+        <category name="Combining Conditions" colour="260">
+            <block type="and_condition"></block>
+            <block type="or_condition"></block>
+            <block type="not_condition"></block>
+        </category>
+    </xml>
 </body>
 
 </html>

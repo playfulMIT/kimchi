@@ -1,33 +1,38 @@
 import { showPage, formatTime, getClassAverage } from '../util/helpers.js'
-import { MONSTER_IMAGE_PATHS } from '../util/constants.js';
+import { MONSTER_IMAGE_PATHS } from '../util/constants.js'
+import { blockDefinitions, setBlockCodeGeneration } from '../../../thesisdashboard/blockly/block-def.js'
+import * as persistenceMountain from './persistence-mountain.js'
+import * as customizeTab from './customize-alerts.js'
+import * as filter from '../../../thesisdashboard/js/filter.js'
+import { showCustomizeTab } from './customize-alerts.js';
+
+const SVG_ID = "portal-view-svg"
 
 var anonymizeNames = false
 var playerMap = null
 var puzzleData = null
 var persistenceData = null
+var persistenceByPuzzleData = null
 var completedPuzzleData = null
 var attemptedPuzzleData = null
 var levelsOfActivityData = null
+var insightsData = null
 var puzzleList = []
 
-// TODO: fix alert colors
-// TODO: add monsters
+var selectedOverviewView = null
+
 // TODO: move axis titles
 
-const alerts = {
-    // 'All students': [],
-    'Students with < 40 persistence': [
-        ['persistence', '<', 40]
-    ],
-    'Students who finished puzzle [10, 11, 12]': [
-        ['completed_puzzles', 'has', 10],
-        ['completed_puzzles', 'has', 11],
-        ['completed_puzzles', 'has', 12]
-    ]
-}
-// filter structure ['metric_name', 'condition', 'value']
+const alerts = {}
 
-var activeAlerts = new Set()
+const viewMap = {
+    attemptedVsCompletedView: {
+        name: 'Student Attempted vs. Completed',
+        renderFunction: renderStudentAttemptedVsCompletedView
+    }
+}
+
+var activeAlerts = {}
 var selectedStudents = {}
 
 var svg = null
@@ -42,20 +47,67 @@ var alertColorScale = null
 var displayStudentsAsMonsters = true
 var playerMonsterMap = {}
 
-// TODO: fix checkmarks 
 
-function renderAlertsDisplay() {
+export function getFilter(filterName) {
+    return alerts[filterName]
+}
+
+export function setFilter(filterName, filter) {
+    alerts[filterName] = filter
+}
+
+export function removeFilter(filterName) {
+    delete alerts[filterName]
+}
+
+export function getFilterKeys() {
+    return Object.keys(alerts)
+}
+
+export function getColorForFilter(filterName) {
+    return alertColorScale(filterName)
+}
+
+function fetchSavedFiltersOnLoad() {
+    const tempWorkspace = Blockly.inject('blockly-temp-container', { toolbox: document.getElementById('toolbox') })
+
+    function saveToFilters(filterName, xmlString) {
+        const xml = Blockly.Xml.textToDom(xmlString)
+        Blockly.Xml.domToWorkspace(xml, tempWorkspace)
+        const filter = Blockly.JavaScript.workspaceToCode(tempWorkspace)
+        alerts[filterName] = JSON.parse(filter)
+        tempWorkspace.clear()
+    }
+
+    try {
+        for (var i = 0; i < window.localStorage.length; i++) {
+            const filterName = window.localStorage.key(i)
+            const xmlString = window.localStorage.getItem(filterName)
+            saveToFilters(filterName, xmlString)
+        }
+        tempWorkspace.dispose()
+    } catch (e) {
+        alert("Unable to retrieve all of the previously saved filters.")
+        console.error(e)
+    }
+}
+
+export function renderAlertsDisplay() {
     var counter = 1
+    const alertsDisplay = document.getElementById("portal-alerts-display")
+    alertsDisplay.innerHTML = ''
+    activeAlerts = {}
+
     for (let alert of Object.keys(alerts)) {
         const formDiv = document.createElement('div')
         formDiv.className = "form-check"
         formDiv.innerHTML = `<style>#portal-alert${counter}:checked:before {background-color:${alertColorScale(alert)}}</style><input class="form-check-input portal-alert-checkbox" type="checkbox" value="" id="portal-alert${counter}"><label class="form-check-label" for="portal-alert${counter}">${alert}</label>`
-        document.getElementById("portal-alerts-display").appendChild(formDiv)
+        alertsDisplay.appendChild(formDiv)
         $("#portal-alert"+counter).change(function (e) {
             if ($(e.target).is(":checked")) {
-                activeAlerts.add(alert)
+                activeAlerts[alert] = alerts[alert]
             } else {
-                activeAlerts.delete(alert)
+                delete activeAlerts[alert]
             }
             updateSelectedStudents()
         })
@@ -63,87 +115,20 @@ function renderAlertsDisplay() {
     }
 }
 
-function shouldFilterStudentPersistence(student, condition, comparisonValue) {
-    if (student in persistenceData) {
-        const value = persistenceData[student][persistenceData[student].length-1].percentileCompositeAcrossAttempts
-        const delta = comparisonValue - value
-        switch (condition) {
-            case '<':
-                return (delta <= 0)
-            case '>':
-                return (delta >= 0)
-            case '=':
-                return (delta != 0)
-            case '>=':
-                return (delta > 0)
-            case '<=':
-                return (delta < 0)
-        }
-    }
-
-    // TODO: still include students with no persistence data
-    return true
-}
-
-function shouldFilterStudentCompletedPuzzle(student, condition, puzzleNum) {
-    const puzzleName = puzzleList[puzzleNum-1]
-    if (student in completedPuzzleData) {
-        switch (condition) {
-            case "has":
-                return !completedPuzzleData[student].has(puzzleName)
-            default:
-                return completedPuzzleData[student].has(puzzleName)
-        }
-    }
-
-    return condition === "has" ? true : false
-}
-
-// returns true if the student should be removed
-function shouldFilterStudent(student, filterName) {
-    var shouldFilterStudent = false
-    if (filterName === "All students") {
-        return false
-    }
-
-    for (let filter of alerts[filterName]) {
-        switch (filter[0]) {
-            case 'persistence':
-                shouldFilterStudent = shouldFilterStudentPersistence(student, filter[1], filter[2])
-                break
-            case 'completed_puzzles':
-                shouldFilterStudent = shouldFilterStudentCompletedPuzzle(student, filter[1], filter[2])
-                break
-        }
-        if (shouldFilterStudent) {
-            return true
-        }
-    }
-    return false
+function getPointClass(d) {
+    return `point ${d in selectedStudents ? "alert-point" : Object.keys(activeAlerts).length ? "non-alert-point" : ""}`
 }
 
 // TODO: what to color when you have multiple alerts
 function updateSelectedStudents() {
-    selectedStudents = {}
-    for (let student of Object.keys(playerMap)) {
-        var shouldAddStudent = false
-        var alertName = null
-        for (let filterName of activeAlerts) {
-            if (!shouldFilterStudent(student, filterName)) {
-                shouldAddStudent = true
-                alertName = filterName
-                break
-            }
-        }
-        if (shouldAddStudent) {
-            selectedStudents[student] = alertName
-        }
-    }
+    selectedStudents = filter.retrieveSelectedStudents(Object.keys(playerMap), activeAlerts)
     
     svg.selectAll(".point")
-        .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
-        .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
-        .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
+        .attr("class", d => getPointClass(d))
+        .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d][0]) : "#000")
+        .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d][0]) : "#000")
+
+    persistenceMountain.updateActiveStudentList(Object.keys(selectedStudents))
 }
 
 function computeAndRenderClassStatistics() {
@@ -179,6 +164,7 @@ function computeAndRenderClassStatistics() {
         'Avg. # of puzzles attempted': (totalPuzzlesAttempted / studentCount).toFixed(1)
     }
     renderClassStats(statsMap)
+    renderWarningPuzzles()
 }
 
 function renderClassStats(statsMap) {
@@ -192,22 +178,32 @@ function renderClassStats(statsMap) {
     document.getElementById("portal-view-overview-stats").appendChild(listContainer)
 }
 
-function renderOverviewViewsOptions() {
-    const viewMap = {
-        attemptedVsCompletedView: {
-            name: 'Student Attempted vs. Completed',
-            renderFunction: renderStudentAttemptedVsCompletedView
-        }
-    }
+function renderWarningPuzzles() {
+    const listContainer = document.createElement("ul")
+    listContainer.className = "portal-view-overview-unordered-list"
+    const puzzleString = insightsData.warning_puzzles.map(v => puzzleList.findIndex(p => p === v)+1).sort((a,b) => a-b).join(", ")
 
+    const listElement = document.createElement("li")
+    listElement.innerHTML = 'Warning Puzzles:<br>' + puzzleString
+    listContainer.appendChild(listElement)
+    document.getElementById("portal-view-overview-attention-puzzles").appendChild(listContainer)
+}
+
+// additional ring for multiple alerts?
+
+function renderOverviewViewsOptions() {
     var counter = 1
     for (let view of Object.keys(viewMap)) {
         const formDiv = document.createElement('div')
         formDiv.className = "form-check"
         formDiv.innerHTML = `<input class="form-check-input" type="radio" name="portal-overview-views-radio" value="${view}" id="portal-view${counter}" ${counter == 1 ? "checked" : ""}><label class="form-check-label" for="portal-view${counter}">${viewMap[view].name}</label>`
         document.getElementById("portal-view-overview-views").appendChild(formDiv)
-        $("#portal-view" + counter).change(viewMap[view].renderFunction)
+        $("#portal-view" + counter).change(() => {
+            selectedOverviewView = view
+            viewMap[view].renderFunction()
+        })
         if (counter === 1) {
+            selectedOverviewView = view
             viewMap[view].renderFunction()
         }
         counter++
@@ -230,6 +226,7 @@ function initializeView() {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("id", SVG_ID)
 
     tooltip = d3.select("body").append("div")
         .attr("id", "portal-tooltip")
@@ -238,7 +235,7 @@ function initializeView() {
 
     xScale = d3.scaleLinear().range([0, width])
     yScale = d3.scaleLinear().range([height, 0])
-    alertColorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(Object.keys(alerts))
+    alertColorScale = d3.scaleOrdinal(d3.schemeSet1).domain(Object.keys(alerts))
     // TODO: initial rendering
 }
 
@@ -247,9 +244,16 @@ function updateAxisScales(xDomain, yDomain) {
     yScale.domain(yDomain)
 }
 
+function clearPortalViewArea() {
+    svg.selectAll("*").remove()
+    svg.attr("viewBox", `0 0 ${width} ${height}`)
+}
+
+// TODO: separate views to hanle loading
+
 // redraw the scatter plot
 function renderStudentAttemptedVsCompletedView() {
-    svg.selectAll("*").remove()
+    clearPortalViewArea()
 
     updateAxisScales([0,30], [0,30])
 
@@ -311,6 +315,12 @@ function renderStudentAttemptedVsCompletedView() {
     renderStudentPoints()
 }
 
+function getTooltipHTML(d) {
+    const name = anonymizeNames ? 'Student ' + d : playerMap[d]
+    const persistenceScore = d in persistenceData ? persistenceData[d][persistenceData[d].length - 1].percentileCompositeAcrossAttempts : "N/A"
+    return `${name}<br>Persistence: ${persistenceScore}`
+}
+
 function renderStudentPoints() {
     svg.selectAll(".point").remove()
     
@@ -323,7 +333,7 @@ function renderStudentPoints() {
             .attr("xlink:href", d => playerMonsterMap[d])
             .attr("width", monsterSize)
             .attr("height", monsterSize)
-            .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
+            .attr("class", d => getPointClass(d))
             .attr("id", d => "portal-student-point" + d)
             .attr("x", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) - (monsterSize / 2))
             .attr("y", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) - (monsterSize / 2))
@@ -333,7 +343,7 @@ function renderStudentPoints() {
                     .duration(200)
                     .style("opacity", .9)
 
-                tooltip.html(`${anonymizeNames ? d : playerMap[d]}`)
+                tooltip.html(getTooltipHTML(d))
                     .style("left", (d3.event.pageX + 10) + "px")
                     .style("top", (d3.event.pageY - 10) + "px")
             })
@@ -347,7 +357,7 @@ function renderStudentPoints() {
             .data(Object.keys(playerMap))
             .enter()
             .append("circle")
-            .attr("class", d => `point ${d in selectedStudents ? "alert-point" : ""}`)
+            .attr("class", d => getPointClass(d))
             .attr("id", d => "portal-student-point" + d)
             .attr("r", 3.5)
             .attr("cx", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0))
@@ -358,7 +368,7 @@ function renderStudentPoints() {
                     .duration(200)
                     .style("opacity", .9)
 
-                tooltip.html(`${anonymizeNames ? d : playerMap[d]}`)
+                tooltip.html(getTooltipHTML(d))
                     .style("left", (d3.event.pageX + 10) + "px")
                     .style("top", (d3.event.pageY - 10) + "px")
             })
@@ -382,7 +392,31 @@ function assignPlayersToMonsters() {
     }
 }
 
-export function showPortal(pMap, puzzData, persistence, completed, attempted, loa, anonymize=true) {
+function renderOverviewTab() {
+    clearPortalViewArea()
+    viewMap[selectedOverviewView].renderFunction()
+}
+
+function renderPersistenceTab() {
+    clearPortalViewArea()
+    persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), persistenceData, playerMonsterMap, width, height)
+}
+
+function renderCustomizeTab() {
+    $("#portal-view-customize-container").show()
+    customizeTab.showCustomizeTab()
+}
+
+function hideCustomizeTab() {
+    $("#portal-view-customize-container").hide()
+}
+
+function initializeBlocklyCode() {
+    Blockly.defineBlocksWithJsonArray(blockDefinitions(puzzleList))
+    setBlockCodeGeneration()
+}
+
+export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, loa, insights, anonymize=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
@@ -393,18 +427,39 @@ export function showPortal(pMap, puzzData, persistence, completed, attempted, lo
         }
 
         persistenceData = persistence
+        persistenceByPuzzleData = persistenceByPuzzle
         completedPuzzleData = completed
         attemptedPuzzleData = attempted
         levelsOfActivityData = loa
+        insightsData = insights
 
         assignPlayersToMonsters()
+        initializeBlocklyCode()
+        fetchSavedFiltersOnLoad()
+        filter.setFilterModuleData(levelsOfActivityData, persistenceData, completedPuzzleData, attemptedPuzzleData, persistenceByPuzzleData)
     }
-
+    
     showPage("portal-container", "nav-portal")
     if (!svg) {
         initializeView()
         renderOverviewViewsOptions()
         renderAlertsDisplay()
         computeAndRenderClassStatistics()
+
+        $("#portal-overview-tab").on("show.bs.tab", function (event) {
+            renderOverviewTab()
+        })
+
+        $("#portal-persistence-tab").on("show.bs.tab", function (event) {
+            renderPersistenceTab()
+        })
+
+        $("#portal-customize-tab").on("show.bs.tab", function (event) {
+            renderCustomizeTab()
+        })
+
+        $("#portal-customize-tab").on("hide.bs.tab", function (event) {
+            hideCustomizeTab()
+        })
     }
 }

@@ -126,20 +126,35 @@
 circle.point {
     fill: #000;
     stroke-width: 0px;
+    opacity: .8;
 }
 
 circle.point.alert-point {
     fill: white !important;
     stroke-width: 2px;
+    opacity: .8;
+}
+
+circle.point.non-alert-point {
+    fill: black !important;
+    stroke-width: 0px;
+    opacity: .3;
 }
 
 image.point {
     outline-width: 0px;
+    opacity: .8;
 }
 
 image.point.alert-point {
     outline-style: solid;
     outline-width: 2px;
+    opacity: .8;
+}
+
+image.point.non-alert-point {
+    outline-width: 0px;
+    opacity: .3;
 }
 
 #portal-view-overview-toggle {
@@ -151,4 +166,60 @@ image.point.alert-point {
     font-weight: bold;
     border: 1px solid grey;
     border-radius: 2px;
+}
+
+#portal-view-customize-container {
+    position: absolute;
+    width: 95vw;
+    height: 82vh;
+    left: 2vw;
+    top: 15vh;
+    background-color: #A0DCEB;
+    border: 4px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#blockly-container {
+    height: 70%;
+    width: 70%;
+    float: right;
+}
+
+#create-filter-btn {
+    margin-left: 5px;
+}
+
+#customize-alerts-list {
+    display: flex;
+    flex-direction: row; 
+}
+
+#customize-active-alerts-container {
+    width: 100%;
+    height: 35%
+}
+
+.customize-alert-box {
+    background-color: white;
+    border: 7px solid;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    padding: 3px;
+    margin-right: 15px;
+}
+
+.customize-alert-box-options {
+    align-self: flex-end;
+    width: fit-content;
+}
+
+.customize-alert-edit-link {
+    margin-left: 2px;
 }
