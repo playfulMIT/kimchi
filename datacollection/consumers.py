@@ -38,17 +38,20 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             # this ensures the session has a browser useragent attached to it
             add_useragent = True
             modify_session = True
+        if self.customsession.url is None:
+            dummy_data = {'data': '{}'}  # ensures the session gets a url
+            url, namejson = get_group(self, dummy_data)  # ensures the session gets a url
+            print(url)
+            modify_session = True
         if modify_session:
             for header in self.scope["headers"]:
                 if add_ip and header[0].decode("utf-8") == "x-forwarded-for":
                     self.customsession.ip = header[1].decode("utf-8")
                 if add_useragent and header[0].decode("utf-8") == "user-agent":
                     self.customsession.useragent = header[1].decode("utf-8")
-            self.customsession.save(update_fields=["ip", "useragent"])
+            self.customsession.save(update_fields=["ip", "useragent", "url"])
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
-        dummy_data = {'data': '{}'} # ensures the session gets a url
-        url, namejson = get_group(self, dummy_data) # ensures the session gets a url
         if DEBUG:
             print("custom session state:")
             print(str(self.customsession.__dict__))
