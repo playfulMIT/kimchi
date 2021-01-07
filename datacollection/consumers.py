@@ -47,6 +47,7 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             self.customsession.save(update_fields=["ip", "useragent"])
             self.scope["session"].accessed = False
             self.scope["session"].modified = False
+        url, namejson = get_group(self, {}) # ensures the session gets a url
         if DEBUG:
             print("custom session state:")
             print(str(self.customsession.__dict__))
