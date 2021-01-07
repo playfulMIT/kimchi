@@ -85,7 +85,7 @@ def generate_session(request, url):
             session.ip = x_forwarded_for.split(",")[0]
         else:
             session.ip = request.META.get("REMOTE_ADDR")
-    session.save(update_fields=["useragent", "ip"])
+    # session.save(update_fields=["useragent", "ip"])
     session.accessed = False
     session.modified = False
     request.session.accessed = False
@@ -93,5 +93,8 @@ def generate_session(request, url):
     url_obj = get_object_or_404(URL, pk=url)
     request.session["urlpk"] = url
     session.url = url_obj
-    session.save(update_fields=["url"])
+    print("url obj:")
+    print(url_obj)
+    session.save()
+    print('session saved')
     return session
