@@ -97,4 +97,5 @@ def generate_session(request, url):
     print(url_obj)
     session.save()
     print('session saved')
+    print(session)
     return session
