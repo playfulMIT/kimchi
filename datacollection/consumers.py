@@ -41,6 +41,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
             add_useragent = True
             modify_session = True
         if self.customsession.url is None:
+            print("checking custom session data")
+            print(self.customsession.url)
             dummy_data = {'data': '{}'}  # ensures the session gets a url
             url, namejson = get_group(self, dummy_data)  # ensures the session gets a url
             print(url)
