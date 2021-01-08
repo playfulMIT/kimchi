@@ -1,4 +1,4 @@
-import json
+import json, ast, base64
 
 from .models import URL, CustomSession
 
@@ -16,7 +16,12 @@ def get_group(self, data_json):
         url = self.customsession.url
         print("url: " + str(url.pk))
     else:
-        urlname = "no-url-or-group-specified"
+        try:
+            # try to manually fish the url out of the raw session data
+            session_data = self.customsession.session_data
+            urlname = ast.literal_eval(base64.b64decode(session_data).decode("UTF-8").split(":", 1)[1])["urlpk"]
+        except:
+            urlname = "no-url-or-group-specified"
         print("urlpk not found, using default")
         url, created = URL.objects.get_or_create(name=urlname)
         self.customsession.url = url
