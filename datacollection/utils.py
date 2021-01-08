@@ -4,7 +4,8 @@ from .models import URL
 
 
 def get_group(self, data_json):
-    print("get_group start session: " + str(self.customsession.session_key))
+    print("get_group start session: ")
+    print(self.customsession)
     namedata = data_json["data"]
     namejson = json.loads(namedata)
     if self.customsession.url is not None:
