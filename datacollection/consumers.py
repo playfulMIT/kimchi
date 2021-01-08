@@ -30,6 +30,8 @@ class DataCollectionConsumer(AsyncWebsocketConsumer):
         add_ip = False
         add_useragent = False
         self.customsession = CustomSession.objects.get(session_key=self.key)
+        print("custom session websocket dict")
+        print(self.customsession.__dict__)
         if self.customsession.ip is None:
             # this ensures the session has an IP attached to it
             add_ip = True
