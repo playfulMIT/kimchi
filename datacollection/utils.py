@@ -1,11 +1,14 @@
 import json
 
-from .models import URL
+from .models import URL, CustomSession
 
 
 def get_group(self, data_json):
     print("get_group start session: ")
     print(self.customsession.__dict__)
+
+    print("from db:")
+    print(CustomSession.objects.get(session_key=self.key).__dict__)
     namedata = data_json["data"]
     namejson = json.loads(namedata)
     if self.customsession.url is not None:
