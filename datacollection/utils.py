@@ -5,7 +5,7 @@ from .models import URL
 
 def get_group(self, data_json):
     print("get_group start session: ")
-    print(self.customsession)
+    print(self.customsession.__dict__)
     namedata = data_json["data"]
     namejson = json.loads(namedata)
     if self.customsession.url is not None:
@@ -30,5 +30,5 @@ def get_group(self, data_json):
     self.scope["session"].accessed = False
     self.scope["session"].modified = False
     print("get_group end session: ")
-    print(self.customsession)
+    print(self.customsession.__dict__)
     return url, namejson
