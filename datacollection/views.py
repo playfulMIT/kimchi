@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from datacollection.serializers import EventSerializer
 from .models import Event, Player, URL, CustomSession  # , GameSession
 from .serializers import PlayerSerializer  # , GameSessionSerializer
-
+from rest_framework.permissions import IsAuthenticated
 # logger = logging.getLogger(__name__)
 
 
@@ -20,6 +20,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     queryset = Event.objects.all().order_by("-id")
     serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         if not request.session.session_key:
