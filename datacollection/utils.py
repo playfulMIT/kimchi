@@ -29,5 +29,6 @@ def get_group(self, data_json):
     self.customsession.save(update_fields=["url"])
     self.scope["session"].accessed = False
     self.scope["session"].modified = False
-    print("get_group end session: " + str(self.customsession.session_key))
+    print("get_group end session: ")
+    print(self.customsession)
     return url, namejson
