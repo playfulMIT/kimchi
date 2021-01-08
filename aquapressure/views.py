@@ -17,12 +17,16 @@ def wildcard_url(request, slug):
     print("session id: " + str(request.session.session_key))
     print("customsession dict: " + str(session.__dict__))
     print("sessionpk wildcard: " + str(request.session.__dict__))
+    session.save()
     # response = str(request.session.session_key) + "\n" + str(session.__dict__)
     # return HttpResponse(response)
+    print("check session:")
+    check_session = CustomSession.objects.get(session_key=session.session_key)
+    print(check_session.__dict__)
     return render(
         request,
         "aquapressure/play.html",
-        {"title": "Shadow Tangrams", "sessionID": request.session.session_key},
+        {"title": "AquaPressure", "sessionID": request.session.session_key},
     )
 
 

@@ -98,4 +98,7 @@ def generate_session(request, url):
     session.save()
     print('session saved')
     print(session)
+    print("check session:")
+    check_session = CustomSession.objects.get(session_key=session.session_key)
+    print(check_session.__dict__)
     return session
