@@ -439,7 +439,7 @@
                                     </div>
                                 </div>
                                 <div id="portal-view-persistence-container" class="tab-pane portal-view-panel" role="tabpanel" aria-labelledby="portal-persistence-tab">
-                                    TBD
+                                    <a id="portal-persistence-addons-link">Persistence Add-ons</a>
                                 </div>
                                 <div role="tabpanel" aria-labelledby="portal-customize-tab"></div>
                             </div>
@@ -460,6 +460,46 @@
                         </div>
                     </div>
                     <div id="blockly-temp-container" style="display: none;"></div>
+                    <div id="portal-view-persistence-addons-container" class="container" style="display: none;"">
+                        <div class="row">
+                            <h2 id="student_highlight">Student selected: <br></h2>
+                            <button id="persistence-addons-close" type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="decorated">
+                                    <div>
+                                        <h1>Active time by puzzle difficulty</h1>
+                                        <h2>Click the legend to see that category on the bottom</h2>
+                                    </div>
+                                    <div>
+                                        <label class="detail"><input type="checkbox"> Show successful/unsuccessful time</label>
+                                    </div>
+                                    <div>
+                                        <label class="sort"><input type="checkbox"> Sort values</label>
+                                    </div>
+                                    <div id="active_time"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="decorated">
+                                    <h1>Use of game tools</h1>
+                                    <div id="tools_used"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="decorated">
+                                    <h1>Reattempts after failure</h1>
+                                    <h2>Did the student reattempt a puzzle after they failed it?<h2>
+                                    <div id="failed_attempts"></div>
+                                    <h2>failed attempts by puzzle difficulty:</h2>
+                                    <div id="failed_attemptsMAP"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="portal-view-customize-container" style="display: none;"">
                         <div>
                             <h5>Create an alert for students who...</h5>
@@ -469,6 +509,9 @@
                                     <button id="create-filter-btn" type="button" class="btn btn-success">Create!</button>
                                 </div>
                             </form>
+                            <div>
+                                <button id="new-filter-btn" type="button" class="btn btn-primary">Create New Filter</button>
+                            </div>
                         </div>
                         <div id="blockly-container"></div>
                         <div id="customize-active-alerts-container">

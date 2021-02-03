@@ -238,7 +238,7 @@ function handleAllStudentTableColumnChange(column, checked) {
 function handleStudentPuzzleTableColumnChange(column, checked) {
     if (checked) {
         studentPuzzleTableColumns.push(column)
-        renderStudentTable()
+        renderStudentPuzzleTable()
         dashboard.reinitializeTableSort()
         return
     }

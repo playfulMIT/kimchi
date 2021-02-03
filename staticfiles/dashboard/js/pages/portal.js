@@ -1,10 +1,10 @@
 import { showPage, formatTime, getClassAverage } from '../util/helpers.js'
 import { MONSTER_IMAGE_PATHS } from '../util/constants.js'
 import { blockDefinitions, setBlockCodeGeneration } from '../../../thesisdashboard/blockly/block-def.js'
-import * as persistenceMountain from './persistence-mountain.js'
+import * as persistenceMountain from '../util/persistence-mountain.js'
+import * as persistenceAddOns from '../util/persistence-addons.js'
 import * as customizeTab from './customize-alerts.js'
 import * as filter from '../../../thesisdashboard/js/filter.js'
-import { showCustomizeTab } from './customize-alerts.js';
 
 const SVG_ID = "portal-view-svg"
 
@@ -402,6 +402,15 @@ function renderPersistenceTab() {
     persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), persistenceData, playerMonsterMap, width, height)
 }
 
+function renderPersistenceAddOns() {
+    $("#portal-view-persistence-addons-container").show()
+    persistenceAddOns.renderPersistenceAddOns()
+}
+
+function hidePersistenceAddOns() {
+    $("#portal-view-persistence-addons-container").hide()
+}
+
 function renderCustomizeTab() {
     $("#portal-view-customize-container").show()
     customizeTab.showCustomizeTab()
@@ -437,6 +446,7 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
         filter.setFilterModuleData(levelsOfActivityData, persistenceData, completedPuzzleData, attemptedPuzzleData, persistenceByPuzzleData)
+        persistenceAddOns.processPersistenceAddOnsData(persistenceData)
     }
     
     showPage("portal-container", "nav-portal")
@@ -460,6 +470,16 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
 
         $("#portal-customize-tab").on("hide.bs.tab", function (event) {
             hideCustomizeTab()
+        })
+
+        $("#portal-persistence-addons-link").click(function (event) {
+            renderPersistenceAddOns()
+        })
+
+        // TODO: add persistence addonds close 
+
+        $("#persistence-addons-close").click(function (event) {
+            hidePersistenceAddOns()
         })
     }
 }

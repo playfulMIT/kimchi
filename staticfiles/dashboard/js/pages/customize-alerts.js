@@ -22,6 +22,13 @@ function initializeBlocklyWorkspace() {
 function clearWorkspace() {
     workspace.clear()
     $("#create-filter-name").val("")
+    $("#create-filter-btn").text("Create!")
+}
+
+function createNewFilter() {
+    workspace.clear()
+    $("#create-filter-name").val("")
+    $("#create-filter-btn").text("Create!")
 }
 
 function checkWorkspaceValidity() {
@@ -57,6 +64,7 @@ function loadFilterToWorkspace(filterName) {
     const xml = Blockly.Xml.textToDom(xmlString)
     Blockly.Xml.domToWorkspace(xml, workspace)
     $("#create-filter-name").val(filterName)
+    $("#create-filter-btn").text("Save!")
 }
 
 function renameFilter(filterName, newFilterName) {
@@ -146,6 +154,10 @@ export function showCustomizeTab() {
                 return
             }
             saveFilter($("#create-filter-name").val())
+        })
+
+        $("#new-filter-btn").click(function() {
+            createNewFilter()
         })
     }
     renderAlertBoxes()

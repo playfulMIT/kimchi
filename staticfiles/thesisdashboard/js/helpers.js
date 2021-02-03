@@ -843,6 +843,15 @@ export function renderAlertsPanel(divId, items, itemTransformFunction = null, on
 
 export function fixTableColumns(tableId, numCols) {
     var table = $("#" + tableId)
+    var bodyCells = table.find('tbody tr:first').children()
+    var colWidth = bodyCells.map(function () {
+        return $(this).width();
+    }).get();
+
+    // Set the width of thead columns
+    table.find('thead tr').children().each(function (i, v) {
+        $(v).width(colWidth[i]);
+    });    
     var colWidth = table.width() / numCols
 
     // Set the width of thead columns
