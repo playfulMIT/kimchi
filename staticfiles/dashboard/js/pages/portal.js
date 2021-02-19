@@ -490,6 +490,8 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         $("#portal-misconceptions-tab").on("hide.bs.tab", function (event) {
             $("#student-search-list").hide()
             $("#portal-misc-btn-group").hide()
+            $("#portal-misc-back-btn").hide()
+            $(".portal-student-replay").remove()
         })
 
         $("#portal-persistence-tab").on("hide.bs.tab", function (event) {
