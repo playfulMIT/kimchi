@@ -22,6 +22,7 @@ var outlierData = null
 var persistenceData = null
 var persistenceByPuzzleData = null
 var insightsData = null
+var misconceptionsData = null
 
 function handleTabSwitch(tab) {
     if (activeTab === tab) return 
@@ -47,7 +48,7 @@ function handleTabSwitch(tab) {
             showMachineLearningOutliers(playerMap, puzzleData, outlierData, levelsOfActivity, completedPuzzleData)
             break
         case TABS.PORTAL:
-            showPortal(playerMap, puzzleData, persistenceData, persistenceByPuzzleData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, levelsOfActivity, insightsData)
+            showPortal(playerMap, puzzleData, persistenceData, persistenceByPuzzleData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, levelsOfActivity, insightsData, misconceptionsData)
             break
     }
 }
@@ -61,6 +62,7 @@ async function startDashboard() {
     sequenceBetweenPuzzles = await callAPI(`${API}/sequencebetweenpuzzles`)
     outlierData = await callAPI(`${API}/mloutliers`)
     insightsData = await callAPI(`${API}/insights`)
+    misconceptionsData = await callAPI(`${API}/misconceptions`)
 
     const rawCompletedData = await callAPI(`${API}/completed`)
     completedPuzzleData = {}

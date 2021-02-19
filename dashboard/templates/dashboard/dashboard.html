@@ -407,7 +407,21 @@
                 <div id="portal-container" class="container page" style="display:none">
                     <div id="portal-top-row" class="row">
                         <div id="portal-view-container" class="col-8">
-                            <div id="portal-view-area" class="portal-area decorated"></div>
+                            <div id="portal-view-area" class="portal-area decorated">
+                                <span><i id="portal-main-view-help" class="far fa-question-circle help-icon" style="display: none;"></i></span>
+                                <div id="student-search-list" style="display: none;">
+                                    <input class="form-control" list="student-search-options" placeholder="Search Student...">
+                                    <datalist id="student-search-options"></datalist>
+                                </div>
+                                <div id="portal-misc-btn-group" class="btn-group" role="group" style="display: none;">
+                                    <input type="radio" class="btn-check" name="portal-misc-btn" id="portal-misc-count-btn" autocomplete="off" value="misc-count" checked>
+                                    <label class="btn btn-outline-secondary" for="portal-misc-count-btn">total # miscs</label>
+                                
+                                    <input type="radio" class="btn-check" name="portal-misc-btn" id="portal-student-count-btn" autocomplete="off" value="student-count">
+                                    <label class="btn btn-outline-secondary" for="portal-student-count-btn">total # of stu's</label>
+                                </div>
+                                <button id="portal-misc-back-btn" style="display: none;">Back to Class View</button>
+                            </div>
                         </div>
                         <div id="portal-view-panel-container" class="col-4">
                             <div>
@@ -423,6 +437,11 @@
                                             aria-controls="portal-view-customize-container" aria-selected="false"
                                             href="#portal-view-customize-container">Customize</a>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a id="portal-misconceptions-tab" class="nav-link" data-toggle="tab" role="tab"
+                                            aria-controls="portal-view-misconceptions-container" aria-selected="false"
+                                            href="#portal-view-misconceptions-container">Misconceptions</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div id="portal-view-panels" class="tab-content">
@@ -434,7 +453,7 @@
                                     </div>
                                     <div id="portal-view-overview-stats" class="portal-view-overview-section not-last"><h5 class="underlined">Class Statistics:</h5></div>
                                     <div id="portal-view-overview-puzzles" class="portal-view-overview-section">
-                                        <h5 class="underlined">Puzzles that Deserve Attention:</h5>
+                                        <h5 class="underlined">Puzzles that Deserve Attention: <span><i id="portal-alerts-help" class="far fa-question-circle help-icon"></i></span></h5>
                                         <div id="portal-view-overview-attention-puzzles"></div>
                                     </div>
                                 </div>
@@ -442,13 +461,18 @@
                                     <a id="portal-persistence-addons-link">Persistence Add-ons</a>
                                 </div>
                                 <div role="tabpanel" aria-labelledby="portal-customize-tab"></div>
+                                <div id="portal-view-misconceptions-container" class="tab-pane portal-view-panel" role="tabpanel"
+                                    aria-labelledby="portal-misconceptions-tab">
+                                    <div id="portal-misconceptions-btn-container"></div>
+                                    <div id="portal-misconceptions-stats-container"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div id="portal-bottom-row" class="row">
                         <div id="portal-alerts-container" class="col-8">
                             <div class="portal-area decorated">
-                                <h5>Alerts:</h5>
+                                <h5>Alerts: <span><i id="portal-alerts-help" class="far fa-question-circle help-icon"></i></span></h5>
                                 <div id="portal-alerts-display"></div>
                             </div>
                         </div>
@@ -471,7 +495,7 @@
                             <div class="col-md-4">
                                 <div class="decorated">
                                     <div>
-                                        <h1>Active time by puzzle difficulty</h1>
+                                        <h1>Active time by puzzle difficulty <span><i class="far fa-question-circle help-icon"></i></span></h1>
                                         <h2>Click the legend to see that category on the bottom</h2>
                                     </div>
                                     <div>
@@ -485,13 +509,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="decorated">
-                                    <h1>Use of game tools</h1>
+                                    <h1>Use of game tools <span><i class="far fa-question-circle help-icon"></i></span></h1>
                                     <div id="tools_used"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="decorated">
-                                    <h1>Reattempts after failure</h1>
+                                    <h1>Reattempts after failure <span><i class="far fa-question-circle help-icon"></i></span></h1>
                                     <h2>Did the student reattempt a puzzle after they failed it?<h2>
                                     <div id="failed_attempts"></div>
                                     <h2>failed attempts by puzzle difficulty:</h2>

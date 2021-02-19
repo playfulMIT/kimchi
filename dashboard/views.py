@@ -462,3 +462,33 @@ def get_puzzle_difficulty_mapping(request, slug):
         return JsonResponse(result)
     except ObjectDoesNotExist:
         return JsonResponse({})
+
+def get_misconceptions_data(request, slug):
+    columns = ['time', 'n_attempt', 'type', 'complete', 'pictures_matched', 'p_pictures_matched', 'shapes_used', 'labels']
+
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeMisconceptions(['" + slug + "']")
+        result = json.loads(task_result)
+
+        new_result = defaultdict(lambda: defaultdict(list))
+        player_map = {v: k for k, v in create_player_map(slug).items()}
+
+        for i in result['group_id'].keys():
+            if len(result['labels'][i]) == 0:
+                continue 
+
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            puzzle = result['task_id'][i]
+            attempt_dict = {}
+            
+            for column in columns:
+                attempt_dict[column] = result[column][i]
+            new_result[user][puzzle].append(attempt_dict)
+
+        return JsonResponse(new_result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})

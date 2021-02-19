@@ -250,3 +250,19 @@ image.point.non-alert-point {
 .customize-alert-edit-link {
     margin-left: 2px;
 }
+
+#portal-misconceptions-btn-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.misconception-btn-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.help-icon {
+    color: green;
+    float: right;
+    font-size: 1.5rem;
+}

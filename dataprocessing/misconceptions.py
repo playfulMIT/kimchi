@@ -11,6 +11,7 @@ from collections import OrderedDict
 from math import nan
 import copy
 
+pd.options.mode.chained_assignment = None  # default='warn
 def sequenceWithinPuzzlesForMisconceptions(dataEvents, group = 'all'):
 
     tutorialList = ['1. One Box', '2. Separated Boxes', '3. Rotate a Pyramid', '4. Match Silhouettes', '5. Removing Objects', '6. Stretch a Ramp', '7. Max 2 Boxes', '8. Combine 2 Ramps', '9. Scaling Round Objects']

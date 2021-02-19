@@ -3,6 +3,7 @@ import { MONSTER_IMAGE_PATHS } from '../util/constants.js'
 import { blockDefinitions, setBlockCodeGeneration } from '../../../thesisdashboard/blockly/block-def.js'
 import * as persistenceMountain from '../util/persistence-mountain.js'
 import * as persistenceAddOns from '../util/persistence-addons.js'
+import * as misconceptionsTab from './misconceptions-portal.js'
 import * as customizeTab from './customize-alerts.js'
 import * as filter from '../../../thesisdashboard/js/filter.js'
 
@@ -17,11 +18,13 @@ var completedPuzzleData = null
 var attemptedPuzzleData = null
 var levelsOfActivityData = null
 var insightsData = null
+var misconceptionsData = null
 var puzzleList = []
 
 var selectedOverviewView = null
 
 // TODO: move axis titles
+// TODO: fix overflowing tabs
 
 const alerts = {}
 
@@ -172,7 +175,7 @@ function renderClassStats(statsMap) {
     listContainer.className = "portal-view-overview-unordered-list"
     for (let [description, value] of Object.entries(statsMap)) {
         const listElement = document.createElement("li")
-        listElement.innerHTML = `${description}: <span class="italicized">${value}</span>`
+        listElement.innerHTML = `${description}: <span class="italicized">${value}${description === "Avg. active time spent" ? '<span><i id="portal-active-time-help" class="far fa-question-circle help-icon"></i></span>' : ''}</span>`
         listContainer.appendChild(listElement)
     }
     document.getElementById("portal-view-overview-stats").appendChild(listContainer)
@@ -196,7 +199,7 @@ function renderOverviewViewsOptions() {
     for (let view of Object.keys(viewMap)) {
         const formDiv = document.createElement('div')
         formDiv.className = "form-check"
-        formDiv.innerHTML = `<input class="form-check-input" type="radio" name="portal-overview-views-radio" value="${view}" id="portal-view${counter}" ${counter == 1 ? "checked" : ""}><label class="form-check-label" for="portal-view${counter}">${viewMap[view].name}</label>`
+        formDiv.innerHTML = `<input class="form-check-input" type="radio" name="portal-overview-views-radio" value="${view}" id="portal-view${counter}" ${counter == 1 ? "checked" : ""}><label class="form-check-label" for="portal-view${counter}">${viewMap[view].name}<span><i class="far fa-question-circle help-icon"></i></span></label>`
         document.getElementById("portal-view-overview-views").appendChild(formDiv)
         $("#portal-view" + counter).change(() => {
             selectedOverviewView = view
@@ -222,6 +225,7 @@ function initializeView() {
     height = graphDiv.clientHeight - margin.top - margin.bottom
 
     svg = d3.select("#portal-view-area").append("svg")
+        .attr("id", "portal-view-area-svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -246,7 +250,7 @@ function updateAxisScales(xDomain, yDomain) {
 
 function clearPortalViewArea() {
     svg.selectAll("*").remove()
-    svg.attr("viewBox", `0 0 ${width} ${height}`)
+    // svg.attr("viewBox", `0 0 ${width} ${height}`)
 }
 
 // TODO: separate views to hanle loading
@@ -400,6 +404,12 @@ function renderOverviewTab() {
 function renderPersistenceTab() {
     clearPortalViewArea()
     persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), persistenceData, playerMonsterMap, width, height)
+    $("#portal-main-view-help").show()
+}
+
+function renderMisconceptionsTab() {
+    clearPortalViewArea()
+    misconceptionsTab.buildMisconceptionsPage()
 }
 
 function renderPersistenceAddOns() {
@@ -425,7 +435,7 @@ function initializeBlocklyCode() {
     setBlockCodeGeneration()
 }
 
-export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, loa, insights, anonymize=true) {
+export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, loa, insights, misconceptions, anonymize=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
@@ -441,7 +451,7 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         attemptedPuzzleData = attempted
         levelsOfActivityData = loa
         insightsData = insights
-
+        misconceptionsData = misconceptions
         assignPlayersToMonsters()
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
@@ -450,18 +460,40 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
     }
     
     showPage("portal-container", "nav-portal")
+
+    new bootstrap.Tooltip(document.body, {
+        selector: '.help-icon',
+        placement: "bottom",
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    })
+
     if (!svg) {
         initializeView()
         renderOverviewViewsOptions()
         renderAlertsDisplay()
         computeAndRenderClassStatistics()
-
+        misconceptionsTab.initializeMisconceptionsPage(playerMap, misconceptionsData, puzzleList.slice(9), SVG_ID, width, height)
+            
         $("#portal-overview-tab").on("show.bs.tab", function (event) {
             renderOverviewTab()
         })
 
         $("#portal-persistence-tab").on("show.bs.tab", function (event) {
             renderPersistenceTab()
+        })
+
+        $("#portal-misconceptions-tab").on("show.bs.tab", function (event) {
+            $("#student-search-list").show()
+            renderMisconceptionsTab()
+        })
+
+        $("#portal-misconceptions-tab").on("hide.bs.tab", function (event) {
+            $("#student-search-list").hide()
+            $("#portal-misc-btn-group").hide()
+        })
+
+        $("#portal-persistence-tab").on("hide.bs.tab", function (event) {
+            $("#portal-main-view-help").hide()
         })
 
         $("#portal-customize-tab").on("show.bs.tab", function (event) {
