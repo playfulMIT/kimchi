@@ -194,3 +194,41 @@ export const PUZZLE_TO_KEY = {
     "Orange Dance": 313,
     "Bear Market": 314
 }
+
+export const MISCONCEPTION_TO_RECOMMENDATION = [
+    {
+        puzzle: "Not Bird",
+        criteria: ["Mis2", "Mis1", "Mis1_1", "Mis1_3", "s2a", "s5a", "s7a"],
+        recommendation: "Try more puzzles where cylinders should be used for a square/rectangular side, such as Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance. Puzzles where cylinders can be used but don’t need to:  Pi Henge, More Than Meets Your Eye. Try (or Revisit) more puzzles where pyramids should be used for a triangle side and square base: Rotate a Pyramid, Match Silhouettes, Removing Objects, Square Cross- Sections, Pyramids are Strange, Angled Silhouette, Stranger Shapes.Can be used but doesn’t need to: Bird Fez, Few Clues"
+    },
+    {
+        puzzle: "Not Bird",
+        criteria: ["Mis2", "Mis1", "Mis1_1", "s5a", "s7a"],
+        recommendation: "Try (or Revisit) more puzzles where pyramids should be used for a triangle side and square base: Rotate a Pyramid, Match Silhouettes, Removing Objects, Square Cross-Sections, Pyramids are Strange, Angled Silhouette, Stranger Shapes. Can be used but doesn’t need to: Bird Fez, Few Clues.\nTry more puzzles where cylinders should be used for a square/ rectangular side, such as Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance.Puzzles where cylinders can be used but don’t need to: Pi Henge, More Than Meets Your Eye."
+    },
+    {
+        puzzle: "Not Bird",
+        criteria: ["Mis2", "Mis1", "Mis1_3", "s2a"],
+        recommendation: "Try more puzzles where cylinders should be used for a square/rectangular side, such as Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance. Puzzles where cylinders can be used but don’t need to:  Pi Henge, More Than Meets Your Eye."
+    },
+    {
+        puzzle: "Square Cross-Sections",
+        criteria: ["Mis2", "Mis1", "Mis1_1", "s7a"],
+        recommendation: "Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance. Puzzles where cylinders can be used but don’t need to: Pi Henge, More Than Meets Your Eye."
+    },
+    {
+        puzzle: "Square Cross-Sections",
+        criteria: ["Mis2", "Mis1", "Mis1_1", "s8b"],
+        recommendation: "Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance. Puzzles where cylinders can be used but don’t need to: Pi Henge, More Than Meets Your Eye."
+    },
+    {
+        puzzle: "Square Cross-Sections",
+        criteria: ["Mis2", "Mis1", "Mis1_1", "s5a", "s7a"],
+        recommendation: "Try more puzzles where cylinders should be used for a square/rectangular side, such as Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance. Puzzles where cylinders can be used but don’t need to:  Pi Henge, More Than Meets Your Eye. Try(or Revisit) more puzzles where pyramids should be used for a triangle side and square base: Rotate a Pyramid, Match Silhouettes, Removing Objects, Pyramids are Strange, Angled Silhouette, Stranger Shapes.Can be used but doesn’t need to: Bird Fez, Not Bird, Few Clues"
+    },
+    {   
+        puzzle: "Square Cross-Sections",
+        criteria: ["Mis2", "Mis1", "Mis1_1", "s5a"],
+        recommendation: "Scaling Round Objects, Boxes Obscure Spheres, Ramp Up and Can It, Not Bird, Unnecessary, Zzz, Orange Dance. Puzzles where cylinders can be used but don’t need to: Pi Henge, More Than Meets Your Eye."
+    }
+]

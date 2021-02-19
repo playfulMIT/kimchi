@@ -410,17 +410,25 @@
                             <div id="portal-view-area" class="portal-area decorated">
                                 <span><i id="portal-main-view-help" class="far fa-question-circle help-icon" style="display: none;"></i></span>
                                 <div id="student-search-list" style="display: none;">
-                                    <input class="form-control" list="student-search-options" placeholder="Search Student...">
-                                    <datalist id="student-search-options"></datalist>
+                                    <div id="portal-misconceptions-title-container">
+                                        <span id="portal-misconceptions-title">All Misconceptions:</span>
+                                        <input id="portal-misconceptions-search" class="form-control" list="student-search-options" placeholder="Search Student...">
+                                        <datalist id="student-search-options"></datalist>
+                                    </div>
                                 </div>
-                                <div id="portal-misc-btn-group" class="btn-group" role="group" style="display: none;">
-                                    <input type="radio" class="btn-check" name="portal-misc-btn" id="portal-misc-count-btn" autocomplete="off" value="misc-count" checked>
-                                    <label class="btn btn-outline-secondary" for="portal-misc-count-btn">total # miscs</label>
+                                <div id="portal-misc-btn-group" style="display: none;">
+                                    <div id="portal-misc-heatmap-label">Puzzles Heatmap:</div>
+                                    <div id="portal-misc-chart-toggle-btn" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-outline-secondary active">
+                                            <input type="radio" name="portal-misc-btn" id="portal-misc-count-btn" value="misc-count" checked> total # <br>miscs
+                                        </label>
+                                        <label class="btn btn-outline-secondary">
+                                            <input type="radio" name="portal-misc-btn" id="portal-student-count-btn" value="student-count"> total # <br>of stu's
+                                        </label>
+                                    </div>
+                                </div>
                                 
-                                    <input type="radio" class="btn-check" name="portal-misc-btn" id="portal-student-count-btn" autocomplete="off" value="student-count">
-                                    <label class="btn btn-outline-secondary" for="portal-student-count-btn">total # of stu's</label>
-                                </div>
-                                <button id="portal-misc-back-btn" style="display: none;">Back to Class View</button>
+                                <button id="portal-misc-back-btn" class="btn btn-light" style="display: none;"><i class="fas fa-caret-left"></i> Back to Class View &nbsp;<i class="far fa-chart-bar"></i></button>
                             </div>
                         </div>
                         <div id="portal-view-panel-container" class="col-4">

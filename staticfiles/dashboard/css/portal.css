@@ -254,6 +254,8 @@ image.point.non-alert-point {
 #portal-misconceptions-btn-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    border-bottom: 2px solid black;
 }
 
 .misconception-btn-group {
@@ -265,4 +267,65 @@ image.point.non-alert-point {
     color: green;
     float: right;
     font-size: 1.5rem;
+}
+
+#portal-misc-heatmap-label {
+    float: left;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+#portal-misc-btn-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+#portal-misc-chart-toggle-btn {
+    align-self: center;
+}
+
+#portal-misconceptions-search {
+    float: right;
+    width: 30%;
+}
+
+#portal-misconceptions-title-container {
+    background-color: #3ACB7B;
+    min-height: calc(1.5em + .75rem + 2px);
+}
+
+#portal-misconceptions-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.misc-btn {
+    background-color: #3ACB7B;
+    border-color: black;
+}
+
+.misc-btn.active {
+    background-color: #298E56;
+}
+
+#portal-view-misconceptions-container {
+    padding: 0px;
+}
+
+#portal-misc-back-btn {
+    border-color: black;
+    position: fixed;
+    border-radius: 0px;
+    border-bottom-right-radius: .25rem;
+}
+
+#portal-misconceptions-stats-container {
+    margin: 10px;
+    margin-bottom: 20px;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.portal-student-replay {
+    text-align: center;
 }

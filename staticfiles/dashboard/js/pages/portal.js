@@ -492,6 +492,7 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
             $("#portal-misc-btn-group").hide()
             $("#portal-misc-back-btn").hide()
             $(".portal-student-replay").remove()
+            $("#portal-view-area-svg").show()
         })
 
         $("#portal-persistence-tab").on("hide.bs.tab", function (event) {

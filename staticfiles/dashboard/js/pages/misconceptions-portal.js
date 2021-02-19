@@ -1,4 +1,4 @@
-import { MISCONCEPTION_LABEL_MAP, PUZZLE_TO_KEY } from '../util/constants.js'
+import { MISCONCEPTION_LABEL_MAP, PUZZLE_TO_KEY, MISCONCEPTION_TO_RECOMMENDATION } from '../util/constants.js'
 import { formatPlurals } from '../util/helpers.js';
 
 const barColorScale = d3.scaleOrdinal()
@@ -23,7 +23,7 @@ const miscDict = {
     "Misc D": 3,
     "Misc E": 4
 }
-const puzzleList = d3.range(9, 30)
+const puzzleList = d3.range(10, 31)
 
 var allStudentList = []
 
@@ -110,7 +110,7 @@ function parseMisconceptionsData() {
         }
     }
 
-    var puzzleIndex = 9
+    var puzzleIndex = 10
     for (let puzzle of misconceptionPuzzles) {
         puzzleMap[`${puzzleIndex}`] = {}
         puzzleMap[`${puzzleIndex}`].miscCount = [
@@ -431,15 +431,20 @@ function displayClassMisconceptionStats() {
 
     const summaryText = `${studentCount} students have made ${miscLabel} a total of ${miscCount} times:`
     const moreText = `Student's who've made the most ${miscLabel}`
-    const studentDisplayList = document.createElement("ol")
-    studentDisplayList.innerHTML = studentList.map(entry => `<li>${entry.student} - ${entry.miscCount} times in ${entry.puzzles.length} ${formatPlurals("puzzle", entry.puzzles.length)}</li>`).join('')
+    const studentDisplayList = document.createElement("div")
+    studentDisplayList.innerHTML = `<ol> ${studentList.map(entry => `<li>${entry.student} - ${entry.miscCount} times in ${entry.puzzles.length} ${formatPlurals("puzzle", entry.puzzles.length)}</li>`).join('')} </ol>`
+    studentDisplayList.style.height = "10vh"
+    studentDisplayList.style.overflowY = "auto"
+
     const moremoreText = `Puzzles with the most ${miscLabel}`
-    const puzzleDisplayList = document.createElement("ol")
-    puzzleDisplayList.innerHTML = puzzleList.map(entry => `<li>${entry.puzzle} - ${entry.miscCount} times by ${entry.students.length} ${formatPlurals("student", entry.students.length)}</li>`).join('')
-    
+    const puzzleDisplayList = document.createElement("div")
+    puzzleDisplayList.innerHTML = `<ol> ${puzzleList.map(entry => `<li>${entry.puzzle} - ${entry.miscCount} times by ${entry.students.length} ${formatPlurals("student", entry.students.length)}</li>`).join('')} </ol>`
+    puzzleDisplayList.style.height = "10vh"
+    puzzleDisplayList.style.overflowY = "auto"
+
     const container = document.getElementById("portal-misconceptions-stats-container")
     container.innerHTML = ""
-    container.append(summaryText, moreText, studentDisplayList, moremoreText, puzzleDisplayList)
+    container.append(summaryText, document.createElement("br"), moreText, studentDisplayList, moremoreText, puzzleDisplayList)
 }
 
 function displayStudentMisconceptionStats() {
@@ -450,10 +455,23 @@ function displayStudentMisconceptionStats() {
 
     const showAllMisconceptions = selectedMisconception === "All"
 
-    const labelMap = {}
+    const labelList = new Array(MISCONCEPTION_TO_RECOMMENDATION.length)
+    for (let i = 0; i < labelList.length; i++) {
+        labelList[i] = 0
+    }
+
+    const isSetsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value))
+    const getRecommendationIndex = (puzzle, labels) => {
+        const match = MISCONCEPTION_TO_RECOMMENDATION.findIndex(entry => {
+            return entry.puzzle === puzzle && isSetsEqual(new Set(entry.criteria), new Set(labels))
+        })
+        return match
+    }
+
 
     for (let puzzle of stats.puzzles) {
-        container.append(puzzle)
+        container.append(document.createElement("br"))
+        container.append("Puzzle " + (misconceptionPuzzles.findIndex(v => v === puzzle) + 10))
         const list = document.createElement("ul")
         for (let attempt of misconceptionsData[selectedStudent][puzzle]) {
             if (!showAllMisconceptions && !attempt.labels.map(l => MISCONCEPTION_LABEL_MAP[l] || "").find(v => v === selectedMisconception)) {
@@ -461,17 +479,18 @@ function displayStudentMisconceptionStats() {
             }
             for (let label of attempt.labels) {
                 if (label.startsWith("s")) {
-                    if (label in labelMap) {
-                        labelMap[label].add(puzzle)
-                    } else {
-                        labelMap[label] = new Set([puzzle])
+                    const recIndex = getRecommendationIndex(puzzle, attempt.labels)
+                    if (recIndex >= 0) {
+                        labelList[recIndex] += 1
                     }
+                    break
                 }
             }
             const item = document.createElement("li")
             item.innerHTML = `Attempt ${attempt.n_attempt}: `
             const link = document.createElement("a")
             link.textContent = "Show Full Replay"
+            link.className = "alert-link"
             link.onclick = () => generateStudentReplay(selectedStudent, puzzle, parseInt(attempt.n_attempt)-1)
 
             item.appendChild(link)
@@ -480,12 +499,15 @@ function displayStudentMisconceptionStats() {
         container.append(list)
     }
 
+    // TODO: add tooltip
+
     // TODO: puzzle to name
     container.append("Next Steps:")
     const list = document.createElement("ul")
     container.append(list)
-    if (selectedMisconception === "Misc A" && Object.keys(labelMap).length) {
-        list.innerHTML = Object.keys(labelMap).map(v => "<li>misconception placeholder</li>").join('')
+    if (selectedMisconception === "Misc A" && labelList.length) {
+
+        list.innerHTML = labelList.filter(v => v).map((v, i) => `<li>${MISCONCEPTION_TO_RECOMMENDATION[i].recommendation} (x${v})</li>`).join('')
         return
     }
     
@@ -497,6 +519,7 @@ function getReplayURL(student, puzzle, attemptIndex) {
 }
 
 function generateStudentReplay(student, puzzle, attemptIndex) {
+    $("#portal-view-area-svg").hide()
     const container = document.getElementById("portal-view-area")
     const iframe = document.createElement("iframe")
     iframe.className = "portal-student-replay"
@@ -524,16 +547,19 @@ function createMisconceptionCategoryButtons() {
         container.className = "misconception-btn-group"
 
         const button = document.createElement("button")
+        button.className = `btn misc-btn ${!i ? "active" : ""}`
         button.textContent = category
         button.onclick = (event) => {
             updateSelectedMisconception(category)
+            $('.misc-btn').removeClass("active")
+            $(event.target).addClass("active")
         }
         container.appendChild(button)
 
         const label = document.createElement("div")
-        label.id = "misconception-btn-label" + i
+        label.innerHTML = `<span id="misconception-btn-label${i}" style="font-weight: bold;">${misconceptionMap[category].miscCount}</span> miscs`
         i += 1
-        label.textContent = misconceptionMap[category].miscCount + " miscs"
+        label.style.textAlign = "center"
         container.appendChild(label)
 
         buttonGroup.appendChild(container)
@@ -543,7 +569,7 @@ function createMisconceptionCategoryButtons() {
 function updateMisconceptionCategoryButtons() {
     var i = 0
     for (let category of Object.keys(misconceptionMap)) {
-        const text = `${(selectedStudentData ? selectedStudentData[category] : misconceptionMap[category]).miscCount} miscs`
+        const text = `${(selectedStudentData ? selectedStudentData[category] : misconceptionMap[category]).miscCount}`
         document.getElementById("misconception-btn-label" + i).textContent = text
         i += 1
     }
@@ -578,6 +604,11 @@ function createClassChart() {
 
 function updateSelectedMisconception(newMisc) {
     selectedMisconception = newMisc
+    if (selectedMisconception === "All") {
+        $("#portal-misconceptions-title").text("All Misconceptions:")
+    } else {
+        $("#portal-misconceptions-title").text(selectedMisconception + ":")
+    }
 
     if (selectedStudent) {
         createStudentChart()
@@ -590,6 +621,7 @@ function updateSelectedMisconception(newMisc) {
 
 function buildClassMisconceptionsPage() {
     clearPortalViewArea()
+    document.querySelector('input[list="student-search-options"]').value = ""
     $(".portal-student-replay").remove()
     selectedStudent = null
     selectedStudentData = null
