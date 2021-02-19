@@ -1,6 +1,6 @@
 #portal-top-row {
     padding-top: 1%;
-    height: 67%;
+    min-height: 67%;
     margin-bottom: 2%;
 }
 
