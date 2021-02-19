@@ -590,6 +590,7 @@ function updateSelectedMisconception(newMisc) {
 
 function buildClassMisconceptionsPage() {
     clearPortalViewArea()
+    $(".portal-student-replay").remove()
     selectedStudent = null
     selectedStudentData = null
     
@@ -616,7 +617,7 @@ function buildStudentMisconceptionsPage(student) {
 }
 
 export function buildMisconceptionsPage() {
-    createMisconceptionCategoryButtons()
+    updateMisconceptionCategoryButtons()
     selectedMisconception = "All"
     buildClassMisconceptionsPage()
 }
@@ -636,6 +637,7 @@ export function initializeMisconceptionsPage(students, misconceptions, puzzles, 
     parseMisconceptionsData()
     buildGraphLocations()
 
+    createMisconceptionCategoryButtons()
     populateStudentSearchBar()
     handleMisconceptionsRadioChange()
 
