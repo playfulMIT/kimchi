@@ -2,8 +2,8 @@ import { MISCONCEPTION_LABEL_MAP, PUZZLE_TO_KEY, MISCONCEPTION_TO_RECOMMENDATION
 import { formatPlurals } from '../util/helpers.js';
 
 const barColorScale = d3.scaleOrdinal()
-    .domain(["Misc A", "Misc B", "Misc C", "Misc D", "Misc E"])
-    .range(["#FDCC35", "#1573C7", "#C91453", "#1A3B05", "#A960AD"])
+    .domain(["Cross-Section", "Perspective", "Scaling", "Rotation", "Precision"])
+    .range(["#FDCC35", "#1573C7", "#C91453", "#228B22", "#A960AD"])
 
 var svg = null
 var width = 0
@@ -15,24 +15,22 @@ var mbar = null
 
 // TODO: replace misc names
 // TODO: check attempt numbers
-const miscList = ["Misc A", "Misc B", "Misc C", "Misc D", "Misc E"]
+const miscList = ["Cross-Section", "Perspective", "Scaling", "Rotation", "Precision"]
 const miscDict = {
-    "Misc A": 0,
-    "Misc B": 1,
-    "Misc C": 2,
-    "Misc D": 3,
-    "Misc E": 4
+    "Cross-Section": 0,
+    "Perspective": 1,
+    "Scaling": 2,
+    "Rotation": 3,
+    "Precision": 4
 }
-const puzzleList = d3.range(10, 31)
 
+var misconceptionPuzzles = []
 var allStudentList = []
 
 const graphLocations = []
 var misconceptionsData = null
 var puzzleMap = {}
 var misconceptionMap = {}
-
-var misconceptionPuzzles = []
 
 var maxMiscCount = 0
 var maxStudentCount = 0
@@ -110,36 +108,33 @@ function parseMisconceptionsData() {
         }
     }
 
-    var puzzleIndex = 10
     for (let puzzle of misconceptionPuzzles) {
-        puzzleMap[`${puzzleIndex}`] = {}
-        puzzleMap[`${puzzleIndex}`].miscCount = [
-            { category: "Misc A", value: 0 },
-            { category: "Misc B", value: 0 },
-            { category: "Misc C", value: 0 },
-            { category: "Misc D", value: 0 },
-            { category: "Misc E", value: 0 }
+        puzzleMap[puzzle] = {}
+        puzzleMap[puzzle].miscCount = [
+            { category: "Cross-Section", value: 0 },
+            { category: "Perspective", value: 0 },
+            { category: "Scaling", value: 0 },
+            { category: "Rotation", value: 0 },
+            { category: "Precision", value: 0 }
         ]
-        puzzleMap[`${puzzleIndex}`].studentCount = [
-            { category: "Misc A", value: new Set() },
-            { category: "Misc B", value: new Set() },
-            { category: "Misc C", value: new Set() },
-            { category: "Misc D", value: new Set() },
-            { category: "Misc E", value: new Set() }
+        puzzleMap[puzzle].studentCount = [
+            { category: "Cross-Section", value: new Set() },
+            { category: "Perspective", value: new Set() },
+            { category: "Scaling", value: new Set() },
+            { category: "Rotation", value: new Set() },
+            { category: "Precision", value: new Set() }
         ]
-        puzzleIndex += 1
     }
 
     for (let student of Object.keys(misconceptionsData)) {
         for (let puzzle of Object.keys(misconceptionsData[student])) {
-            const pIndex = misconceptionPuzzles.findIndex(p => p === puzzle) + 10
             for (let attempt of misconceptionsData[student][puzzle]) {
                 for (let label of attempt["labels"]) {
                     if (!(label in MISCONCEPTION_LABEL_MAP)) continue
                     const miscCategory = MISCONCEPTION_LABEL_MAP[label]
                     const miscIndex = miscDict[miscCategory]
-                    puzzleMap[pIndex].miscCount[miscIndex].value += 1
-                    puzzleMap[pIndex].studentCount[miscIndex].value.add(student)
+                    puzzleMap[puzzle].miscCount[miscIndex].value += 1
+                    puzzleMap[puzzle].studentCount[miscIndex].value.add(student)
                     addToMisconceptionMap(miscCategory, student, puzzle)
                     addToMisconceptionMap("All", student, puzzle)
                 }
@@ -169,7 +164,7 @@ function buildGraphLocations() {
 
 function createMisconceptionsClassChart() {
     mbar = svg.selectAll(".mbar")
-        .data(puzzleList)
+        .data(misconceptionPuzzles)
         .enter()
         .append("g")
         .attr("class", "mbar")
@@ -190,25 +185,25 @@ function createMisconceptionsClassChart() {
         .style("fill", "none")
         .style("stroke-width", 1)
 
-    // TODO: change to rect with centered text and test with inspect on
     mbar.selectAll(".portal-title-border")
         .data([0])
         .enter()
-        .append("line")
-        .attr("x1", 0)
-        .attr("y1", miniHeight - bottomPadding)
-        .attr("x2", miniWidth)
-        .attr("y2", miniHeight - bottomPadding)
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", miniHeight - bottomPadding)
+        .attr("width", miniWidth)
+        .attr("height", bottomPadding)
         .attr("class", "portal-title-border")
+        .style("fill", "white")
         .style("stroke", "black")
 
     mbar.selectAll(".portal-title")
-        .data((d, i) => [i + 10])
+        .data(d => [d])
         .enter()
         .append("text")
         .attr("x", miniWidth / 2)
-        .attr("y", miniHeight - 3)
-        .style("font-size", "1em")
+        .attr("y", miniHeight - 5)
+        .style("font-size", ".75em")
         .style("text-anchor", "middle")
         .text(d => d)
         .attr("class", "portal-title")
@@ -225,7 +220,7 @@ function createMisconceptionsCountChart() {
         .range([miniHeight - bottomPadding, 0])
 
     mbar.selectAll(".bar")
-        .data(d => (showMiscCount ? puzzleMap[`${d}`].miscCount : puzzleMap[`${d}`].studentCount))
+        .data(d => (showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount))
         .enter()
         .append("rect")
         .attr("x", (d, i) => x(i))
@@ -242,7 +237,7 @@ function createSingleMisconceptionCountChart() {
         .range([miniHeight - bottomPadding, 0])
     
     mbar.selectAll(".bar")
-        .data(d => [(showMiscCount ? puzzleMap[`${d}`].miscCount : puzzleMap[`${d}`].studentCount).find(v => v.category === selectedMisconception)])
+        .data(d => [(showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount).find(v => v.category === selectedMisconception)])
         .enter()
         .append("rect")
         .attr("x", 0)
@@ -254,6 +249,7 @@ function createSingleMisconceptionCountChart() {
 }
 
 function createStudentMisconceptionsSummaryChart() {
+    $(".portal-student-replay").remove()
     const keys = ["student", "class"]
 
     // The scale spacing the groups:
@@ -354,6 +350,7 @@ function createStudentMisconceptionsSummaryChart() {
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height + ")")
+        .style("font-size", 15)
         .call(d3.axisBottom(x0))
 
     var legend = svg.append("g")
@@ -429,14 +426,14 @@ function displayClassMisconceptionStats() {
     const miscLabel = selectedMisconception
     // TODO: fix this
 
-    const summaryText = `${studentCount} students have made ${miscLabel} a total of ${miscCount} times:`
-    const moreText = `Student's who've made the most ${miscLabel}`
+    const summaryText = `${studentCount} students have made ${miscLabel} misconceptions a total of ${miscCount} times:`
+    const moreText = `Students who've made the most ${miscLabel === "All" ? "" : miscLabel + " "}misconceptions:`
     const studentDisplayList = document.createElement("div")
     studentDisplayList.innerHTML = `<ol> ${studentList.map(entry => `<li>${entry.student} - ${entry.miscCount} times in ${entry.puzzles.length} ${formatPlurals("puzzle", entry.puzzles.length)}</li>`).join('')} </ol>`
     studentDisplayList.style.height = "10vh"
     studentDisplayList.style.overflowY = "auto"
 
-    const moremoreText = `Puzzles with the most ${miscLabel}`
+    const moremoreText = `Puzzles with the most ${miscLabel === "All" ? "" : miscLabel + " "}misconceptions:`
     const puzzleDisplayList = document.createElement("div")
     puzzleDisplayList.innerHTML = `<ol> ${puzzleList.map(entry => `<li>${entry.puzzle} - ${entry.miscCount} times by ${entry.students.length} ${formatPlurals("student", entry.students.length)}</li>`).join('')} </ol>`
     puzzleDisplayList.style.height = "10vh"
@@ -444,17 +441,17 @@ function displayClassMisconceptionStats() {
 
     const container = document.getElementById("portal-misconceptions-stats-container")
     container.innerHTML = ""
-    container.append(summaryText, document.createElement("br"), moreText, studentDisplayList, moremoreText, puzzleDisplayList)
+    container.append(summaryText, document.createElement("br"), document.createElement("br"), moreText, studentDisplayList, document.createElement("br"), moremoreText, puzzleDisplayList)
 }
 
 function displayStudentMisconceptionStats() {
     const stats = selectedStudentData[selectedMisconception]
-
-    const container = document.getElementById("portal-misconceptions-stats-container")
-    container.innerHTML = `${selectedStudent} has made a total of ${stats.miscCount} ${selectedMisconception} misconceptions across ${stats.puzzles.length} ${formatPlurals("puzzle", stats.puzzles.length)}.`
-
     const showAllMisconceptions = selectedMisconception === "All"
 
+    const container = document.getElementById("portal-misconceptions-stats-container")
+    container.innerHTML = `${selectedStudent} has made a total of ${stats.miscCount} ${showAllMisconceptions ? "" : selectedMisconception + " "}misconceptions across ${stats.puzzles.length} ${formatPlurals("puzzle", stats.puzzles.length)}.`
+
+    container.append(document.createElement("br"), document.createElement("br"))
     const labelList = new Array(MISCONCEPTION_TO_RECOMMENDATION.length)
     for (let i = 0; i < labelList.length; i++) {
         labelList[i] = 0
@@ -470,9 +467,9 @@ function displayStudentMisconceptionStats() {
 
 
     for (let puzzle of stats.puzzles) {
-        container.append(document.createElement("br"))
-        container.append("Puzzle " + (misconceptionPuzzles.findIndex(v => v === puzzle) + 10))
+        container.append(puzzle)
         const list = document.createElement("ul")
+        var prevAttemptIndex = -1
         for (let attempt of misconceptionsData[selectedStudent][puzzle]) {
             if (!showAllMisconceptions && !attempt.labels.map(l => MISCONCEPTION_LABEL_MAP[l] || "").find(v => v === selectedMisconception)) {
                 continue
@@ -486,6 +483,10 @@ function displayStudentMisconceptionStats() {
                     break
                 }
             }
+
+            if (attempt.n_attempt === prevAttemptIndex) {
+                continue
+            }
             const item = document.createElement("li")
             item.innerHTML = `Attempt ${attempt.n_attempt}: `
             const link = document.createElement("a")
@@ -495,19 +496,19 @@ function displayStudentMisconceptionStats() {
 
             item.appendChild(link)
             list.appendChild(item)
+            prevAttemptIndex = attempt.n_attempt
         }
         container.append(list)
     }
 
     // TODO: add tooltip
 
-    // TODO: puzzle to name
     container.append("Next Steps:")
     const list = document.createElement("ul")
     container.append(list)
-    if (selectedMisconception === "Misc A" && labelList.length) {
-
-        list.innerHTML = labelList.filter(v => v).map((v, i) => `<li>${MISCONCEPTION_TO_RECOMMENDATION[i].recommendation} (x${v})</li>`).join('')
+    if (selectedMisconception === "Cross-Section" && labelList.length) {
+        const text = (i) => MISCONCEPTION_TO_RECOMMENDATION[i].recommendation.map(v => `<p>${v}</p>`).join('')
+        list.innerHTML = labelList.filter(v => v).map((v, i) => `<li>${text(i)} (x${v})</li>`).join('')
         return
     }
     
@@ -547,6 +548,7 @@ function createMisconceptionCategoryButtons() {
         container.className = "misconception-btn-group"
 
         const button = document.createElement("button")
+        button.style.backgroundColor = category === "All" ? "#3ACB7B" : barColorScale(category)
         button.className = `btn misc-btn ${!i ? "active" : ""}`
         button.textContent = category
         button.onclick = (event) => {
@@ -604,11 +606,7 @@ function createClassChart() {
 
 function updateSelectedMisconception(newMisc) {
     selectedMisconception = newMisc
-    if (selectedMisconception === "All") {
-        $("#portal-misconceptions-title").text("All Misconceptions:")
-    } else {
-        $("#portal-misconceptions-title").text(selectedMisconception + ":")
-    }
+    $("#portal-misconceptions-title").text(selectedMisconception + " Misconceptions:")
 
     if (selectedStudent) {
         createStudentChart()

@@ -45,6 +45,10 @@
     border-color: black black #F3D246 !important;
 }
 
+.nav-link.active.green-background {
+    border-color: black black #3ACB7B !important;
+}
+
 .nav-link {
     border-color: #7E7E7E #7E7E7E !important;
     border-width: 4px !important;
@@ -65,6 +69,10 @@
 
 .orange-background {
     background-color: #F3D246 !important;
+}
+
+.green-background {
+    background-color: #3ACB7B !important;
 }
 
 .portal-view-panel {
@@ -256,6 +264,7 @@ image.point.non-alert-point {
     flex-direction: row;
     justify-content: space-around;
     border-bottom: 2px solid black;
+    padding-top: 10px;
 }
 
 .misconception-btn-group {
@@ -300,12 +309,12 @@ image.point.non-alert-point {
 }
 
 .misc-btn {
-    background-color: #3ACB7B;
+    font-weight: 500;
     border-color: black;
 }
 
 .misc-btn.active {
-    background-color: #298E56;
+    box-shadow: 0 0 0 0.2rem black
 }
 
 #portal-view-misconceptions-container {
@@ -322,10 +331,32 @@ image.point.non-alert-point {
 #portal-misconceptions-stats-container {
     margin: 10px;
     margin-bottom: 20px;
-    max-height: 55vh;
+    max-height: 47vh;
     overflow-y: auto;
 }
 
 .portal-student-replay {
     text-align: center;
 }
+
+.black-link {
+    color: black;
+}
+
+#misc-btn1 {
+
+}
+#misc-btn2 {
+
+}
+#misc-btn3 {
+
+}
+#misc-btn4 {
+
+}
+#misc-btn5 {
+
+}
+
+/* #FDCC35", "#1573C7", "#C91453", "#1A3B05", "#A960AD */
