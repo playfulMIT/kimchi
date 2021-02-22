@@ -180,6 +180,7 @@ image.point.non-alert-point {
     font-weight: bold;
     border: 1px solid grey;
     border-radius: 2px;
+    max-height: 100px;
 }
 
 #portal-view-customize-container {
@@ -345,4 +346,10 @@ image.point.non-alert-point {
 
 .grid {
     color: lightgrey;
+}
+
+.tooltip-scroll {
+    height: 75px;
+    max-height: 75px;
+    overflow-y: scroll;
 }

@@ -119,12 +119,13 @@ function parseMisconceptionsData() {
             { category: "Precision", value: 0, index: index }
         ]
         puzzleMap[puzzle].studentCount = [
-            { category: "Cross-Section", value: new Set(), index: index },
-            { category: "Perspective", value: new Set(), index: index },
-            { category: "Scaling", value: new Set(), index: index },
-            { category: "Rotation", value: new Set(), index: index },
-            { category: "Precision", value: new Set(), index: index }
+            { category: "Cross-Section", value: new Set(), index: index, studentMap: {} },
+            { category: "Perspective", value: new Set(), index: index, studentMap: {} },
+            { category: "Scaling", value: new Set(), index: index, studentMap: {} },
+            { category: "Rotation", value: new Set(), index: index, studentMap: {} },
+            { category: "Precision", value: new Set(), index: index, studentMap: {} }
         ]
+        puzzleMap[puzzle].allStudentMiscMap = {}
         index += 1
     }
 
@@ -137,6 +138,18 @@ function parseMisconceptionsData() {
                     const miscIndex = miscDict[miscCategory]
                     puzzleMap[puzzle].miscCount[miscIndex].value += 1
                     puzzleMap[puzzle].studentCount[miscIndex].value.add(student)
+                    if (student in puzzleMap[puzzle].studentCount[miscIndex].studentMap) {
+                        puzzleMap[puzzle].studentCount[miscIndex].studentMap[student] += 1
+                        puzzleMap[puzzle].allStudentMiscMap[student] += 1
+                    } else {
+                        puzzleMap[puzzle].studentCount[miscIndex].studentMap[student] = 1
+                        if (student in puzzleMap[puzzle].allStudentMiscMap) {
+                            puzzleMap[puzzle].allStudentMiscMap[student] += 1
+                        } else {
+                            puzzleMap[puzzle].allStudentMiscMap[student] = 1
+                        }
+                    }
+                    
                     addToMisconceptionMap(miscCategory, student, puzzle)
                     addToMisconceptionMap("All", student, puzzle)
                 }
@@ -148,11 +161,12 @@ function parseMisconceptionsData() {
         maxMiscCount = Math.max(maxMiscCount, Math.max(...puzzleMap[puzzle].miscCount.map(v => v.value)))
         // maxStudentCount = Math.max(maxStudentCount, Math.max(...puzzleMap[puzzle].studentCount.map(v => v.value.size)))
 
+        puzzleMap[puzzle].allStudentMiscMap = Object.entries(puzzleMap[puzzle].allStudentMiscMap).sort((a, b) => b[1] - a[1])
         for (let miscIndex = 0; miscIndex < 5; miscIndex++) {
+            puzzleMap[puzzle].studentCount[miscIndex].studentMap = Object.entries(puzzleMap[puzzle].studentCount[miscIndex].studentMap).sort((a, b) => b[1] - a[1])
             puzzleMap[puzzle].studentCount[miscIndex].value = puzzleMap[puzzle].studentCount[miscIndex].value.size
         }
     }
-
     maxStudentCount = allStudentList.length
     parseMisconceptionMap()
 }
@@ -165,18 +179,43 @@ function buildGraphLocations() {
     }
 }
 
+function getTooltipHTML(d) {
+    const studentList = selectedMisconception === "All" ? puzzleMap[d].allStudentMiscMap : puzzleMap[d].studentCount[miscDict[selectedMisconception]].studentMap
+    const studentText = Object.values(studentList).map(v => {
+        console.log(v)
+        return `<li>Student ${v[0]} - ${v[1]} times</li>`
+    }).join('')
+    return `${d}, ${selectedMisconception} miscs:<div class="tooltip-scroll"><ol>${studentText}</ol></div>`
+}
+
 function createMisconceptionsClassChart() {
+    const tooltip = d3.select("#portal-tooltip")
+
     mbar = svg.selectAll(".mbar")
         .data(misconceptionPuzzles)
         .enter()
         .append("g")
         .attr("class", "mbar")
         .attr("transform", (d, i) => `translate(${graphLocations[i][0]},${graphLocations[i][1]})`)
+        .on("mouseover", function (d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9)
+
+            tooltip.html(getTooltipHTML(d))
+                .style("left", (d3.event.pageX + 10) + "px")
+                .style("top", (d3.event.pageY - 10) + "px")
+        })
+        .on("mouseout", function (d) {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0)
+        })
 
     createClassChart()
 
     mbar.selectAll(".portal-border")
-        .data([0])
+        .data(d => [d])
         .enter()
         .append("rect")
         .attr("x", 0)
@@ -307,7 +346,7 @@ function createSingleMisconceptionCountChart() {
         )
     
     mbar.selectAll(".bar")
-        .data((d, i) => [(showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount).find(v => v.category === selectedMisconception)])
+        .data((d, i) => [(showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount)[miscDict[selectedMisconception]]])
         .enter()
         .append("rect")
         .attr("x", 0)
