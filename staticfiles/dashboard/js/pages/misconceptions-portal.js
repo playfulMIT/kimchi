@@ -276,6 +276,35 @@ function createSingleMisconceptionCountChart() {
     var y = d3.scaleLinear()
         .domain([0, showMiscCount ? maxMiscCount : maxStudentCount])
         .range([miniHeight - bottomPadding, 0])
+
+    var yAxis = mbar.selectAll(".y.axis")
+        .data((d, i) => [i])
+        .enter()
+
+    yAxis.append("g")
+        .attr("class", "y axis")
+        .each(function (d) {
+            if (d % 7 === 0) {
+                d3.select(this).call(d3.axisLeft(y))
+                // d3.select(this).append("g")
+                //     .append("text")
+                //     .attr("class", "label")
+                //     .attr("transform", "rotate(-90)")
+                //     .attr("x", -height / 2)
+                //     .attr("y", -40)
+                //     .attr("font-size", 12)
+                //     .attr("font-style", "italic")
+                //     .style("text-anchor", "middle")
+                //     .text(showMiscCount ? "Misc. Count" : "Student Count")
+            }
+        })
+
+    yAxis.append("g")
+        .attr("class", "grid")
+        .call(d3.axisLeft(y)
+            .tickSize(-miniWidth)
+            .tickFormat("")
+        )
     
     mbar.selectAll(".bar")
         .data((d, i) => [(showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount).find(v => v.category === selectedMisconception)])
