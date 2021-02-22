@@ -108,22 +108,24 @@ function parseMisconceptionsData() {
         }
     }
 
+    var index = 0
     for (let puzzle of misconceptionPuzzles) {
         puzzleMap[puzzle] = {}
         puzzleMap[puzzle].miscCount = [
-            { category: "Cross-Section", value: 0 },
-            { category: "Perspective", value: 0 },
-            { category: "Scaling", value: 0 },
-            { category: "Rotation", value: 0 },
-            { category: "Precision", value: 0 }
+            { category: "Cross-Section", value: 0, index: index },
+            { category: "Perspective", value: 0, index: index },
+            { category: "Scaling", value: 0, index: index },
+            { category: "Rotation", value: 0, index: index },
+            { category: "Precision", value: 0, index: index }
         ]
         puzzleMap[puzzle].studentCount = [
-            { category: "Cross-Section", value: new Set() },
-            { category: "Perspective", value: new Set() },
-            { category: "Scaling", value: new Set() },
-            { category: "Rotation", value: new Set() },
-            { category: "Precision", value: new Set() }
+            { category: "Cross-Section", value: new Set(), index: index },
+            { category: "Perspective", value: new Set(), index: index },
+            { category: "Scaling", value: new Set(), index: index },
+            { category: "Rotation", value: new Set(), index: index },
+            { category: "Precision", value: new Set(), index: index }
         ]
+        index += 1
     }
 
     for (let student of Object.keys(misconceptionsData)) {
@@ -144,13 +146,14 @@ function parseMisconceptionsData() {
 
     for (let puzzle of Object.keys(puzzleMap)) {
         maxMiscCount = Math.max(maxMiscCount, Math.max(...puzzleMap[puzzle].miscCount.map(v => v.value)))
-        maxStudentCount = Math.max(maxStudentCount, Math.max(...puzzleMap[puzzle].studentCount.map(v => v.value.size)))
+        // maxStudentCount = Math.max(maxStudentCount, Math.max(...puzzleMap[puzzle].studentCount.map(v => v.value.size)))
 
         for (let miscIndex = 0; miscIndex < 5; miscIndex++) {
             puzzleMap[puzzle].studentCount[miscIndex].value = puzzleMap[puzzle].studentCount[miscIndex].value.size
         }
     }
 
+    maxStudentCount = allStudentList.length
     parseMisconceptionMap()
 }
 
@@ -210,7 +213,14 @@ function createMisconceptionsClassChart() {
         .style("fill", "black")
 }
 
+function clearAxisAndGridLines() {
+    mbar.selectAll(".y.axis").remove()
+    mbar.selectAll(".grid").remove()
+}
+
 function createMisconceptionsCountChart() {
+    clearAxisAndGridLines()
+
     var x = d3.scaleBand()
         .domain(d3.range(miscList.length))
         .range([0, miniWidth])
@@ -219,8 +229,37 @@ function createMisconceptionsCountChart() {
         .domain([0, (showMiscCount ? maxMiscCount : maxStudentCount)])
         .range([miniHeight - bottomPadding, 0])
 
+    var yAxis = mbar.selectAll(".y.axis")
+        .data((d, i) => [i])
+        .enter()
+        
+    yAxis.append("g")
+        .attr("class", "y axis")
+        .each(function (d) {
+            if (d % 7 === 0) {
+                d3.select(this).call(d3.axisLeft(y))
+                // d3.select(this).append("g")
+                //     .append("text")
+                //     .attr("class", "label")
+                //     .attr("transform", "rotate(-90)")
+                //     .attr("x", -height / 2)
+                //     .attr("y", -40)
+                //     .attr("font-size", 12)
+                //     .attr("font-style", "italic")
+                //     .style("text-anchor", "middle")
+                //     .text(showMiscCount ? "Misc. Count" : "Student Count")
+            }
+        })
+
+    yAxis.append("g")
+        .attr("class", "grid")
+        .call(d3.axisLeft(y)
+            .tickSize(-miniWidth)
+            .tickFormat("")
+        )
+
     mbar.selectAll(".bar")
-        .data(d => (showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount))
+        .data((d, i) => (showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount))
         .enter()
         .append("rect")
         .attr("x", (d, i) => x(i))
@@ -232,12 +271,14 @@ function createMisconceptionsCountChart() {
 }
 
 function createSingleMisconceptionCountChart() {
+    mbar.selectAll(".y.axis").remove()
+
     var y = d3.scaleLinear()
         .domain([0, showMiscCount ? maxMiscCount : maxStudentCount])
         .range([miniHeight - bottomPadding, 0])
     
     mbar.selectAll(".bar")
-        .data(d => [(showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount).find(v => v.category === selectedMisconception)])
+        .data((d, i) => [(showMiscCount ? puzzleMap[d].miscCount : puzzleMap[d].studentCount).find(v => v.category === selectedMisconception)])
         .enter()
         .append("rect")
         .attr("x", 0)
