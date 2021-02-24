@@ -216,39 +216,27 @@ def get_time_per_puzzle(request, slug):
     return JsonResponse(puzzle_player_time_map)
 
 def get_funnel_per_puzzle(request, slug):
-    player_to_session_map = create_player_to_session_map(slug)
-    puzzle_funnel_map = dict()
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeFunnelByPuzzle(['" + slug + "']")
+        result = json.loads(task_result)
 
-    for player in player_to_session_map.keys():
-        sessions = player_to_session_map[player]
-        events = Event.objects.filter(
-            reduce(or_, 
-                [Q(type=event_type) for event_type in ['ws-puzzle_started', 'ws-create_shape', 'ws-check_solution', 'ws-puzzle_complete']]), 
-            session__pk__in=sessions
-        ).order_by('time')
-        
-        current_puzzle = None
-        for event in events:
-            if event.type == "ws-puzzle_started":
-                current_puzzle = json.loads(event.data)['task_id']
-                if not current_puzzle in puzzle_funnel_map:
-                    puzzle_funnel_map[current_puzzle] = dict()
-                if not player in puzzle_funnel_map[current_puzzle]:
-                    puzzle_funnel_map[current_puzzle][player] = {
-                        'started': 0,
-                        'create_shape': 0,
-                        'submitted': 0,
-                        'completed': 0
-                    }
-                puzzle_funnel_map[current_puzzle][player]['started'] += 1
-            elif event.type == "ws-create_shape":
-                puzzle_funnel_map[current_puzzle][player]['create_shape'] += 1
-            elif event.type == "ws-check_solution":
-                puzzle_funnel_map[current_puzzle][player]['submitted'] += 1
-            elif event.type == "ws-puzzle_complete":
-                puzzle_funnel_map[current_puzzle][player]['completed'] += 1
+        new_result = defaultdict(lambda: defaultdict(list))
+        player_map = {v: k for k, v in create_player_map(slug).items()}
 
-    return JsonResponse(puzzle_funnel_map)
+        for i in result['group'].keys():
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            puzzle = result['task_id'][i]
+            funnel_dict = result['funnel'][i]
+            
+            new_result[user][puzzle] = funnel_dict
+
+        return JsonResponse(new_result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
 
 # TODO: should i account for deleted shapes? what about shapes per attempt? 
 def get_shapes_per_puzzle(request, slug):
