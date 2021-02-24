@@ -16,6 +16,7 @@ var persistenceData = null
 var persistenceByPuzzleData = null
 var completedPuzzleData = null
 var attemptedPuzzleData = null
+var funnelData = null
 var levelsOfActivityData = null
 var insightsData = null
 var misconceptionsData = null
@@ -435,7 +436,7 @@ function initializeBlocklyCode() {
     setBlockCodeGeneration()
 }
 
-export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, loa, insights, misconceptions, anonymize=true) {
+export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, funnel, loa, insights, misconceptions, anonymize=true) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
@@ -449,13 +450,14 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         persistenceByPuzzleData = persistenceByPuzzle
         completedPuzzleData = completed
         attemptedPuzzleData = attempted
+        funnelData = funnel
         levelsOfActivityData = loa
         insightsData = insights
         misconceptionsData = misconceptions
         assignPlayersToMonsters()
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
-        filter.setFilterModuleData(levelsOfActivityData, persistenceData, completedPuzzleData, attemptedPuzzleData, persistenceByPuzzleData)
+        filter.setFilterModuleData(funnelData, levelsOfActivityData, persistenceData, completedPuzzleData, attemptedPuzzleData, persistenceByPuzzleData)
         persistenceAddOns.processPersistenceAddOnsData(persistenceData)
     }
     

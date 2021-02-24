@@ -16,6 +16,7 @@ var puzzleData = null
 var puzzleKeys = null
 var puzzleDifficultyData = null
 var levelsOfActivityData = null
+var funnelData = null
 var persistenceData = null
 var persistenceByPuzzleData = null
 var completedPuzzleDataNoSandbox = null
@@ -197,6 +198,7 @@ async function startDashboard() {
         }
     }
 
+    funnelData = await callAPI(`${API}/funnelperpuzzle`)
     levelsOfActivityData = await callAPI(`${API}/levelsofactivity`)
     persistenceData = await callAPI(`${API}/persistence`)
     insightsData = await callAPI(`${API}/insights`)
@@ -250,7 +252,7 @@ $(document).ready(function() {
     startDashboard().then(success => {
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
-        filter.setFilterModuleData(levelsOfActivityData, persistenceData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, persistenceByPuzzleData)
+        filter.setFilterModuleData(funnelData, levelsOfActivityData, persistenceData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, persistenceByPuzzleData)
         findStudentsWithAlerts()
 
         // $('.ui .dropdown').dropdown()

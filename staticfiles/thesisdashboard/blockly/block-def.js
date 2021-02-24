@@ -60,6 +60,46 @@ export const blockDefinitions = (puzzleList) => [
     "helpUrl": ""
 },
 {
+    "type": "total_time",
+    "message0": "total time (mins)",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the total time a student has played for, in minutes",
+    "helpUrl": ""
+},
+{
+    "type": "snapshots",
+    "message0": "total # of snapshots",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the total number of snapshots a student has taken",
+    "helpUrl": ""
+},
+{
+    "type": "rotate",
+    "message0": "total # of rotations",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the total number of times a student has used the rotate tool",
+    "helpUrl": ""
+},
+{
+    "type": "percent_incorrect",
+    "message0": "% incorrect",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the percentage of puzzles that a student has attempted but yet to solve correctly",
+    "helpUrl": ""
+},
+{
+    "type": "percent_incomplete",
+    "message0": "% incomplete",
+    "output": null,
+    "colour": 330,
+    "tooltip": "the percentage of puzzles that a student has opened but not submitted an attempt for",
+    "helpUrl": ""
+},
+{
     "type": "condition",
     "message0": "%1 %2 %3 %4",
     "args0": [
@@ -319,6 +359,31 @@ export function setBlockCodeGeneration() {
 
     Blockly.JavaScript['attempts_per_puzzle'] = function (block) {
         var code = 'attempts_per_puzzle';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['total_time'] = function (block) {
+        var code = 'total_time';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['snapshots'] = function (block) {
+        var code = 'snapshots';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['rotate'] = function (block) {
+        var code = 'rotate';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['percent_incomplete'] = function (block) {
+        var code = 'percent_incomplete';
+        return [code, Blockly.JavaScript.ORDER_NONE];
+    };
+
+    Blockly.JavaScript['percent_incorrect'] = function (block) {
+        var code = 'percent_incorrect';
         return [code, Blockly.JavaScript.ORDER_NONE];
     };
 

@@ -1,3 +1,4 @@
+var funnelData = {}
 var levelsOfActivityData = {}
 var persistenceData = {}
 var completedPuzzleData = {}
@@ -5,11 +6,16 @@ var attemptedPuzzleData = {}
 var attemptsPerPuzzleData = {}
 var activeFilterData = {}
 
-var timeSpentList = []
+var activeTimeList = []
 var persistenceList = []
 var attemptsPerPuzzleList = []
 var completedCountList = []
 var attemptedCountList = []
+var totalTimeList = []
+var snapshotList = []
+var rotateList = []
+var percentIncompleteList = []
+var percentIncorrectList = []
 
 function handleEqualityOperator(operator, delta) {
     switch (operator) {
@@ -37,7 +43,7 @@ function handlePersistence(student, condition, comparisonValue) {
     return (condition == "<" || condition == "<=")
 }
 
-function handleTimeSpent(student, condition, comparisonValue) {
+function handleActiveTime(student, condition, comparisonValue) {
     if (student in levelsOfActivityData["all"]["no_normalization"]) {
         const value = levelsOfActivityData["all"]["no_normalization"][student].active_time
         const delta = value - comparisonValue
@@ -49,6 +55,63 @@ function handleTimeSpent(student, condition, comparisonValue) {
 function handleAttemptsPerPuzzle(student, condition, comparisonValue) {
     if (student in attemptsPerPuzzleData) {
         const value = attemptsPerPuzzleData[student]
+        const delta = value - comparisonValue
+        return handleEqualityOperator(condition, delta)
+    }
+    return (condition == "<" || condition == "<=")
+}
+
+function handleTotalTime(student, condition, comparisonValue) {
+    if (student in levelsOfActivityData["all"]["no_normalization"]) {
+        const value = levelsOfActivityData["all"]["no_normalization"][student].timeTotal 
+        const delta = value - comparisonValue
+        return handleEqualityOperator(condition, delta)
+    }
+    return (condition == "<" || condition == "<=")
+}
+
+function handleRotations(student, condition, comparisonValue) {
+    if (student in levelsOfActivityData["all"]["no_normalization"]) {
+        const value = levelsOfActivityData["all"]["no_normalization"][student]["ws-rotate_shape"]
+        const delta = value - comparisonValue
+        return handleEqualityOperator(condition, delta)
+    }
+    return (condition == "<" || condition == "<=")
+}
+
+function handleSnapshots(student, condition, comparisonValue) {
+    if (student in levelsOfActivityData["all"]["no_normalization"]) {
+        const value = levelsOfActivityData["all"]["no_normalization"][student]["ws-snapshot"]
+        const delta = value - comparisonValue
+        return handleEqualityOperator(condition, delta)
+    }
+    return (condition == "<" || condition == "<=")
+}
+
+function handlePercentIncorrect(student, condition, comparisonValue) {
+    if (student in funnelData) {
+        var incorrectCount = 0
+        for (let puzzle of Object.keys(funnelData[student])) {
+            if (funnelData[student][puzzle].completed) continue
+            const difference = funnelData[student][puzzle].submitted - funnelData[student][puzzle].completed
+            incorrectCount += Math.min(1, difference)
+        }
+        const value = incorrectCount * 100 / 30
+        const delta = value - comparisonValue
+        return handleEqualityOperator(condition, delta)
+    }
+    return (condition == "<" || condition == "<=")
+}
+
+function handlePercentIncomplete(student, condition, comparisonValue) {
+    if (student in funnelData) {
+        var incompleteCount = 0
+        for (let puzzle of Object.keys(funnelData[student])) {
+            if (funnelData[student][puzzle].submitted === 0) {
+                incompleteCount += Math.min(1, funnelData[student][puzzle].create_shape)
+            }
+        }
+        const value = incompleteCount * 100 / 30
         const delta = value - comparisonValue
         return handleEqualityOperator(condition, delta)
     }
@@ -164,10 +227,19 @@ function handleSingleCondition(student, condition) {
         case 'persistence':
             return handlePersistence(student, operator, value)
         case 'mins_played': 
-            const valueInSeconds = value * 60
-            return handleTimeSpent(student, operator, valueInSeconds)
+            return handleActiveTime(student, operator, value * 60)
         case "attempts_per_puzzle":
             return handleAttemptsPerPuzzle(student, operator, value)
+        case "total_time":
+            return handleTotalTime(student, operator, value * 60)
+        case "snapshots":
+            return handleSnapshots(student, operator, value)
+        case "rotate":
+            return handleRotations(student, operator, value)
+        case "percent_incorrect":
+            return handlePercentIncorrect(student, operator, value)
+        case "percent_incomplete":
+            return handlePercentIncomplete(student, operator, value)
         case "completed_count":
             return handleCompletedCount(student, operator, value)
         case "attempted_count":
@@ -181,7 +253,17 @@ function handleSingleCondition(student, condition) {
         case 'persistence_percentile':
             return handlePercentile(student, operator, value, persistenceList, handlePersistence)
         case 'mins_played_percentile':
-            return handlePercentile(student, operator, value, timeSpentList, handleTimeSpent)
+            return handlePercentile(student, operator, value, activeTimeList, handleActiveTime)
+        case "total_time_percentile":
+            return handleTotalTime(student, operator, value, totalTimeList, handleTotalTime)
+        case "snapshots_percentile":
+            return handleSnapshots(student, operator, value, snapshotList, handleSnapshots)
+        case "rotate_percentile":
+            return handleRotations(student, operator, value, rotateList, handleRotations)
+        case "percent_incorrect_percentile":
+            return handlePercentIncorrect(student, operator, value, percentIncorrectList, handlePercentIncorrect)
+        case "percent_incomplete_percentile":
+            return handlePercentIncomplete(student, operator, value, percentIncompleteList, handlePercentIncomplete)
     }
     return false
 }
@@ -215,6 +297,7 @@ export function retrieveSelectedStudents(studentList, activeFilters) {
             selectedStudents[student] = filterNames
         }
     }
+    console.log(selectedStudents)
     return selectedStudents
 }
 
@@ -235,26 +318,39 @@ function median(values) {
     return (values[half - 1] + values[half]) / 2.0;
 }
 
-export function setFilterModuleData(levelsOfActivity, persistence, completedPuzzles, attemptedPuzzles, persistenceByPuzzle) {
+export function setFilterModuleData(funnel, levelsOfActivity, persistence, completedPuzzles, attemptedPuzzles, persistenceByPuzzle) {
+    funnelData = funnel
     levelsOfActivityData = levelsOfActivity
     persistenceData = persistence
     completedPuzzleData = completedPuzzles
     attemptedPuzzleData = attemptedPuzzles
 
-    timeSpentList = []
+    activeTimeList = []
     persistenceList = []
     attemptsPerPuzzleList = []
     completedCountList = []
     attemptedCountList = []
+    totalTimeList = []
+    snapshotList = []
+    rotateList = []
+    percentIncompleteList = []
+    percentIncorrectList = []
+
 
     // create list for calculating percentiles
     for (const student of Object.keys(levelsOfActivityData["all"]["no_normalization"])) {
         // TODO: make this less bad 
         if (student !== "all_stats" && student !== "completed_stats") {
-            timeSpentList.push(levelsOfActivityData["all"]["no_normalization"][student]["active_time"])
+            activeTimeList.push(levelsOfActivityData["all"]["no_normalization"][student]["active_time"])
+            totalTimeList.push(levelsOfActivityData["all"]["no_normalization"][student]["timeTotal"])
+            snapshotList.push(levelsOfActivityData["all"]["no_normalization"][student]["ws-snapshot"])
+            rotateList.push(levelsOfActivityData["all"]["no_normalization"][student]["ws-rotate_shape"])
         }
     }
-    timeSpentList.sort((a,b) => a-b)
+    activeTimeList.sort((a,b) => a-b)
+    totalTimeList.sort((a, b) => a-b)
+    snapshotList.sort((a, b) => a-b)
+    rotateList.sort((a,b) => a-b)
 
     for (const student of Object.keys(persistenceData)) {
         persistenceList.push(persistenceData[student][persistenceData[student].length - 1].percentileCompositeAcrossAttempts)
@@ -272,6 +368,22 @@ export function setFilterModuleData(levelsOfActivity, persistence, completedPuzz
     }
     attemptsPerPuzzleList.sort((a, b) => a - b)
 
+    for (const student of Object.keys(funnelData)) {
+        var incompleteCount = 0
+        var incorrectCount = 0
+        for (let puzzle of Object.keys(funnelData[student])) {
+            if (funnelData[student][puzzle].submitted === 0) {
+                incompleteCount += Math.min(1, funnelData[student][puzzle].create_shape)
+            } else {
+                incorrectCount += funnelData[student][puzzle].completed ? 0 : Math.min(1, funnelData[student][puzzle].submitted - funnelData[student][puzzle].completed)
+            }
+        }
+        percentIncompleteList.push(incompleteCount * 100 / 30)
+        percentIncorrectList.push(incorrectCount * 100 / 30)
+    }
+    percentIncompleteList.sort((a, b) => a - b)
+    percentIncorrectList.sort((a, b) => a - b)
+
     for (const student of Object.keys(completedPuzzleData)) {
         completedCountList.push(completedPuzzleData[student].size)
     }
@@ -281,4 +393,7 @@ export function setFilterModuleData(levelsOfActivity, persistence, completedPuzz
         attemptedCountList.push(attemptedPuzzleData[student].size)
     }
     attemptedCountList.sort((a, b) => a - b)
+
+    console.log(percentIncompleteList)
+    console.log(percentIncorrectList)
 }
