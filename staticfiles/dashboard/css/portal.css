@@ -353,3 +353,7 @@ image.point.non-alert-point {
     max-height: 75px;
     overflow-y: scroll;
 }
+
+#save-edits-btn {
+    float: right;
+}

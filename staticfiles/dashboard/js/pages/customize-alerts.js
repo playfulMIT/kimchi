@@ -22,13 +22,12 @@ function initializeBlocklyWorkspace() {
 function clearWorkspace() {
     workspace.clear()
     $("#create-filter-name").val("")
-    $("#create-filter-btn").text("Create!")
 }
 
-function createNewFilter() {
+function createNewFilter(filterName) {
     workspace.clear()
-    $("#create-filter-name").val("")
-    $("#create-filter-btn").text("Create!")
+    previousLoadedFilter = filterName
+    $("#create-filter-name").val(filterName)
 }
 
 function checkWorkspaceValidity() {
@@ -56,6 +55,109 @@ function checkWorkspaceValidity() {
     }
 }
 
+function showMetricRanges() {
+    const attemptedCountList = portal.getAttemptedPuzzleRange()
+    console.log(attemptedCountList)
+    const rangeDict = {"# of puzzles attempted": [0, 30, attemptedCountList[0], attemptedCountList[attemptedCountList.length-1]]}
+    
+    const listItem = d3.select("#metric-ranges-container")
+        .append("ul")
+        .selectAll("li")
+        .data(Object.keys(rangeDict))
+        .enter()
+        .append("li")
+        
+    listItem.append("div")
+        .text(d => d)
+
+    listItem.append("svg")
+        .each(function (d) {
+            d3.select(this).call(showSingleMetricRange, ...rangeDict[d])
+        })
+}
+
+function showSingleMetricRange(container, min, max, val1, val2) {
+    const x = d3.scaleLinear().domain([min, max]).range([0, 250])
+    const lineHeight = 18
+    const halfLineHeight = lineHeight / 2
+
+    const svg = container
+        .append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("transform", "translate(7,0)")
+
+    svg.append("rect")
+        .attr("x", x(val1))
+        .attr("y", 0)
+        .attr("height", lineHeight)
+        .attr("width", x(val2) - x(val1))
+        .style("fill-opacity", 0.7)
+        .style("fill", "grey")
+    svg.append("line")
+        .attr("x1", x(min))
+        .attr("y1", halfLineHeight)
+        .attr("x2", x(max))
+        .attr("y2", halfLineHeight)
+        .style("stroke", "black")
+        .style("stroke-width", 1.5)
+    svg.append("line")
+        .attr("x1", x(min))
+        .attr("y1", 0)
+        .attr("x2", x(min))
+        .attr("y2", lineHeight)
+        .style("stroke", "black")
+        .style("stroke-width", 1.5)
+    svg.append("line")
+        .attr("x1", x(max))
+        .attr("y1", 0)
+        .attr("x2", x(max))
+        .attr("y2", lineHeight)
+        .style("stroke", "black")
+        .style("stroke-width", 1.5)
+    svg.append("line")
+        .attr("x1", x(val1))
+        .attr("y1", 0)
+        .attr("x2", x(val1))
+        .attr("y2", lineHeight)
+        .style("stroke", "lightgrey")
+        .style("stroke-width", 2)
+    svg.append("line")
+        .attr("x1", x(val2))
+        .attr("y1", 0)
+        .attr("x2", x(val2))
+        .attr("y2", lineHeight)
+        .style("stroke", "lightgrey")
+        .style("stroke-width", 2)
+    svg.append("text")
+        .text(min)
+        .attr("x", x(min))
+        .attr("y", lineHeight * 1.8)
+        .attr("fill", "black")
+        .attr("text-anchor", "middle")
+    svg.append("text")
+        .text(max)
+        .text(max)
+        .attr("x", x(max))
+        .attr("y", lineHeight * 1.8)
+        .attr("fill", "black")
+        .attr("text-anchor", "middle")
+    svg.append("text")
+        .text(val1)
+        .text(val1)
+        .attr("x", x(val1))
+        .attr("y", lineHeight * 1.8)
+        .attr("fill", "black")
+        .attr("text-anchor", "middle")
+    svg.append("text")
+        .text(val2)
+        .text(val2)
+        .attr("x", x(val2))
+        .attr("y", lineHeight * 1.8)
+        .attr("fill", "black")
+        .attr("text-anchor", "middle")
+}
+
 
 function loadFilterToWorkspace(filterName) {
     previousLoadedFilter = filterName
@@ -64,7 +166,6 @@ function loadFilterToWorkspace(filterName) {
     const xml = Blockly.Xml.textToDom(xmlString)
     Blockly.Xml.domToWorkspace(xml, workspace)
     $("#create-filter-name").val(filterName)
-    $("#create-filter-btn").text("Save!")
 }
 
 function renameFilter(filterName, newFilterName) {
@@ -153,12 +254,13 @@ export function showCustomizeTab() {
                 alert("Please input filter name!")
                 return
             }
-            saveFilter($("#create-filter-name").val())
+            createNewFilter($("#create-filter-name").val())
         })
 
-        $("#new-filter-btn").click(function() {
-            createNewFilter()
+        $("#save-edits-btn").click(function() {
+            saveFilter($("#create-filter-name").val())
         })
+        showMetricRanges()
     }
     renderAlertBoxes()
 }

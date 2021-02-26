@@ -318,6 +318,10 @@ function median(values) {
     return (values[half - 1] + values[half]) / 2.0;
 }
 
+export function getAttemptedPuzzleRange() {
+    return attemptedCountList
+}
+
 export function setFilterModuleData(funnel, levelsOfActivity, persistence, completedPuzzles, attemptedPuzzles, persistenceByPuzzle) {
     funnelData = funnel
     levelsOfActivityData = levelsOfActivity
@@ -393,7 +397,4 @@ export function setFilterModuleData(funnel, levelsOfActivity, persistence, compl
         attemptedCountList.push(attemptedPuzzleData[student].size)
     }
     attemptedCountList.sort((a, b) => a - b)
-
-    console.log(percentIncompleteList)
-    console.log(percentIncorrectList)
 }

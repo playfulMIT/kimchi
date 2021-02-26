@@ -51,6 +51,9 @@ var alertColorScale = null
 var displayStudentsAsMonsters = true
 var playerMonsterMap = {}
 
+export function getAttemptedPuzzleRange() {
+    return filter.getAttemptedPuzzleRange()
+}
 
 export function getFilter(filterName) {
     return alerts[filterName]
