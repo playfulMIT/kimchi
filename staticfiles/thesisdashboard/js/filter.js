@@ -319,7 +319,48 @@ function median(values) {
 }
 
 export function getAttemptedPuzzleRange() {
-    return attemptedCountList
+    return getListRange(attemptedCountList)
+}
+
+export function getCompletedPuzzleRange() {
+    return getListRange(completedCountList)
+}
+
+export function getActiveTimeRange() {
+    return getListRange(activeTimeList, v => v / 60)
+}
+
+export function getPersistenceRange() {
+    return getListRange(persistenceList)
+}
+
+export function getAttemptsPerPuzzleRange() {
+    return getListRange(attemptsPerPuzzleList)
+}
+
+export function getTotalTimeRange() {
+    return getListRange(totalTimeList, v => v / 60)
+}
+
+export function getSnapshotRange() {
+    return getListRange(snapshotList)
+}
+
+export function getRotateRange() {
+    return getListRange(rotateList)
+}
+
+export function getPercentIncompleteRange() {
+    return getListRange(percentIncompleteList)
+}
+
+export function getPercentIncorrectRange() {
+    return getListRange(percentIncorrectList)
+}
+
+function getListRange(arr, accessorFunction = null) {
+    const newArr = [arr[0], arr[arr.length - 1]]
+    return accessorFunction ? newArr.map(accessorFunction) : newArr
 }
 
 export function setFilterModuleData(funnel, levelsOfActivity, persistence, completedPuzzles, attemptedPuzzles, persistenceByPuzzle) {

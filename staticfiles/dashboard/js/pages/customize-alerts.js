@@ -1,7 +1,39 @@
 import * as portal from './portal.js'
 
+const lineHeight = 18
+
 var workspace = null
 var previousLoadedFilter = null
+var rangeDict = {}
+var typeMapping = {}
+var metricVariablesToDisplay = new Set()
+
+function handleWorkspaceVariableChange(event) {
+    if (event.type == Blockly.Events.BLOCK_CREATE) {
+        for (let blockId of event.ids) {
+            const blockType = workspace.getBlockById(blockId).type
+            if (!metricVariablesToDisplay.has(blockType) && (blockType in rangeDict)) {
+                metricVariablesToDisplay.add(blockType)
+                typeMapping[blockId] = blockType
+            }
+        }
+        showMetricRanges()
+        return
+    }
+
+    if (event.type == Blockly.Events.BLOCK_DELETE) {
+        for (let blockId of event.ids) {
+            if (!(blockId in typeMapping)) continue
+            const blockType = typeMapping[blockId]
+            delete typeMapping[blockId]
+            if (!Object.values(typeMapping).includes(blockType) && metricVariablesToDisplay.has(blockType)) {
+                metricVariablesToDisplay.delete(blockType)
+            }
+        }
+        showMetricRanges()
+        return
+    }
+}
 
 function initializeBlocklyWorkspace() {
     workspace = Blockly.inject('blockly-container', {
@@ -17,6 +49,7 @@ function initializeBlocklyWorkspace() {
         },
         renderer: 'thrasos'
     })
+    workspace.addChangeListener(handleWorkspaceVariableChange)
 }
 
 function clearWorkspace() {
@@ -56,29 +89,28 @@ function checkWorkspaceValidity() {
 }
 
 function showMetricRanges() {
-    const attemptedCountList = portal.getAttemptedPuzzleRange()
-    console.log(attemptedCountList)
-    const rangeDict = {"# of puzzles attempted": [0, 30, attemptedCountList[0], attemptedCountList[attemptedCountList.length-1]]}
-    
+    document.getElementById("metric-ranges-container").innerHTML = ''
+
     const listItem = d3.select("#metric-ranges-container")
         .append("ul")
         .selectAll("li")
-        .data(Object.keys(rangeDict))
+        .data(Array.from(metricVariablesToDisplay))
         .enter()
         .append("li")
         
     listItem.append("div")
-        .text(d => d)
+        .text(d => rangeDict[d].label)
 
     listItem.append("svg")
+        .attr("height", lineHeight * 2.1)
         .each(function (d) {
-            d3.select(this).call(showSingleMetricRange, ...rangeDict[d])
+            d3.select(this).call(showSingleMetricRange, ...rangeDict[d].values)
         })
 }
 
 function showSingleMetricRange(container, min, max, val1, val2) {
-    const x = d3.scaleLinear().domain([min, max]).range([0, 250])
-    const lineHeight = 18
+    const x = d3.scaleLinear().domain([min, max]).range([0, 275])
+    
     const halfLineHeight = lineHeight / 2
 
     const svg = container
@@ -130,28 +162,25 @@ function showSingleMetricRange(container, min, max, val1, val2) {
         .style("stroke", "lightgrey")
         .style("stroke-width", 2)
     svg.append("text")
-        .text(min)
+        .text(min.toFixed(0))
         .attr("x", x(min))
         .attr("y", lineHeight * 1.8)
         .attr("fill", "black")
         .attr("text-anchor", "middle")
     svg.append("text")
-        .text(max)
-        .text(max)
+        .text(max.toFixed(0))
         .attr("x", x(max))
         .attr("y", lineHeight * 1.8)
         .attr("fill", "black")
         .attr("text-anchor", "middle")
     svg.append("text")
-        .text(val1)
-        .text(val1)
+        .text(val1.toFixed(0))
         .attr("x", x(val1))
         .attr("y", lineHeight * 1.8)
         .attr("fill", "black")
         .attr("text-anchor", "middle")
     svg.append("text")
-        .text(val2)
-        .text(val2)
+        .text(val2.toFixed(0))
         .attr("x", x(val2))
         .attr("y", lineHeight * 1.8)
         .attr("fill", "black")
@@ -245,6 +274,78 @@ function updateAlerts() {
     portal.renderAlertsDisplay()
 }
 
+function initializeRangeDictionary() {
+    const entries = [
+        {
+            key: "attempted_puzzles",
+            label: "# of puzzles attempted",
+            limits: [0, 30],
+            range: portal.getFilterObject().getAttemptedPuzzleRange()
+        }, 
+        {
+            key: "completed_puzzles",
+            label: "# of puzzles completed",
+            limits: [0, 30],
+            range: portal.getFilterObject().getCompletedPuzzleRange()
+        },
+        {
+            key: "persistence",
+            label: "persistence score",
+            limits: [0, 100],
+            range: portal.getFilterObject().getPersistenceRange()
+        },
+        {
+            key: "attempts_per_puzzle",
+            label: "median # of attempts per puzzle",
+            limits: [0, null],
+            range: portal.getFilterObject().getAttemptsPerPuzzleRange()
+        },
+        {
+            key: "mins_played",
+            label: "active time spent (mins)",
+            limits: [0, null],
+            range: portal.getFilterObject().getActiveTimeRange()
+        },
+        {
+            key: "total_time",
+            label: "total time spent (mins)",
+            limits: [0, null],
+            range: portal.getFilterObject().getTotalTimeRange()
+        },
+        {
+            key: "snapshots",
+            label: "# of snapshots",
+            limits: [0, null],
+            range: portal.getFilterObject().getSnapshotRange()
+        },
+        {
+            key: "rotate",
+            label: "# of rotations",
+            limits: [0, null],
+            range: portal.getFilterObject().getRotateRange()
+        },
+        {
+            key: "percent_incomplete",
+            label: "% of puzzles incomplete",
+            limits: [0, 100],
+            range: portal.getFilterObject().getPercentIncompleteRange()
+        },
+        {
+            key: "percent_incorrect",
+            label: "% of puzzles incorrect",
+            limits: [0, 100],
+            range: portal.getFilterObject().getPercentIncorrectRange()
+        },
+    ]
+
+    for (let entry of entries) {
+        rangeDict[entry.key] = {
+            label: entry.label,
+            values: [entry.limits[0], entry.limits[1] || entry.range[1], entry.range[0], entry.range[1]]
+        }
+    }
+}
+
 export function showCustomizeTab() {
     if (!workspace) {
         initializeBlocklyWorkspace()
@@ -260,7 +361,8 @@ export function showCustomizeTab() {
         $("#save-edits-btn").click(function() {
             saveFilter($("#create-filter-name").val())
         })
-        showMetricRanges()
+        
+        initializeRangeDictionary()
     }
     renderAlertBoxes()
 }
