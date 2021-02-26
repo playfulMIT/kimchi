@@ -357,3 +357,8 @@ image.point.non-alert-point {
 #save-edits-btn {
     float: right;
 }
+
+#metric-ranges-container {
+    overflow-y: auto;
+    height: 60%;
+}
