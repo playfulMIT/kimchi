@@ -7,14 +7,11 @@ export const blockDefinitions = (puzzleList) => [
             "type": "input_value",
             "name": "variable",
             "check": [
-                "persistence",
-                "mins_played",
-                "attempted_puzzles",
-                "completed_puzzles"
+                "SingleMetric"
             ]
         }
     ],
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "percentile of a variable",
     "helpUrl": ""
@@ -22,7 +19,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "persistence",
     "message0": "persistence",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "a student's persistence percentile score",
     "helpUrl": ""
@@ -30,7 +27,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "mins_played",
     "message0": "active time (mins)",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "total minutes a student has played Shadowspect for",
     "helpUrl": ""
@@ -38,7 +35,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "completed_puzzles",
     "message0": "# puzzles completed",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the total number of puzzles a student has completed",
     "helpUrl": ""
@@ -46,7 +43,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "attempted_puzzles",
     "message0": "# puzzles attempted",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the total number of puzzles a student has attempted",
     "helpUrl": ""
@@ -54,7 +51,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "attempts_per_puzzle",
     "message0": "median # of attempts per puzzle attempted",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the median number of attempts per puzzle attempted",
     "helpUrl": ""
@@ -62,7 +59,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "total_time",
     "message0": "total time (mins)",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the total time a student has played for, in minutes",
     "helpUrl": ""
@@ -70,7 +67,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "snapshots",
     "message0": "total # of snapshots",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the total number of snapshots a student has taken",
     "helpUrl": ""
@@ -78,7 +75,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "rotate",
     "message0": "total # of rotations",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the total number of times a student has used the rotate tool",
     "helpUrl": ""
@@ -86,7 +83,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "percent_incorrect",
     "message0": "% incorrect",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the percentage of puzzles that a student has attempted but yet to solve correctly",
     "helpUrl": ""
@@ -94,7 +91,7 @@ export const blockDefinitions = (puzzleList) => [
 {
     "type": "percent_incomplete",
     "message0": "% incomplete",
-    "output": null,
+    "output": "SingleMetric",
     "colour": 330,
     "tooltip": "the percentage of puzzles that a student has opened but not submitted an attempt for",
     "helpUrl": ""
@@ -107,11 +104,7 @@ export const blockDefinitions = (puzzleList) => [
             "type": "input_value",
             "name": "variable",
             "check": [
-                "persistence",
-                "mins_played",
-                "percentile",
-                "attempted_puzzles",
-                "completed_puzzles"
+                "SingleMetric"
             ],
             "align": "CENTRE"
         },
@@ -152,7 +145,7 @@ export const blockDefinitions = (puzzleList) => [
         }
     ],
     "inputsInline": true,
-    "previousStatement": null,
+    "previousStatement": "CombiningStatement",
     "colour": 290,
     "tooltip": "condition for selecting students",
     "helpUrl": ""
@@ -167,10 +160,10 @@ export const blockDefinitions = (puzzleList) => [
         {
             "type": "input_statement",
             "name": "NAME",
-            "check": "puzzle"
+            "check": "Puzzle"
         }
     ],
-    "previousStatement": null,
+    "previousStatement": "CombiningStatement",
     "colour": 290,
     "tooltip": "the puzzles a student has completed",
     "helpUrl": ""
@@ -185,10 +178,10 @@ export const blockDefinitions = (puzzleList) => [
         {
             "type": "input_statement",
             "name": "NAME",
-            "check": "puzzle"
+            "check": "Puzzle"
         }
     ],
-    "previousStatement": null,
+    "previousStatement": "CombiningStatement",
     "colour": 290,
     "tooltip": "the puzzles a student has attempted",
     "helpUrl": ""
@@ -203,8 +196,8 @@ export const blockDefinitions = (puzzleList) => [
             "options": puzzleList.map(v => [v,v])
         }
     ],
-    "previousStatement": null,
-    "nextStatement": null,
+    "previousStatement": "Puzzle",
+    "nextStatement": "Puzzle",
     "colour": 330,
     "tooltip": "represents a single puzzle",
     "helpUrl": ""
@@ -215,10 +208,14 @@ export const blockDefinitions = (puzzleList) => [
     "args0": [
         {
             "type": "input_statement",
-            "name": "NAME"
+            "name": "NAME",
+            "check": [
+                "CombiningStatement",
+                "condition"
+            ]
         }
     ],
-    "previousStatement": null,
+    "previousStatement": "CombiningStatement",
     "colour": 260,
     "tooltip": "selects students that do not meet the condition",
     "helpUrl": ""
@@ -230,11 +227,10 @@ export const blockDefinitions = (puzzleList) => [
         {
             "type": "input_statement",
             "name": "condition1",
-            // "check": [
-            //     "condition",
-            //     "and_condition",
-            //     "or_condition"
-            // ]
+            "check": [
+                "CombiningStatement",
+                "condition"
+            ]
         },
         {
             "type": "input_dummy"
@@ -242,15 +238,14 @@ export const blockDefinitions = (puzzleList) => [
         {
             "type": "input_statement",
             "name": "condition2",
-            // "check": [
-            //     "condition",
-            //     "and_condition",
-            //     "or_condition"
-            // ]
+            "check": [
+                "CombiningStatement",
+                "condition"
+            ]
         }
     ],
     "inputsInline": true,
-    "previousStatement": null,
+    "previousStatement": "CombiningStatement",
     "colour": 260,
     "tooltip": "selects students that meet both conditions",
     "helpUrl": ""
@@ -262,11 +257,10 @@ export const blockDefinitions = (puzzleList) => [
         {
             "type": "input_statement",
             "name": "condition1",
-            // "check": [
-            //     "condition",
-            //     "and_condition",
-            //     "or_condition"
-            // ]
+            "check": [
+                "CombiningStatement",
+                "condition"
+            ]
         },
         {
             "type": "input_dummy"
@@ -274,15 +268,14 @@ export const blockDefinitions = (puzzleList) => [
         {
             "type": "input_statement",
             "name": "condition2",
-            // "check": [
-            //     "condition",
-            //     "and_condition",
-            //     "or_condition"
-            // ]
+            "check": [
+                "CombiningStatement",
+                "condition"
+            ]
         }
     ],
     "inputsInline": true,
-    "previousStatement": null,
+    "previousStatement": "CombiningStatement",
     "colour": 260,
     "tooltip": "selects students that meet one of the conditions",
     "helpUrl": ""
@@ -299,10 +292,7 @@ export const blockDefinitions = (puzzleList) => [
             "name": "conditions",
             "check": [
                 "condition",
-                "and",
-                "or",
-                "attempted_specific",
-                "completed_specific"
+                "CombiningStatement"
             ]
         }
     ],
@@ -323,10 +313,7 @@ export const blockDefinitions = (puzzleList) => [
             "name": "conditions",
             "check": [
                 "condition",
-                "and",
-                "or",
-                "attempted_specific",
-                "completed_specific"
+                "CombiningStatement"
             ]
         }
     ],
