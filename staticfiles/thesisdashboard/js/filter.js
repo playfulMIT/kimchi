@@ -36,7 +36,7 @@ function handleEqualityOperator(operator, delta) {
 // TODO: levels of activity consolidation, new persistence data
 function handlePersistence(student, condition, comparisonValue) {
     if (student in persistenceData) {
-        const value = persistenceData[student][persistenceData[student].length - 1].percentileCompositeAcrossAttempts
+        const value = persistenceData[student].cumulative.score
         const delta = value - comparisonValue
         return handleEqualityOperator(condition, delta)
     }
@@ -366,7 +366,7 @@ function getListRange(arr, accessorFunction = null) {
 export function setFilterModuleData(funnel, levelsOfActivity, persistence, completedPuzzles, attemptedPuzzles, persistenceByPuzzle) {
     funnelData = funnel
     levelsOfActivityData = levelsOfActivity
-    persistenceData = persistence
+    persistenceData = persistenceByPuzzle
     completedPuzzleData = completedPuzzles
     attemptedPuzzleData = attemptedPuzzles
 
@@ -397,20 +397,19 @@ export function setFilterModuleData(funnel, levelsOfActivity, persistence, compl
     snapshotList.sort((a, b) => a-b)
     rotateList.sort((a,b) => a-b)
 
-    for (const student of Object.keys(persistenceData)) {
-        persistenceList.push(persistenceData[student][persistenceData[student].length - 1].percentileCompositeAcrossAttempts)
-    }
-    persistenceList.sort((a, b) => a - b)
-
     for (const student of Object.keys(persistenceByPuzzle)) {
         var attempts = []
         for (const puzzle of Object.keys(persistenceByPuzzle[student])) {
+            if (puzzle == "cumulative") continue
             attempts.push(persistenceByPuzzle[student][puzzle].n_attempts)
         }
         const median_attempts = median(attempts)
         attemptsPerPuzzleData[student] = median_attempts
         attemptsPerPuzzleList.push(median_attempts)
+
+        persistenceList.push(persistenceByPuzzle[student].cumulative.score)
     }
+    persistenceList.sort((a, b) => a - b)
     attemptsPerPuzzleList.sort((a, b) => a - b)
 
     for (const student of Object.keys(funnelData)) {

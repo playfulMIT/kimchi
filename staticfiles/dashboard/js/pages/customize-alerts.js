@@ -52,8 +52,11 @@ function initializeBlocklyWorkspace() {
     workspace.addChangeListener(handleWorkspaceVariableChange)
 }
 
+// TODO: fix layout
+// TODO: change persistence code
 function clearWorkspace() {
     workspace.clear()
+    previousLoadedFilter = null
     $("#create-filter-name").val("")
 }
 
@@ -65,7 +68,7 @@ function createNewFilter(filterName) {
 
 function checkWorkspaceValidity() {
     if (!workspace.allInputsFilled()) {
-        alert("bad")
+        alert("Please fill all inputs and ensure that all blocks in the workspace are being used.")
         return null
     }
     const code = Blockly.JavaScript.workspaceToCode(workspace)
@@ -73,7 +76,7 @@ function checkWorkspaceValidity() {
     try {
         const parsedCode = JSON.parse(code)
         if (parsedCode instanceof Array) {
-            alert("You need a header!")
+            alert("You need a filter header! Please select a header from the 'Filter Types' category.")
             return null
         }
         const xml = Blockly.Xml.workspaceToDom(workspace)
@@ -82,7 +85,7 @@ function checkWorkspaceValidity() {
         return parsedCode
     } catch (err) {
         if (err instanceof SyntaxError) {
-            alert("Incomplete filter!")
+            alert("Incomplete filter! Please check your filter for incomplete fields.")
             return null
         }
     }
@@ -335,7 +338,7 @@ function initializeRangeDictionary() {
             label: "% of puzzles incorrect",
             limits: [0, 100],
             range: portal.getFilterObject().getPercentIncorrectRange()
-        },
+        }
     ]
 
     for (let entry of entries) {

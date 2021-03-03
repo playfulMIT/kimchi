@@ -84,15 +84,9 @@ function createMonsterMap(data) {
     portalSVG.appendChild(svgCont)
 
     for (const key of Object.keys(data)) {
-        let cumPers = 0
-        let i = 0
-        for (const [k, v] of Object.entries(data[key])) {
-            cumPers += v["cum_weighted_difficulty_perc_composite"]
-            i++
-        }
-        cumPers = (cumPers / i)
+        let cumPers = data[key].cumulative.score
         // console.log(key.toString() + " " + cumPers)
-        placeMonsters(cumPers, key, Object.entries(data[key]))
+        placeMonsters(cumPers, key, data[key])
     }
 }
 
@@ -182,12 +176,11 @@ function makeMonster(key, fill) {
 }
 
 function getContextData(key, data, cumPersistence) {
-    let contextData = data.slice(-1)[0]
+    let contextData = data.cumulative
     let clicked = false
 
-    let subArray = contextData[1]["cum_avg_persistence"]
-    let activeTime = contextData[1]["active_time"]
-    let totalTime = contextData[1]["percentileActiveTime"]
+    let subArray = contextData.labels
+    let totalTime = contextData.percentileActiveTime
 
     let gParentSVG = document.getElementById("g" + key.toString())
     let monster = document.getElementById("monster" + key.toString())
@@ -273,7 +266,7 @@ function getContextData(key, data, cumPersistence) {
             persLabel.setAttributeNS(null, "class", "persBarLabel")
             let persLabelText = document.createTextNode(k)
             let persNum = document.createElementNS(xmlns, "text")
-            let persNumText = document.createTextNode(v.toString())
+            let persNumText = document.createTextNode(v.toFixed(2).toString())
             persNum.setAttributeNS(null, "class", "persNum")
             persNum.appendChild(persNumText)
             persNum.setAttributeNS(null, "x", "256")

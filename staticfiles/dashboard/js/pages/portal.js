@@ -325,8 +325,8 @@ function renderStudentAttemptedVsCompletedView() {
 
 function getTooltipHTML(d) {
     const name = anonymizeNames ? 'Student ' + d : playerMap[d]
-    const persistenceScore = d in persistenceData ? persistenceData[d][persistenceData[d].length - 1].percentileCompositeAcrossAttempts : "N/A"
-    return `${name}<br>Persistence: ${persistenceScore}`
+    const persistenceScore = d in persistenceByPuzzleData ? persistenceByPuzzleData[d].cumulative.score : "N/A"
+    return `${name}<br>Persistence: ${persistenceScore.toFixed(2)}`
 }
 
 function renderStudentPoints() {
@@ -407,7 +407,7 @@ function renderOverviewTab() {
 
 function renderPersistenceTab() {
     clearPortalViewArea()
-    persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), persistenceData, playerMonsterMap, width, height)
+    persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), persistenceByPuzzleData, playerMonsterMap, width, height)
     $("#portal-main-view-help").show()
 }
 
@@ -461,7 +461,7 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
         filter.setFilterModuleData(funnelData, levelsOfActivityData, persistenceData, completedPuzzleData, attemptedPuzzleData, persistenceByPuzzleData)
-        persistenceAddOns.processPersistenceAddOnsData(persistenceData)
+        persistenceAddOns.processPersistenceAddOnsData(persistenceData, persistenceByPuzzleData)
     }
     
     showPage("portal-container", "nav-portal")

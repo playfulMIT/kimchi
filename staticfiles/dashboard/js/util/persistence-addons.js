@@ -40,7 +40,7 @@ var puzzle_categories = {
     "Bear Market": 3,
 };
 
-export function processPersistenceAddOnsData(persistenceData) {
+export function processPersistenceAddOnsData(persistenceData, persistenceByPuzzleData) {
     processedData = []
     var idx = 0
 
@@ -48,6 +48,7 @@ export function processPersistenceAddOnsData(persistenceData) {
         processedData[idx] = new Object()
         processedData[idx].user = i
         processedData[idx].data = persistenceData[i]
+        processedData[idx].score = persistenceByPuzzleData[i] ? persistenceByPuzzleData[i].cumulative.score : "N/A"
         idx++
     }
 
@@ -267,7 +268,7 @@ function initToolsUsed(data) {
         d.submits = (d.n_submits / d.num_attempts)
 
         //d.per_score shows the final accumulated composite score
-        d.per_score = d.data[d.data.length - 1].cum_avg_perc_composite
+        d.per_score = d.score
 
     })
 

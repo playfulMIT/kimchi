@@ -134,7 +134,7 @@ def get_attempted_puzzles_map(url, safe_for_serialization=False):
     players = create_player_list(url)
 
     attempted = defaultdict(list) if safe_for_serialization else defaultdict(set)
-    persistence_data = get_persistence_by_puzzle_data_from_server(url)
+    persistence_data = get_persistence_by_puzzle_data_from_server(url, False)
 
     for player in players:
         if player in persistence_data:
@@ -149,7 +149,7 @@ def get_completed_puzzles_map(url, safe_for_serialization=False):
     players = create_player_list(url)
 
     completed = defaultdict(list) if safe_for_serialization else defaultdict(set)
-    persistence_data = get_persistence_by_puzzle_data_from_server(url)
+    persistence_data = get_persistence_by_puzzle_data_from_server(url, False)
 
     for player in players:
         if player in persistence_data:
@@ -381,7 +381,7 @@ def get_persistence_by_attempt_data_from_server(slug):
     except ObjectDoesNotExist:
         return {}
 
-def get_persistence_by_puzzle_data_from_server(slug):
+def get_persistence_by_puzzle_data_from_server(slug, should_perform_aggregation = True):
     try:
         task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computePersistenceByPuzzle(['" + slug + "']")
         result = json.loads(task_result)
@@ -390,6 +390,9 @@ def get_persistence_by_puzzle_data_from_server(slug):
         columns = ['puzzle_difficulty', 'puzzle_category', 'n_attempts','completed','timestamp', 'active_time','percentileActiveTime','n_events','percentileEvents', 'n_check_solution','percentileAtt','percentileComposite' ,'persistence','n_breaks','n_snapshot','n_rotate_view','n_manipulation_events','time_failed_submission_exit','avg_time_between_submissions']
         player_map = {v: k for k, v in create_player_map(slug).items()}
 
+        user_scores = defaultdict(list)
+        user_labels = defaultdict(list)
+        user_active_time = defaultdict(list)
         for i in result['group'].keys():
             user = player_map.get(result['user'][i])
 
@@ -399,6 +402,20 @@ def get_persistence_by_puzzle_data_from_server(slug):
             puzzle = result['task_id'][i]
             for column in columns:
                 new_result[user][puzzle][column] = result[column][i]
+            user_scores[user].append(result["percentileComposite"][i])
+            user_labels[user].append(result["persistence"][i])
+            user_active_time[user].append(result["percentileActiveTime"][i])
+
+        default_dict = {"NON_PERSISTANT": 0, "NO_BEHAVIOR": 0, "PRODUCTIVE_PERSISTANCE": 0, "UNPRODUCTIVE_PERSISTANCE": 0, "RAPID_SOLVER": 0}
+        if should_perform_aggregation:
+            for user in user_scores.keys():
+                unique_elements, counts_elements = np.unique(user_labels[user], return_counts=True)
+                user_dict = dict(zip(unique_elements, np.divide(counts_elements * 100, len(user_labels[user]))))
+                new_result[user]['cumulative'] = {
+                    'score': np.mean(user_scores[user]),
+                    'labels': {**default_dict, **user_dict},
+                    'percentileActiveTime': np.mean(user_active_time[user])
+                }
         return new_result
     except ObjectDoesNotExist:
         return {}
