@@ -57,6 +57,7 @@ function clearWorkspace() {
     workspace.clear()
     previousLoadedFilter = null
     $("#create-filter-name").val("")
+    $("#portal-filter-wksp-btns").hide()
 }
 
 function createNewFilter(filterName) {
@@ -193,6 +194,7 @@ function showSingleMetricRange(container, min, max, val1, val2) {
 function loadFilterToWorkspace(filterName) {
     previousLoadedFilter = filterName
     clearWorkspace()
+    $("#portal-filter-wksp-btns").show()
     const xmlString = window.localStorage.getItem(filterName)
     const xml = Blockly.Xml.textToDom(xmlString)
     Blockly.Xml.domToWorkspace(xml, workspace)
@@ -208,6 +210,7 @@ function renameFilter(filterName, newFilterName) {
 }
 
 function saveFilter(filterName) {
+    $("#portal-filter-wksp-btns").show()
     if (previousLoadedFilter && filterName !== previousLoadedFilter) {
         renameFilter(previousLoadedFilter, filterName)
     }
@@ -222,7 +225,6 @@ function saveFilter(filterName) {
     portal.setFilter(filterName, filter)
     renderAlertBoxes()
     updateAlerts()
-    clearWorkspace()
 }
 
 function deleteFilter(filterName) {
@@ -255,15 +257,6 @@ function renderAlertBoxes() {
             loadFilterToWorkspace(alert)
         }
         alertBoxOptions.appendChild(editLink)
-
-        const deleteButton = document.createElement("button")
-        deleteButton.className = "close"
-        deleteButton.type = "button"
-        deleteButton.innerHTML = '<span aria-hidden="true">&times;</span>'
-        deleteButton.onclick = function() {
-            deleteFilter(alert)
-        }
-        alertBoxOptions.appendChild(deleteButton)
 
         const alertBoxLabel = document.createElement("span")
         alertBoxLabel.style.fontStyle = "italic"
@@ -348,6 +341,8 @@ function initializeRangeDictionary() {
     }
 }
 
+// TODO: handle filter name stufff
+
 export function showCustomizeTab() {
     if (!workspace) {
         initializeBlocklyWorkspace()
@@ -357,11 +352,14 @@ export function showCustomizeTab() {
                 alert("Please input filter name!")
                 return
             }
-            createNewFilter($("#create-filter-name").val())
+            saveFilter($("#create-filter-name").val())
         })
 
         $("#save-edits-btn").click(function() {
             saveFilter($("#create-filter-name").val())
+        })
+        $("#delete-filter-btn").click(function () {
+            deleteFilter($("#create-filter-name").val())
         })
         
         initializeRangeDictionary()
