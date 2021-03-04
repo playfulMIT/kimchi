@@ -578,29 +578,36 @@
             <block type="filter"></block>
             <block type="alert"></block>
         </category>
-        <category name="Conditions" colour="330">
-            <block type="persistence"></block>
-            <block type="mins_played"></block>
-            <block type="total_time"></block>
-            <block type="snapshots"></block>
-            <block type="rotate"></block>
-            <block type="percent_incorrect"></block>
-            <block type="percent_incomplete"></block>
+        <category name="Variables" colour="330">
+            <category name="Action Variables">
+                <block type="mins_played"></block>
+                <block type="total_time"></block>
+                <block type="snapshots"></block>
+                <block type="rotate"></block>
+            </category>
+            <category name="Puzzle Progress Variables">
+                <block type="percent_incorrect"></block>
+                <block type="percent_incomplete"></block>
+                <block type="attempted_puzzles"></block>
+                <block type="completed_puzzles"></block>
+                <block type="attempts_per_puzzle"></block>
+                <sep gap="32"></sep>
+                <block type="puzzle">
+                    <field name="puzzles">1. One Box</field>
+                </block>
+                <block type="attempted_specific"></block>
+                <block type="completed_specific"></block>
+            </category>
+            <category name="Metric Variables">
+                <block type="persistence"></block>
+            </category>
+        </category>
+        <category name="Operators" colour="260">
             <block type="percentile"></block>
-            <block type="attempted_puzzles"></block>
-            <block type="completed_puzzles"></block>
-            <block type="attempts_per_puzzle"></block>
             <block type="condition">
                 <field name="operator">&gt;</field>
                 <field name="comp_val">0</field>
             </block>
-            <block type="puzzle">
-                <field name="puzzles">1. One Box</field>
-            </block>
-            <block type="attempted_specific"></block>
-            <block type="completed_specific"></block>
-        </category>
-        <category name="Combining Conditions" colour="260">
             <block type="and_condition"></block>
             <block type="or_condition"></block>
             <block type="not_condition"></block>

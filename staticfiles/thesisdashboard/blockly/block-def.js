@@ -12,7 +12,7 @@ export const blockDefinitions = (puzzleList) => [
         }
     ],
     "output": "SingleMetric",
-    "colour": 330,
+    "colour": 290,
     "tooltip": "percentile of a variable",
     "helpUrl": ""
 },
@@ -198,7 +198,7 @@ export const blockDefinitions = (puzzleList) => [
     ],
     "previousStatement": "Puzzle",
     "nextStatement": "Puzzle",
-    "colour": 330,
+    "colour": 290,
     "tooltip": "represents a single puzzle",
     "helpUrl": ""
 },

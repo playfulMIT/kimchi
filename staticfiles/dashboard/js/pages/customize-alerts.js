@@ -53,7 +53,6 @@ function initializeBlocklyWorkspace() {
 }
 
 // TODO: fix layout
-// TODO: change persistence code
 function clearWorkspace() {
     workspace.clear()
     previousLoadedFilter = null

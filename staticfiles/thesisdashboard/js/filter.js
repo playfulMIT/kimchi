@@ -33,7 +33,7 @@ function handleEqualityOperator(operator, delta) {
     return false
 }
 
-// TODO: levels of activity consolidation, new persistence data
+// TODO: levels of activity consolidation
 function handlePersistence(student, condition, comparisonValue) {
     if (student in persistenceData) {
         const value = persistenceData[student].cumulative.score

@@ -9,6 +9,7 @@ import * as filter from '../../../thesisdashboard/js/filter.js'
 
 const SVG_ID = "portal-view-svg"
 
+var studentToPlotPerturbationMap = {}
 var anonymizeNames = false
 var playerMap = null
 var puzzleData = null
@@ -244,6 +245,8 @@ function initializeView() {
     xScale = d3.scaleLinear().range([0, width])
     yScale = d3.scaleLinear().range([height, 0])
     alertColorScale = d3.scaleOrdinal(d3.schemeSet1).domain(Object.keys(alerts))
+    updateAxisScales([0, 30], [0, 30])
+    fillPerturbationMap()
     // TODO: initial rendering
 }
 
@@ -262,8 +265,6 @@ function clearPortalViewArea() {
 // redraw the scatter plot
 function renderStudentAttemptedVsCompletedView() {
     clearPortalViewArea()
-
-    updateAxisScales([0,30], [0,30])
 
     const polygonPoints = [[0,0], [0,30], [30,30]]
 
@@ -343,8 +344,8 @@ function renderStudentPoints() {
             .attr("height", monsterSize)
             .attr("class", d => getPointClass(d))
             .attr("id", d => "portal-student-point" + d)
-            .attr("x", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) - (monsterSize / 2))
-            .attr("y", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) - (monsterSize / 2))
+            .attr("x", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) - (monsterSize / 2) + studentToPlotPerturbationMap[d][0])
+            .attr("y", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) - (monsterSize / 2) + studentToPlotPerturbationMap[d][1])
             .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
             .on("mouseover", function (d) {
                 tooltip.transition()
@@ -368,8 +369,8 @@ function renderStudentPoints() {
             .attr("class", d => getPointClass(d))
             .attr("id", d => "portal-student-point" + d)
             .attr("r", 3.5)
-            .attr("cx", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0))
-            .attr("cy", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0))
+            .attr("cx", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) + studentToPlotPerturbationMap[d][0])
+            .attr("cy", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) + studentToPlotPerturbationMap[d][1])
             .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
             .on("mouseover", function (d) {
                 tooltip.transition()
@@ -437,6 +438,47 @@ function hideCustomizeTab() {
 function initializeBlocklyCode() {
     Blockly.defineBlocksWithJsonArray(blockDefinitions(puzzleList))
     setBlockCodeGeneration()
+}
+
+function getRandomPoint() {
+    return (Math.random() - 0.5) * 2
+}
+
+function getRandomPositivePoint() {
+    return Math.random()
+}
+
+function fillPerturbationMap() {
+    for (let student of Object.keys(playerMap)) {
+        var x = 1
+        var y = 1
+        const attemptedCount = student in attemptedPuzzleData ? attemptedPuzzleData[student].size : 0
+        const completedCount = student in completedPuzzleData ? completedPuzzleData[student].size : 0
+        var onEdge = false
+        
+        if (attemptedCount == 0 || attemptedCount == 30) {
+            const sign = attemptedCount == 30 ? -1 : 1
+            const rand = sign * getRandomPositivePoint()
+            x = rand
+        } else {
+            x = getRandomPoint()
+        }
+
+        if (completedCount == 0 || completedCount == 30) {
+            const sign = completedCount == 30 ? -1 : 1
+            const rand = sign * getRandomPositivePoint()
+            y = rand
+        } else {
+            y = getRandomPoint()
+        }
+
+        if (completedCount == attemptedCount && completedCount != 0 && completedCount != 30) {
+            x = 1 * getRandomPositivePoint()
+            y = -1 * getRandomPositivePoint()
+        }
+
+        studentToPlotPerturbationMap[student] = [xScale(1) * x, (yScale(30) - yScale(29)) * y]
+    }
 }
 
 export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, funnel, loa, insights, misconceptions, anonymize=true) {
