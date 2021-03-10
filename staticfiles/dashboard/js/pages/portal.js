@@ -38,7 +38,7 @@ const viewMap = {
 }
 
 var activeAlerts = {}
-var selectedStudents = {}
+var selectedStudents = { alerts: {}, filters: {} }
 
 var svg = null
 var tooltip = null
@@ -113,7 +113,7 @@ export function renderAlertsDisplay() {
     for (let alert of Object.keys(alerts)) {
         const formDiv = document.createElement('div')
         formDiv.className = "form-check"
-        formDiv.innerHTML = `<style>#portal-alert${counter}:checked:before {background-color:${alertColorScale(alert)}}</style><input class="form-check-input portal-alert-checkbox" type="checkbox" value="" id="portal-alert${counter}"><label class="form-check-label" for="portal-alert${counter}">${alert}</label>`
+        formDiv.innerHTML = `<style>#portal-alert${counter}:checked:before {background-color:${getColorForFilter(alert)}}</style><input class="form-check-input portal-alert-checkbox" type="checkbox" value="" id="portal-alert${counter}"><label class="form-check-label" for="portal-alert${counter}">${alert}</label>`
         alertsDisplay.appendChild(formDiv)
         $("#portal-alert"+counter).change(function (e) {
             if ($(e.target).is(":checked")) {
@@ -128,19 +128,20 @@ export function renderAlertsDisplay() {
 }
 
 function getPointClass(d) {
-    return `point ${d in selectedStudents ? "alert-point" : Object.keys(activeAlerts).length ? "non-alert-point" : ""}`
+    return `point ${d in selectedStudents.alerts ? "alert-point" : ""} ${d in selectedStudents.filters ? "filter-point" : "non-alert-point"}`
 }
 
 // TODO: what to color when you have multiple alerts
 function updateSelectedStudents() {
-    selectedStudents = filter.retrieveSelectedStudents(Object.keys(playerMap), activeAlerts)
+    selectedStudents = filter.retrieveAlertedAndFilteredStudents(Object.keys(playerMap), activeAlerts)
     
+    // TODO: outline opacity in colors
     svg.selectAll(".point")
         .attr("class", d => getPointClass(d))
-        .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d][0]) : "#000")
-        .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d][0]) : "#000")
+        .attr("stroke", d => d in selectedStudents.alerts ? alertColorScale(selectedStudents.alerts[d][0]) : "#000")
+        .style("outline-color", d => d in selectedStudents.alerts ? alertColorScale(selectedStudents.alerts[d][0]) : "#000")
 
-    persistenceMountain.updateActiveStudentList(Object.keys(selectedStudents))
+    persistenceMountain.updateActiveStudentList(Object.keys(selectedStudents.filters))
 }
 
 function computeAndRenderClassStatistics() {
@@ -330,8 +331,8 @@ function renderStudentAttemptedVsCompletedView() {
 
 function getTooltipHTML(d) {
     const name = anonymizeNames ? 'Student ' + d : playerMap[d]
-    const persistenceScore = d in persistenceByPuzzleData ? persistenceByPuzzleData[d].cumulative.score : "N/A"
-    return `${name}<br>Persistence: ${persistenceScore.toFixed(2)}`
+    const persistenceScore = d in persistenceByPuzzleData ? persistenceByPuzzleData[d].cumulative.score.toFixed(2) : "N/A"
+    return `${name}<br>Persistence: ${persistenceScore}`
 }
 
 function renderStudentPoints() {
@@ -350,7 +351,7 @@ function renderStudentPoints() {
             .attr("id", d => "portal-student-point" + d)
             .attr("x", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) - (monsterSize / 2) + studentToPlotPerturbationMap[d][0])
             .attr("y", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) - (monsterSize / 2) + studentToPlotPerturbationMap[d][1])
-            .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
+            // .style("outline-color", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
             .on("mouseover", function (d) {
                 tooltip.transition()
                     .duration(200)
@@ -375,7 +376,7 @@ function renderStudentPoints() {
             .attr("r", 3.5)
             .attr("cx", d => xScale(d in attemptedPuzzleData ? attemptedPuzzleData[d].size : 0) + studentToPlotPerturbationMap[d][0])
             .attr("cy", d => yScale(d in completedPuzzleData ? completedPuzzleData[d].size : 0) + studentToPlotPerturbationMap[d][1])
-            .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
+            // .attr("stroke", d => d in selectedStudents ? alertColorScale(selectedStudents[d]) : "#000")
             .on("mouseover", function (d) {
                 tooltip.transition()
                     .duration(200)
@@ -392,6 +393,8 @@ function renderStudentPoints() {
             })
             .on("click", handleExperimentClick)
     }
+
+    updateSelectedStudents()
 }
 
 function assignPlayersToMonsters() {

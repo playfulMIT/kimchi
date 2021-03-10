@@ -281,6 +281,7 @@ function shouldIncludeStudent(student, filterName) {
     return handleCondition(student, filter)
 }
 
+// NOTE: filtering function for thesis dashboard
 // TODO: what to color when you have multiple alerts, fix parameters
 export function retrieveSelectedStudents(studentList, activeFilters) {
     const selectedStudents = {}
@@ -301,10 +302,69 @@ export function retrieveSelectedStudents(studentList, activeFilters) {
     return selectedStudents
 }
 
+//NOTE: filtering function for PJL dashboard
+export function retrieveAlertedAndFilteredStudents(studentList, activeFilters) {
+    setActiveFilterData(activeFilters)
+    const filters = setActiveFilterSpecificData()
+    const alerts = setActiveAlertSpecificData()
+    return {filters: retrieveFilteredStudents(studentList, filters), alerts: retrieveAlertedStudents(studentList, alerts)}
+}
+
+//NOTE: filtering function for PJL dashboard
+// Filters are ANDed
+function retrieveFilteredStudents(studentList, filterKeys) {
+    const selectedStudents = {}
+    
+    for (let student of studentList) {
+        var shouldNotInclude = false
+        var filterNames = []
+        for (let filterName of filterKeys) {
+            if (!shouldIncludeStudent(student, filterName)) {
+                shouldNotInclude = true
+                break
+            }
+            filterNames.push(filterName)
+        }
+        if (!shouldNotInclude) {
+            selectedStudents[student] = filterNames
+        }
+    }
+    console.log("filters", selectedStudents)
+    return selectedStudents
+}
+
+//NOTE: filtering function for PJL dashboard
+// Alerts are ORed
+function retrieveAlertedStudents(studentList, alertKeys) {
+    const selectedStudents = {}
+
+    for (let student of studentList) {
+        var filterNames = []
+        for (let filterName of alertKeys) {
+            if (shouldIncludeStudent(student, filterName)) {
+                filterNames.push(filterName)
+            }
+        }
+        if (filterNames.length > 0) {
+            selectedStudents[student] = filterNames
+        }
+    }
+    console.log("alerts", selectedStudents)
+    return selectedStudents
+}
+
 // returns filter keys
 function setActiveFilterData(activeFilters) {
     activeFilterData = activeFilters
     return Object.keys(activeFilters)
+}
+
+function setActiveFilterSpecificData() {
+    return Object.keys(activeFilterData).filter(k => activeFilterData[k].type === "filter")
+}
+
+function setActiveAlertSpecificData() {
+    return Object.keys(activeFilterData).filter(k => activeFilterData[k].type === "alert")
 }
 
 function median(values) {

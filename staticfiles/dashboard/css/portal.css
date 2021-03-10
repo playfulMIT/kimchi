@@ -151,7 +151,7 @@ circle.point.alert-point {
 
 circle.point.non-alert-point {
     fill: black !important;
-    stroke-width: 0px;
+    stroke-opacity: .3;
     opacity: .3;
 }
 
@@ -167,7 +167,6 @@ image.point.alert-point {
 }
 
 image.point.non-alert-point {
-    outline-width: 0px;
     opacity: .3;
 }
 
