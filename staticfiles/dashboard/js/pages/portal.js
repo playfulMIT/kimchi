@@ -60,6 +60,10 @@ export function getFilter(filterName) {
     return alerts[filterName]
 }
 
+export function getFilterType(filterName) {
+    return alerts[filterName].type
+}
+
 export function setFilter(filterName, filter) {
     alerts[filterName] = filter
 }
@@ -73,7 +77,7 @@ export function getFilterKeys() {
 }
 
 export function getColorForFilter(filterName) {
-    return alertColorScale(filterName)
+    return getFilterType(filterName) === "filter" ? "#808080" : alertColorScale(filterName)
 }
 
 function fetchSavedFiltersOnLoad() {

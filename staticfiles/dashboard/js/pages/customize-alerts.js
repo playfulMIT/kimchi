@@ -9,29 +9,28 @@ var typeMapping = {}
 var metricVariablesToDisplay = new Set()
 
 function handleWorkspaceVariableChange(event) {
-    if (event.type == Blockly.Events.BLOCK_CREATE) {
-        for (let blockId of event.ids) {
-            const blockType = workspace.getBlockById(blockId).type
-            if (!metricVariablesToDisplay.has(blockType) && (blockType in rangeDict)) {
-                metricVariablesToDisplay.add(blockType)
-                typeMapping[blockId] = blockType
+    switch (event.type) {
+        case Blockly.Events.BLOCK_CREATE:
+            for (let blockId of event.ids) {
+                const blockType = workspace.getBlockById(blockId).type
+                if (!metricVariablesToDisplay.has(blockType) && (blockType in rangeDict)) {
+                    metricVariablesToDisplay.add(blockType)
+                    typeMapping[blockId] = blockType
+                }
             }
-        }
-        showMetricRanges()
-        return
-    }
-
-    if (event.type == Blockly.Events.BLOCK_DELETE) {
-        for (let blockId of event.ids) {
-            if (!(blockId in typeMapping)) continue
-            const blockType = typeMapping[blockId]
-            delete typeMapping[blockId]
-            if (!Object.values(typeMapping).includes(blockType) && metricVariablesToDisplay.has(blockType)) {
-                metricVariablesToDisplay.delete(blockType)
+            showMetricRanges()
+            return
+        case Blockly.Events.BLOCK_DELETE:
+            for (let blockId of event.ids) {
+                if (!(blockId in typeMapping)) continue
+                const blockType = typeMapping[blockId]
+                delete typeMapping[blockId]
+                if (!Object.values(typeMapping).includes(blockType) && metricVariablesToDisplay.has(blockType)) {
+                    metricVariablesToDisplay.delete(blockType)
+                }
             }
-        }
-        showMetricRanges()
-        return
+            showMetricRanges()
+            return
     }
 }
 

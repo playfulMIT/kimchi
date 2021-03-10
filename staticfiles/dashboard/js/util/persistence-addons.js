@@ -230,8 +230,8 @@ function initVis(data) {
 
 function initToolsUsed(data) {
 
-    var margin = { top: 50, right: 10, bottom: 100, left: 10 },
-        width = 400 - margin.left - margin.right,
+    var margin = { top: 50, right: 10, bottom: 100, left: 40 },
+        width = 300 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
     d3.select("#tools_used").selectAll("*").remove();
@@ -1266,7 +1266,7 @@ function getVisInfo() {
 
 function highlightStudent(data, d) {
 
-    document.getElementById("student_highlight").innerHTML = "Student selected:" + d.user
+    document.getElementById("student_highlight").innerHTML = d.user
 
     // highlight heatmap in reattempts viz
     initFailedAttemptsMap(d.byPuzzle)
@@ -1339,7 +1339,7 @@ function highlightStudent(data, d) {
 
 function unhighlightStudent(data, d) {
 
-    document.getElementById("student_highlight").innerHTML = "Student selected:<br>"
+    document.getElementById("student_highlight").innerHTML = "None"
     d3.select("#tools_used").selectAll(".tool_highlight").remove();
 
     var reattempt_circle_array = failedAttempts.circle._groups[0];
