@@ -135,11 +135,18 @@ function getPointClass(d) {
 function updateSelectedStudents() {
     selectedStudents = filter.retrieveAlertedAndFilteredStudents(Object.keys(playerMap), activeAlerts)
     
-    // TODO: outline opacity in colors
     svg.selectAll(".point")
         .attr("class", d => getPointClass(d))
         .attr("stroke", d => d in selectedStudents.alerts ? alertColorScale(selectedStudents.alerts[d][0]) : "#000")
-        .style("outline-color", d => d in selectedStudents.alerts ? alertColorScale(selectedStudents.alerts[d][0]) : "#000")
+        .style("outline-color", d => {
+            if (d in selectedStudents.alerts) {
+                const color = alertColorScale(selectedStudents.alerts[d][0])
+                const rgb = d3.hsl(color)
+                rgb.opacity = (d in selectedStudents.filters) ? 1 : 0.5
+                return rgb + ""
+            }
+            return "#000"
+        })
 
     persistenceMountain.updateActiveStudentList(Object.keys(selectedStudents.filters))
 }
