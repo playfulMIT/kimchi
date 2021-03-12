@@ -4,7 +4,7 @@ from operator import or_
 from functools import reduce
 from collections import defaultdict
 
-from django.db.models import Q
+from django.db.models import Q, Min
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
@@ -497,3 +497,72 @@ def get_misconceptions_data(request, slug):
         return JsonResponse(new_result)
     except ObjectDoesNotExist:
         return JsonResponse({})
+
+def get_last_processed_time(request, slug):
+    try:
+        min_time = Task.objects.filter(signature__contains="(['" + slug + "'])").aggregate(Min('time_ended'))['time_ended__min']
+        return JsonResponse({'date': min_time})
+    except ObjectDoesNotExist:
+        return JsonResponse({})
+
+def get_report_summary(request, slug, start = None, end = None):
+    player_to_session_map = create_player_to_session_map(slug)
+    player_to_report_map = defaultdict(lambda: {'puzzles': defaultdict(lambda: {'total_time': 0, 'active_time': 0, 'opened': 0, 'submitted': 0, 'completed': 0}), 'total_time': 0, 'active_time': 0, 'last_active': None})
+    
+    if start and end:
+        start = datetime.datetime.fromtimestamp(int(start), datetime.timezone.utc)
+        end = datetime.datetime.fromtimestamp(int(end), datetime.timezone.utc)
+
+    threshold_activity = 60 # np.percentile(allDifferences, 98) is 10 seconds
+    limit = 3600
+
+    for player in player_to_session_map:
+        sessions = player_to_session_map[player]
+        events = []
+        if start and end:
+            events = Event.objects.filter(Q(session__pk__in=sessions) & Q(time__gte=start) & Q(time__lte=end)).order_by('time')
+        else:
+            events = Event.objects.filter(session__pk__in=sessions).order_by('time')
+
+        # TODO: class average?
+        previous_event = None
+        current_puzzle = None
+
+        for event in events:
+            data = json.loads(event.data)
+            event_time = event.time
+            player_to_report_map[player]['last_active'] = event_time
+
+            
+            if(event.type in ['ws-start_level', 'ws-puzzle_started']):
+                current_puzzle = data['task_id']
+                
+                if current_puzzle:
+                    player_to_report_map[player]['puzzles'][current_puzzle]['opened'] = 1
+
+                    delta_seconds = (event_time - previous_event.time).total_seconds()
+                    if delta_seconds < limit:
+                        player_to_report_map[player]['total_time'] += delta_seconds
+                        player_to_report_map[player]['puzzles'][current_puzzle]['total_time'] += delta_seconds
+
+                previous_event = event     
+                       
+            # the event is not final event
+            elif (event.type not in ['ws-create_user', 'ws-login_user']):       
+                if current_puzzle:  
+                    if event.type == 'ws-check_solution':
+                        player_to_report_map[player]['puzzles'][current_puzzle]['submitted'] += 1
+                    elif event.type == 'ws-puzzle_complete':
+                        player_to_report_map[player]['puzzles'][current_puzzle]['completed'] += 1
+
+                    delta_seconds = (event_time - previous_event.time).total_seconds()
+                    if delta_seconds < limit:
+                        player_to_report_map[player]['total_time'] += delta_seconds
+                        player_to_report_map[player]['puzzles'][current_puzzle]['total_time'] += delta_seconds
+                    if delta_seconds < threshold_activity:
+                        player_to_report_map[player]['active_time'] += delta_seconds
+                        player_to_report_map[player]['puzzles'][current_puzzle]['active_time'] += delta_seconds
+
+                previous_event = event 
+
+    return JsonResponse(player_to_report_map)
