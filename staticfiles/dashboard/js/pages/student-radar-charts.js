@@ -16,8 +16,6 @@ var puzzlesToAdd = new Set()
 
 var axisValues = []
 
-var anonymizeNames = false
-
 function addPuzzleToChart(puzzles) {
     if (currentStudent) {
         if (currentStudent === "avg") {
@@ -98,7 +96,7 @@ function showPuzzleList(puzzleList) {
 }
 
 function onStudentClick(event, id, name) {
-    $("#student-dropdown-button").text(id === "avg" ? "Class Avg." : (anonymizeNames ? id : name))
+    $("#student-dropdown-button").text(id === "avg" ? "Class Avg." : name)
     $(".student-dropdown-option").removeClass("active")
     $(event.target).addClass("active")
 
@@ -133,7 +131,7 @@ function createStudentDropdown() {
     for (let [id, player] of Object.entries(playerMap)) {
         const playerLink = document.createElement("a")
         playerLink.className = "student-dropdown-option dropdown-item"
-        playerLink.textContent = anonymizeNames ? id : player
+        playerLink.textContent = player
         playerLink.href = "#"
         playerLink.onclick = (event) => onStudentClick(event, id, player)
         dropdown.appendChild(playerLink)
@@ -174,12 +172,11 @@ function toggleNormalization(event) {
     createRadarChart()
 }
 
-export function showStudentRadarCharts(pMap, puzzData, levelsOfActivity, anonymize=true) {
-    if (!playerMap) {
-        playerMap = pMap
+export function showStudentRadarCharts(pMap, puzzData, levelsOfActivity) {
+    playerMap = pMap
+    if (!puzzleData) {
         puzzleData = puzzData
         formattedData = levelsOfActivity
-        anonymizeNames = anonymize
 
         // if (puzzleData["canUseSandbox"]) {
         //     puzzleData["puzzles"][SANDBOX] = [SANDBOX_PUZZLE_NAME]

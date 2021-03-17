@@ -19,28 +19,41 @@
     <div id="root">
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg sticky-top">
             <a class="navbar-brand" href="#">Shadowspect Dashboard</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a id="nav-metrics" class="nav-item nav-link disabled" href="#">Metrics</a>
-                    <a id="nav-puzzle-radar" class="nav-item nav-link disabled" href="#">Puzzle Radar Chart</a>
-                    <a id="nav-student-radar" class="nav-item nav-link disabled" href="#">Student Radar Chart</a>
-                    <a id="nav-outlier-radar" class="nav-item nav-link disabled" href="#">Outlier Radar Chart</a>
-                    <a id="nav-puzzle-network" class="nav-item nav-link disabled" href="#">Sequence Between Puzzles</a>
-                    <a id="nav-ml-outliers" class="nav-item nav-link disabled" href="#">Outliers via ML</a>
-                    <a id="nav-portal" class="nav-item nav-link disabled" href="#">Portal</a>
-                </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav">
+                    <li id="nav-portal" class="nav-item nav-link disabled nav-link-item" href="#">Portal</li>
+                    <li class="nav-item dropdown nav-link-item disabled">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-prototype-group" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Other Prototypes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbar-prototype-group">
+                            <a id="nav-metrics" class="dropdown-item nav-link-item" href="#">Metrics</a>
+                            <a id="nav-puzzle-radar" class="dropdown-item nav-link-item" href="#">Puzzle Radar Chart</a>
+                            <a id="nav-student-radar" class="dropdown-item nav-link-item" href="#">Student Radar Chart</a>
+                            <a id="nav-outlier-radar" class="dropdown-item nav-link-item" href="#">Outlier Radar Chart</a>
+                            <a id="nav-puzzle-network" class="dropdown-item nav-link-item" href="#">Sequence Between Puzzles</a>
+                            <a id="nav-ml-outliers" class="dropdown-item nav-link-item" href="#">Outliers via ML</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="navbar-text form-inline">
+                    <span>Last processed on <span id="last-processed-time"></span></span>
+                    &nbsp;
+                    <a id="show-names-btn" href="#" data-toggle="modal" data-target="#show-names-modal"><i class="fas fa-user-friends fa-lg text-primary"></i></a>
+                </form>
             </div>
         </nav>
 
         <div id="app">
             <div id="page-container" class="page container">
-                <div id="loader-container" class="container page">
-                    <div id="page-spinner" class="text-center">
-                        <div id="spinner" class="spinner-border text-info" role="status">
+                <div id="loader-container" class="loader-container container page">
+                    <div class="page-spinner text-center">
+                        <div class="spinner spinner-border text-info" role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
@@ -450,6 +463,11 @@
                                             aria-controls="portal-view-misconceptions-container" aria-selected="false"
                                             href="#portal-view-misconceptions-container">Misconceptions</a>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a id="portal-report-tab" class="nav-link black-link" data-toggle="tab" role="tab"
+                                            aria-controls="portal-view-report-container" aria-selected="false"
+                                            href="#portal-view-report-container">Report</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div id="portal-view-panels" class="tab-content">
@@ -474,6 +492,7 @@
                                     <div id="portal-misconceptions-btn-container" class="green-background"></div>
                                     <div id="portal-misconceptions-stats-container"></div>
                                 </div>
+                                <div role="tabpanel" aria-labelledby="portal-report-tab"></div>
                             </div>
                         </div>
                     </div>
@@ -554,6 +573,45 @@
                             <h5>Active Alerts:</h5>
                             <div id="customize-alerts-list"></div>
                         </div>  
+                    </div>
+                    <div id="portal-view-report-container" style="display: none;"">
+                        <div class="loader-container container page">
+                            <div class="page-spinner text-center">
+                                <div class="spinner spinner-border text-info" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="portal-report-container">
+                            <input type="date" name="..." min="2017-04-01" max="2017-04-20" required>
+                        </div>
+                    </div>
+                    <div id="show-names-modal" class="modal fade" tabindex="-1">
+                        <form id="show-names-form">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Show Student Names</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="show-names-pwd">Password</label>
+                                            <input type="password" class="form-control" id="show-names-pwd" required>
+                                            <div id="show-names-incorrect-pwd" class="invalid-feedback" style="display: none;">
+                                                Password is invalid. Please try again.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Submit</input>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

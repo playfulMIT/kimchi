@@ -3,19 +3,19 @@ import { renderRadar } from './radar.js';
 
 export function showPage(pageId, navId = null) {
     $("#page-container > .page").hide()
-    $(".navbar-nav > a").removeClass("active disabled")
+    $(".nav-link-item").removeClass("active disabled")
     $(`#${pageId}`).show()
     if (navId) {
         $(`#${navId}`).addClass("active")
     }
 }
 
-export function callAPI(url) {
+export function callAPI(url, method="GET") {
     return new Promise((resolve, reject) => {
-        fetch(url, { credentials: "same-origin" })
-            .then(response => {
-                resolve(response.json())
-            })
+        fetch(url, {
+            method: method,
+            credentials: "same-origin"
+        }).then(response => { resolve(response.json()) })
     })
 }
 
@@ -132,17 +132,19 @@ export function createGraphCard(graph, id) {
     return card
 }
 
-export function showPlayerList(buttonClass, divId, playerMap, onClick, anonymizeNames=true) {
-    const sortedEntries = anonymizeNames 
-        ? Object.entries(playerMap).sort((a, b) => parseInt(a[0]) - parseInt(b[1]))
-        : Object.entries(playerMap).sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
+export function showPlayerList(buttonClass, divId, playerMap, onClick) {
+    const entries = Object.entries(playerMap)
+    const sortedEntries = isNaN(entries[0])
+        ? entries.sort((a, b) => a[1].toLowerCase().localeCompare(b[1].toLowerCase()))
+        : entries.sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
+        
 
     for (let [pk, player] of sortedEntries) {
         const button = document.createElement("button")
         button.id = pk
         button.className = "player-button list-group-item list-group-item-action btn-secondary " + buttonClass
         button.type = "button"
-        button.textContent = anonymizeNames ? pk : player
+        button.textContent = player
         document.getElementById(divId).appendChild(button)
         $(`#${pk}.${buttonClass}`).click(onClick)
     }
@@ -278,7 +280,7 @@ export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, l
     }
 }
 
-export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap = null) {
+export function buildRadarChart(currentDataset, axisValues, svgId, legendList) {
     if (axisValues.length === 0) return
 
     var w = 350;

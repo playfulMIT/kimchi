@@ -22,14 +22,16 @@ plains.setAttributeNS(null, "d", "M976,445.89c56,87-136.82,40.67-285.54,46.75-64
     "49-154.36,18.73-155.83-17.16-2.58-63.18-156.25-178.27-7.53-184.34,31.69-1.3,150.4,23.54,260.17,22.89,83.43-.49,164.22-27.57,183-23,28.52,6.94,157.8," +
     "100.8,207,117C1068,359.89,963,425.74,976,445.89Z")
 
+var playerMap = {}
 var studentMonsterMap = null
 var activeStudentList = []
 
-export function buildPersistenceMountain(svg, persistenceData, monsterMap, w, h) {
+export function buildPersistenceMountain(svg, playerM, persistenceData, monsterMap, w, h) {
     portalSVG = svg
     studentMonsterMap = monsterMap
     width = w
     height = h
+    playerMap = playerM
 
     beachSVG.id = "beach"
     mountainSVG.id = "mountain"
@@ -163,7 +165,7 @@ function makeMonster(key, fill) {
     monster.id = "monster" + key.toString()
     let persLabel = document.createElementNS(xmlns, "text")
     persLabel.id = "compLabel" + key.toString()
-    let text = document.createTextNode(key.toString())
+    let text = document.createTextNode(playerMap[key])
     persLabel.appendChild(text)
     persLabel.setAttribute("class", "monsterLabel")
     // monster.appendChild(compGraphValues)
@@ -213,7 +215,7 @@ function getContextData(key, data, cumPersistence) {
         bigMContainer.appendChild(bigM)
         let monsterLabel = document.createElementNS(xmlns, "text")
         monsterLabel.setAttributeNS(null, "class", "monsterHeader")
-        let monsterLabelText = document.createTextNode("Student " + key.toString())
+        let monsterLabelText = document.createTextNode(isNaN(playerMap[key]) ? playerMap[key] : "Student " + key.toString())
         monsterLabel.appendChild(monsterLabelText)
 
         let cumPer = document.createElementNS(xmlns, "text")

@@ -17,8 +17,6 @@ var includeNegativeOutliers = false
 var outlierMap = {}
 const metricsToIgnore = new Set(["event", "different_events", "paint", "timeTotal", "inactive_time"])
 
-var anonymizeNames = true 
-
 function findOutliers() {
     outlierMap = {}
     for (let puzzle of Object.keys(formattedData)) {
@@ -117,7 +115,7 @@ function showRadarModal(student, puzzle, metrics) {
     studentData["avg"] = getClassAverage(stats)
 
     $("#outlier-radar-modal-puzzle").text(puzzle)
-    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), anonymizeNames ? null : playerMap)
+    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), playerMap)
     $('#outlier-radar-modal').modal('show')
 }
 
@@ -127,7 +125,7 @@ function showOutliersList() {
     const sortedKeys = Object.keys(outlierMap).sort((a, b) => Object.keys(outlierMap[b]).length - Object.keys(outlierMap[a]).length)
     for (let student of sortedKeys) {
         const collapseId = "outlier-radar-student-" + student + "-collapse"
-        const studentName = anonymizeNames ? student : playerMap[student]
+        const studentName = playerMap[student]
 
         const card = document.createElement("div")
         card.className = "card"
@@ -209,12 +207,12 @@ function handleEmptyParam() {
     }
 }
 
-export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity, completed, anonymize=true) {
-    if (!playerMap) {
-        playerMap = pMap
+export function showOutlierRadarCharts(pMap, puzzData, levelsOfActivity, completed) {
+    playerMap = pMap
+
+    if (!puzzleData) {
         puzzleData = puzzData
         formattedData = levelsOfActivity
-        anonymizeNames = anonymize
 
         completedPuzzleData = completed
 

@@ -40,13 +40,14 @@ var puzzle_categories = {
     "Bear Market": 3,
 };
 
-export function processPersistenceAddOnsData(persistenceData, persistenceByPuzzleData) {
+export function processPersistenceAddOnsData(playerMap, persistenceData, persistenceByPuzzleData) {
     processedData = []
     var idx = 0
 
     for (var i of Object.keys(persistenceData)) {
         processedData[idx] = new Object()
         processedData[idx].user = i
+        processedData[idx].student_name = playerMap[i]
         processedData[idx].data = persistenceData[i]
         processedData[idx].score = persistenceByPuzzleData[i] ? persistenceByPuzzleData[i].cumulative.score : "N/A"
         idx++
@@ -429,7 +430,7 @@ function initToolsUsed(data) {
         .on("mouseover", mouseover)
         .on("mousemove", function (d) {
             Tooltip
-                .html(d.user + " used this tool " + d["submits"].toFixed(2) + " times per puzzle, " + change(d, "submits") + " than average.")
+                .html(d.student_name + " used this tool " + d["submits"].toFixed(2) + " times per puzzle, " + change(d, "submits") + " than average.")
                 .style("left", (d3.mouse(this)[0] + 90) + "px")
                 .style("top", (d3.mouse(this)[1] + 25) + "px")
         })
@@ -470,7 +471,7 @@ function initToolsUsed(data) {
         .on("mouseover", mouseover)
         .on("mousemove", function (d) {
             Tooltip
-                .html(d.user + " used this tool " + d["snapshot"].toFixed(2) + " times per puzzle, " + change(d, "snapshot") + " than average.")
+                .html(d.student_name + " used this tool " + d["snapshot"].toFixed(2) + " times per puzzle, " + change(d, "snapshot") + " than average.")
                 .style("left", (d3.mouse(this)[0] + 90) + "px")
                 .style("top", (d3.mouse(this)[1] + 150) + "px")
         })
@@ -511,7 +512,7 @@ function initToolsUsed(data) {
         .on("mouseover", mouseover)
         .on("mousemove", function (d) {
             Tooltip
-                .html(d.user + " used this tool " + d["rotate_view"].toFixed(2) + " times per puzzle, " + change(d, "rotate_view") + " than average.")
+                .html(d.student_name + " used this tool " + d["rotate_view"].toFixed(2) + " times per puzzle, " + change(d, "rotate_view") + " than average.")
                 .style("left", (d3.mouse(this)[0] + 90) + "px")
                 .style("top", (d3.mouse(this)[1] + 275) + "px")
         })
@@ -573,6 +574,7 @@ function initActiveTime(data) {
             }
             return {
                 user: user,
+                student_name: d.student_name,
                 name: name,
                 y0: y0,
                 y1: y0 += +value,
@@ -670,7 +672,7 @@ function initActiveTime(data) {
     }
     var mousemove = function (d) {
         Tooltip
-            .html(d.user + " spent " + (100 * (d.value / d.total)).toFixed(1) + "% of their time <br>" + vartoText(d.name) + " puzzles.")
+            .html(d.student_name + " spent " + (100 * (d.value / d.total)).toFixed(1) + "% of their time <br>" + vartoText(d.name) + " puzzles.")
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) - 100 + "px")
     }
@@ -1008,13 +1010,13 @@ function initFailedAttempts(data) {
 
         if (d.num_failed_att == 0) {
             Tooltip
-                .html(d.user + " did not fail any puzzles")
+                .html(d.student_name + " did not fail any puzzles")
                 .style("left", (d3.mouse(this)[0] + "px"))
                 .style("top", (d3.mouse(this)[1] + "px"))
         }
         else {
             Tooltip
-                .html(d.user + " reattempted " + ratio + "%, or " + d.reattempts_AF + "/" + d.num_failed_att + " failed attempts across " + d.num_failed_puzz + " puzzles")
+                .html(d.student_name + " reattempted " + ratio + "%, or " + d.reattempts_AF + "/" + d.num_failed_att + " failed attempts across " + d.num_failed_puzz + " puzzles")
                 .style("left", (d3.mouse(this)[0] + "px"))
                 .style("top", (d3.mouse(this)[1] + "px"))
         }
@@ -1266,7 +1268,7 @@ function getVisInfo() {
 
 function highlightStudent(data, d) {
 
-    document.getElementById("student_highlight").innerHTML = d.user
+    document.getElementById("student_highlight").innerHTML = d.student_name
 
     // highlight heatmap in reattempts viz
     initFailedAttemptsMap(d.byPuzzle)

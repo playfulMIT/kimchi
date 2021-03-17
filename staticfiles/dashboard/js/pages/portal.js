@@ -5,12 +5,12 @@ import * as persistenceMountain from '../util/persistence-mountain.js'
 import * as persistenceAddOns from '../util/persistence-addons.js'
 import * as misconceptionsTab from './misconceptions-portal.js'
 import * as customizeTab from './customize-alerts.js'
+import * as reportTab from './report.js'
 import * as filter from '../../../thesisdashboard/js/filter.js'
 
 const SVG_ID = "portal-view-svg"
 
 var studentToPlotPerturbationMap = {}
-var anonymizeNames = false
 var playerMap = null
 var puzzleData = null
 var persistenceData = null
@@ -337,7 +337,7 @@ function renderStudentAttemptedVsCompletedView() {
 }
 
 function getTooltipHTML(d) {
-    const name = anonymizeNames ? 'Student ' + d : playerMap[d]
+    const name = isNaN(playerMap[d]) ? playerMap[d] : 'Student ' + playerMap[d]
     const persistenceScore = d in persistenceByPuzzleData ? persistenceByPuzzleData[d].cumulative.score.toFixed(2) : "N/A"
     return `${name}<br>Persistence: ${persistenceScore}`
 }
@@ -422,7 +422,7 @@ function renderOverviewTab() {
 
 function renderPersistenceTab() {
     clearPortalViewArea()
-    persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), persistenceByPuzzleData, playerMonsterMap, width, height)
+    persistenceMountain.buildPersistenceMountain(document.getElementById(SVG_ID), playerMap, persistenceByPuzzleData, playerMonsterMap, width, height)
     $("#portal-main-view-help").show()
 }
 
@@ -447,6 +447,15 @@ function renderCustomizeTab() {
 
 function hideCustomizeTab() {
     $("#portal-view-customize-container").hide()
+}
+
+function renderReportTab() {
+    $("#portal-view-report-container").show()
+    reportTab.showReportTab()
+}
+
+function hideReportTab() {
+    $("#portal-view-report-container").hide()
 }
 
 function initializeBlocklyCode() {
@@ -495,11 +504,11 @@ function fillPerturbationMap() {
     }
 }
 
-export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, funnel, loa, insights, misconceptions, anonymize=true) {
-    if (!playerMap) {
-        playerMap = pMap
+export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, funnel, loa, insights, misconceptions) {
+    playerMap = pMap
+
+    if (!puzzleData) {
         puzzleData = puzzData
-        anonymizeNames = anonymize
 
         for (let puzzles of Object.values(puzzleData["puzzles"])) {
             puzzleList.push(...puzzles)
@@ -517,9 +526,10 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
         filter.setFilterModuleData(funnelData, levelsOfActivityData, persistenceData, completedPuzzleData, attemptedPuzzleData, persistenceByPuzzleData)
-        persistenceAddOns.processPersistenceAddOnsData(persistenceData, persistenceByPuzzleData)
+        persistenceAddOns.processPersistenceAddOnsData(playerMap, persistenceData, persistenceByPuzzleData)
     }
     
+    reportTab.initializeTab(playerMap)
     showPage("portal-container", "nav-portal")
 
     new bootstrap.Tooltip(document.body, {
@@ -568,6 +578,14 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
             hideCustomizeTab()
         })
 
+        $("#portal-report-tab").on("show.bs.tab", function (event) {
+            renderReportTab()
+        })
+
+        $("#portal-report-tab").on("hide.bs.tab", function (event) {
+            hideReportTab()
+        })
+
         $("#portal-persistence-addons-link").click(function (event) {
             renderPersistenceAddOns()
         })
@@ -578,4 +596,6 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
             hidePersistenceAddOns()
         })
     }
+
+    misconceptionsTab.updatePlayerMap(playerMap)
 }

@@ -25,7 +25,7 @@ const miscDict = {
 }
 
 var misconceptionPuzzles = []
-var allStudentList = []
+var playerMap = {}
 
 const graphLocations = []
 var misconceptionsData = null
@@ -167,7 +167,7 @@ function parseMisconceptionsData() {
             puzzleMap[puzzle].studentCount[miscIndex].value = puzzleMap[puzzle].studentCount[miscIndex].value.size
         }
     }
-    maxStudentCount = allStudentList.length
+    maxStudentCount = Object.keys(playerMap).length
     parseMisconceptionMap()
 }
 
@@ -182,8 +182,8 @@ function buildGraphLocations() {
 function getTooltipHTML(d) {
     const studentList = selectedMisconception === "All" ? puzzleMap[d].allStudentMiscMap : puzzleMap[d].studentCount[miscDict[selectedMisconception]].studentMap
     const studentText = Object.values(studentList).map(v => {
-        console.log(v)
-        return `<li>Student ${v[0]} - ${v[1]} times</li>`
+        const prefix = isNaN(v[0]) ? "" : "Student "
+        return `<li>${prefix}${v[0]} - ${v[1]} times</li>`
     }).join('')
     return `${d}, ${selectedMisconception} miscs:<div class="tooltip-scroll"><ol>${studentText}</ol></div>`
 }
@@ -506,9 +506,10 @@ function handleMisconceptionsRadioChange() {
 
 function populateStudentSearchBar() {
     const list = document.getElementById("student-search-options")
-    for (let student of allStudentList) {
+    for (let student of Object.keys(playerMap)) {
         const option = document.createElement("option")
-        option.innerText = student
+        option.innerText = playerMap[student]
+        option.value = student
         list.appendChild(option)
     }
 
@@ -520,7 +521,7 @@ function populateStudentSearchBar() {
 
         for (var i = 0; i < options.length; i++) {
             if (options[i].innerText === val) {
-                buildStudentMisconceptionsPage(val)
+                buildStudentMisconceptionsPage(options[i].value)
                 break
             }
         }
@@ -761,8 +762,13 @@ export function buildMisconceptionsPage() {
     buildClassMisconceptionsPage()
 }
 
+export function updatePlayerMap(students) {
+    playerMap = students
+    populateStudentSearchBar()
+}
+
 export function initializeMisconceptionsPage(students, misconceptions, puzzles, svgId, w, h) {
-    allStudentList = Object.keys(students)
+    playerMap = students
     misconceptionsData = misconceptions
     misconceptionPuzzles = puzzles
     svg = d3.select("#" + svgId)

@@ -13,8 +13,6 @@ var useCompletedClassAvg = false
 
 const metricsToIgnore = new Set(["event", "different_events", "paint", "timeTotal", "inactive_time"])
 
-var anonymizeNames = true
-
 function showRadarModal(student, puzzle, metrics) {
     var axisList = []
     if (metrics.length === 1) {
@@ -36,7 +34,7 @@ function showRadarModal(student, puzzle, metrics) {
     puzzleStats["avg"] = stats
 
     $("#outlier-radar-modal-puzzle").text(puzzle)
-    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), anonymizeNames ? null : playerMap, NORMALIZATION_OPTIONS.STANDARD, puzzleStats)
+    buildRadarChart(studentData, axisList, "#outlier-radar-svg", new Set([student, "avg"]), playerMap, NORMALIZATION_OPTIONS.STANDARD, puzzleStats)
     $('#outlier-radar-modal').modal('show')
 }
 
@@ -46,7 +44,7 @@ function showOutliersList() {
     const sortedKeys = Object.keys(outlierData).sort((a, b) => Object.keys(outlierData[b]).length - Object.keys(outlierData[a]).length)
     for (let student of sortedKeys) {
         const collapseId = "ml-outlier-student-" + student + "-collapse"
-        const studentName = anonymizeNames ? student : playerMap[student]
+        const studentName = playerMap[student]
 
         const card = document.createElement("div")
         card.className = "card"
@@ -146,13 +144,13 @@ function handleEmptyParam() {
     }
 }
 
-export function showMachineLearningOutliers(pMap, puzzData, outliers, loa, completed, anonymize = true) {
-    if (!playerMap) {
-        playerMap = pMap
+export function showMachineLearningOutliers(pMap, puzzData, outliers, loa, completed) {
+    playerMap = pMap
+    
+    if (!puzzleData) {
         puzzleData = puzzData
         levelsOfActivity = loa
         outlierData = outliers
-        anonymizeNames = anonymize
 
         completedPuzzleData = completed
 

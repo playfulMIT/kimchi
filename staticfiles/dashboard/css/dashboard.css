@@ -63,8 +63,8 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#page-spinner {
-    width: 10%;
+.page-spinner {
+    min-width: 10%;
     position: relative;
     top: 45%;
     margin: 0 auto;
@@ -76,6 +76,11 @@ button:disabled {
 
 .zoom-icon:disabled {
     color: grey;
+}
+
+.dropdown.disabled {
+    opacity: .65;
+    pointer-events: none;
 }
 
 input[type=range]:enabled::-webkit-slider-thumb {
@@ -96,4 +101,8 @@ input[type=range]:enabled::-moz-range-thumb:enabled {
 i,
 a {
     cursor: pointer;
+}
+
+#navbar {
+    justify-content: space-between;
 }

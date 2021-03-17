@@ -13,7 +13,6 @@ var studentsToAdd = new Set()
 
 var normalizationMode = NORMALIZATION_OPTIONS.NONE
 var normalizationKey = NORMALIZATION_OPTION_KEYS[normalizationMode]
-var anonymizeNames = true
 
 var axisValues = []
 
@@ -40,7 +39,7 @@ function addStudentToChart(ids) {
         .attr("id", d => `player-button-radar-${d}`)
         .classed("player-button-radar btn btn-light", true)
         .attr("type", "button")
-        .text(d => d === "avg" ? "Class Avg." : anonymizeNames ? d : playerMap[d])
+        .text(d => d === "avg" ? "Class Avg." : playerMap[d])
         .on("mouseover", (d) => {
             d3.select(`#player-button-radar-${d}`)
                 .classed("btn-light", false)
@@ -149,12 +148,12 @@ function createPuzzleDropdown() {
 }   
 
 function createRadarChart() {
-    buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, anonymizeNames ? null : playerMap)
+    buildRadarChart(currentDataset, axisValues, '#puzzle-radar-chart', currentPlayers, playerMap)
 }
 
 function handleAddStudentButtonClick(pk) {
     const formatSelectedPlayers = (players) => {
-        return players.size > 0 ? [...players].map(p => anonymizeNames ? p : playerMap[p]).join(', ') : "None"
+        return players.size > 0 ? [...players].map(p => playerMap[p]).join(', ') : "None"
     }
 
     if (studentsToAdd.has(pk)) {
@@ -182,12 +181,11 @@ function toggleNormalization(event) {
     reselectDataAndBuild(null, currentPuzzle)
 }
 
-export function showPuzzleRadarCharts(pMap, puzzData, levelsOfActivity, anonymized=true) {
+export function showPuzzleRadarCharts(pMap, puzzData, levelsOfActivity) {
     if (!playerMap) {
         playerMap = pMap
         puzzleData = puzzData
         formattedData = levelsOfActivity
-        anonymizeNames = anonymized
 
         createPuzzleDropdown()
         createNormalizationToggle("puzzle-radar-container", toggleNormalization)
@@ -203,7 +201,7 @@ export function showPuzzleRadarCharts(pMap, puzzData, levelsOfActivity, anonymiz
                 .map(key => ({ [key]: playerMap[key] })))
 
             $("#add-player-list").empty()
-            showPlayerList(playerButtonClass, "add-player-list", filteredPlayerMap, (event) => handleAddStudentButtonClick(event.target.id), anonymizeNames)
+            showPlayerList(playerButtonClass, "add-player-list", filteredPlayerMap, (event) => handleAddStudentButtonClick(event.target.id))
 
             if (currentPuzzle) {
                 for (let key of Object.keys(filteredPlayerMap)) {

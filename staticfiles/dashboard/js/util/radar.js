@@ -281,7 +281,7 @@ function buildLegend(config, vis) {
         .attr("font-size", 11 * config.labelScale + "px")
         .attr("fill", d => config.data[d].event == 0 ? "red" : "grey")
         .text(function (d) {
-            return d === "avg" ? "Class Avg." : (config.playerMap ? config.playerMap[d] : d)
+            return d === "avg" ? "Class Avg." : config.playerMap[d]
         });
 }
 

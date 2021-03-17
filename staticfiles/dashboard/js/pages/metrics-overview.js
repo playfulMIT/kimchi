@@ -70,7 +70,6 @@ var activeFunnelId = null
 
 var funnelPlayerMax = 0
 
-var anonymizeNames = true
 var printName = null
 
 const playerButtonClass = "metrics-overview-player"
@@ -182,7 +181,7 @@ function generatePuzzleMetrics(div, parentDivId, puzzle, chartFunnelData, user =
     const levelUserInfo = document.createElement('div')
     levelUserInfo.className = "h4"
     levelUserInfo.style = "padding-top: 5px; width: 100%;"
-    levelUserInfo.innerHTML = `${user ? (anonymizeNames ? user : playerMap[user]) : 'Class'}  &middot;  ${puzzle}`
+    levelUserInfo.innerHTML = `${user ? playerMap[user] : 'Class'}  &middot;  ${puzzle}`
     div.appendChild(levelUserInfo)
 
     const metricCardDeck = document.createElement('div')
@@ -551,12 +550,11 @@ function createDifficultyTabs() {
     }
 }
 
-export async function showMetricsOverview(pMap, numP, puzzData, anonymize=true) {
+export async function showMetricsOverview(pMap, numP, puzzData) {
     playerMap = pMap
     numPlayers = numP
     puzzleData = puzzData
-    anonymizeNames = anonymize
-    printName = (user) => user ? (anonymizeNames ? user : playerMap[user]) : "Class"
+    printName = (user) => user ? playerMap[user] : "Class"
 
     if (playerMap && !rawFunnelData) {
         showPage("loader-container")
@@ -575,6 +573,6 @@ export async function showMetricsOverview(pMap, numP, puzzData, anonymize=true) 
     $("#funnel-difficulty").show()
 
     document.getElementById("player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
-    showPlayerList(playerButtonClass, "player-list", playerMap, (event) => {togglePlayer(event.target.id)}, anonymizeNames)
+    showPlayerList(playerButtonClass, "player-list", playerMap, (event) => {togglePlayer(event.target.id)})
     showFunnels(Object.keys(puzzleData['puzzles'])[0])
 }

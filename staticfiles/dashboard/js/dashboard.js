@@ -11,6 +11,7 @@ import { showPortal } from './pages/portal.js'
 var activeTab = null
 var playerMap = null 
 var numPlayers = 0
+var versionTime = null
 var puzzleData = null
 var funnelData = null
 var levelsOfActivity = null
@@ -25,8 +26,8 @@ var persistenceByPuzzleData = null
 var insightsData = null
 var misconceptionsData = null
 
-function handleTabSwitch(tab) {
-    if (activeTab === tab) return 
+function handleTabSwitch(tab, ignoreDuplicate = true) {
+    if (ignoreDuplicate && activeTab === tab) return 
     
     activeTab = tab
     switch (activeTab) {
@@ -54,39 +55,76 @@ function handleTabSwitch(tab) {
     }
 }
 
+function showAPIError(errorMessage) {
+    console.error(errorMessage)
+    $("#page-spinner").html(`Unable to retrieve data for <span class="font-weight-bold">${GROUP}</span>. Please use the admin console to trigger data processing for <span class="font-weight-bold">${GROUP}</span>.`)
+}
+
+async function handleShowNames() {
+    const val = $("#show-names-pwd").val()
+    console.log(val)
+
+    if (val == "test") {
+        $("#show-names-incorrect-pwd").hide()
+        $("#show-names-pwd").removeClass("is-invalid")
+        // TODO: add loader
+        callAPI(`${API}/players`, "POST").then(result => {
+            playerMap = result
+            handleTabSwitch(activeTab, false)
+        })
+        return
+    }
+    
+    $("#show-names-incorrect-pwd").show()
+    $("#show-names-pwd").addClass("is-invalid")
+    $("#show-names-pwd").val("")
+}
+
 async function startDashboard() {
     // TODO: move the rest of the API calls here
-    playerMap = await callAPI(`${API}/players`)
-    numPlayers = Object.keys(playerMap).length
-    puzzleData = await callAPI(`${API}/puzzles`)
-    funnelData = await callAPI(`${API}/funnelperpuzzle`)
-    levelsOfActivity = await callAPI(`${API}/levelsofactivity`)
-    sequenceBetweenPuzzles = await callAPI(`${API}/sequencebetweenpuzzles`)
-    outlierData = await callAPI(`${API}/mloutliers`)
-    insightsData = await callAPI(`${API}/insights`)
-    misconceptionsData = await callAPI(`${API}/misconceptions`)
-
-    const rawCompletedData = await callAPI(`${API}/completed`)
-    completedPuzzleData = {}
-    completedPuzzleDataNoSandbox = {}
-    for (let student of Object.keys(rawCompletedData)) {
-        completedPuzzleData[student] = new Set(rawCompletedData[student])
-        completedPuzzleDataNoSandbox[student] = completedPuzzleData[student] 
-        completedPuzzleDataNoSandbox[student].delete(SANDBOX_PUZZLE_NAME)
+    versionTime = await callAPI(`${API}/versiontime`)
+    if (!Object.keys(versionTime).length) {
+        showAPIError("No data has been processed yet for this group.")
+        return
     }
+    $("#last-processed-time").text(d3.timeFormat("%c")(new Date(versionTime.date)))
 
-    const rawAttemptedData = await callAPI(`${API}/attempted`)
-    attemptedPuzzleData = {}
-    attemptedPuzzleDataNoSandbox = {}
-    for (let student of Object.keys(rawCompletedData)) {
-        attemptedPuzzleData[student] = new Set(rawAttemptedData[student])
-        attemptedPuzzleDataNoSandbox[student] = attemptedPuzzleData[student]
-        attemptedPuzzleDataNoSandbox[student].delete(SANDBOX_PUZZLE_NAME)
+    try {
+        playerMap = await callAPI(`${API}/players`)
+        numPlayers = Object.keys(playerMap).length
+        puzzleData = await callAPI(`${API}/puzzles`)
+        funnelData = await callAPI(`${API}/funnelperpuzzle`)
+        levelsOfActivity = await callAPI(`${API}/levelsofactivity`)
+        sequenceBetweenPuzzles = await callAPI(`${API}/sequencebetweenpuzzles`)
+        outlierData = await callAPI(`${API}/mloutliers`)
+        insightsData = await callAPI(`${API}/insights`)
+        misconceptionsData = await callAPI(`${API}/misconceptions`)
+
+        const rawCompletedData = await callAPI(`${API}/completed`)
+        completedPuzzleData = {}
+        completedPuzzleDataNoSandbox = {}
+        for (let student of Object.keys(rawCompletedData)) {
+            completedPuzzleData[student] = new Set(rawCompletedData[student])
+            completedPuzzleDataNoSandbox[student] = completedPuzzleData[student]
+            completedPuzzleDataNoSandbox[student].delete(SANDBOX_PUZZLE_NAME)
+        }
+
+        const rawAttemptedData = await callAPI(`${API}/attempted`)
+        attemptedPuzzleData = {}
+        attemptedPuzzleDataNoSandbox = {}
+        for (let student of Object.keys(rawCompletedData)) {
+            attemptedPuzzleData[student] = new Set(rawAttemptedData[student])
+            attemptedPuzzleDataNoSandbox[student] = attemptedPuzzleData[student]
+            attemptedPuzzleDataNoSandbox[student].delete(SANDBOX_PUZZLE_NAME)
+        }
+
+        persistenceData = await callAPI(`${API}/persistence`)
+        persistenceByPuzzleData = await callAPI(`${API}/puzzlepersistence`)
+
+        handleTabSwitch(TABS.PORTAL)
+    } catch (error) {
+        showAPIError(error)
     }
-
-    persistenceData = await callAPI(`${API}/persistence`)
-    persistenceByPuzzleData = await callAPI(`${API}/puzzlepersistence`)
-    handleTabSwitch(TABS.PORTAL)
 }
 
 $(document).ready(() => {
@@ -98,5 +136,6 @@ $(document).ready(() => {
     $("#nav-ml-outliers").click(() => handleTabSwitch(TABS.ML_OUTLIERS))
     $("#nav-portal").click(() => handleTabSwitch(TABS.PORTAL))
 
+    $("#show-names-form").submit(() => handleShowNames())
     startDashboard()
 })

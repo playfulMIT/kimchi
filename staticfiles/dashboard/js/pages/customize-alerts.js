@@ -341,7 +341,7 @@ function initializeRangeDictionary() {
 }
 
 // TODO: handle filter name stufff
-
+// TODO: check task dates
 export function showCustomizeTab() {
     if (!workspace) {
         initializeBlocklyWorkspace()

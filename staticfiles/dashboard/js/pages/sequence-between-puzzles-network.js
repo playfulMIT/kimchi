@@ -8,7 +8,6 @@ var playerMap = null
 var puzzleData = null
 var playerSequences = null
 var levelsOfActivity = null
-var anonymizeNames = true
 var playerStats = {}
 
 var activePlayer = null
@@ -749,7 +748,7 @@ function createNetwork(perStudent = true) {
 
         // TODO: fix
         link.append("title")
-            .text((d) => anonymizeNames ? d.students.join() : d.students.map(s => playerMap[s]).join())
+            .text(d => d.students.map(s => playerMap[s]).join())
     }
 
     var gnodes = svg.selectAll('g.gnode')
@@ -837,15 +836,14 @@ function createDisplayOptions() {
 function generatePlayerList() {
     const numPlayers = Object.keys(playerMap).length
     document.getElementById("puzzle-network-player-count").innerHTML = `${numPlayers} ${formatPlurals("Student", numPlayers)}`
-    showPlayerList(playerButtonClass, "puzzle-network-player-list", playerMap, (event) => {togglePlayerSelectMultiple(event.target.id)}, anonymizeNames)
+    showPlayerList(playerButtonClass, "puzzle-network-player-list", playerMap, (event) => {togglePlayerSelectMultiple(event.target.id)})
 }
 
-export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, loa, anonymize=true) {
-    if (!playerMap) {
-        playerMap = pMap
+export function showSequenceBetweenPuzzlesNetwork(pMap, puzzData, seq, loa) {
+    playerMap = pMap
+    if (!puzzleData) {
         puzzleData = puzzData
         playerSequences = createSequenceDataPerStudent(seq)
-        anonymizeNames = anonymize
         levelsOfActivity = loa
 
         generatePlayerStats()
