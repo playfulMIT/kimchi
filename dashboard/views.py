@@ -39,17 +39,17 @@ def create_player_list(url, include_name = False):
         return CustomSession.objects.filter(url__name=url).values_list("player__name", "player__pk").distinct()
     return CustomSession.objects.filter(url__name=url).values_list("player__pk", flat = True).distinct()
 
-def create_player_map(url):
+def create_player_map(url, anonymize = False):
     pk_to_player_map = dict()
     player_list = create_player_list(url, True)
     for (player, pk) in player_list:
         if not player or player == "null":
             continue
-        pk_to_player_map[pk] = player
+        pk_to_player_map[pk] = str(pk) if anonymize else player 
     return pk_to_player_map
 
 def get_player_list(request, slug):
-    return JsonResponse(create_player_map(slug))
+    return JsonResponse(create_player_map(slug, anonymize=True))#anonymize=(request.method != "POST")))
 
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
@@ -493,6 +493,36 @@ def get_misconceptions_data(request, slug):
             for column in columns:
                 attempt_dict[column] = result[column][i]
             new_result[user][puzzle].append(attempt_dict)
+
+        return JsonResponse(new_result)
+    except ObjectDoesNotExist:
+        return JsonResponse({})
+
+def get_competency_data(request, slug):
+    try:
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeELO(['" + slug + "']")
+        result = json.loads(task_result)['competency_ELO']
+
+        new_result = defaultdict(lambda: defaultdict(dict))
+        player_map = {v: k for k, v in create_player_map(slug).items()}
+
+        for i in result['group'].keys():
+            user = player_map.get(result['user'][i])
+
+            if user == None:
+                continue
+
+            competency_dict = {
+                'score': float(result['competency'][i]), 
+                'model_accuracy': float(result['accuracy'][i]), 
+                'n_puzzles_attempted': float(result['n_puzzles_attempted'][i]), 
+                'p_attempted': float(result['p_attempted'][i]), 
+                'pca': float(result['pca'][i]), 
+                'pca_normalized': float(result['pca_normalized'][i])
+            }
+            competency_category = result['kc'][i]
+
+            new_result[user][competency_category] = competency_dict
 
         return JsonResponse(new_result)
     except ObjectDoesNotExist:

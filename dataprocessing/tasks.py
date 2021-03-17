@@ -1783,8 +1783,18 @@ def computePersistenceByPuzzle(group = 'all'):
 
 @app.task
 def computeELO(group = 'all'):
-    totalData, train_set, test_set = adaptedData(group=group)
-    difficulty_ELO, competency_ELO = run('multiTopic',1.8, 0.05, totalData, train_set, test_set)
+    if group == 'all' : 
+        toFilter = all_data_collection_urls
+    else:
+        toFilter = group
+        
+    urls = URL.objects.filter(name__in=toFilter)
+    sessions = CustomSession.objects.filter(url__in=urls)
+    qs = Event.objects.filter(session__in=sessions)
+    dataEvents = read_frame(qs)
+
+    totalData, train_set, test_set = adaptedData(dataEvents, group=group)
+    competency_ELO, difficulty_ELO = run(1.8, 0.05, 'standard', totalData, train_set, test_set)
     return "{\"difficulty_ELO\": " + difficulty_ELO.to_json() + ", \"competency_ELO\": " + competency_ELO.to_json() + "}"
 
 @app.task

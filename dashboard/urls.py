@@ -24,6 +24,7 @@ urlpatterns = [
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/insights", views.get_insights),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/difficulty", views.get_puzzle_difficulty_mapping),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/misconceptions", views.get_misconceptions_data),
+    re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/competency", views.get_competency_data),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/report/(?P<start>[0-9]+)/(?P<end>[0-9]+)", views.get_report_summary),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/report", views.get_report_summary),
     re_path(r"^api/dashboard/(?P<slug>[a-zA-Z0-9-_]+)/(?P<player>[a-zA-Z0-9-_.]+)/(?P<level>[a-zA-Z0-9-_.]+)/replayurls", views.get_replay_urls),
