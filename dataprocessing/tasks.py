@@ -1866,21 +1866,21 @@ def generate_metadata_and_run_tasks():
 #     sender.add_periodic_task(30.0, test.s('world'), expires=10)
 
 @app.task
-def message(arg):
+def msg(arg):
     print(arg)
 
 @app.task
 def process_tasks_for_flagged_urls():
     tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
-    message.s('Checking for URLs to process').apply_async()
+    msg.s('Checking for URLs to process').apply_async()
     urls = URL.objects.filter(process=True)
     for url in urls:
-        message.s("URL " + url.name + " flagged for processing").apply_async()
+        msg.s("URL " + url.name + " flagged for processing").apply_async()
         for task in tasks:
             result = process_task(task, [url.name])
             url.process = False
             url.save()
-            message.s("task finished with state: " + result.state).apply_async()
+            msg.s("task finished with state: " + result.state).apply_async()
 
 
 @app.on_after_configure.connect
