@@ -1864,6 +1864,25 @@ def generate_metadata_and_run_tasks():
 #
 #     # Calls test('world') every 30 seconds
 #     sender.add_periodic_task(30.0, test.s('world'), expires=10)
+@app.task
+def process_tasks_for_flagged_urls():
+    tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
+    urls = URL.objects.filter(process=True)
+    for url in urls:
+        for task in tasks:
+            process_task(task, [url.name])
+            url.process = False
+            url.save()
+
+
+@app.on_after_configure.connect
+def process_task_beat(sender, **kwargs):
+    # Tries to auto_process_tasks every 30 seconds.
+    sender.add_periodic_task(30.0, process_tasks_for_flagged_urls.s())
+
+
+
+
 
 @app.task
 def generate_all_replays():
