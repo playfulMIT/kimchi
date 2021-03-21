@@ -1879,17 +1879,17 @@ def process_tasks_for_flagged_urls():
         for task in tasks:
             try:
                 result = process_task(task, [url.name])
-                url.process = False
-                url.save()
                 msg.s("task finished with state: " + result.state).apply_async()
             except:
                 msg.s("FAILED TASK")
+            url.process = False
+            url.save()
 
 
 @app.on_after_configure.connect
 def process_task_beat(sender, **kwargs):
     # Tries to auto_process_tasks every 10 seconds.
-    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s().apply_async())
+    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
 
 
 
