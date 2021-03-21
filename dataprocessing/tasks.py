@@ -1867,12 +1867,15 @@ def generate_metadata_and_run_tasks():
 @app.task
 def process_tasks_for_flagged_urls():
     tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
+    print('Checking for URLs to process')
     urls = URL.objects.filter(process=True)
     for url in urls:
+        print("URL " + url.name + " flagged for processing")
         for task in tasks:
-            process_task(task, [url.name])
+            result = process_task(task, [url.name])
             url.process = False
             url.save()
+            print("task finished with state: " + result.state)
 
 
 @app.on_after_configure.connect
