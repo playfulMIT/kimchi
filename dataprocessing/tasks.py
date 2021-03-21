@@ -1877,10 +1877,13 @@ def process_tasks_for_flagged_urls():
     for url in urls:
         msg.s("URL " + url.name + " flagged for processing").apply_async()
         for task in tasks:
-            result = process_task(task, [url.name])
-            url.process = False
-            url.save()
-            msg.s("task finished with state: " + result.state).apply_async()
+            try:
+                result = process_task(task, [url.name])
+                url.process = False
+                url.save()
+                msg.s("task finished with state: " + result.state).apply_async()
+            except:
+                msg.s("FAILED TASK")
 
 
 @app.on_after_configure.connect
