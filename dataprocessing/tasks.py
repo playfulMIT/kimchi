@@ -1886,7 +1886,7 @@ def process_tasks_for_flagged_urls():
             url.save()
 
 
-@app.on_after_configure.connect
+@app.on_after_finalize.connect
 def process_task_beat(sender, **kwargs):
     # Tries to auto_process_tasks every 10 seconds.
     sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
