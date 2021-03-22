@@ -1872,18 +1872,18 @@ def msg(arg):
 @app.task
 def process_tasks_for_flagged_urls():
     tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
-    msg.s('Checking for URLs to process').apply_async()
+    print('Checking for URLs to process')
     urls = URL.objects.filter(process=True)
     for url in urls:
         url.process = False
         url.save()
-        msg.s("URL " + url.name + " flagged for processing").apply_async()
+        print("URL " + url.name + " flagged for processing")
         for task in tasks:
             try:
                 result = process_task(task, [url.name])
-                msg.s("task finished with state: " + result.state).apply_async()
+                print("task finished with state: " + result.state)
             except:
-                msg.s("FAILED TASK")
+                print("FAILED TASK")
             
 
 
@@ -1892,9 +1892,16 @@ def process_task_beat(sender, **kwargs):
     # Tries to auto_process_tasks every 10 seconds.
     sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
 
+@app.task
+def event_waterfall(sender, **kwargs):
+    last_event = Event.objects.using('default').last()
+    new_events_production = Event.objects.using('production').filter(pk__gt=last_event.pk)
+    for event in new_events_production:
+        event.save(using='default')
 
-
-
+@app.on_after_finalize.connect
+def event_waterfall_beat(sender, **kwargs):
+    sender.add_periodic_task(10.0, event_waterfall.s(), name="event_waterfall")
 
 @app.task
 def generate_all_replays():

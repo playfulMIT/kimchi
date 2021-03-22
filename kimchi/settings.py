@@ -130,9 +130,18 @@ try:
             "PASSWORD": "",
             "HOST": "",  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
             "PORT": "",  # Set to empty string for default.
+        },
+        "production": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "kimchi",  # Or path to database file if using sqlite3.
+            "USER": "",
+            "PASSWORD": "",
+            "HOST": "",  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            "PORT": "",  # Set to empty string for default.
         }
     }
     DATABASES["default"] = env.db("MIT_URL")
+    DATABASES["production"] = env.db("PRODUCTION_DB")
     REDIS = os.environ["REDIS_URL"]
 except KeyError as e:
     print(e)
