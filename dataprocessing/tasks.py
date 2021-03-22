@@ -1892,9 +1892,11 @@ def event_waterfall():
     last_event = Event.objects.using('default').last()
     new_events_production = Event.objects.using('production').filter(pk__gt=last_event.pk)
     print("Checking for new events beyond dev event ID: " + str(last_event.pk))
-    for event in new_events_production:
-        print("syncing event id: " + str(event.pk))
-        event.save(using='default')
+    if new_events_production.count() > 0:
+        print("Events found!")
+        for event in new_events_production.iterator():
+            print("syncing event id: " + str(event.pk))
+            event.save(using='default')
 
 
 @app.on_after_finalize.connect
