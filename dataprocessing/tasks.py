@@ -1893,7 +1893,7 @@ def process_task_beat(sender, **kwargs):
     sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
 
 @app.task
-def event_waterfall(sender, **kwargs):
+def event_waterfall():
     last_event = Event.objects.using('default').last()
     new_events_production = Event.objects.using('production').filter(pk__gt=last_event.pk)
     for event in new_events_production:
