@@ -1887,22 +1887,23 @@ def process_tasks_for_flagged_urls():
             
 
 
-@app.on_after_finalize.connect
-def process_task_beat(sender, **kwargs):
-    # Tries to auto_process_tasks every 10 seconds.
-    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
-
 @app.task
 def event_waterfall():
     last_event = Event.objects.using('default').last()
     new_events_production = Event.objects.using('production').filter(pk__gt=last_event.pk)
+    print("Checking for new events beyond dev event ID: " + str(last_event.pk))
     for event in new_events_production:
         print("syncing event id: " + str(event.pk))
         event.save(using='default')
 
+
 @app.on_after_finalize.connect
-def event_waterfall_beat(sender, **kwargs):
+def schedule_tasks(sender, **kwargs):
+    # Tries to auto_process_tasks every 10 seconds.
+    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
     sender.add_periodic_task(10.0, event_waterfall.s(), name="event_waterfall")
+
+
 
 @app.task
 def generate_all_replays():
