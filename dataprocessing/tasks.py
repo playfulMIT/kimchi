@@ -1785,8 +1785,8 @@ def computePersistenceByPuzzle(group = 'all'):
 def computeELO(group = 'all'):
     if group == 'all' : 
         toFilter = all_data_collection_urls
-    # else:
-    #     toFilter = group
+    else:
+        toFilter = group
         
     urls = URL.objects.filter(name__in=toFilter)
     sessions = CustomSession.objects.filter(url__in=urls)
@@ -1866,20 +1866,24 @@ def msg(arg):
 def process_tasks_for_flagged_urls():
     # tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
     tasks = [computeLevelsOfActivityOutliers, sequenceBetweenPuzzles, computePersistence, computeLevelsOfActivity,
-             computeFunnelByPuzzle, computePersistenceByPuzzle, computeMisconceptions, computeELO]
+             computeFunnelByPuzzle, computePersistenceByPuzzle, computeMisconceptions] # not incl. computeELO
     print('Checking for URLs to process')
     urls = URL.objects.filter(process=True)
     for url in urls:
-        url.process = False
-        url.save()
         print("URL " + url.name + " flagged for processing")
         for task in tasks:
-            try:
-                result = process_task(task, [url.name])
-                print("task finished with state: " + result.state)
-            except:
-                print("FAILED TASK")
-            
+        sig = str(task.s([url.name]))
+        state = Task.objects.get(signature=sig).state
+            if state != "starting" or state != "processing":
+                try:
+                    result = process_task(task, [url.name])
+                    print("task finished with state: " + result.state)
+                except:
+                    print("FAILED TASK")
+        else:
+            print("TASKS ALREADY IN QUEUE")
+        url.process = False
+        url.save()
 
 
 @app.task
