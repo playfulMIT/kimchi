@@ -501,7 +501,7 @@ def get_misconceptions_data(request, slug):
 
 def get_competency_data(request, slug):
     try:
-        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeELO(['" + slug + "']")
+        task_result = Task.objects.values_list('result', flat=True).get(signature__contains="computeELO()")
         result = json.loads(task_result)['competency_ELO']
 
         new_result = defaultdict(lambda: defaultdict(dict))
@@ -510,6 +510,8 @@ def get_competency_data(request, slug):
         check_nan = lambda x: "N/A" if math.isnan(x) else x
 
         for i in result['group'].keys():
+            if slug != result['group'][i]:
+                continue
             user = player_map.get(result['user'][i])
 
             if user == None:
