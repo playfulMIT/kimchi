@@ -11,6 +11,7 @@ body {
 /* .row, */
 .main-col,
 .page,
+.loader-container,
 #player-card {
     height: 100%;
 }
@@ -105,4 +106,45 @@ a {
 
 #navbar {
     justify-content: space-between;
+}
+
+.non-spaced-header-container{
+    margin-left: -55px;
+}
+
+.spaced-header-container{
+    margin-left: 55px;
+}
+
+.rotated-header th.rotated {
+    height: 160px;
+    vertical-align: bottom;
+    text-align: left;
+    line-height: 1;
+}
+
+.last-cell {
+    width: 100px !important;
+}
+
+.rotated-header-container {
+    width: 75px;
+}
+
+.rotated-header-content {
+    width: 200px;
+    transform-origin: bottom left;
+    transform: translateX(75px) rotate(-45deg);
+}
+
+.rotated-header td:not(:first-child) {
+    text-align: right;
+}
+
+.small-cell {
+    min-width: 70px;
+}
+
+.medium-cell {
+    min-width: 100px;
 }

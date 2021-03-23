@@ -44,7 +44,7 @@
                 <form class="navbar-text form-inline">
                     <span>Last processed on <span id="last-processed-time"></span></span>
                     &nbsp;
-                    <a id="show-names-btn" href="#" data-toggle="modal" data-target="#show-names-modal"><i class="fas fa-user-friends fa-lg text-primary"></i></a>
+                    <a id="show-names-btn" href="#" data-toggle="modal" data-target="#show-names-modal"><i class="fas fa-user-friends fa-lg"></i></a>
                 </form>
             </div>
         </nav>
@@ -466,7 +466,7 @@
                                     <li class="nav-item" role="presentation">
                                         <a id="portal-report-tab" class="nav-link black-link" data-toggle="tab" role="tab"
                                             aria-controls="portal-view-report-container" aria-selected="false"
-                                            href="#portal-view-report-container">Report</a>
+                                            href="#portal-view-report-container">Reports</a>
                                     </li>
                                 </ul>
                             </div>
@@ -574,20 +574,89 @@
                             <div id="customize-alerts-list"></div>
                         </div>  
                     </div>
-                    <div id="portal-view-report-container" style="display: none;"">
-                        <div class="loader-container container page">
-                            <div class="page-spinner text-center">
-                                <div class="spinner spinner-border text-info" role="status">
-                                    <span class="sr-only">Loading...</span>
+                    <div id="portal-view-report-container" style="display: none;">
+                        <div id="portal-report-select" class="portal-report-page">
+                            <button id="portal-report-select-puzzle" class="btn btn-link report-option">Show Puzzle Progress Report</button>
+                            <button id="portal-report-select-competency" class="btn btn-link report-option">Show Competency Report</button>
+                        </div>
+                        <div id="portal-report-competency" class="portal-report-page" style="display: none;">
+                            <div class="portal-report-settings">
+                                <div class="form-row align-items-center justify-content-start" style="width: 100%;">
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-link portal-report-back-btn text-dark"><i class="fas fa-arrow-left"></i> Back</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="portal-report-bottom">
+                                <div id="portal-competency-report-table-container" class="container freeze-table">
+                                    <table id="portal-competency-report-table" class="table table-hover"></table>
                                 </div>
                             </div>
                         </div>
-                        <div id="portal-report-container">
-                            <input type="date" name="..." min="2017-04-01" max="2017-04-20" required>
+                        <div id="portal-report-puzzle" class="portal-report-page" style="display: none;">
+                            <div id="portal-puzzle-report-settings" class="portal-report-settings">
+                                <div class="form-row align-items-center justify-content-between" style="width: 100%;">
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-link portal-report-back-btn text-dark"><i
+                                                class="fas fa-arrow-left"></i> Back</button>
+                                    </div>
+                                    <div class="col-auto d-flex">
+                                        <div>
+                                            <label class="font-weight-bold inline-label-padded">Date Range</label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="portal-report-time-radio"
+                                                    id="portal-report-time-radio-all" value="all" checked>
+                                                <label class="form-check-label" for="portal-report-time-radio-all">
+                                                    All Time
+                                                </label>
+                                            </div>
+                                            <span style="padding-right: 5px; font-weight: 500; margin-left: -5px;">OR</span>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="portal-report-time-radio"
+                                                    id="portal-report-time-radio-range" value="range">
+                                                <label id="portal-report-dates" class="form-check-label" for="portal-report-time-radio-range">
+                                                    <input type="date" id="portal-report-start-date">
+                                                    <span>to</span>
+                                                    <input type="date" id="portal-report-end-date">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div style="padding-left: 20px;">
+                                            <button id="portal-report-reload-btn" class="btn btn-success">Generate Report</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label class="font-weight-bold inline-label-padded">Puzzles</label>
+                                        <span style="background-color: white; border-radius: 4px; padding: 5px;">
+                                            <span><span id="portal-report-selected-puzzle-count">All</span> Puzzles Selected </span>
+                                            <button id="portal-report-puzzle-btn" data-toggle="modal" data-target="#puzzle-select-modal">Select
+                                                Puzzles...</button>
+                                        </span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button id="portal-report-legend" class="btn btn-link" type="button" data-html="true" data-container="body"
+                                            data-toggle="popover" data-placement="left" data-trigger="focus" data-title="Puzzle Legend"
+                                            data-content="<div style='text-align: left;'><p><span class='text-success'><i class='fas fa-check-circle fa-lg report-legend'></i></span><span>The student completed this puzzle.</span></p><p><span class='fa-layers fa-fw text-warning report-legend'><i class='fas fa-circle fa-lg'></i><span class='fa-layers-text fa-inverse' data-fa-transform='shrink-1 right-1' style='font-weight:800'>X</span></span><span>The student unsuccessfully submitted a solution to this puzzle X times.</span></p><p><span class='text-secondary report-legend'><i class='fas fa-minus-circle fa-lg'></i></span><span>The student has opened the puzzle, but has not submitted any attempts.</span></p></div>">Symbol
+                                            Help <i class="far fa-question-circle"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="portal-report-bottom">
+                                <div id="portal-puzzle-report-loader" class="loader-container container">
+                                    <div class="page-spinner text-center">
+                                        <div class="spinner spinner-border text-info" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="portal-puzzle-report-table-container" class="container freeze-table" style="display: none;">
+                                    <table id="portal-puzzle-report-table" class="table table-hover rotated-header"></table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div id="show-names-modal" class="modal fade" tabindex="-1">
-                        <form id="show-names-form">
+                    <form id="show-names-form">
+                        <div id="show-names-modal" class="modal fade" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -611,14 +680,33 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                    </form>
+                    <div id="puzzle-select-modal" class="modal fade" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered" style="max-width: fit-content !important;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Select Puzzles for Report</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Drag over the boxes to select/deselect puzzles to be included in the report.</p>
+                                    <div id="portal-report-puzzle-select"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button id="portal-report-select-puzzles-btn" class="btn btn-primary">Select Puzzles</input>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script> const GROUP = "{{url}}"; </script> 
     <script src="/static/dashboard/js/vendor/jquery-3.3.1.min.js"></script>
     <script src="/static/dashboard/js/vendor/jquery-ui-1.12.1.min.js"></script>
     <script src="/static/dashboard/js/vendor/popper.min.js"></script>
@@ -626,10 +714,18 @@
     <script src="/static/dashboard/js/vendor/fontawesome-all.min.js"></script>
     <script src="/static/dashboard/js/vendor/echarts-en.min.js"></script>
     <script src="/static/dashboard/js/vendor/d3.min.js"></script>
+    <script src="/static/dashboard/js/vendor/freeze-table.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/blockly/blockly_compressed.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/blockly/blocks_compressed.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/blockly/javascript_compressed.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/blockly/msg/js/en.js"></script>
+
+    {% csrf_token %}
+    <script> 
+        const GROUP = "{{url}}"; 
+        var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+    </script> 
+    
     <script src="/static/dashboard/js/dashboard.js" type="module"></script>
 
     <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">

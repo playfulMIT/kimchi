@@ -25,6 +25,7 @@ var persistenceData = null
 var persistenceByPuzzleData = null
 var insightsData = null
 var misconceptionsData = null
+var competencyData = null
 
 function handleTabSwitch(tab, ignoreDuplicate = true) {
     if (ignoreDuplicate && activeTab === tab) return 
@@ -50,7 +51,7 @@ function handleTabSwitch(tab, ignoreDuplicate = true) {
             showMachineLearningOutliers(playerMap, puzzleData, outlierData, levelsOfActivity, completedPuzzleData)
             break
         case TABS.PORTAL:
-            showPortal(playerMap, puzzleData, persistenceData, persistenceByPuzzleData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, funnelData, levelsOfActivity, insightsData, misconceptionsData)
+            showPortal(playerMap, puzzleData, persistenceData, persistenceByPuzzleData, completedPuzzleDataNoSandbox, attemptedPuzzleDataNoSandbox, funnelData, levelsOfActivity, insightsData, misconceptionsData, competencyData)
             break
     }
 }
@@ -65,8 +66,10 @@ async function handleShowNames() {
     console.log(val)
 
     if (val == "test") {
+        $("#show-names-modal").modal('hide')
         $("#show-names-incorrect-pwd").hide()
         $("#show-names-pwd").removeClass("is-invalid")
+        $("#show-names-btn").addClass("text-primary")
         // TODO: add loader
         callAPI(`${API}/players`, "POST").then(result => {
             playerMap = result
@@ -120,6 +123,7 @@ async function startDashboard() {
 
         persistenceData = await callAPI(`${API}/persistence`)
         persistenceByPuzzleData = await callAPI(`${API}/puzzlepersistence`)
+        competencyData = await callAPI(`${API}/competency`)
 
         handleTabSwitch(TABS.PORTAL)
     } catch (error) {
