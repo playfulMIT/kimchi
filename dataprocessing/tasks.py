@@ -742,7 +742,7 @@ def computeLevelsOfActivity(group='all'):
             # TODO: why is timeTotal sum incorrect?
             if task == "all":
                 value["timeTotal"] = value["inactive_time"] + value["active_time"]
-            if task in completed_puzzles_map[student]:
+            if student in completed_puzzles_map and task in completed_puzzles_map[student]:
                 for key in value.keys():
                     values[key].append(value[key])
                     completed_values[key].append(value[key])
@@ -817,7 +817,7 @@ def computeLevelsOfActivity(group='all'):
 
 @app.task
 def computeLevelsOfActivityOutliers(group='all'):
-    url = URL.objects.get(name='leja') #TODO: fix name 
+    url = URL.objects.get(name__in=group)
     puzzles = get_puzzles_dict(url.name)["puzzles"]
     task = list(Task.objects.filter(signature__contains="computeLevelsOfActivity(['"+url.name+"']").values_list("result", flat=True))[0]
     np.random.seed(0)
@@ -1785,8 +1785,8 @@ def computePersistenceByPuzzle(group = 'all'):
 def computeELO(group = 'all'):
     if group == 'all' : 
         toFilter = all_data_collection_urls
-    else:
-        toFilter = group
+    # else:
+    #     toFilter = group
         
     urls = URL.objects.filter(name__in=toFilter)
     sessions = CustomSession.objects.filter(url__in=urls)
