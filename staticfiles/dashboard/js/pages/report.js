@@ -290,9 +290,13 @@ function selectPuzzles() {
 
 // TODO: ELO..., new report type option?
 
-function handleDateChange() {
+function handleDateChange(reload = false) {
     var dateVal = document.querySelector('input[name = "portal-report-time-radio"]:checked').value
     if (dateVal === "all") {
+        if (reload) {
+            displayPuzzleReport()
+            return
+        }
         loadPuzzleReport()
         return
     }
@@ -302,6 +306,10 @@ function handleDateChange() {
 
     if (!checkDate()) return
 
+    if (reload) {
+        displayPuzzleReport()
+        return
+    }
     loadPuzzleReport(Math.round(startDate.getTime() / 1000), Math.round(endDate.getTime() / 1000))
 }
 
@@ -316,7 +324,10 @@ export function initializeTab(pMap, puzzles, competency) {
     puzzleList = puzzles
     competencyData = competency
     selectedPuzzles = selectedPuzzles || new Set(puzzleList)
-    if (reload) handleDateChange()
+    if (reload) {
+        displayCompetencyReport()
+        handleDateChange(true)
+    }
 
     $("#portal-puzzle-report-table-container").freezeTable({ namespace: "first-table", scrollable: true })
     $("#portal-competency-report-table-container").freezeTable({ namespace: "second-table", freezeHead: true })
