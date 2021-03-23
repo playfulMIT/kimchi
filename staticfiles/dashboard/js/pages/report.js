@@ -324,7 +324,7 @@ export function initializeTab(pMap, puzzles, competency) {
     puzzleList = puzzles
     competencyData = competency
     selectedPuzzles = selectedPuzzles || new Set(puzzleList)
-    if (reload) {
+    if (reload && reportData) {
         displayCompetencyReport()
         handleDateChange(true)
     }
