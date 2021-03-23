@@ -1895,14 +1895,26 @@ def event_waterfall():
     if new_events_production.count() > 0:
         print("Events found!")
         for event in new_events_production.iterator():
-            print("syncing event id: " + str(event.pk))
+            event_session = event.session
+            if not CustomSession.objects.using('default').filter(session_key=event_session.pk).exists():
+                event_player = event_session.player
+                event_url = event_session.url
+                if not URL.objects.using('default').filter(url=event_url).exists():
+                    event_url.save(using='default')
+                    print('created url: ' + str(event_url.name))
+                if not Player.objects.using('default').filter(url=event_url).filter(name=event_player.name).exists():
+                    event_player.save(using='default')
+                    print('created player: ' + str(event_player.name))
+                event_session.save(using='default')
+                print('created session: ' + str(event_session.key) )
             event.save(using='default')
+            print('created event: ' + str(event.pk))
 
 
 @app.on_after_finalize.connect
 def schedule_tasks(sender, **kwargs):
     # Tries to auto_process_tasks every 10 seconds.
-    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
+    sender.add_periodic_task(30.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
     sender.add_periodic_task(30.0, event_waterfall.s(), name="event_waterfall")
 
 
