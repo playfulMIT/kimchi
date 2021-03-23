@@ -81,7 +81,7 @@ def process_task(task, *args):
         result = task_sig.apply_async()
         task_db.state = "processing"
         task_db.save(update_fields=['state'])
-        task_db.result = result
+        task_db.result = result.get()
         task_db.state = "done"
         task_db.time_ended = timezone.now()
         task_db.errors = ""
@@ -1893,6 +1893,7 @@ def process_tasks_for_flagged_urls():
 def event_waterfall():
     last_event = Event.objects.using('default').last()
     new_events_production = Event.objects.using('production').filter(pk__gt=last_event.pk)
+    # new_events_production = Event.objects.all()
     print("Checking for new events beyond dev event ID: " + str(last_event.pk))
     if new_events_production.count() > 0:
         print("Events found!")
