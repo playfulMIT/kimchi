@@ -1871,7 +1871,9 @@ def msg(arg):
 
 @app.task
 def process_tasks_for_flagged_urls():
-    tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
+    # tasks = [computeFunnelByPuzzle, sequenceBetweenPuzzles, computeLevelsOfActivity]
+    tasks = [computeLevelsOfActivityOutliers, sequenceBetweenPuzzles, computePersistence, computeLevelsOfActivity,
+             computeFunnelByPuzzle, computePersistenceByPuzzle, computeMisconceptions, computeELO]
     print('Checking for URLs to process')
     urls = URL.objects.filter(process=True)
     for url in urls:
