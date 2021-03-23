@@ -57,8 +57,9 @@ function handleTabSwitch(tab, ignoreDuplicate = true) {
 }
 
 function showAPIError(errorMessage) {
+    $("#main-page-spinner").html(`Unable to retrieve data for <span class="font-weight-bold">${GROUP}</span>. Please use the admin console to trigger data processing for <span class="font-weight-bold">${GROUP}</span>.`)
     console.error(errorMessage)
-    $("#page-spinner").html(`Unable to retrieve data for <span class="font-weight-bold">${GROUP}</span>. Please use the admin console to trigger data processing for <span class="font-weight-bold">${GROUP}</span>.`)
+    
 }
 
 async function handleShowNames() {
