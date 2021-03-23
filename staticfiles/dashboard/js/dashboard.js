@@ -63,7 +63,6 @@ function showAPIError(errorMessage) {
 
 async function handleShowNames() {
     const val = $("#show-names-pwd").val()
-    console.log(val)
 
     if (val == "test") {
         $("#show-names-modal").modal('hide')
@@ -140,6 +139,9 @@ $(document).ready(() => {
     $("#nav-ml-outliers").click(() => handleTabSwitch(TABS.ML_OUTLIERS))
     $("#nav-portal").click(() => handleTabSwitch(TABS.PORTAL))
 
-    $("#show-names-form").submit(() => handleShowNames())
+    $("#show-names-form").submit((event) => {
+        event.preventDefault()
+        handleShowNames()
+    })
     startDashboard()
 })
