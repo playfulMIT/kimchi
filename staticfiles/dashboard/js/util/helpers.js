@@ -14,7 +14,8 @@ export function callAPI(url, method="GET") {
     return new Promise((resolve, reject) => {
         fetch(url, {
             method: method,
-            credentials: "same-origin"
+            credentials: "include",
+            headers: new Headers({ 'X-CSRFToken': csrfToken})
         }).then(response => { resolve(response.json()) })
     })
 }
@@ -280,7 +281,7 @@ export function createOptionDropdownItems(dropdownId, dropdownLabelId, prefix, l
     }
 }
 
-export function buildRadarChart(currentDataset, axisValues, svgId, legendList) {
+export function buildRadarChart(currentDataset, axisValues, svgId, legendList, playerMap) {
     if (axisValues.length === 0) return
 
     var w = 350;
@@ -339,4 +340,90 @@ export function getClassAverage(stats) {
         avg[metric] = values["mean"]
     }
     return avg
+}
+
+export function createPuzzleSelectionTool(divId, puzzleList, selectedPuzzles, onPuzzleChange) {
+    document.getElementById(divId).innerHTML = ""
+
+    var dragTarget = null
+    var hoverTarget = null
+    var erase = false
+    var htmlHover = null
+    var activePuzzles = new Set(selectedPuzzles)
+
+    function brushStart(element, event, d, i) {
+        event.preventDefault()
+        dragTarget = event.target
+        htmlHover = d3.select(hoverTarget)
+        erase = !htmlHover.classed("selected-cell")
+        htmlHover.classed("selected-cell", erase)
+        if (!erase) {
+            activePuzzles.delete(event.target.textContent)
+        } else {
+            activePuzzles.add(event.target.textContent)
+        }
+        onPuzzleChange(activePuzzles)
+    }
+
+    function brushDrag(element, event, d, i) {
+        event.preventDefault()
+        hoverTarget = event.target;
+        if (dragTarget) {
+            d3.select(hoverTarget)
+                .classed("selected-cell", erase);
+            if (!erase) {
+                activePuzzles.delete(event.target.textContent)
+            } else {
+                activePuzzles.add(event.target.textContent)
+            }
+            onPuzzleChange(activePuzzles)
+        }
+    }
+
+    function brushStop(element, event, d, i) {
+        event.preventDefault()
+        if (dragTarget) {
+            var targetElement = event.target;
+        }
+        dragTarget = null;
+    }
+
+    const puzzleGrid = [[]]
+    const ROW_LENGTH = 10
+    var index = 0
+    for (let puzzle of puzzleList) {
+        if (index === ROW_LENGTH) {
+            puzzleGrid.push([puzzle])
+            index = 1
+            continue
+        }
+        puzzleGrid[puzzleGrid.length-1].push(puzzle)
+        index++
+    }
+
+    d3.select("#" + divId)
+        .append("table")
+        .style("border-collapse", "collapse")
+        .style("border", "2px black solid")
+        .selectAll("tr")
+        .data(puzzleGrid)
+        .enter().append("tr")
+        .selectAll("td")
+        .data(function (d) { return d })
+        .enter().append("td")
+        .classed("selected-cell", d => selectedPuzzles.has(d))
+        .style("width", "50px")
+        .style("height", "20px")
+        .style("border", "1px black solid")
+        .style("padding", "10px")
+        .on("mousedown", function (d, i) { brushStart(this, event, d, i) })
+        .on("mousemove", function (d, i) { brushDrag(this, event, d, i) })
+        .on("mouseup", function (d, i) { brushStop(this, event, d, i) })
+        .text(function (d) { return d })
+        .style("font-size", "12px")
+
+    d3.select(`#${divId} table`)
+        .style("cursor", "crosshair")
+
+    d3.select(document).on("mouseup", function () { brushStop(this, event) })
 }

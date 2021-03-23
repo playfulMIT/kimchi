@@ -556,16 +556,16 @@ export async function showMetricsOverview(pMap, numP, puzzData) {
     puzzleData = puzzData
     printName = (user) => user ? playerMap[user] : "Class"
 
-    if (playerMap && !rawFunnelData) {
-        showPage("loader-container")
-        funnelPlayerMax = numPlayers
+    // if (playerMap && !rawFunnelData) {
+    showPage("loader-container")
+    funnelPlayerMax = numPlayers
 
-        rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
-        timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
-        shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
-        modesUsed = await callAPI(`${API}/modesperpuzzle`)
-        snapshotsTaken = await callAPI(`${API}/snapshotsperpuzzle`)
-    }
+    rawFunnelData = await callAPI(`${API}/funnelperpuzzle`)
+    timePerAttempt = await callAPI(`${API}/timeperpuzzle`)
+    shapesUsed = await callAPI(`${API}/shapesperpuzzle`)
+    modesUsed = await callAPI(`${API}/modesperpuzzle`)
+    snapshotsTaken = await callAPI(`${API}/snapshotsperpuzzle`)
+    // }
 
     showPage("metrics-container", "nav-metrics")
 

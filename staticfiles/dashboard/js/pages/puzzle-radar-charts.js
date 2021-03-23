@@ -10,6 +10,7 @@ var currentDataset = {}
 var currentPlayers = new Set()
 var currentPuzzle = null
 var studentsToAdd = new Set()
+var currentStatistics = {}
 
 var normalizationMode = NORMALIZATION_OPTIONS.NONE
 var normalizationKey = NORMALIZATION_OPTION_KEYS[normalizationMode]

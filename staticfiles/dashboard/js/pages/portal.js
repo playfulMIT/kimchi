@@ -21,6 +21,7 @@ var funnelData = null
 var levelsOfActivityData = null
 var insightsData = null
 var misconceptionsData = null
+var competencyData = null
 var puzzleList = []
 
 var selectedOverviewView = null
@@ -415,6 +416,7 @@ function assignPlayersToMonsters() {
     }
 }
 
+// TODO: password and confirming switch works
 function renderOverviewTab() {
     clearPortalViewArea()
     viewMap[selectedOverviewView].renderFunction()
@@ -504,7 +506,7 @@ function fillPerturbationMap() {
     }
 }
 
-export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, funnel, loa, insights, misconceptions) {
+export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, completed, attempted, funnel, loa, insights, misconceptions, competency) {
     playerMap = pMap
 
     if (!puzzleData) {
@@ -522,6 +524,7 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         levelsOfActivityData = loa
         insightsData = insights
         misconceptionsData = misconceptions
+        competencyData = competency
         assignPlayersToMonsters()
         initializeBlocklyCode()
         fetchSavedFiltersOnLoad()
@@ -529,7 +532,7 @@ export function showPortal(pMap, puzzData, persistence, persistenceByPuzzle, com
         persistenceAddOns.processPersistenceAddOnsData(playerMap, persistenceData, persistenceByPuzzleData)
     }
     
-    reportTab.initializeTab(playerMap)
+    reportTab.initializeTab(playerMap, puzzleList, competency)
     showPage("portal-container", "nav-portal")
 
     new bootstrap.Tooltip(document.body, {

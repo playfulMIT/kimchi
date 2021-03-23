@@ -506,6 +506,7 @@ function handleMisconceptionsRadioChange() {
 
 function populateStudentSearchBar() {
     const list = document.getElementById("student-search-options")
+    list.innerHTML = ''
     for (let student of Object.keys(playerMap)) {
         const option = document.createElement("option")
         option.innerText = playerMap[student]

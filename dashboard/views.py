@@ -1,5 +1,6 @@
 import json
 import datetime
+import math
 from operator import or_
 from functools import reduce
 from collections import defaultdict
@@ -49,7 +50,7 @@ def create_player_map(url, anonymize = False):
     return pk_to_player_map
 
 def get_player_list(request, slug):
-    return JsonResponse(create_player_map(slug, anonymize=True))#anonymize=(request.method != "POST")))
+    return JsonResponse(create_player_map(slug, anonymize=(request.method != "POST")))
 
 def get_player_to_session_map(request, slug):
     return JsonResponse(create_player_to_session_map(slug))
@@ -506,19 +507,21 @@ def get_competency_data(request, slug):
         new_result = defaultdict(lambda: defaultdict(dict))
         player_map = {v: k for k, v in create_player_map(slug).items()}
 
+        check_nan = lambda x: "N/A" if math.isnan(x) else x
+
         for i in result['group'].keys():
             user = player_map.get(result['user'][i])
 
             if user == None:
                 continue
-
+    
             competency_dict = {
                 'score': float(result['competency'][i]), 
-                'model_accuracy': float(result['accuracy'][i]), 
+                'model_accuracy': check_nan(float(result['accuracy'][i])), 
                 'n_puzzles_attempted': float(result['n_puzzles_attempted'][i]), 
                 'p_attempted': float(result['p_attempted'][i]), 
-                'pca': float(result['pca'][i]), 
-                'pca_normalized': float(result['pca_normalized'][i])
+                'pca': check_nan(float(result['pca'][i])), 
+                'pca_normalized': check_nan(float(result['pca_normalized'][i]))
             }
             competency_category = result['kc'][i]
 
@@ -537,7 +540,7 @@ def get_last_processed_time(request, slug):
 
 def get_report_summary(request, slug, start = None, end = None):
     player_to_session_map = create_player_to_session_map(slug)
-    player_to_report_map = defaultdict(lambda: {'puzzles': defaultdict(lambda: {'total_time': 0, 'active_time': 0, 'opened': 0, 'submitted': 0, 'completed': 0}), 'total_time': 0, 'active_time': 0, 'last_active': None})
+    player_to_report_map = defaultdict(lambda: {'puzzles': defaultdict(lambda: {'total_time': 0, 'active_time': 0, 'opened': 0, 'submitted': 0, 'completed': 0}), 'total_time': 0, 'active_time': 0, 'p_attempted': 0, 'p_completed': 0, 'last_active': None})
     
     if start and end:
         start = datetime.datetime.fromtimestamp(int(start), datetime.timezone.utc)
@@ -557,6 +560,9 @@ def get_report_summary(request, slug, start = None, end = None):
         # TODO: class average?
         previous_event = None
         current_puzzle = None
+
+        attempted_puzzles = set()
+        completed_puzzles = set()
 
         for event in events:
             data = json.loads(event.data)
@@ -582,8 +588,10 @@ def get_report_summary(request, slug, start = None, end = None):
                 if current_puzzle:  
                     if event.type == 'ws-check_solution':
                         player_to_report_map[player]['puzzles'][current_puzzle]['submitted'] += 1
+                        attempted_puzzles.add(current_puzzle)
                     elif event.type == 'ws-puzzle_complete':
                         player_to_report_map[player]['puzzles'][current_puzzle]['completed'] += 1
+                        completed_puzzles.add(current_puzzle)
 
                     delta_seconds = (event_time - previous_event.time).total_seconds()
                     if delta_seconds < limit:
@@ -594,5 +602,7 @@ def get_report_summary(request, slug, start = None, end = None):
                         player_to_report_map[player]['puzzles'][current_puzzle]['active_time'] += delta_seconds
 
                 previous_event = event 
+        player_to_report_map[player]['attempted'] = list(attempted_puzzles)
+        player_to_report_map[player]['completed'] = list(completed_puzzles)
 
     return JsonResponse(player_to_report_map)
