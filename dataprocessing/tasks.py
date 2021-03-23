@@ -1813,57 +1813,50 @@ def computeMisconceptions(group='all'):
     df2 = tagMisconceptions(df1)
     return df2.to_json()
 
-@app.task
-def generate_metadata_and_run_tasks():
-    urls = URL.objects.all()
-    all_data_collection_urls = []
-    interesting_urls = ['ginnymason', 'chadsalyer', 'kristinknowlton', 'lori day', 'leja', 'leja2', 'debbiepoull',
-                        'juliamorgan']
-    for url in urls:
-        all_data_collection_urls.append(str(url.name))
-        task = process_task(computeFunnelByPuzzle, [url.name])
-        task.input_urls.add(url)
-        task.save()
-        task = process_task(sequenceBetweenPuzzles, [url.name])
-        task.input_urls.add(url)
-        task.save()
-        task = process_task(computeLevelsOfActivity, [url.name])
-        task.input_urls.add(url)
-        task.save()
-
-    interesting_task = process_task(computeFunnelByPuzzle, interesting_urls)
-    for url in interesting_urls:
-        interesting_task.input_urls.add(URL.objects.get(name=url))
-    interesting_task.save()
-    interesting_task = process_task(sequenceBetweenPuzzles, interesting_urls)
-    for url in interesting_urls:
-        interesting_task.input_urls.add(URL.objects.get(name=url))
-    interesting_task.save()
-    interesting_task = process_task(computeLevelsOfActivity, interesting_urls)
-    for url in interesting_urls:
-        interesting_task.input_urls.add(URL.objects.get(name=url))
-    interesting_task.save()
-
-    all_task = process_task(computeFunnelByPuzzle, [all_data_collection_urls])
-    for url in urls:
-        all_task.input_urls.add(url)
-    all_task.save()
-    all_task = process_task(sequenceBetweenPuzzles, [all_data_collection_urls])
-    for url in urls:
-        all_task.input_urls.add(url)
-    all_task.save()
-    all_task = process_task(computeLevelsOfActivity, [all_data_collection_urls])
-    for url in urls:
-        all_task.input_urls.add(url)
-    all_task.save()
-
-# @app.on_after_configure.connect
-# def setup_periodic_tasks(sender, **kwargs):
-#     # Calls test('hello') every 10 seconds.
-#     sender.add_periodic_task(10.0, test.s('hello'), name='add every 10')
+# @app.task
+# def generate_metadata_and_run_tasks():
+#     urls = URL.objects.all()
+#     all_data_collection_urls = []
+#     interesting_urls = ['ginnymason', 'chadsalyer', 'kristinknowlton', 'lori day', 'leja', 'leja2', 'debbiepoull',
+#                         'juliamorgan']
+#     for url in urls:
+#         all_data_collection_urls.append(str(url.name))
+#         task = process_task(computeFunnelByPuzzle, [url.name])
+#         task.input_urls.add(url)
+#         task.save()
+#         task = process_task(sequenceBetweenPuzzles, [url.name])
+#         task.input_urls.add(url)
+#         task.save()
+#         task = process_task(computeLevelsOfActivity, [url.name])
+#         task.input_urls.add(url)
+#         task.save()
 #
-#     # Calls test('world') every 30 seconds
-#     sender.add_periodic_task(30.0, test.s('world'), expires=10)
+#     interesting_task = process_task(computeFunnelByPuzzle, interesting_urls)
+#     for url in interesting_urls:
+#         interesting_task.input_urls.add(URL.objects.get(name=url))
+#     interesting_task.save()
+#     interesting_task = process_task(sequenceBetweenPuzzles, interesting_urls)
+#     for url in interesting_urls:
+#         interesting_task.input_urls.add(URL.objects.get(name=url))
+#     interesting_task.save()
+#     interesting_task = process_task(computeLevelsOfActivity, interesting_urls)
+#     for url in interesting_urls:
+#         interesting_task.input_urls.add(URL.objects.get(name=url))
+#     interesting_task.save()
+#
+#     all_task = process_task(computeFunnelByPuzzle, [all_data_collection_urls])
+#     for url in urls:
+#         all_task.input_urls.add(url)
+#     all_task.save()
+#     all_task = process_task(sequenceBetweenPuzzles, [all_data_collection_urls])
+#     for url in urls:
+#         all_task.input_urls.add(url)
+#     all_task.save()
+#     all_task = process_task(computeLevelsOfActivity, [all_data_collection_urls])
+#     for url in urls:
+#         all_task.input_urls.add(url)
+#     all_task.save()
+
 
 @app.task
 def msg(arg):
@@ -1913,12 +1906,12 @@ def event_waterfall():
             event.save(using='default')
             print('created event: ' + str(event.pk))
 
-
-@app.on_after_finalize.connect
-def schedule_tasks(sender, **kwargs):
-    # Tries to auto_process_tasks every 10 seconds.
-    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls", options={'queue': 'urls'})
-    sender.add_periodic_task(10.0, event_waterfall.s(), name="event_waterfall", options={'queue': 'events'})
+#
+# @app.on_after_finalize.connect
+# def schedule_tasks(sender, **kwargs):
+#     # Tries to auto_process_tasks every 10 seconds.
+#     sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls", options={'queue': 'urls'})
+#     sender.add_periodic_task(10.0, event_waterfall.s(), name="event_waterfall", options={'queue': 'events'})
 
 
 
