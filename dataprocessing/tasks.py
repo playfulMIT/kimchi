@@ -81,7 +81,7 @@ def process_task(task, *args):
         result = task_sig.apply_async()
         task_db.state = "processing"
         task_db.save(update_fields=['state'])
-        task_db.result = result.get()
+        task_db.result = result
         task_db.state = "done"
         task_db.time_ended = timezone.now()
         task_db.errors = ""
@@ -1916,8 +1916,8 @@ def event_waterfall():
 @app.on_after_finalize.connect
 def schedule_tasks(sender, **kwargs):
     # Tries to auto_process_tasks every 10 seconds.
-    sender.add_periodic_task(30.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
-    sender.add_periodic_task(30.0, event_waterfall.s(), name="event_waterfall")
+    sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls", options={'queue': 'urls'})
+    sender.add_periodic_task(10.0, event_waterfall.s(), name="event_waterfall", options={'queue': 'events'})
 
 
 
