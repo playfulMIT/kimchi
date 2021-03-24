@@ -542,7 +542,7 @@ def get_last_processed_time(request, slug):
 
 def get_report_summary(request, slug, start = None, end = None):
     player_to_session_map = create_player_to_session_map(slug)
-    player_to_report_map = defaultdict(lambda: {'puzzles': defaultdict(lambda: {'total_time': 0, 'active_time': 0, 'opened': 0, 'submitted': 0, 'completed': 0}), 'total_time': 0, 'active_time': 0, 'p_attempted': 0, 'p_completed': 0, 'last_active': None})
+    player_to_report_map = defaultdict(lambda: {'puzzles': defaultdict(lambda: {'total_time': 0, 'active_time': 0, 'opened': 0, 'submitted': 0, 'completed': 0}), 'total_time': 0, 'active_time': 0, 'attempted': 0, 'completed': 0, 'last_active': None})
     
     if start and end:
         start = datetime.datetime.fromtimestamp(int(start), datetime.timezone.utc)

@@ -65,7 +65,7 @@ function showAPIError(errorMessage) {
 async function handleShowNames() {
     const val = $("#show-names-pwd").val()
 
-    if (val == "test") {
+    if (val == "playfullearning") {
         $("#show-names-modal").modal('hide')
         $("#show-names-incorrect-pwd").hide()
         $("#show-names-pwd").removeClass("is-invalid")
