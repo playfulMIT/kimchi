@@ -520,7 +520,7 @@ export const COLUMN_CLASSES = {
     "Median Total Time": "col-median_total_time", 
     "Median Active Time": "col-median_active_time", 
     "Difficulty (out of 100)": "col-puzzle_difficulty", 
-    "Avg % Active Time": "col-avg_active_time_percent",
+    "Median % Active Time": "col-avg_active_time_percent",
     "#": "col-attempt_num", 
     "Attempt Date": "col-attempt_date", 
     "Active Time": "col-atttempt_active_time", 
@@ -561,7 +561,7 @@ const handleDateField = (th, td, tablesort) => new Date(td.text())
 
 export const ALL_STUDENT_TABLE_COLUMNS = ["Student", "% Active Time", "Total Time", "Persistence Score", "Total Active Time", "# Attempted", "# Completed", "% Attempted", "% Completed", "% Completed/Attempted"]
 
-export const ALL_PUZZLE_TABLE_COLUMNS = ["Puzzle", "Category", "Main Concept Tested", "# Students Completed", "# Students Attempted", "% Students Completed", "% Students Attempted", "Median Total Time", "Median Active Time", "Difficulty (out of 100)", "Avg % Active Time", "% Completed/Attempted"]
+export const ALL_PUZZLE_TABLE_COLUMNS = ["Puzzle", "Category", "Main Concept Tested", "# Students Completed", "# Students Attempted", "% Students Completed", "% Students Attempted", "Median Total Time", "Median Active Time", "Difficulty (out of 100)", "Median % Active Time", "% Completed/Attempted"]
 
 export const SINGLE_STUDENT_PUZZLE_TABLE_COLUMNS = ["#", "Attempt Date", "Active Time", "# Submissions", "Completed?", "View Replay", "Percentile Active Time", "Events", "Percentile Events", "# Breaks", "Avg. Time Btwn Submissions", "Time from Fail to Exit"]
 
@@ -848,10 +848,10 @@ export function fixTableColumns(tableId, numCols) {
         return $(this).width();
     }).get();
 
-    // Set the width of thead columns
-    table.find('thead tr').children().each(function (i, v) {
-        $(v).width(colWidth[i]);
-    });    
+    // // Set the width of thead columns
+    // table.find('thead tr').children().each(function (i, v) {
+    //     $(v).width(colWidth[i]);
+    // });    
     var colWidth = table.width() / numCols
 
     // Set the width of thead columns

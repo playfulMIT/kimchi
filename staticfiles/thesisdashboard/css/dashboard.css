@@ -224,6 +224,10 @@ table {
     width: 100%;
 }
 
+.table-responsive {
+    overflow-x: auto;
+}
+
 
 thead, tbody { display: block }
 
