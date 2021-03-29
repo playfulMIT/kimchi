@@ -707,7 +707,7 @@ def computeLevelsOfActivity(group='all'):
     completed_puzzles_map = {}
     for url in urls:
         completed_puzzles_map.update(get_completed_puzzles_map(url.name))
-    metric_keys = list(list(merged_activity.values())[0]["no_normalization"].values())[0].keys()
+        metric_keys = list(list(merged_activity.values())[0]["no_normalization"].values())[0].keys() if max_index else []
 
     for task in merged_activity:
         statistics = {}
@@ -735,7 +735,7 @@ def computeLevelsOfActivity(group='all'):
             completed_values[key] = []
         
         users = merged_activity[task]["no_normalization"]
-        items = users.items()
+        items = users.items() 
         
         for student, value in items:
             if value['ws-create_shape'] == 0:
@@ -776,7 +776,7 @@ def computeLevelsOfActivity(group='all'):
             completed_statistics[key]['stdev'] = np.std(completed_values[key])
         
         merged_activity[task]['no_normalization']['all_stats'] = statistics
-        no_completed_stats = completed_statistics["event"]["min"] == float("inf")
+        no_completed_stats = completed_statistics["event"]["min"] == float("inf") if max_index else True
         merged_activity[task]['no_normalization']['completed_stats'] = None if no_completed_stats else completed_statistics
 
         ### CALCULATING NORMALIZED VALUES

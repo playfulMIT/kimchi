@@ -132,34 +132,47 @@ def get_snapshot_metrics(request, slug):
     return JsonResponse(player_to_snapshot_map)
 
 def get_attempted_puzzles_map(url, safe_for_serialization=False):
-    players = create_player_list(url)
+    player_to_session_map = create_player_to_session_map(url)
 
-    attempted = defaultdict(list) if safe_for_serialization else defaultdict(set)
-    persistence_data = get_persistence_by_puzzle_data_from_server(url, False)
+    attempted = defaultdict(set)
+    for player in player_to_session_map:
+        sessions = player_to_session_map[player]
+        events = Event.objects.filter(session__pk__in=sessions).order_by('time')
 
-    for player in players:
-        if player in persistence_data:
-            for puzzle in persistence_data[player].keys():
-                if safe_for_serialization:
-                    attempted[player].append(puzzle)
-                else:
+        for event in events:
+            data = json.loads(event.data)
+
+            if(event.type in ['ws-start_level', 'ws-puzzle_started']):
+                current_puzzle = data['task_id']
+                
+                if current_puzzle:
                     attempted[player].add(puzzle)
+
+        if safe_for_serialization:
+            attempted[player] = list(attempted[player])
+
     return attempted
 
 def get_completed_puzzles_map(url, safe_for_serialization=False):
-    players = create_player_list(url)
+    player_to_session_map = create_player_to_session_map(url)
 
     completed = defaultdict(list) if safe_for_serialization else defaultdict(set)
-    persistence_data = get_persistence_by_puzzle_data_from_server(url, False)
+    for player in player_to_session_map:
+        sessions = player_to_session_map[player]
+        events = Event.objects.filter(session__pk__in=sessions).order_by('time')
 
-    for player in players:
-        if player in persistence_data:
-            for puzzle in persistence_data[player].keys():
-                if persistence_data[player][puzzle]['completed'] == 1:
-                    if safe_for_serialization:
-                        completed[player].append(puzzle)
-                    else:
-                        completed[player].add(puzzle)
+        for event in events:
+            data = json.loads(event.data)
+
+            if(event.type == 'ws-puzzle_complete'):
+                current_puzzle = data['task_id']
+                
+                if current_puzzle:
+                    completed[player].add(puzzle)
+                    
+        if safe_for_serialization:
+            completed[player] = list(completed[player])
+
     return completed
 
 def get_attempted_puzzles(request, slug):
@@ -577,6 +590,7 @@ def get_report_summary(request, slug, start = None, end = None):
                 
                 if current_puzzle:
                     player_to_report_map[player]['puzzles'][current_puzzle]['opened'] = 1
+                    attempted_puzzles.add(current_puzzle)
 
                     delta_seconds = (event_time - previous_event.time).total_seconds()
                     if delta_seconds < limit:
@@ -590,7 +604,6 @@ def get_report_summary(request, slug, start = None, end = None):
                 if current_puzzle:  
                     if event.type == 'ws-check_solution':
                         player_to_report_map[player]['puzzles'][current_puzzle]['submitted'] += 1
-                        attempted_puzzles.add(current_puzzle)
                     elif event.type == 'ws-puzzle_complete':
                         player_to_report_map[player]['puzzles'][current_puzzle]['completed'] += 1
                         completed_puzzles.add(current_puzzle)
