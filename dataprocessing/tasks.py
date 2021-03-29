@@ -90,6 +90,7 @@ def process_task(task, *args):
         tb = traceback.format_exception(etype=type(exc), value=exc, tb=exc.__traceback__)
         task_db.errors = tb
         task_db.state = "error"
+        print(tb)
     task_db.save()
     return task_db
 
@@ -831,6 +832,7 @@ def computeLevelsOfActivityOutliers(group='all'):
 
     for puzzle_list in puzzles.values():
         for puzzle in puzzle_list:
+            print(json.loads(task))
             data = json.loads(task)[puzzle]["minmax_normalization"]["all_stats"]
             outlier_metrics.extend(data.values())
             outlier_metrics_students.extend(data.keys())
@@ -1888,6 +1890,28 @@ def process_tasks_for_flagged_urls():
                 print("TASKS ALREADY IN QUEUE")
         url.process = False
         url.save()
+
+
+# @app.task
+def sync_url_events(url_name=None):
+    levels = Level.objects.using('production').all()
+    for level in levels.iterator():
+        level.save(using='default')
+    url = URL.objects.using('production').get(name=url_name)
+    players = Player.objects.using('production').filter(url=url)
+    sessions = CustomSession.objects.none()
+    events = Event.objects.none()
+    for player in players.iterator():
+        print("saving player: " + str(event.pk))
+        player.save(using='default')
+        sessions = sessions | CustomSession.objects.filter(player=player)
+    for session in sessions.iterator():
+        print("saving session: " + str(event.pk))
+        session.save(using='default')
+        events = events | Event.objects.using('production').filter(session=session)
+    for event in events.iterator():
+        print("saving event: " + str(event.pk))
+        event.save(using='default')
 
 
 @app.task
