@@ -10,6 +10,7 @@ import rrcf
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from django_pandas.io import read_frame
+from django.core.exceptions import ObjectDoesNotExist
 
 from datacollection.models import Event, URL, CustomSession, Player
 from dataprocessing.models import Task
@@ -1872,16 +1873,19 @@ def process_tasks_for_flagged_urls():
     for url in urls:
         print("URL " + url.name + " flagged for processing")
         for task in tasks:
-        sig = str(task.s([url.name]))
-        state = Task.objects.get(signature=sig).state
+            sig = str(task.s([url.name]))
+            try:
+                state = Task.objects.get(signature=sig).state
+            except ObjectDoesNotExist:
+                state = ""
             if state != "starting" or state != "processing":
                 try:
                     result = process_task(task, [url.name])
                     print("task finished with state: " + result.state)
                 except:
                     print("FAILED TASK")
-        else:
-            print("TASKS ALREADY IN QUEUE")
+            else:
+                print("TASKS ALREADY IN QUEUE")
         url.process = False
         url.save()
 
@@ -1910,12 +1914,12 @@ def event_waterfall():
             event.save(using='default')
             print('created event: ' + str(event.pk))
 
-#
-# @app.on_after_finalize.connect
-# def schedule_tasks(sender, **kwargs):
-#     # Tries to auto_process_tasks every 10 seconds.
-#     sender.add_periodic_task(10.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls", options={'queue': 'urls'})
-#     sender.add_periodic_task(10.0, event_waterfall.s(), name="event_waterfall", options={'queue': 'events'})
+
+@app.on_after_finalize.connect
+def schedule_tasks(sender, **kwargs):
+    # Tries to auto_process_tasks every 10 seconds.
+    sender.add_periodic_task(60.0, process_tasks_for_flagged_urls.s(), name="processed_flagged_urls")
+    sender.add_periodic_task(60.0, event_waterfall.s(), name="event_waterfall")
 
 
 
