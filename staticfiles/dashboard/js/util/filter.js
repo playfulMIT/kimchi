@@ -63,7 +63,7 @@ function handleAttemptsPerPuzzle(student, condition, comparisonValue) {
 
 function handleTotalTime(student, condition, comparisonValue) {
     if (student in levelsOfActivityData["all"]["no_normalization"]) {
-        const value = levelsOfActivityData["all"]["no_normalization"][student].timeTotal 
+        const value = levelsOfActivityData["all"]["no_normalization"][student].timeTotal
         const delta = value - comparisonValue
         return handleEqualityOperator(condition, delta)
     }
@@ -124,7 +124,7 @@ function handleAttemptedCount(student, condition, comparisonValue) {
         const delta = value - comparisonValue
         return handleEqualityOperator(condition, delta)
     }
-    return (condition == "<" || condition == "<=") 
+    return (condition == "<" || condition == "<=")
 }
 
 function handleCompletedCount(student, condition, comparisonValue) {
@@ -226,7 +226,7 @@ function handleSingleCondition(student, condition) {
     switch (condition[0]) {
         case 'persistence':
             return handlePersistence(student, operator, value)
-        case 'mins_played': 
+        case 'mins_played':
             return handleActiveTime(student, operator, value * 60)
         case "attempts_per_puzzle":
             return handleAttemptsPerPuzzle(student, operator, value)
@@ -281,15 +281,45 @@ function shouldIncludeStudent(student, filterName) {
     return handleCondition(student, filter)
 }
 
-// NOTE: filtering function for thesis dashboard
-// TODO: what to color when you have multiple alerts, fix parameters
-export function retrieveSelectedStudents(studentList, activeFilters) {
+//NOTE: filtering function for PJL dashboard
+export function retrieveAlertedAndFilteredStudents(studentList, activeFilters) {
+    setActiveFilterData(activeFilters)
+    const filters = setActiveFilterSpecificData()
+    const alerts = setActiveAlertSpecificData()
+    return { filters: retrieveFilteredStudents(studentList, filters), alerts: retrieveAlertedStudents(studentList, alerts) }
+}
+
+//NOTE: filtering function for PJL dashboard
+// Filters are ANDed
+function retrieveFilteredStudents(studentList, filterKeys) {
     const selectedStudents = {}
-    const activeFilterKeys = setActiveFilterData(activeFilters)
+
+    for (let student of studentList) {
+        var shouldNotInclude = false
+        var filterNames = []
+        for (let filterName of filterKeys) {
+            if (!shouldIncludeStudent(student, filterName)) {
+                shouldNotInclude = true
+                break
+            }
+            filterNames.push(filterName)
+        }
+        if (!shouldNotInclude) {
+            selectedStudents[student] = filterNames
+        }
+    }
+    console.log("filters", selectedStudents)
+    return selectedStudents
+}
+
+//NOTE: filtering function for PJL dashboard
+// Alerts are ORed
+function retrieveAlertedStudents(studentList, alertKeys) {
+    const selectedStudents = {}
 
     for (let student of studentList) {
         var filterNames = []
-        for (let filterName of activeFilterKeys) {
+        for (let filterName of alertKeys) {
             if (shouldIncludeStudent(student, filterName)) {
                 filterNames.push(filterName)
             }
@@ -298,7 +328,7 @@ export function retrieveSelectedStudents(studentList, activeFilters) {
             selectedStudents[student] = filterNames
         }
     }
-    console.log(selectedStudents)
+    console.log("alerts", selectedStudents)
     return selectedStudents
 }
 
@@ -401,10 +431,10 @@ export function setFilterModuleData(funnel, levelsOfActivity, persistence, compl
             rotateList.push(levelsOfActivityData["all"]["no_normalization"][student]["ws-rotate_shape"])
         }
     }
-    activeTimeList.sort((a,b) => a-b)
-    totalTimeList.sort((a, b) => a-b)
-    snapshotList.sort((a, b) => a-b)
-    rotateList.sort((a,b) => a-b)
+    activeTimeList.sort((a, b) => a - b)
+    totalTimeList.sort((a, b) => a - b)
+    snapshotList.sort((a, b) => a - b)
+    rotateList.sort((a, b) => a - b)
 
     for (const student of Object.keys(persistenceByPuzzle)) {
         var attempts = []

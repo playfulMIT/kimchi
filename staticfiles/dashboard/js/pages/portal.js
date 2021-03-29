@@ -1,12 +1,12 @@
-import { showPage, formatTime, getClassAverage } from '../util/helpers.js'
+import { showPage, formatTime } from '../util/helpers.js'
 import { MONSTER_IMAGE_PATHS } from '../util/constants.js'
-import { blockDefinitions, setBlockCodeGeneration } from '../../../thesisdashboard/blockly/block-def.js'
+import { blockDefinitions, setBlockCodeGeneration } from '../util/block-def.js'
 import * as persistenceMountain from '../util/persistence-mountain.js'
 import * as persistenceAddOns from '../util/persistence-addons.js'
 import * as misconceptionsTab from './misconceptions-portal.js'
 import * as customizeTab from './customize-alerts.js'
 import * as reportTab from './report.js'
-import * as filter from '../../../thesisdashboard/js/filter.js'
+import * as filter from '../util/filter.js'
 
 const SVG_ID = "portal-view-svg"
 

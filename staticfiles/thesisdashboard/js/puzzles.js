@@ -153,7 +153,7 @@ function handleTableColumnChange(column, checked) {
 
     puzzleTableColumns = puzzleTableColumns.filter((v) => v !== column)
     renderPuzzleTable()
-    dashboard.reinitializeTableSort()
+    util.reinitializeTableSort()
 }
 
 function renderAllPuzzlesView() {

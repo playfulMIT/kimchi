@@ -57,7 +57,7 @@ function handleTabSwitch(tab, ignoreDuplicate = true) {
 }
 
 function showAPIError(errorMessage) {
-    $("#main-page-spinner").html(`Unable to retrieve data for <span class="font-weight-bold">${GROUP}</span>. Please use the admin console to trigger data processing for <span class="font-weight-bold">${GROUP}</span>.`)
+    $("#main-page-spinner").html(`Unable to retrieve data for <span class="font-weight-bold">${GROUP}</span>. Please use the admin console to trigger data processing for <span class="font-weight-bold">${GROUP}</span> or speak to a member of the Shadowspect team.`)
     console.error(errorMessage)
     
 }
@@ -65,7 +65,7 @@ function showAPIError(errorMessage) {
 async function handleShowNames() {
     const val = $("#show-names-pwd").val()
 
-    if (val == "test") {
+    if (val == "playfullearning") {
         $("#show-names-modal").modal('hide')
         $("#show-names-incorrect-pwd").hide()
         $("#show-names-pwd").removeClass("is-invalid")

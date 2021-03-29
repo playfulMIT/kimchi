@@ -6,10 +6,10 @@ import { formatTime } from '../../dashboard/js/util/helpers.js';
 
 const ALL_STUDENT_COLUMN_RENDER_FUNCTION = {
     "Student": (student) => playerMap[student],
-    "# Completed": (student) => completedPuzzleData[student].size,
-    "# Attempted": (student) => attemptedPuzzleData[student].size,
-    "% Completed": (student) => (completedPuzzleData[student].size / 30).toFixed(2),
-    "% Attempted": (student) => (attemptedPuzzleData[student].size / 30).toFixed(2),
+    "# Completed": (student) => student in completedPuzzleData ? completedPuzzleData[student].size : 0,
+    "# Attempted": (student) => student in attemptedPuzzleData ? attemptedPuzzleData[student].size : 0,
+    "% Completed": (student) => student in completedPuzzleData ? (completedPuzzleData[student].size * 100/ 30).toFixed(2) : 0,
+    "% Attempted": (student) => student in attemptedPuzzleData ? (attemptedPuzzleData[student].size * 100/ 30).toFixed(2) : 0,
     "% Completed/Attempted": (student) => student in attemptedPuzzleData ? (completedPuzzleData[student].size * 100 / attemptedPuzzleData[student].size).toFixed(2) : (0).toFixed(2),
     "Total Time": (student) => student in levelsOfActivityData["all"]["no_normalization"] ? formatTime(levelsOfActivityData["all"]["no_normalization"][student].timeTotal) : formatTime(0),
     "Total Active Time": (student) => student in levelsOfActivityData["all"]["no_normalization"] ? formatTime(levelsOfActivityData["all"]["no_normalization"][student].active_time) : formatTime(0),
@@ -226,26 +226,26 @@ function handleAllStudentTableColumnChange(column, checked) {
     if (checked) {
         studentTableColumns.push(column)
         renderStudentTable()
-        dashboard.reinitializeTableSort()
+        util.reinitializeTableSort()
         return
     }
 
     studentTableColumns = studentTableColumns.filter((v) => v !== column)
     renderStudentTable()
-    dashboard.reinitializeTableSort()
+    util.reinitializeTableSort()
 }
 
 function handleStudentPuzzleTableColumnChange(column, checked) {
     if (checked) {
         studentPuzzleTableColumns.push(column)
         renderStudentPuzzleTable()
-        dashboard.reinitializeTableSort()
+        util.reinitializeTableSort()
         return
     }
 
     studentPuzzleTableColumns = studentPuzzleTableColumns.filter((v) => v !== column)
     renderStudentPuzzleTable()
-    dashboard.reinitializeTableSort()
+    util.reinitializeTableSort()
 }
 
 function renderAllStudentsView() {
