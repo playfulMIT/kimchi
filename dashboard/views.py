@@ -146,7 +146,7 @@ def get_attempted_puzzles_map(url, safe_for_serialization=False):
                 current_puzzle = data['task_id']
                 
                 if current_puzzle:
-                    attempted[player].add(puzzle)
+                    attempted[player].add(current_puzzle)
 
         if safe_for_serialization:
             attempted[player] = list(attempted[player])
@@ -168,7 +168,7 @@ def get_completed_puzzles_map(url, safe_for_serialization=False):
                 current_puzzle = data['task_id']
                 
                 if current_puzzle:
-                    completed[player].add(puzzle)
+                    completed[player].add(current_puzzle)
                     
         if safe_for_serialization:
             completed[player] = list(completed[player])

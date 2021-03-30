@@ -822,6 +822,8 @@ def computeLevelsOfActivityOutliers(group='all'):
     url = URL.objects.get(name__in=group)
     puzzles = get_puzzles_dict(url.name)["puzzles"]
     task = list(Task.objects.filter(signature__contains="computeLevelsOfActivity(['"+url.name+"']").values_list("result", flat=True))[0]
+    if len(json.loads(task).keys()) <= 1: 
+        return {}
     np.random.seed(0)
 
     outlier_vals = {}
