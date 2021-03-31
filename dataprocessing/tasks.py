@@ -686,14 +686,14 @@ def computeLevelsOfActivity(group='all'):
             continue
 
         metric = activity_dict['metric'][i]
-        if activity_dict['task_id'][i] not in merged_activity:
-            merged_activity[activity_dict['task_id'][i]] = {"no_normalization": {}}
+        task_id = activity_dict['task_id'][i]
 
-        if user not in merged_activity[activity_dict['task_id'][i]]["no_normalization"]:
-            merged_activity[activity_dict['task_id'][i]]["no_normalization"][user] = {}
+        if task_id not in merged_activity:
+            merged_activity[task_id] = {"no_normalization": defaultdict(dict)}
+        merged_activity[task_id]["no_normalization"][user][metric] = float(activity_dict['value'][i])
+
+        if user not in merged_activity["all"]["no_normalization"]:
             merged_activity["all"]["no_normalization"][user] = defaultdict(float)
-
-        merged_activity[activity_dict['task_id'][i]]["no_normalization"][user][metric] = float(activity_dict['value'][i])
         
         if metric != "different_events":
             # if metric == "timeTotal":
@@ -708,9 +708,9 @@ def computeLevelsOfActivity(group='all'):
     completed_puzzles_map = {}
     for url in urls:
         completed_puzzles_map.update(get_completed_puzzles_map(url.name))
-        metric_keys = list(list(merged_activity.values())[0]["no_normalization"].values())[0].keys() if max_index else []
+        metric_keys = list(list(merged_activity.values())[0]["no_normalization"].values())[0].keys()
 
-    for task in merged_activity:
+    for task in merged_activity.keys():
         statistics = {}
         completed_statistics = {}
 
@@ -739,8 +739,8 @@ def computeLevelsOfActivity(group='all'):
         items = users.items() 
         
         for student, value in items:
-            if value['ws-create_shape'] == 0:
-                continue
+            # if value['ws-create_shape'] == 0:
+            #     continue
             # TODO: why is timeTotal sum incorrect?
             if task == "all":
                 value["timeTotal"] = value["inactive_time"] + value["active_time"]
@@ -822,7 +822,8 @@ def computeLevelsOfActivityOutliers(group='all'):
     url = URL.objects.get(name__in=group)
     puzzles = get_puzzles_dict(url.name)["puzzles"]
     task = list(Task.objects.filter(signature__contains="computeLevelsOfActivity(['"+url.name+"']").values_list("result", flat=True))[0]
-    if len(json.loads(task).keys()) <= 1: 
+    task_dict = json.loads(task)
+    if len(task_dict.keys()) <= 1: 
         return {}
     np.random.seed(0)
 
@@ -834,8 +835,9 @@ def computeLevelsOfActivityOutliers(group='all'):
 
     for puzzle_list in puzzles.values():
         for puzzle in puzzle_list:
-            print(json.loads(task))
-            data = json.loads(task)[puzzle]["minmax_normalization"]["all_stats"]
+            if not (puzzle in task_dict):
+                continue
+            data = task_dict[puzzle]["minmax_normalization"]["all_stats"]
             outlier_metrics.extend(data.values())
             outlier_metrics_students.extend(data.keys())
             outlier_metrics_puzzles.extend([puzzle] * len(data.keys()))
@@ -848,8 +850,8 @@ def computeLevelsOfActivityOutliers(group='all'):
     for i in range(n):
         X[i,...] = np.array(list(outlier_metrics[i].values()))
 
-    num_trees = 100
-    tree_size = 256  
+    num_trees = 100 if n > 100 else n
+    tree_size = 256 if n > 256 else n
     sample_size_range = (n // tree_size, tree_size)
 
     # Construct forest
