@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from shadowspect.utils import get_config_json, get_level_json, get_replay_json
 # from datacollection.views import generate_replay
 from . import views
@@ -20,7 +20,9 @@ urlpatterns = [
     # ),
     # path("mturk/", views.mturk),
     # path("levelloader/", views.levelloader),
-    path("", RedirectView.as_view(url=HOMEPAGE)),
+    path("",TemplateView.as_view(template_name="index.html")),
+    path("comingSoon.html",TemplateView.as_view(template_name="comingSoon.html")),
+    path("index.html",RedirectView.as_view(url="")),
     path("<slug:slug>/", views.wildcard_url),
     # path("<slug:slug>/players/", views.wildcard_players),
     # re_path(r'^(?P<slug>\w+)/players/(?P<player>[a-zA-Z0-9-_.]+)/$', views.wildcard_levels),
