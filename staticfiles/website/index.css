@@ -1,0 +1,242 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+}
+
+.landing {
+  min-height: 100%;
+  width: auto;
+  margin: 0px;
+  padding: 44px;
+  padding-top: 0px;
+  background-image: linear-gradient(
+      rgba(100, 100, 100, 0.05),
+      rgba(100, 100, 100, 0.05)
+    ),
+    url("./waves.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.logoDiv {
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.logo {
+  width: 80%;
+  margin: auto;
+}
+
+.tagline {
+  color: black;
+  height: fit-content;
+  margin-top: 0;
+  text-align: center;
+  font-family: "Bebas Neue", cursive;
+  font-size: 30px;
+}
+
+#landingPagePlayGame {
+  background-color: white;
+  border: 2px solid black;
+  color: black;
+  height: fit-content;
+  margin-top: 0;
+  text-align: center;
+  font-family: "Bebas Neue", cursive;
+  font-size: 30px;
+  transition-duration: 0.3s;
+}
+
+#landingPagePlayGame:hover {
+  background-color: black;
+  color: white;
+}
+
+/* .content {
+  background-image: url("./waves.png");
+  background-repeat: unset;
+  background-size: cover;
+} */
+
+.text_headers {
+  margin: auto;
+  text-align: center;
+  width: 40%;
+  font-family: "Bebas Neue", cursive;
+  font-size: 25px;
+}
+
+.paragraphBlock {
+  width: 40%;
+  margin: auto;
+  padding: 8px;
+  line-height: 1.2;
+  font-size: 22px;
+  align-self: center;
+  justify-self: center;
+}
+
+.section {
+  padding: 40px;
+  margin: 0px;
+  color: white;
+  display: flex;
+  min-height: 550px;
+}
+
+/* if our mission section in landing page */
+/* #ourMission {
+  background-color: #32dbb0;
+  padding: 40px;
+  margin-top: 80px;
+  color: black;
+  display: flex;
+  min-height: fit-content;
+} */
+
+#ourMission {
+  background-color: #32dbb0;
+}
+
+#ourConcepts {
+  background-color: #2869a1;
+}
+
+/* .game {
+  height: 300px;
+  background-color: white;
+  margin: 8px;
+  padding: 8px;
+  font-size: 80px;
+  display: flex;
+  color: black;
+} */
+
+#about_aquapressure {
+  background-color: #16c79a;
+}
+
+#ourResearch {
+  background-color: #11698e;
+}
+
+#studentDashboard {
+  background-color: #15ad87;
+}
+
+#team {
+  background-color: #19456b;
+}
+
+.footer-images {
+  width: 40%;
+  margin: auto;
+  padding: 8px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#footer {
+  background-color: #289672;
+}
+
+#funder {
+  background-color: #19366b;
+}
+
+img {
+  width: 40%;
+  padding: 16px;
+  object-fit: cover;
+  margin: 30px 0px 30px 0px;
+}
+
+button {
+  margin-right: 8px;
+  padding: 8px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  color: white;
+  background-color: transparent;
+  border: 2px solid white;
+  transition-duration: 0.3s;
+  align-self: flex-end;
+}
+
+button:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Coming Soon Page */
+.comingSoonDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#comingSoonHeader {
+  text-align: center;
+}
+
+#returnHome {
+  color: black;
+  align-self: center;
+  border: 2px solid black;
+}
+
+#returnHome:hover {
+  background-color: black;
+  color: white;
+}
+
+/* navbar design -- cna ignore!
+.navbar {
+  width: 100%;
+  overflow: hidden;
+  background-color: #0f4c75;
+  display: flexbox;
+  justify-content: left;
+  position: fixed;
+  top: 0px;
+}
+
+.navbar a {
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  color: white;
+  padding: 14px 16px;
+}
+
+.navbar a:hover {
+  background-color: white;
+  color: #0f4c75;
+}
+
+/*show vertical menu when screen is less than 600 px*/
+/* @media screen and (max-width: 400px) {
+  /*vertical menu instead of horizontal*/
+/* .navbar a {
+    display: block;
+    text-align: center;
+  }
+} */
