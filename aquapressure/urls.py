@@ -22,7 +22,7 @@ urlpatterns = [
     # path("levelloader/", views.levelloader),
     path("",TemplateView.as_view(template_name="aquapressure/index.html")),
     path("comingSoon.html",TemplateView.as_view(template_name="aquapressure/comingSoon.html")),
-    path("index.html",RedirectView.as_view(url="")),
+    path("index.html",RedirectView.as_view(url="/")),
     path("<slug:slug>/", views.wildcard_url),
     # path("<slug:slug>/players/", views.wildcard_players),
     # re_path(r'^(?P<slug>\w+)/players/(?P<player>[a-zA-Z0-9-_.]+)/$', views.wildcard_levels),
