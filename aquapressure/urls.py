@@ -7,19 +7,6 @@ from kimchi.settings import HOMEPAGE
 
 urlpatterns = [
     path("static/aquapressure_static/StreamingAssets/config.json", get_config_json),
-    # path("static/shadowspect_static/StreamingAssets/generated_replay.json", get_replay_json),
-    # re_path(
-    #     r"^static/shadowspect_static/StreamingAssets/(?P<slug>[a-zA-Z0-9-_]+).json",
-    #     get_level_json,
-    # ),
-    # path("static/shadowspect_replay_static/StreamingAssets/config.json", get_config_json),
-    # path("static/shadowspect_replay_static/StreamingAssets/generated_replay.json", get_replay_json),
-    # re_path(
-    #     r"^static/shadowspect_replay_static/StreamingAssets/(?P<slug>[a-zA-Z0-9-_]+).json",
-    #     get_level_json,
-    # ),
-    # path("mturk/", views.mturk),
-    # path("levelloader/", views.levelloader),
     path("",TemplateView.as_view(template_name="aquapressure/index.html")),
     path("comingSoon.html",TemplateView.as_view(template_name="aquapressure/comingSoon.html")),
     path("index.html",RedirectView.as_view(url="/")),
